@@ -32,16 +32,17 @@ export function entradaPlano(estado) {
   };
 }
 
-// Conta: fora do claude.ai, com o Supabase configurado, o app só abre logado (ver views/entrar.js).
+// Conta opcional: fora do claude.ai, com o Supabase configurado, quem quiser sincronizar entra pela tela #entrar.
 const contaVisivel = () => nuvemConfigurada() && !window.claude?.use;
-const secaoConta = () => (!contaVisivel() ? '' : `<section id="conta"><h2>Conta</h2>
-  <p>Conectado. Seu progresso é salvo na conta e aparece em qualquer aparelho em que você entrar.</p>
-  <button class="btn" data-acao="sair">Sair da conta</button></section>`);
+const secaoConta = (conectado) => (!contaVisivel() ? '' : `<section id="conta"><h2>Conta e sincronização</h2>
+  ${conectado
+    ? '<p>Conectado. Seu progresso é salvo na conta e aparece em qualquer aparelho em que você entrar.</p><button class="btn" data-acao="sair">Sair da conta</button>'
+    : `<p>Você está usando sem conta: o progresso fica só neste aparelho. Crie uma conta, se quiser, para sincronizar celular e PC.</p>${link('entrar', 'Entrar ou criar conta', 'btn primario')}`}</section>`);
 
 const ICONE = { revisao: 'Revisão', retomar: 'Retomar', aula: 'Aula', leitura: 'Leitura' };
 const hrefTarefa = (t) => (t.tipo === 'revisao' ? 'revisar' : t.tipo === 'leitura' ? `livro-${t.id}` : `aula-${t.id}`);
 
-export function plano({ estado }) {
+export function plano({ estado, status }) {
   const p = estado.plano;
   const sem = planejarSemana(p, entradaPlano(estado));
   const ultimas = Array.from({ length: 8 }, (_, i) => ({ i: i - 7, min: minutosSemana(estado.sessoes, Date.now(), i - 7) }));
@@ -88,7 +89,7 @@ export function plano({ estado }) {
     </tbody></table></div>
   </section>
 
-  ${secaoConta()}
+  ${secaoConta(status?.modo === 'conta')}
 
   <section><h2>Backup dos dados</h2>
     <p>${esc('Os dados ficam salvos automaticamente. Use o backup para guardar uma cópia própria ou mover para outro navegador.')}</p>

@@ -1,10 +1,12 @@
-// Tela de entrada: fora do claude.ai, com o Supabase configurado, o app só abre depois do login.
-import { entrar as entrarNuvem } from '../nuvem.js';
+// Tela de conta (#entrar): opcional. Sem conta o app funciona e guarda o progresso só neste aparelho.
+import { entrar as entrarNuvem, nuvemConfigurada } from '../nuvem.js';
+import { link } from '../ui.js';
 
 export function entrar() {
+  if (!nuvemConfigurada()) return `<p>A sincronização não está configurada neste site. ${link('painel', 'Voltar ao painel')}</p>`;
   return `<section class="tela-entrar">
-    <header class="cab"><h1>Academia da Verdade</h1>
-      <p class="sub">Entre com sua conta para continuar. O progresso fica salvo nela e aparece no celular, no PC e em qualquer aparelho em que você entrar.</p></header>
+    <header class="cab"><h1>Entrar ou criar conta</h1>
+      <p class="sub">Opcional. Com uma conta, o progresso fica salvo nela e aparece no celular, no PC e em qualquer aparelho em que você entrar. ${link('painel', 'Continuar sem conta')}</p></header>
     <form id="form-conta" class="form-sessao">
       <label class="campo largo"><span>E-mail</span><input id="c-email" name="email" type="email" autocomplete="email" required></label>
       <label class="campo largo"><span>Senha (mínimo 8 caracteres)</span><input id="c-senha" name="senha" type="password" minlength="8" autocomplete="current-password" required></label>
@@ -16,7 +18,7 @@ export function entrar() {
 
 /** @param {{ aoEntrar: () => Promise<void> }} ctx */
 entrar.ligar = (root, ctx) => {
-  root.querySelector('#form-conta').addEventListener('submit', async (ev) => {
+  root.querySelector('#form-conta')?.addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const fd = new FormData(ev.target);
     const msg = root.querySelector('#conta-msg');

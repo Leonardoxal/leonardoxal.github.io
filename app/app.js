@@ -18,7 +18,6 @@ import { plano } from './views/plano.js';
 import { genealogia } from './views/genealogia.js';
 import { entrar } from './views/entrar.js';
 import { leitor } from './views/leitor.js';
-import { nuvemConfigurada, usuarioNuvem } from './nuvem.js';
 import { MOVIMENTOS } from './data/genealogia.js';
 
 const strip = (html) => String(html || '').replace(/<[^>]+>/g, ' ');
@@ -44,10 +43,10 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca };
+const ROTAS = { painel, mapa, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
 const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -58,10 +57,6 @@ function resolver(token) {
 const conteudo = document.getElementById('conteudo');
 const statusEl = document.getElementById('status');
 let renderPendente = true;
-// Fora do claude.ai, com o Supabase configurado, o app exige login. A sessão fica guardada no aparelho,
-// então quem já entrou abre direto, mesmo sem internet.
-const exigeLogin = nuvemConfigurada() && !window.claude?.use;
-let precisaLogin = exigeLogin && !(await usuarioNuvem().catch(() => null));
 
 const mostrarStatus = (status) => { statusEl.textContent = status.msg; statusEl.className = `status status-${status.modo}`; };
 const store = criarStore(() => { if (renderPendente) render({ manterRolagem: true }); }, mostrarStatus);
@@ -78,27 +73,17 @@ const ctx = {
   },
   render: (opts) => render(opts),
   /** Depois do login: carrega o progresso da conta e abre o app. */
-  async aoEntrar() { precisaLogin = false; await store.conectar(); render(); },
-  /** Sai da conta e volta à tela de entrada. */
+  async aoEntrar() { await store.conectar(); toast('Conta conectada.'); location.hash = 'plano'; },
+  /** Sai da conta; o app continua funcionando sem conta. */
   async sair() {
     try { await store.desconectar(); } catch (e) { toast(e.message); return; }
-    precisaLogin = true;
-    render();
+    render({ manterRolagem: true });
   },
   nav(token) { location.hash = token; },
   novaNota(vinculo, titulo) { const id = criarNota(ctx.set, vinculo, titulo); ctx.nav(`nota-${id}`); },
 };
 
 function render(opts = {}) {
-  document.querySelector('.nav').hidden = precisaLogin;
-  if (precisaLogin) {
-    const tela = document.createElement('div');
-    tela.className = 'vista';
-    tela.innerHTML = entrar();
-    conteudo.replaceChildren(tela);
-    entrar.ligar(tela, ctx);
-    return;
-  }
   const token = location.hash.slice(1) || 'painel';
   const { view, id, secao } = resolver(token);
   const y = window.scrollY;
@@ -178,4 +163,4 @@ document.getElementById('crono-livre').addEventListener('click', () => iniciarCr
 
 mostrarStatus(store.status);
 render();
-if (!precisaLogin) store.conectar();
+store.conectar();
