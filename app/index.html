@@ -1,3 +1,9 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#201d1a" media="(prefers-color-scheme: dark)">
 <title>Academia da Verdade</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +56,14 @@ p, li, dd { max-width: 72ch; }
 .nav a:hover { background: var(--papel-2); color: var(--tinta); }
 .nav a[aria-current="page"] { color: var(--vinho); background: var(--vinho-suave); }
 #crono-livre { margin-left: auto; }
-@media (max-width: 560px) { .topo { position: static; } .topo-int { gap: 6px 12px; } }
+/* Celular: marca e cronômetro na primeira linha; o menu ocupa a segunda, inteira, com rolagem lateral. */
+@media (max-width: 560px) {
+  .topo { position: static; }
+  .topo-int { gap: 6px 12px; padding-block: 8px 6px; }
+  .marca { font-size: 1.2rem; }
+  .nav { order: 3; flex-basis: 100%; margin-inline: -6px; }
+  .nav a { padding: 8px 10px; }
+}
 .cronometro { background: var(--azul-suave); border-bottom: 1px solid var(--linha); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .cronometro > div { max-width: 1120px; margin: 0 auto; display: flex; gap: 12px; align-items: center; padding-block: 6px; font-family: var(--f-ui); flex-wrap: wrap; }
 .crono-tempo { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 1.1rem; color: var(--azul); }
@@ -144,7 +157,14 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--v
 .degrau-corpo { padding: 0 16px 16px 16px; }
 .leituras li.feito { color: var(--ok); }
 .leituras li.feito a { color: var(--ok); }
-@media (max-width: 560px) { .degrau summary { grid-template-columns: auto minmax(0, 1fr); } .degrau summary .barra { grid-column: 1 / -1; } }
+@media (max-width: 560px) {
+  /* recuo da escada menor no celular, para os títulos não ficarem espremidos */
+  .degrau { margin-left: calc(var(--n) * 4px); }
+  .degrau summary { grid-template-columns: auto minmax(0, 1fr); gap: 6px 10px; padding: 10px 12px; }
+  .degrau summary .barra { grid-column: 1 / -1; }
+  .degrau-corpo { padding: 0 12px 14px; }
+  .dn { font-size: 1.35rem; }
+}
 
 /* Curso */
 .lista-modulos { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
