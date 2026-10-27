@@ -1,0 +1,346 @@
+// Regras do aplicativo como funções puras (sem DOM, sem armazenamento): testadas em tests/core.test.mjs.
+
+// Trilha única e completa: todo aprofundamento, competência e leitura é obrigatório.
+export const NOTA_MINIMA = 80;
+export const notaMinima = () => NOTA_MINIMA;
+export const INTERVALOS_REVISAO = [1, 3, 7, 14, 30, 60, 120]; // dias
+const DIA = 86400000;
+
+/** @returns {object} estado vazio de um estudante novo */
+export function estadoInicial(agora = Date.now()) {
+  return {
+    v: 1, criado: agora,
+    perfil: { nome: '' },
+    aulas: {},        // id -> { status: 'andamento'|'concluida', inicio, fim, fonteLida, acesso }
+    tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]
+    discursivas: {},  // itemId -> { texto, criterios: bool[], data }
+    livros: {},       // id -> { estado, paginas, paginaAtual, inicio, fim, prioridade, edicao }
+    notas: [],        // { id, titulo, texto, tipo, vinculo: {tipo, id}, pagina, criada, editada }
+    favoritos: [],    // 'livro:id' | 'aula:id' | 'conceito:id'
+    sessoes: [],      // { id, inicio, minutos, alvo: {tipo, id}, obs }
+    revisoes: [],     // { id, frente, verso, origem, proxima, nivel, historico: [{data, lembrou}] }
+    degraus: {},      // n -> { competencias: bool[], concluido, data }
+    plano: { horasSemana: 6, dias: [1, 3, 5, 6], paginasHora: 12, livrosSimultaneos: 2, dataAlvo: '' },
+    atual: { aula: null, livro: null },
+  };
+}
+
+/** Mescla um estado salvo sobre o inicial, tolerando campos ausentes de versões antigas. */
+export function normalizarEstado(salvo, agora = Date.now()) {
+  const base = estadoInicial(agora);
+  if (!salvo || typeof salvo !== 'object') return base;
+  const out = { ...base };
+  for (const k of Object.keys(base)) {
+    const v = salvo[k];
+    if (v === undefined || v === null) continue;
+    if (Array.isArray(base[k])) out[k] = Array.isArray(v) ? v : base[k];
+    else if (typeof base[k] === 'object') out[k] = typeof v === 'object' && !Array.isArray(v) ? { ...base[k], ...v } : base[k];
+    else out[k] = v;
+  }
+  return out;
+}
+
+export const normalizar = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+/**
+ * Corrige os itens objetivos de uma avaliação. Itens 'disc' não entram na nota.
+ * @param {Array} itens
+ * @param {Array} respostas  mc: índice; premissas: array de 'p'|'c'|'x'; validade: boolean
+ * @returns {{acertos:number,total:number,pct:number,detalhes:(boolean|null)[]}}
+ */
+export function corrigir(itens, respostas) {
+  const detalhes = itens.map((it, i) => {
+    const r = respostas[i];
+    if (it.tipo === 'mc') return r === it.correta;
+    if (it.tipo === 'validade') return r === it.valido;
+    if (it.tipo === 'premissas') return Array.isArray(r) && it.papeis.every((p, j) => r[j] === p);
+    return null;
+  });
+  const objetivos = detalhes.filter((d) => d !== null);
+  const acertos = objetivos.filter(Boolean).length;
+  const total = objetivos.length;
+  return { acertos, total, pct: total ? Math.round((acertos / total) * 100) : 100, detalhes };
+}
+
+export const melhorNota = (estado, avaliacaoId) =>
+  Math.max(-1, ...(estado.tentativas[avaliacaoId] || []).map((t) => t.pct));
+
+/**
+ * Verifica se uma aula completa pode ser marcada como concluída.
+ * Bloqueia conclusão prematura: exige a aula anterior do mesmo módulo, quiz ≥ mínimo,
+ * discursivas respondidas e fonte lida. Abrir a aula nunca é bloqueado.
+ */
+export function aulaConcluivel(aula, estado, aulaAnteriorId, prova = null) {
+  const faltas = [];
+  const min = notaMinima(estado);
+  const respondida = (chave) => (estado.discursivas[chave]?.texto || '').trim();
+  if (aulaAnteriorId && estado.aulas[aulaAnteriorId]?.status !== 'concluida') faltas.push('Concluir a aula anterior do módulo');
+  if (aula.tipo === 'avaliacao') {
+    // aula de avaliação: a prova do módulo substitui questionário e fonte
+    const itens = prova?.itens || [];
+    if (itens.some((it) => it.tipo !== 'disc') && melhorNota(estado, prova.id) < min) faltas.push(`Obter ao menos ${min}% na prova`);
+    itens.forEach((it, i) => { if (it.tipo === 'disc' && !respondida(`${prova.id}-${i}`)) faltas.push('Responder às questões discursivas da prova'); });
+    return { ok: faltas.length === 0, faltas: [...new Set(faltas)] };
+  }
+  if (melhorNota(estado, `quiz-${aula.id}`) < min) faltas.push(`Obter ao menos ${min}% no questionário`);
+  aula.exercicios.forEach((ex, i) => { if (ex.tipo === 'disc' && !respondida(`${aula.id}-${i}`)) faltas.push('Responder à questão discursiva'); });
+  if (!estado.aulas[aula.id]?.fonteLida) faltas.push('Marcar a leitura da fonte orientada');
+  if (aula.avancado) {
+    if (melhorNota(estado, `quiz-av-${aula.id}`) < min) faltas.push(`Obter ao menos ${min}% no questionário de aprofundamento`);
+    aula.avancado.exercicios.forEach((ex, i) => { if (ex.tipo === 'disc' && !respondida(`${aula.id}-av-${i}`)) faltas.push('Responder à questão discursiva do aprofundamento'); });
+  }
+  return { ok: faltas.length === 0, faltas };
+}
+
+export const aulaConcluida = (estado, id) => estado.aulas[id]?.status === 'concluida';
+
+/** Progresso de um módulo: aulas concluídas sobre o total previsto (inclui aulas ainda em preparação). */
+export function progressoModulo(modulo, estado) {
+  const total = modulo.aulas.length;
+  const feitas = modulo.aulas.filter((a) => aulaConcluida(estado, a.id)).length;
+  return { feitas, total, pct: total ? Math.round((feitas / total) * 100) : 0 };
+}
+
+export function progressoCurso(modulos, estado) {
+  const total = modulos.reduce((s, m) => s + m.aulas.length, 0);
+  const feitas = modulos.reduce((s, m) => s + progressoModulo(m, estado).feitas, 0);
+  return { feitas, total, pct: total ? Math.round((feitas / total) * 1000) / 10 : 0 };
+}
+
+export const livroConcluido = (estado, id) => estado.livros[id]?.estado === 'concluido';
+
+export function pctLivro(estado, id) {
+  const l = estado.livros[id];
+  if (!l) return 0;
+  if (l.estado === 'concluido') return 100;
+  return l.paginas > 0 ? Math.min(100, Math.round(((l.paginaAtual || 0) / l.paginas) * 100)) : 0;
+}
+
+const aulasDoDegrau = (degrau, modulos) => modulos.filter((m) => degrau.modulos.includes(m.id)).flatMap((m) => m.aulas);
+
+/**
+ * Progresso de um degrau: média entre aulas disponíveis concluídas, leituras obrigatórias concluídas
+ * e competências autoavaliadas.
+ */
+export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado) {
+  const aulas = aulasDoDegrau(degrau, modulos).filter((a) => aulasDisponiveis.has(a.id));
+  const partes = [];
+  if (aulas.length) partes.push(aulas.filter((a) => aulaConcluida(estado, a.id)).length / aulas.length);
+  if (degrau.leituras.length) partes.push(degrau.leituras.filter((id) => livroConcluido(estado, id)).length / degrau.leituras.length);
+  const comp = estado.degraus[degrau.n]?.competencias || [];
+  partes.push(degrau.competencias.filter((_, i) => comp[i]).length / degrau.competencias.length);
+  const compAv = estado.degraus[degrau.n]?.competenciasAv || [];
+  if (degrau.competenciasAvancadas?.length) partes.push(degrau.competenciasAvancadas.filter((_, i) => compAv[i]).length / degrau.competenciasAvancadas.length);
+  return Math.round((partes.reduce((s, x) => s + x, 0) / partes.length) * 100);
+}
+
+/** Um degrau só pode ser concluído quando seus pré-requisitos foram concluídos e seus critérios atendidos. */
+export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado) {
+  const faltas = [];
+  for (const p of degrau.prereq) if (!estado.degraus[p]?.concluido) faltas.push(`Concluir o degrau ${p}`);
+  const pendentes = aulasDoDegrau(degrau, modulos).filter((a) => !aulaConcluida(estado, a.id));
+  const emPreparacao = pendentes.filter((a) => !aulasDisponiveis.has(a.id)).length;
+  if (pendentes.length - emPreparacao > 0) faltas.push(`Concluir ${pendentes.length - emPreparacao} aula(s) disponível(is)`);
+  if (emPreparacao > 0) faltas.push(`${emPreparacao} aula(s) deste degrau ainda em preparação`);
+  const livros = degrau.leituras.filter((id) => !livroConcluido(estado, id)).length;
+  if (livros) faltas.push(`Concluir ${livros} leitura(s) obrigatória(s)`);
+  const comp = estado.degraus[degrau.n]?.competencias || [];
+  if (!degrau.competencias.every((_, i) => comp[i])) faltas.push('Confirmar todas as competências');
+  const compAv = estado.degraus[degrau.n]?.competenciasAv || [];
+  if (!(degrau.competenciasAvancadas || []).every((_, i) => compAv[i])) faltas.push('Confirmar todas as competências de aprofundamento');
+  return { ok: faltas.length === 0, faltas };
+}
+
+// ---------- Revisões espaçadas ----------
+
+export const inicioDoDia = (t) => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+
+export function novoCartao(frente, verso, origem, agora = Date.now(), id = `r${agora.toString(36)}${Math.random().toString(36).slice(2, 6)}`) {
+  return { id, frente, verso, origem, nivel: 0, proxima: inicioDoDia(agora) + INTERVALOS_REVISAO[0] * DIA, historico: [] };
+}
+
+/** Lembrou: sobe um nível no intervalo. Esqueceu: volta ao início (revisão amanhã). */
+export function responderCartao(cartao, lembrou, agora = Date.now()) {
+  const nivel = lembrou ? Math.min(cartao.nivel + 1, INTERVALOS_REVISAO.length - 1) : 0;
+  return { ...cartao, nivel, proxima: inicioDoDia(agora) + INTERVALOS_REVISAO[nivel] * DIA, historico: [...cartao.historico, { data: agora, lembrou }] };
+}
+
+export const revisoesPendentes = (revisoes, agora = Date.now()) => revisoes.filter((r) => r.proxima <= agora);
+
+// ---------- Tempo de estudo ----------
+
+/** Início da semana (segunda-feira 00:00) que contém t. */
+export function inicioSemana(t) {
+  const d = new Date(inicioDoDia(t));
+  const dow = (d.getDay() + 6) % 7;
+  d.setDate(d.getDate() - dow);
+  return d.getTime();
+}
+
+export const minutosEntre = (sessoes, de, ate) => sessoes.filter((s) => s.inicio >= de && s.inicio < ate).reduce((m, s) => m + s.minutos, 0);
+
+export function minutosSemana(sessoes, agora = Date.now(), deslocamento = 0) {
+  const ini = inicioSemana(agora) + deslocamento * 7 * DIA;
+  return minutosEntre(sessoes, ini, ini + 7 * DIA);
+}
+
+export const minutosTotal = (sessoes) => sessoes.reduce((m, s) => m + s.minutos, 0);
+
+/** Duração média em minutos de uma string como "60–90 min". */
+export function duracaoMin(texto) {
+  const nums = String(texto || '').match(/\d+/g)?.map(Number) || [];
+  return nums.length ? Math.round(nums.reduce((s, n) => s + n, 0) / nums.length) : 60;
+}
+
+// ---------- Plano adaptativo ----------
+
+/**
+ * Monta as tarefas da semana e a projeção de conclusão.
+ * Adaptação: aulas com nota abaixo do mínimo voltam como "retomar"; revisões pendentes entram primeiro;
+ * se a semana anterior ficou abaixo da meta, a carga não é aumentada para "compensar" —
+ * a data projetada é que se ajusta. Nada é marcado como dominado automaticamente.
+ * @param {{aulasPendentes:Array<{id,titulo,minutos}>, aulasReprovadas:Array<{id,titulo}>,
+ *          livrosAtivos:Array<{id,titulo,paginasRestantes}>, revisoesPendentes:number,
+ *          minutosSemanaPassada:number, minutosFaltantesCurso:number}} entrada
+ */
+export function planejarSemana(plano, entrada, agora = Date.now()) {
+  const meta = Math.max(1, Number(plano.horasSemana) || 1) * 60;
+  const tarefas = [];
+  let usado = 0;
+  const add = (t) => { tarefas.push(t); usado += t.minutos; };
+
+  if (entrada.revisoesPendentes > 0) add({ tipo: 'revisao', titulo: `Revisar ${entrada.revisoesPendentes} cartão(ões) pendente(s)`, minutos: Math.min(30, 2 * entrada.revisoesPendentes + 5) });
+  for (const a of entrada.aulasReprovadas) if (usado < meta) add({ tipo: 'retomar', id: a.id, titulo: `Retomar: ${a.titulo} (nota abaixo do mínimo)`, minutos: 45 });
+
+  const livros = entrada.livrosAtivos.slice(0, Math.max(1, Number(plano.livrosSimultaneos) || 1));
+  const reservaLeitura = livros.length ? Math.round((meta - usado) * 0.45) : 0;
+  for (const a of entrada.aulasPendentes) {
+    if (usado + a.minutos > meta - reservaLeitura && tarefas.some((t) => t.tipo === 'aula')) break;
+    add({ tipo: 'aula', id: a.id, titulo: a.titulo, minutos: a.minutos });
+  }
+  const sobra = Math.max(0, meta - usado);
+  const BLOCO_LEITURA = 60; // leitura difícil rende mais em sessões de até 1 h
+  livros.forEach((l) => {
+    let resta = Math.round(sobra / livros.length);
+    while (resta > 0) {
+      const min = Math.min(BLOCO_LEITURA, resta);
+      resta -= min;
+      const paginas = Math.max(1, Math.round((min / 60) * (Number(plano.paginasHora) || 10)));
+      const pags = l.paginasRestantes ? Math.min(paginas, l.paginasRestantes) : paginas;
+      add({ tipo: 'leitura', id: l.id, titulo: `${l.titulo}: ${pags} página(s)`, minutos: min });
+    }
+  });
+
+  const dias = (plano.dias && plano.dias.length ? plano.dias : [1, 3, 5]).slice().sort((a, b) => a - b);
+  const porDia = dias.map((d) => ({ dia: d, tarefas: [], minutos: 0 }));
+  tarefas.forEach((t) => { const alvo = porDia.reduce((a, b) => (b.minutos < a.minutos ? b : a)); alvo.tarefas.push(t); alvo.minutos += t.minutos; });
+
+  const semanasRestantes = Math.ceil(entrada.minutosFaltantesCurso / meta);
+  const projecao = agora + semanasRestantes * 7 * DIA;
+  const alvoMs = plano.dataAlvo ? Date.parse(plano.dataAlvo) : NaN;
+  const avisos = [];
+  // null = a semana passada é anterior ao início do curso, então não há atraso a apontar
+  if (entrada.minutosSemanaPassada !== null && entrada.minutosSemanaPassada < meta * 0.6) avisos.push('Na semana passada você estudou menos de 60% da meta. A carga desta semana não foi aumentada para compensar; a data projetada foi ajustada.');
+  if (entrada.aulasReprovadas.length) avisos.push('Há aulas com nota abaixo do mínimo: elas foram priorizadas antes de conteúdo novo.');
+  if (!Number.isNaN(alvoMs) && projecao > alvoMs) avisos.push('No ritmo atual, a data pretendida não será alcançada. Aumente as horas semanais ou ajuste a data.');
+  return { tarefas, porDia, meta, usado, semanasRestantes, projecao, avisos };
+}
+
+// ---------- Conquistas acadêmicas (derivadas de tarefas reais) ----------
+
+export function conquistas(estado, modulos) {
+  const concluidas = Object.values(estado.aulas).filter((a) => a.status === 'concluida').length;
+  const livros = Object.values(estado.livros).filter((l) => l.estado === 'concluido').length;
+  const horas = minutosTotal(estado.sessoes) / 60;
+  const revisoes = estado.revisoes.reduce((s, r) => s + r.historico.length, 0);
+  const modsConcluidos = modulos.filter((m) => progressoModulo(m, estado).pct === 100).length;
+  const disc = Object.values(estado.discursivas).filter((d) => (d.texto || '').trim()).length;
+  return [
+    { titulo: 'Primeira aula concluída', ok: concluidas >= 1 },
+    { titulo: 'Dez aulas concluídas', ok: concluidas >= 10 },
+    { titulo: 'Primeiro livro lido por inteiro', ok: livros >= 1 },
+    { titulo: 'Dez horas de estudo registradas', ok: horas >= 10 },
+    { titulo: 'Cem horas de estudo registradas', ok: horas >= 100 },
+    { titulo: 'Cinco respostas discursivas escritas', ok: disc >= 5 },
+    { titulo: 'Cinquenta revisões feitas', ok: revisoes >= 50 },
+    { titulo: 'Primeiro módulo concluído', ok: modsConcluidos >= 1 },
+    { titulo: 'Primeiro degrau concluído', ok: Object.values(estado.degraus).some((d) => d.concluido) },
+  ];
+}
+
+// ---------- Busca ----------
+
+/** @param {Array<{tipo,id,titulo,texto}>} indice */
+export function buscar(indice, consulta, limite = 40) {
+  const termos = normalizar(consulta).split(/\s+/).filter(Boolean);
+  if (!termos.length) return [];
+  return indice
+    .map((it) => {
+      const t = normalizar(it.titulo), x = normalizar(it.texto);
+      if (!termos.every((q) => t.includes(q) || x.includes(q))) return null;
+      return { ...it, pontos: termos.reduce((s, q) => s + (t.includes(q) ? 3 : 1), 0) };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.pontos - a.pontos)
+    .slice(0, limite);
+}
+
+// ---------- Genealogia das ideias ----------
+
+/**
+ * Percorre as relações "bebeu de" a partir de um movimento.
+ * dir 'origens': de quem ele recebeu (recursivo); 'herdeiros': quem recebeu dele (recursivo).
+ * @returns {Map<string, number>} id -> geração (1 = relação direta)
+ */
+export function linhagem(movimentos, id, dir) {
+  const porId = Object.fromEntries(movimentos.map((m) => [m.id, m]));
+  const vizinhos = (x) => (dir === 'origens'
+    ? (porId[x]?.bebeuDe || []).map((b) => b.id)
+    : movimentos.filter((m) => m.bebeuDe.some((b) => b.id === x)).map((m) => m.id));
+  const gen = new Map();
+  let fronteira = [id];
+  for (let g = 1; fronteira.length; g++) {
+    const prox = [];
+    for (const x of fronteira) for (const v of vizinhos(x)) if (v !== id && !gen.has(v)) { gen.set(v, g); prox.push(v); }
+    fronteira = prox;
+  }
+  return gen;
+}
+
+/** Movimentos cujo período se sobrepõe ao de m (conviveram), ordenados pelo início. */
+export const contemporaneos = (movimentos, m) =>
+  movimentos.filter((o) => o.id !== m.id && o.inicio <= m.fim && o.fim >= m.inicio).sort((a, b) => a.inicio - b.inicio);
+
+/**
+ * Escala de tempo por trechos: cada trecho [ini, fim, px] recebe uma largura própria,
+ * para que séculos recentes, mais densos, não fiquem espremidos.
+ */
+export function escalaTempo(trechos) {
+  const acum = [];
+  let x = 0;
+  for (const [ini, fim, px] of trechos) { acum.push({ ini, fim, px, x0: x }); x += px; }
+  const total = x;
+  const ini = trechos[0][0], fim = trechos[trechos.length - 1][1];
+  const posicao = (ano) => {
+    if (ano <= ini) return 0;
+    if (ano >= fim) return total;
+    const t = acum.find((s) => ano >= s.ini && ano <= s.fim);
+    return t.x0 + ((ano - t.ini) / (t.fim - t.ini)) * t.px;
+  };
+  return { posicao, total, ini, fim, trechos: acum };
+}
+
+export const fmtAno = (a, hoje = 2026) => (a >= hoje ? 'hoje' : a < 0 ? `${-a} a.C.` : String(a));
+
+// ---------- Exportação ----------
+
+export function notasParaMarkdown(notas, rotuloVinculo = (v) => `${v.tipo}: ${v.id}`, agora = Date.now()) {
+  const linhas = ['# Caderno intelectual — Academia da Verdade', '', `Exportado em ${new Date(agora).toLocaleString('pt-BR')}`, ''];
+  for (const n of notas) {
+    linhas.push(`## ${n.titulo || 'Sem título'}`, '');
+    const meta = [n.tipo && `Tipo: ${n.tipo}`, n.vinculo && `Vínculo: ${rotuloVinculo(n.vinculo)}`, n.pagina && `Página/trecho: ${n.pagina}`].filter(Boolean);
+    if (meta.length) linhas.push(`*${meta.join(' · ')}*`, '');
+    linhas.push(n.texto || '', '');
+  }
+  return linhas.join('\n');
+}

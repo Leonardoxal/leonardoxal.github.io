@@ -1,0 +1,162 @@
+// Obras completas de Hegel, Kierkegaard, Marx, Nietzsche, Wittgenstein, Popper, Sartre e MacIntyre.
+import { autor } from './_obra.js';
+
+const base = { area: 'Filosofia contemporânea', degrau: 8, modulo: 'm10' };
+const hegel = autor({ ...base, chave: 'hegel', autor: 'G. W. F. Hegel', nivel: 5 });
+const kierk = autor({ ...base, chave: 'kierkegaard', autor: 'Søren Kierkegaard' });
+const marx = autor({ ...base, chave: 'marx', autor: 'Karl Marx', area: 'Filosofia política' });
+const nietzsche = autor({ ...base, chave: 'nietzsche', autor: 'Friedrich Nietzsche' });
+const witt = autor({ ...base, chave: 'wittgenstein', autor: 'Ludwig Wittgenstein', area: 'Filosofia da linguagem', nivel: 4 });
+const popper = autor({ ...base, chave: 'popper', autor: 'Karl Popper', area: 'Filosofia da ciência' });
+const sartre = autor({ ...base, chave: 'sartre', autor: 'Jean-Paul Sartre' });
+const mac = autor({ ...base, chave: 'macintyre', autor: 'Alasdair MacIntyre', area: 'Ética' });
+const PT = { verificacao: 'a confirmar', nota: 'Título ou tradução portuguesa não verificados.' };
+
+export const CONTEMPORANEOS = [
+  { chave: 'hegel', itens: [
+    hegel.O('hegel-pensa-abstrato', 'Quem Pensa Abstratamente?', 'c. 1807', 'Por que aqui: o ensaio mais curto e acessível; porta de entrada. Observe: o "abstrato" é o senso comum. Pergunta: por que o filósofo é o mais concreto?', { nivel: 1 }),
+    hegel.O('hegel-juventude', 'Escritos Teológicos de Juventude (A Positividade da Religião Cristã; O Espírito do Cristianismo e seu Destino)', '1795–1800 (póstumos)', 'Por que aqui: a origem religiosa do pensamento de Hegel. Observe: amor e destino. Pergunta: como Hegel lê o cristianismo antes do sistema?', { nivel: 4 }),
+    hegel.O('hegel-diferenca', 'Diferença entre os Sistemas de Filosofia de Fichte e de Schelling', '1801', 'Por que aqui: a saída do idealismo de Fichte. Observe: necessidade da filosofia na cisão. Pergunta: o que é o absoluto?'),
+    hegel.O('hegel-fe-saber', 'Fé e Saber', '1802', 'Por que aqui: crítica a Kant, Jacobi e Fichte. Observe: a "sexta-feira santa especulativa". Pergunta: o que Hegel quer dizer com "Deus está morto"?'),
+    hegel.O('hegel-direito-natural', 'Sobre as Maneiras Científicas de Tratar o Direito Natural', '1802–1803', 'Por que aqui: a ética antes da Filosofia do Direito. Observe: crítica ao empirismo e ao formalismo. Pergunta: o que é a "eticidade"?'),
+    hegel.ref('hegel-fenomenologia'),
+    hegel.O('hegel-logica', 'Ciência da Lógica', '1812–1816; revisão do livro I em 1832', 'Por que aqui: o núcleo do sistema. Observe: ser, nada, devir; essência; conceito. Pergunta: compare o "ser puro" com o esse de Tomás (aula 10-1).'),
+    hegel.O('hegel-enciclopedia', 'Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito)', '1817; 1827; 1830', 'Por que aqui: o sistema inteiro em parágrafos. Observe: espírito subjetivo, objetivo e absoluto. Pergunta: arte, religião e filosofia têm o mesmo conteúdo?'),
+    hegel.O('hegel-direito', 'Princípios da Filosofia do Direito', '1820', 'Por que aqui: família, sociedade civil, Estado. Observe: "o racional é efetivo". Pergunta: Hegel diviniza o Estado (Popper) ou não (Avineri)?'),
+    hegel.O('hegel-historia', 'Lições sobre a Filosofia da História', 'póstumo, 1837', 'Por que aqui: a história como progresso da liberdade. Observe: a astúcia da razão. Pergunta: há sentido na história?', { nivel: 3 }),
+    hegel.O('hegel-estetica', 'Lições sobre a Estética', 'póstumo, 1835–1838', 'Por que aqui: arte simbólica, clássica e romântica. Observe: o "fim da arte". Pergunta: a arte morreu?', { nivel: 4 }),
+    hegel.O('hegel-religiao', 'Lições sobre a Filosofia da Religião e sobre as Provas da Existência de Deus', 'póstumo, 1832', 'Por que aqui: o cristianismo como religião consumada. Observe: a Trindade especulativa. Pergunta: Hegel preserva ou dissolve a fé?'),
+    hegel.O('hegel-historia-filosofia', 'Lições sobre a História da Filosofia', 'póstumo, 1833–1836', 'Por que aqui: a filosofia como história de si mesma. Observe: a leitura de Platão e Aristóteles. Pergunta: cada filosofia é seu tempo apreendido em pensamento?'),
+    hegel.O('hegel-politicos', 'Escritos políticos (A Constituição da Alemanha; Sobre o Reform Bill inglês)', '1799–1831', 'Por que aqui: o Hegel observador da política real. Observe: Estado e nação. Pergunta: como a teoria julga os fatos?', { nivel: 3 }),
+  ] },
+
+  { chave: 'kierkegaard', itens: [
+    kierk.O('kierkegaard-ponto-vista', 'O Ponto de Vista Explicativo da Minha Obra como Escritor', 'escrito 1848 (póstumo, 1859)', 'Por que aqui: a chave que o próprio autor deu ao conjunto; ler primeiro. Observe: comunicação indireta e a pseudonímia. Pergunta: todo o conjunto é religioso?', { nivel: 2 }),
+    kierk.O('kierkegaard-ironia', 'O Conceito de Ironia, Constantemente Referido a Sócrates', '1841', 'Por que aqui: a tese de doutorado, ligada ao Degrau 2. Observe: Sócrates como ironista. Pergunta: a ironia é negatividade infinita?', { nivel: 4 }),
+    kierk.O('kierkegaard-ou-ou', 'Ou–Ou (Enten–Eller)', '1843', 'Por que aqui: o estádio estético e o ético. Observe: o Diário do Sedutor e as cartas do juiz Wilhelm. Pergunta: por que escolher a si mesmo é escolher o ético?'),
+    kierk.ref('kierkegaard-temor'),
+    kierk.O('kierkegaard-repeticao', 'A Repetição', '1843', 'Por que aqui: publicada no mesmo dia que Temor e Tremor. Observe: repetição contra recordação. Pergunta: o que é recuperar a vida?'),
+    kierk.O('kierkegaard-discursos-1843', 'Discursos Edificantes (1843–1844)', '1843–1844', 'Por que aqui: as obras assinadas que acompanham as pseudônimas. Observe: o tom religioso direto. Pergunta: o que o autor diz em seu nome?', { nivel: 2 }),
+    kierk.O('kierkegaard-migalhas', 'Migalhas Filosóficas', '1844', 'Por que aqui: o paradoxo de Deus no tempo. Observe: Sócrates contra o Mestre divino. Pergunta: a verdade pode ser ensinada ou precisa ser dada?'),
+    kierk.O('kierkegaard-angustia', 'O Conceito de Angústia', '1844', 'Por que aqui: o pecado original psicologicamente. Observe: angústia como vertigem da liberdade. Pergunta: como a angústia precede o pecado?', { nivel: 4 }),
+    kierk.O('kierkegaard-prefacios', 'Prefácios', '1844', 'Por que aqui: sátira à vida literária de Copenhague. Observe: o humor. Pergunta: o que a ironia critica?', { nivel: 2 }),
+    kierk.O('kierkegaard-estadios', 'Estádios no Caminho da Vida', '1845', 'Por que aqui: retomada dos três estádios. Observe: "In vino veritas". Pergunta: como se passa de um estádio ao outro?'),
+    kierk.O('kierkegaard-posescrito', 'Pós-escrito Final Não Científico às Migalhas Filosóficas', '1846', 'Por que aqui: a obra central contra o sistema hegeliano. Observe: "a subjetividade é a verdade". Pergunta: isso é relativismo?', { nivel: 5 }),
+    kierk.O('kierkegaard-epoca-presente', 'Uma Resenha Literária (A Época Presente)', '1846', 'Por que aqui: crítica da sociedade e do "público". Observe: nivelamento. Pergunta: o diagnóstico vale hoje?', { nivel: 2 }),
+    kierk.O('kierkegaard-pureza', 'Discursos Edificantes em Diversos Espíritos (A Pureza de Coração é Querer uma Só Coisa)', '1847', 'Por que aqui: a unidade da vontade. Observe: querer o Bem. Pergunta: o que é querer uma só coisa?', { nivel: 2 }),
+    kierk.O('kierkegaard-obras-amor', 'As Obras do Amor', '1847', 'Por que aqui: a ética cristã do amor ao próximo, assinada pelo autor. Observe: "tu deves amar". Pergunta: por que o amor como dever é libertador?'),
+    kierk.O('kierkegaard-discursos-cristaos', 'Discursos Cristãos', '1848', 'Por que aqui: as preocupações dos pagãos e a fé. Observe: o tom pastoral. Pergunta: como o cristianismo cura a preocupação?', { nivel: 2 }),
+    kierk.O('kierkegaard-crise-atriz', 'A Crise e uma Crise na Vida de uma Atriz', '1848', 'Por que aqui: estética e tempo. Observe: a idealidade da arte. Pergunta: por que esta obra é estética?', { nivel: 2 }),
+    kierk.O('kierkegaard-doenca', 'A Doença para a Morte', '1849', 'Por que aqui: o desespero e a fé (Anti-Climacus). Observe: o eu como relação. Pergunta: o que é fundamentar-se no poder que o pôs?', { nivel: 4 }),
+    kierk.O('kierkegaard-lirio', 'O Lírio do Campo e a Ave do Céu', '1849', 'Por que aqui: silêncio, obediência, alegria (Mt 6). Observe: os mestres da natureza. Pergunta: o que o lírio ensina?', { nivel: 1 }),
+    kierk.O('kierkegaard-pratica', 'Prática do Cristianismo (Exercício no Cristianismo)', '1850', 'Por que aqui: a imitação de Cristo e o escândalo. Observe: contemporaneidade com Cristo. Pergunta: como ser contemporâneo de Cristo?', { nivel: 4 }),
+    kierk.O('kierkegaard-autoexame', 'Para o Autoexame e Julgai Vós Mesmos!', '1851; póstumo, 1876', 'Por que aqui: a leitura da Escritura como espelho. Observe: Tg 1,22. Pergunta: como ler a Bíblia sem fugir dela?', { nivel: 2 }),
+    kierk.O('kierkegaard-instante', 'O Instante', '1855', 'Por que aqui: o ataque final à cristandade estatal. Observe: a radicalização. Pergunta: a crítica é justa?', { nivel: 2 }),
+    kierk.O('kierkegaard-diarios', 'Diários e Papéis (seleção ampla)', '1834–1855', 'Por que aqui: o laboratório da obra. Observe: Regine, a vocação, a Igreja. Pergunta: o que os diários explicam das obras?', { nivel: 3 }),
+  ] },
+
+  { chave: 'marx', itens: [
+    marx.O('marx-tese', 'Diferença entre a Filosofia da Natureza de Demócrito e a de Epicuro', '1841', 'Por que aqui: a tese de doutorado; liga Marx a Epicuro (e ao Jardim das Aflições). Observe: o desvio do átomo e a liberdade. Pergunta: que Epicuro Marx admira?', { nivel: 4 }),
+    marx.O('marx-critica-hegel', 'Crítica da Filosofia do Direito de Hegel e sua Introdução', '1843–1844', 'Por que aqui: a inversão de Hegel e o "ópio do povo". Observe: a crítica da religião como condição. Pergunta: por que a crítica da religião vem primeiro?', { nivel: 4 }),
+    marx.O('marx-questao-judaica', 'Sobre a Questão Judaica', '1843', 'Por que aqui: emancipação política e humana. Observe: crítica dos direitos do homem. Pergunta: os direitos do homem são egoístas?'),
+    marx.O('marx-manuscritos', 'Manuscritos Econômico-Filosóficos', '1844 (póstumos, 1932)', 'Por que aqui: a teoria da alienação. Observe: quatro formas de alienação. Pergunta: o que é o "ser genérico"?'),
+    marx.O('marx-sagrada-familia', 'A Sagrada Família (com Engels)', '1845', 'Por que aqui: ruptura com os jovens hegelianos. Observe: crítica da "crítica crítica". Pergunta: o que Marx recusa no idealismo?'),
+    marx.O('marx-teses-feuerbach', 'Teses sobre Feuerbach', '1845', 'Por que aqui: onze teses, a última: "transformar o mundo". Observe: a práxis. Pergunta: a filosofia deve transformar ou compreender?', { nivel: 2 }),
+    marx.O('marx-ideologia', 'A Ideologia Alemã (com Engels)', '1845–1846 (póstuma)', 'Por que aqui: primeira exposição do materialismo histórico. Observe: divisão do trabalho e ideologia. Pergunta: as ideias dominantes são as da classe dominante?'),
+    marx.O('marx-miseria', 'Miséria da Filosofia', '1847', 'Por que aqui: resposta a Proudhon. Observe: crítica do método. Pergunta: o que Marx critica nas abstrações econômicas?'),
+    marx.ref('marx-manifesto'),
+    marx.O('marx-trabalho-capital', 'Trabalho Assalariado e Capital', '1849', 'Por que aqui: introdução popular à economia. Observe: salário e capital. Pergunta: o que é o salário para Marx?', { nivel: 2 }),
+    marx.O('marx-lutas-franca', 'As Lutas de Classes na França de 1848 a 1850', '1850', 'Por que aqui: análise histórica concreta. Observe: classes e revolução. Pergunta: a teoria explica os fatos?'),
+    marx.O('marx-brumario', 'O 18 de Brumário de Luís Bonaparte', '1852', 'Por que aqui: "os homens fazem a história, mas não como querem". Observe: a farsa. Pergunta: qual o papel do indivíduo?'),
+    marx.O('marx-grundrisse', 'Grundrisse (Esboços da Crítica da Economia Política)', '1857–1858 (póstumos)', 'Por que aqui: o laboratório de O Capital. Observe: introdução de 1857 sobre o método. Pergunta: como se sobe do abstrato ao concreto?', { nivel: 5 }),
+    marx.O('marx-contribuicao', 'Contribuição à Crítica da Economia Política (com o Prefácio de 1859)', '1859', 'Por que aqui: o resumo canônico do materialismo histórico. Observe: infraestrutura e superestrutura. Pergunta: o ser social determina a consciência?'),
+    marx.O('marx-salario-preco', 'Salário, Preço e Lucro', '1865', 'Por que aqui: conferência acessível sobre a mais-valia. Observe: o valor da força de trabalho. Pergunta: de onde vem o lucro?', { nivel: 2 }),
+    marx.O('marx-capital-i', 'O Capital, livro I', '1867', 'Por que aqui: a obra central. Observe: mercadoria, fetichismo, mais-valia, acumulação primitiva. Pergunta: o que é o fetichismo da mercadoria?', { nivel: 5 }),
+    marx.O('marx-guerra-civil', 'A Guerra Civil na França', '1871', 'Por que aqui: a Comuna de Paris como modelo. Observe: o Estado. Pergunta: o que Marx espera da revolução?'),
+    marx.O('marx-gotha', 'Crítica do Programa de Gotha', '1875', 'Por que aqui: "de cada um segundo suas capacidades, a cada um segundo suas necessidades". Observe: as fases do comunismo. Pergunta: como seria a sociedade sem classes?', { nivel: 2 }),
+    marx.O('marx-capital-ii-iii', 'O Capital, livros II e III (editados por Engels) e Teorias da Mais-Valia', 'póstumos, 1885–1910', 'Por que aqui: circulação, lucro, crises. Observe: a queda tendencial da taxa de lucro. Pergunta: a previsão de crise se confirmou?', { nivel: 5 }),
+    marx.O('marx-cartas', 'Últimos escritos e cartas (cartas a Vera Zasulich; correspondência com Engels)', '1881 e outras', 'Por que aqui: o Marx tardio e a Rússia. Observe: comuna rural e revolução. Pergunta: Marx admitiu caminhos diferentes?', { nivel: 3 }),
+  ] },
+
+  { chave: 'nietzsche', itens: [
+    nietzsche.O('nietzsche-tragedia', 'O Nascimento da Tragédia', '1872', 'Por que aqui: o primeiro livro; Apolo e Dioniso. Observe: crítica a Sócrates. Pergunta: por que Sócrates "matou" a tragédia?'),
+    nietzsche.O('nietzsche-epoca-tragica', 'A Filosofia na Época Trágica dos Gregos', 'c. 1873 (póstuma)', 'Por que aqui: os pré-socráticos lidos por Nietzsche. Observe: Heráclito. Pergunta: compare com o Módulo 5.', { nivel: 2 }),
+    nietzsche.O('nietzsche-verdade-mentira', 'Sobre Verdade e Mentira no Sentido Extramoral', '1873 (póstumo)', 'Por que aqui: a verdade como "exército de metáforas". Observe: linguagem e conceito. Pergunta: o texto se autorrefuta?', { nivel: 2 }),
+    nietzsche.O('nietzsche-extemporaneas', 'Considerações Extemporâneas I–IV', '1873–1876', 'Por que aqui: David Strauss, a história, Schopenhauer, Wagner. Observe: II, utilidade e desvantagem da história. Pergunta: história demais faz mal à vida?'),
+    nietzsche.O('nietzsche-humano', 'Humano, Demasiado Humano (com Opiniões e Sentenças Diversas e O Andarilho e sua Sombra)', '1878–1880', 'Por que aqui: a fase "iluminista". Observe: psicologia da moral. Pergunta: o que muda em relação a Wagner?'),
+    nietzsche.O('nietzsche-aurora', 'Aurora', '1881', 'Por que aqui: crítica dos preconceitos morais. Observe: costume e moralidade. Pergunta: a moral é costume?'),
+    nietzsche.O('nietzsche-gaia', 'A Gaia Ciência', '1882; livro V em 1887', 'Por que aqui: a "morte de Deus" (§125) e o eterno retorno (§341). Observe: o homem louco. Pergunta: diagnóstico ou tese?'),
+    nietzsche.O('nietzsche-zaratustra', 'Assim Falou Zaratustra', '1883–1885', 'Por que aqui: o além-do-homem e o eterno retorno em forma poética. Observe: as três metamorfoses. Pergunta: quem é o além-do-homem?'),
+    nietzsche.O('nietzsche-alem', 'Além do Bem e do Mal', '1886', 'Por que aqui: prelúdio a uma filosofia do futuro. Observe: os preconceitos dos filósofos. Pergunta: a vontade de verdade é uma forma de vontade de poder?'),
+    nietzsche.ref('nietzsche-genealogia'),
+    nietzsche.O('nietzsche-wagner', 'O Caso Wagner e Nietzsche contra Wagner', '1888–1889', 'Por que aqui: ruptura com Wagner. Observe: décadence. Pergunta: o que é decadência?', { nivel: 2 }),
+    nietzsche.O('nietzsche-crepusculo', 'Crepúsculo dos Ídolos', '1889', 'Por que aqui: resumo da filosofia tardia. Observe: "como o mundo verdadeiro se tornou fábula". Pergunta: o que resta sem "mundo verdadeiro"?'),
+    nietzsche.O('nietzsche-anticristo', 'O Anticristo', 'escrito 1888 (publicado 1895)', 'Por que aqui: o ataque frontal ao cristianismo. Observe: Jesus e Paulo. Pergunta: como responder (Bento XVI, Deus caritas est §3)?'),
+    nietzsche.O('nietzsche-ecce', 'Ecce Homo', 'escrito 1888 (publicado 1908)', 'Por que aqui: a autobiografia final. Observe: "Por que sou tão sábio". Pergunta: como Nietzsche lê sua obra?', { nivel: 2 }),
+    nietzsche.O('nietzsche-ditirambos', 'Ditirambos de Dioniso e poemas', '1888–1889', 'Por que aqui: o poeta. Observe: o lamento de Ariadne. Pergunta: o que a poesia diz que a prosa não diz?', { nivel: 2 }),
+    nietzsche.O('nietzsche-fragmentos', 'Fragmentos Póstumos (edição Colli–Montinari; não a compilação "A Vontade de Poder")', '1869–1889', 'Por que aqui: os cadernos, lidos na edição crítica. Observe: vontade de poder e niilismo europeu. Pergunta: por que não confiar na compilação da irmã?', { nivel: 4 }),
+  ] },
+
+  { chave: 'wittgenstein', itens: [
+    witt.O('wittgenstein-diarios', 'Diários 1914–1916 (Notebooks)', '1914–1916 (póstumos)', 'Por que aqui: o laboratório do Tractatus, escrito na guerra. Observe: "o sentido do mundo deve estar fora dele". Pergunta: que preocupação ética move o livro?', { nivel: 3 }),
+    witt.O('wittgenstein-tractatus', 'Tractatus Logico-Philosophicus', '1921', 'Por que aqui: a primeira filosofia. Observe: teoria pictórica e o que se mostra. Pergunta: por que o leitor deve "jogar fora a escada"?', { nivel: 5 }),
+    witt.O('wittgenstein-etica', 'Conferência sobre Ética', '1929', 'Por que aqui: o único texto popular. Observe: valor absoluto e linguagem. Pergunta: a ética é "um correr contra os limites da linguagem"?', { nivel: 2 }),
+    witt.O('wittgenstein-forma-logica', 'Algumas Observações sobre a Forma Lógica', '1929', 'Por que aqui: o único artigo publicado; início da autocrítica. Observe: incompatibilidade das cores. Pergunta: o que falha no Tractatus?'),
+    witt.O('wittgenstein-observacoes', 'Observações Filosóficas e Gramática Filosófica', '1929–1933 (póstumas)', 'Por que aqui: a transição. Observe: verificação e gramática. Pergunta: como surge a noção de uso?'),
+    witt.O('wittgenstein-livros', 'O Livro Azul e o Livro Castanho', '1933–1935 (póstumos)', 'Por que aqui: ditados aos alunos, a melhor introdução ao segundo Wittgenstein. Observe: jogos de linguagem. Pergunta: por que buscar a "essência" engana?', { nivel: 3 }),
+    witt.O('wittgenstein-ramo-dourado', 'Observações sobre O Ramo Dourado de Frazer', '1931–1948 (póstumas)', 'Por que aqui: ritual e religião não são pseudociência. Observe: crítica a Frazer. Pergunta: o que um rito "quer dizer"?', { nivel: 2 }),
+    witt.O('wittgenstein-licoes-crenca', 'Lições e Conversas sobre Estética, Psicologia e Crença Religiosa', '1938–1946 (póstumas)', 'Por que aqui: a crença religiosa como forma de vida. Observe: o Juízo Final. Pergunta: o crente e o descrente se contradizem?', { nivel: 2 }),
+    witt.O('wittgenstein-matematica', 'Observações sobre os Fundamentos da Matemática', '1937–1944 (póstumas)', 'Por que aqui: seguir uma regra na matemática. Observe: prova e necessidade. Pergunta: a matemática descobre ou inventa?', { nivel: 5 }),
+    witt.ref('wittgenstein-investigacoes'),
+    witt.O('wittgenstein-psicologia', 'Observações sobre a Filosofia da Psicologia e Zettel', '1946–1949 (póstumas)', 'Por que aqui: aspectos e "ver como". Observe: o pato-coelho. Pergunta: o que é ver um aspecto?'),
+    witt.O('wittgenstein-certeza', 'Da Certeza', '1949–1951 (póstumo)', 'Por que aqui: resposta a Moore; proposições-dobradiça. Observe: dúvida supõe certeza. Pergunta: compare com os primeiros princípios de Aristóteles.'),
+    witt.O('wittgenstein-cores-cultura', 'Observações sobre as Cores; Cultura e Valor', '1950–1951; anotações 1914–1951 (póstumas)', 'Por que aqui: os últimos escritos e as anotações sobre religião, arte e cultura. Observe: as notas sobre o cristianismo. Pergunta: que lugar a fé tem em Wittgenstein?', { nivel: 3 }),
+  ] },
+
+  { chave: 'popper', itens: [
+    popper.O('popper-dois-problemas', 'Os Dois Problemas Fundamentais da Teoria do Conhecimento', 'escrito 1930–1933 (publicado 1979)', 'Por que aqui: o primeiro livro, do qual saiu a Lógica da Pesquisa. Observe: indução e demarcação. Pergunta: como os dois problemas se ligam?', { ...PT, nivel: 4 }),
+    popper.ref('popper-logica'),
+    popper.O('popper-sociedade-aberta', 'A Sociedade Aberta e Seus Inimigos', '1945', 'Por que aqui: Platão, Hegel e Marx como inimigos da sociedade aberta. Observe: historicismo e engenharia gradual. Pergunta: a leitura de Platão é justa?'),
+    popper.O('popper-miseria', 'A Miséria do Historicismo', '1957', 'Por que aqui: contra as "leis da história". Observe: previsão e ciência social. Pergunta: por que não se pode prever o futuro do conhecimento?', { nivel: 2 }),
+    popper.O('popper-conjecturas', 'Conjecturas e Refutações', '1963', 'Por que aqui: ensaios que resumem a obra. Observe: cap. 1, ciência e pseudociência. Pergunta: a psicanálise é falseável?'),
+    popper.O('popper-conhecimento-objetivo', 'Conhecimento Objetivo', '1972', 'Por que aqui: o "Mundo 3" e a epistemologia evolucionária. Observe: conhecimento sem sujeito conhecedor. Pergunta: o que é o Mundo 3?', { nivel: 4 }),
+    popper.O('popper-autobiografia', 'Autobiografia Intelectual (Busca Inacabada)', '1976', 'Por que aqui: o percurso narrado pelo autor. Observe: o encontro com Einstein e Marx. Pergunta: que experiência levou à falseabilidade?', { nivel: 2 }),
+    popper.O('popper-eu-cerebro', 'O Eu e seu Cérebro (com John Eccles)', '1977', 'Por que aqui: dualismo interacionista, ligação com o Módulo 15. Observe: Mundos 1, 2, 3. Pergunta: Popper defende um dualismo?', { nivel: 4 }),
+    popper.O('popper-posescrito', 'Pós-escrito à Lógica da Pesquisa (O Realismo e o Objetivo da Ciência; O Universo Aberto; A Teoria Quântica e o Cisma na Física)', '1982–1983', 'Por que aqui: realismo, indeterminismo e propensões. Observe: crítica ao determinismo. Pergunta: o universo é aberto?', { nivel: 5 }),
+    popper.O('popper-tardios', 'Escritos tardios (Em Busca de um Mundo Melhor; Um Mundo de Propensões; O Mito do Contexto; Toda Vida é Resolução de Problemas)', '1984–1994', 'Por que aqui: ensaios finais. Observe: crítica ao relativismo do "contexto". Pergunta: é possível discutir entre quadros teóricos diferentes?', { nivel: 2 }),
+  ] },
+
+  { chave: 'sartre', itens: [
+    sartre.ref('sartre-existencialismo'),
+    sartre.O('sartre-transcendencia-ego', 'A Transcendência do Ego', '1936–1937', 'Por que aqui: o primeiro texto fenomenológico. Observe: o ego não está na consciência. Pergunta: o que é uma consciência sem eu?', { nivel: 4 }),
+    sartre.O('sartre-imaginacao', 'A Imaginação e O Imaginário', '1936; 1940', 'Por que aqui: a imagem como consciência. Observe: imaginar é negar o real. Pergunta: o que distingue perceber e imaginar?', { nivel: 4 }),
+    sartre.O('sartre-emocoes', 'Esboço para uma Teoria das Emoções', '1939', 'Por que aqui: a emoção como conduta mágica. Observe: fenomenologia aplicada. Pergunta: somos responsáveis pelas emoções?', { nivel: 3 }),
+    sartre.O('sartre-nausea', 'A Náusea', '1938', 'Por que aqui: o romance da contingência. Observe: a raiz do castanheiro. Pergunta: o que é a experiência da contingência?', { area: 'Literatura', nivel: 2 }),
+    sartre.O('sartre-muro', 'O Muro (contos)', '1939', 'Por que aqui: liberdade e má-fé em situações-limite. Observe: "A infância de um chefe". Pergunta: como se forma a má-fé?', { area: 'Literatura', nivel: 2 }),
+    sartre.O('sartre-ser-nada', 'O Ser e o Nada', '1943', 'Por que aqui: a ontologia fenomenológica. Observe: em-si e para-si, má-fé, olhar do outro. Pergunta: "o inferno são os outros"?', { nivel: 5 }),
+    sartre.O('sartre-teatro', 'Teatro (As Moscas; Entre Quatro Paredes; As Mãos Sujas; O Diabo e o Bom Deus)', '1943–1951', 'Por que aqui: a filosofia em cena. Observe: liberdade e engajamento. Pergunta: o que o teatro mostra que o tratado não?', { area: 'Literatura', nivel: 2 }),
+    sartre.O('sartre-caminhos', 'Os Caminhos da Liberdade (A Idade da Razão; Sursis; Com a Morte na Alma)', '1945–1949', 'Por que aqui: o romance da liberdade em tempo de guerra. Observe: Mathieu. Pergunta: o que é ser livre de verdade?', { area: 'Literatura', nivel: 2 }),
+    sartre.O('sartre-questao-judaica', 'Reflexões sobre a Questão Judaica', '1946', 'Por que aqui: o antissemitismo como má-fé. Observe: o olhar do outro. Pergunta: a análise vale para outros preconceitos?', { nivel: 2 }),
+    sartre.O('sartre-literatura', 'Que é a Literatura?', '1948', 'Por que aqui: a literatura engajada. Observe: escrever é apelar à liberdade do leitor. Pergunta: toda arte deve ser engajada?', { nivel: 3 }),
+    sartre.O('sartre-cadernos-moral', 'Cadernos para uma Moral', '1947–1948 (póstumos)', 'Por que aqui: a ética prometida e não publicada. Observe: autenticidade e conversão. Pergunta: por que Sartre não terminou a moral?', { ...PT, nivel: 4 }),
+    sartre.O('sartre-genet', 'Saint Genet, Ator e Mártir', '1952', 'Por que aqui: psicanálise existencial aplicada. Observe: escolher-se a partir do olhar alheio. Pergunta: o que fazemos do que fizeram de nós?', { nivel: 4 }),
+    sartre.O('sartre-metodo', 'Questão de Método', '1957', 'Por que aqui: existencialismo e marxismo. Observe: o método progressivo-regressivo. Pergunta: o marxismo é a filosofia insuperável?', { nivel: 4 }),
+    sartre.O('sartre-critica', 'Crítica da Razão Dialética', '1960', 'Por que aqui: a obra política maior. Observe: série e grupo, o prático-inerte. Pergunta: a liberdade sobrevive na história?', { nivel: 5 }),
+    sartre.O('sartre-palavras', 'As Palavras', '1964', 'Por que aqui: autobiografia da infância e da vocação. Observe: a perda da fé. Pergunta: como Sartre explica seu ateísmo?', { nivel: 2 }),
+    sartre.O('sartre-situacoes', 'Situações (ensaios, 10 volumes) e O Idiota da Família', '1947–1976; 1971–1972', 'Por que aqui: crítica, política e o grande estudo sobre Flaubert. Observe: os ensaios sobre Camus e Merleau-Ponty. Pergunta: como a filosofia se torna crítica cultural?', { nivel: 3 }),
+  ] },
+
+  { chave: 'macintyre', itens: [
+    mac.O('macintyre-breve-historia', 'Uma Breve História da Ética', '1966', 'Por que aqui: o panorama que prepara Depois da Virtude. Observe: conceitos morais mudam com a sociedade. Pergunta: há conceitos morais permanentes?', { nivel: 2 }),
+    mac.O('macintyre-marxismo', 'Marxismo e Cristianismo', '1953; ed. revista 1968', 'Por que aqui: o jovem MacIntyre entre as duas tradições. Observe: marxismo como herdeiro do cristianismo. Pergunta: o que ele conservou dessa leitura?', { nivel: 3 }),
+    mac.O('macintyre-inconsciente', 'O Inconsciente: uma Análise Conceitual', '1958', 'Por que aqui: o filósofo analítico diante de Freud. Observe: conceito explicativo ou descritivo. Pergunta: o inconsciente explica?', { ...PT, nivel: 3 }),
+    mac.ref('macintyre-virtude'),
+    mac.O('macintyre-justica', 'Justiça de Quem? Qual Racionalidade?', '1988', 'Por que aqui: tradições de investigação racional. Observe: Aristóteles, Agostinho, Tomás, Hume. Pergunta: como uma tradição vence outra?', { nivel: 4 }),
+    mac.O('macintyre-tres-versoes', 'Três Versões Rivais da Investigação Moral', '1990', 'Por que aqui: enciclopédia, genealogia e tradição. Observe: Nietzsche, a Enciclopédia Britânica e Tomás. Pergunta: por que a tradição tomista é superior?', { nivel: 4 }),
+    mac.O('macintyre-animais', 'Animais Racionais Dependentes', '1999', 'Por que aqui: a autocorreção biológica. Observe: virtudes da dependência reconhecida. Pergunta: o que a vulnerabilidade ensina sobre a ética?', { nivel: 3 }),
+    mac.O('macintyre-stein', 'Edith Stein: um Prólogo Filosófico', '2006', 'Por que aqui: biografia filosófica de Stein até 1922 (ligação com a aula 10-5). Observe: Husserl e Reinach. Pergunta: como se dá uma conversão intelectual?', { ...PT, nivel: 3 }),
+    mac.O('macintyre-ensaios', 'Ensaios reunidos (As Tarefas da Filosofia; Ética e Política)', '2006', 'Por que aqui: artigos que completam a obra. Observe: crises epistemológicas e narrativa. Pergunta: como a narrativa resolve uma crise?', { ...PT, nivel: 4 }),
+    mac.O('macintyre-deus-universidades', 'Deus, Filosofia, Universidades', '2009', 'Por que aqui: história da tradição filosófica católica. Observe: a universidade fragmentada. Pergunta: qual o lugar da filosofia na universidade católica?', { ...PT, nivel: 3 }),
+    mac.O('macintyre-conflito', 'A Ética no Conflito da Modernidade', '2016', 'Por que aqui: a última síntese. Observe: desejo, raciocínio prático e narrativa. Pergunta: o que mudou desde Depois da Virtude?', { ...PT, nivel: 4 }),
+  ] },
+];
