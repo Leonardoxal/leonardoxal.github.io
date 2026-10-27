@@ -102,7 +102,7 @@ export function livro({ estado }, id) {
         <button class="btn primario" type="submit">Salvar leitura</button>
       </form>
       ${barra(pctLivro(estado, id), 'Progresso da leitura')}<p class="meta">${pctLivro(estado, id)}% · início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
-      <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro de leitura</button><button class="btn" data-acao="nota-livro">Nova nota deste livro</button></div>
+      <div class="acoes-aula"><a class="btn primario" href="#ler-${id}">Ler o PDF no app</a><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro de leitura</button><button class="btn" data-acao="nota-livro">Nova nota deste livro</button></div>
     </section>
   </div>
   <section><h2>Anotações deste livro (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong>${n.pagina ? ` <span class="meta">${esc(n.pagina)}</span>` : ''}<p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`;

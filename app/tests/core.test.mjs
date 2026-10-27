@@ -141,6 +141,18 @@ test('sequência do Mapa: livros antes das aulas, salvo introdutórias; toda aul
   assert.deepEqual([...vistas].sort(), todasAulas.map((a) => a.id).sort());
 });
 
+test('leitor de PDF: página, conclusão e sessão de tempo', () => {
+  const l1 = C.registrarPagina(undefined, 12.4, 300, T0);
+  assert.deepEqual(l1, { estado: 'lendo', paginas: 300, paginaAtual: 12, inicio: T0 });
+  assert.equal(C.registrarPagina(l1, 999, 300, T0 + 5).paginaAtual, 300);
+  assert.equal(C.registrarPagina(l1, 0, 300).paginaAtual, 1);
+  const fim = C.concluirLeitura(l1, T0 + 9);
+  assert.deepEqual([fim.estado, fim.paginaAtual, fim.fim], ['concluido', 300, T0 + 9]);
+  assert.equal(C.registrarPagina(fim, 5, 300).estado, 'concluido', 'reabrir não desfaz a conclusão');
+  assert.equal(C.sessaoLeitura('x', 'X', T0, 59000, () => 's1'), null);
+  assert.deepEqual(C.sessaoLeitura('x', 'X', T0, 25 * 60000, () => 's1'), { id: 's1', inicio: T0, minutos: 25, alvo: { tipo: 'livro', id: 'x' }, obs: 'Leitura: X' });
+});
+
 test('integridade: referências entre dados existem', () => {
   const modIds = new Set(MODULOS.map((m) => m.id));
   const aulaIds = new Set(todasAulas.map((a) => a.id));

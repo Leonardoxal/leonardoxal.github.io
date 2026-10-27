@@ -116,7 +116,23 @@ export function pctLivro(estado, id) {
   return l.paginas > 0 ? Math.min(100, Math.round(((l.paginaAtual || 0) / l.paginas) * 100)) : 0;
 }
 
-const aulasDoDegrau = (degrau, modulos) => modulos.filter((m) => degrau.modulos.includes(m.id)).flatMap((m) => m.aulas);
+// ---------- Leitor de PDF (o arquivo nunca é guardado; só a posição, o total e o tempo) ----------
+
+/** Registra a página aberta no leitor. Marca o livro como "lendo", sem desfazer um "concluído". */
+export function registrarPagina(livro = {}, pagina, total, agora = Date.now()) {
+  const paginaAtual = Math.max(1, Math.min(total, Math.round(pagina) || 1));
+  return { ...livro, estado: livro.estado === 'concluido' ? 'concluido' : 'lendo', paginas: total, paginaAtual, inicio: livro.inicio || agora };
+}
+
+export const concluirLeitura = (livro = {}, agora = Date.now()) => ({ ...livro, estado: 'concluido', paginaAtual: livro.paginas || livro.paginaAtual, fim: livro.fim || agora });
+
+/** Sessão de estudo a partir do tempo de leitura; null abaixo de 1 minuto. */
+export function sessaoLeitura(id, titulo, inicio, ms, novoIdFn) {
+  const minutos = Math.min(720, Math.floor(ms / 60000));
+  return minutos >= 1 ? { id: novoIdFn('s'), inicio, minutos, alvo: { tipo: 'livro', id }, obs: `Leitura: ${titulo}` } : null;
+}
+
+const aulasDoDegrau =(degrau, modulos) => modulos.filter((m) => degrau.modulos.includes(m.id)).flatMap((m) => m.aulas);
 
 /**
  * Progresso de um degrau: média entre aulas disponíveis concluídas, leituras obrigatórias concluídas

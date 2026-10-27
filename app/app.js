@@ -17,6 +17,7 @@ import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { genealogia } from './views/genealogia.js';
 import { entrar } from './views/entrar.js';
+import { leitor } from './views/leitor.js';
 import { nuvemConfigurada, usuarioNuvem } from './nuvem.js';
 import { MOVIMENTOS } from './data/genealogia.js';
 
@@ -44,9 +45,9 @@ busca.ligar = (root, ctx) => {
 
 // Rotas: token exato ou prefixo seguido de id.
 const ROTAS = { painel, mapa, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca };
-const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia };
+const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };

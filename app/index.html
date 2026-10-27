@@ -270,6 +270,27 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--v
 .gb-meta { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--vinho); pointer-events: none; }
 .gb-meta span { position: absolute; right: 0; top: -16px; font-size: .7rem; color: var(--vinho); }
 
+/* Leitor de PDF */
+.leitor-barra { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 12px; }
+.leitor-modos { display: flex; gap: 4px 14px; border: none; padding: 0; margin: 0; }
+.leitor-fim { background: var(--ok-suave); border-radius: var(--raio); padding: 10px 14px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-family: var(--f-ui); }
+.leitor-fim p { margin: 0; }
+.leitor-area { outline: none; }
+.leitor-area.continuo { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.leitor-area .pg { width: 100%; background: #fff; box-shadow: 0 1px 4px rgb(0 0 0 / .18); }
+.leitor-area .pg canvas { display: block; width: 100% !important; height: auto !important; }
+.leitor-area.folhear { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; touch-action: pan-y; }
+.folhas { display: flex; justify-content: center; gap: 0; perspective: 1600px; min-height: 200px; }
+.folhas canvas { background: #fff; box-shadow: 0 2px 10px rgb(0 0 0 / .22); max-width: 100%; }
+.folhas canvas:first-child:not(:last-child) { border-right: 1px solid rgb(0 0 0 / .12); }
+.virar { font-size: 1.6rem; padding: 6px 12px; }
+.virar-prox canvas:last-child { transform-origin: left center; animation: virar-prox .45s ease-out; }
+.virar-ant canvas:first-child { transform-origin: right center; animation: virar-ant .45s ease-out; }
+@keyframes virar-prox { from { transform: rotateY(-75deg); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes virar-ant { from { transform: rotateY(75deg); opacity: .4; } to { transform: none; opacity: 1; } }
+@media (max-width: 560px) { .leitor-area.folhear { grid-template-columns: minmax(0, 1fr); } .leitor-area.folhear .virar { display: none; } }
+@media (prefers-reduced-motion: reduce) { .virar-prox canvas, .virar-ant canvas { animation: none; } }
+
 /* Genealogia das ideias */
 :root { --a-filosofia: #2f5d8a; --a-teologia: #7a2633; --a-ciencia: #2f6b4f; --a-politica: #8a6a1f; --a-mistica: #5e4a86; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --a-filosofia: #7fa6d6; --a-teologia: #d98594; --a-ciencia: #82c29f; --a-politica: #d6b363; --a-mistica: #b4a0de; } }
