@@ -3,7 +3,7 @@ import { MODULOS, todasAulas } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { livroPorId } from '../data/livros.js';
 import { planejarSemana, minutosSemana, inicioSemana, minutosTotal, revisoesPendentes, aulaConcluida, melhorNota, duracaoMin, progressoModulo, notaMinima } from '../core.js';
-import { nuvemConfigurada, usuarioNuvem, entrar } from '../nuvem.js';
+import { nuvemConfigurada } from '../nuvem.js';
 import { esc, fmtData, fmtMin, link, barra, DIAS_SEMANA, novoId, toast, copiar, salvarArquivo, hojeISO } from '../ui.js';
 
 const MIN_AULA_PADRAO = 75; // estimativa para aulas ainda sem conteúdo
@@ -32,19 +32,11 @@ export function entradaPlano(estado) {
   };
 }
 
-// Conta para sincronizar aparelhos: só aparece fora do claude.ai, com o Supabase configurado.
+// Conta: fora do claude.ai, com o Supabase configurado, o app só abre logado (ver views/entrar.js).
 const contaVisivel = () => nuvemConfigurada() && !window.claude?.use;
-let contaConectada = false;
-const secaoConta = () => (!contaVisivel() ? '' : `<section id="conta"><h2>Conta e sincronização</h2>
-  ${contaConectada
-    ? '<p>Conectado. Seu progresso é salvo na conta e aparece em qualquer aparelho em que você entrar.</p><button class="btn" data-acao="sair">Sair da conta</button>'
-    : `<p>Entre para sincronizar celular, PC e outros aparelhos. Sem conta, o progresso fica só neste aparelho.</p>
-    <form id="form-conta" class="form-sessao">
-      <label class="campo"><span>E-mail</span><input id="c-email" name="email" type="email" autocomplete="email" required></label>
-      <label class="campo"><span>Senha (mínimo 8 caracteres)</span><input id="c-senha" name="senha" type="password" minlength="8" autocomplete="current-password" required></label>
-      <button class="btn primario" type="submit" data-modo="entrar">Entrar</button>
-      <button class="btn" type="submit" data-modo="criar">Criar conta</button>
-    </form><p class="meta" id="conta-msg" aria-live="polite"></p>`}</section>`);
+const secaoConta = () => (!contaVisivel() ? '' : `<section id="conta"><h2>Conta</h2>
+  <p>Conectado. Seu progresso é salvo na conta e aparece em qualquer aparelho em que você entrar.</p>
+  <button class="btn" data-acao="sair">Sair da conta</button></section>`);
 
 const ICONE = { revisao: 'Revisão', retomar: 'Retomar', aula: 'Aula', leitura: 'Leitura' };
 const hrefTarefa = (t) => (t.tipo === 'revisao' ? 'revisar' : t.tipo === 'leitura' ? `livro-${t.id}` : `aula-${t.id}`);
@@ -108,31 +100,7 @@ export function plano({ estado }) {
 }
 
 plano.ligar = (root, ctx) => {
-  if (contaVisivel()) {
-    usuarioNuvem().then((u) => { if (Boolean(u) !== contaConectada) { contaConectada = Boolean(u); ctx.render({ manterRolagem: true }); } }).catch(() => {});
-    root.querySelector('#form-conta')?.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      const fd = new FormData(ev.target);
-      const msg = root.querySelector('#conta-msg');
-      msg.textContent = 'Aguarde…';
-      try {
-        const r = await entrar(String(fd.get('email')).trim(), String(fd.get('senha')), ev.submitter?.dataset.modo === 'criar');
-        msg.textContent = r.msg;
-        if (!r.ok) return;
-        contaConectada = true;
-        await ctx.store.conectar();
-        ctx.render({ manterRolagem: true });
-        toast('Conta conectada.');
-      } catch {
-        msg.textContent = 'Sem conexão com o servidor. Tente de novo.';
-      }
-    });
-    root.querySelector('[data-acao="sair"]')?.addEventListener('click', async () => {
-      await ctx.store.desconectar();
-      contaConectada = false;
-      ctx.render({ manterRolagem: true });
-    });
-  }
+  root.querySelector('[data-acao="sair"]')?.addEventListener('click', () => ctx.sair());
   root.querySelector('#form-plano').addEventListener('submit', (ev) => {
     ev.preventDefault();
     const fd = new FormData(ev.target);

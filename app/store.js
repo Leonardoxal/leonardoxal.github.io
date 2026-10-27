@@ -84,7 +84,7 @@ export function criarStore(aoMudar, aoStatus) {
     if (!nuvemConfigurada()) return null;
     const c = await clienteNuvem();
     const u = await usuarioNuvem();
-    if (!u) { setStatus('local', 'Salvando só neste aparelho. Entre na sua conta (Plano) para sincronizar.'); return null; }
+    if (!u) return null;
     return refsNuvem(c, u.id, Object.keys(PARTES));
   }
 
@@ -114,14 +114,21 @@ export function criarStore(aoMudar, aoStatus) {
     get estado() { return estado; },
     get status() { return status; },
     conectar,
-    /** Sai da conta Supabase depois de terminar a gravação pendente; a cópia local continua. */
+    /**
+     * Sai da conta Supabase. Antes grava o que estiver pendente; se a gravação falhar, não sai,
+     * para não perder dados. Depois apaga a cópia local, para o próximo usuário do aparelho começar limpo.
+     */
     async desconectar() {
       clearTimeout(timer);
       if (refs) fila = fila.then(gravarRemoto);
       await fila;
+      if (status.modo === 'erro') throw new Error('Não foi possível salvar o progresso na conta. Verifique a internet antes de sair.');
       await sair();
       refs = null;
-      setStatus('local', 'Você saiu da conta. Salvando só neste aparelho.');
+      Object.keys(ultimoSalvo).forEach((k) => delete ultimoSalvo[k]);
+      try { localStorage.removeItem(CHAVE_LOCAL); } catch { /* sem armazenamento local: nada a apagar */ }
+      estado = estadoInicial();
+      setStatus('local', 'Você saiu da conta.');
     },
     /** Aplica uma atualização imutável: fn recebe o estado atual e devolve o novo. */
     set(fn) {

@@ -16,6 +16,8 @@ import { avaliacoes, avaliacao, revisar, cartoes } from './views/avaliacoes.js';
 import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { genealogia } from './views/genealogia.js';
+import { entrar } from './views/entrar.js';
+import { nuvemConfigurada, usuarioNuvem } from './nuvem.js';
 import { MOVIMENTOS } from './data/genealogia.js';
 
 const strip = (html) => String(html || '').replace(/<[^>]+>/g, ' ');
@@ -55,6 +57,10 @@ function resolver(token) {
 const conteudo = document.getElementById('conteudo');
 const statusEl = document.getElementById('status');
 let renderPendente = true;
+// Fora do claude.ai, com o Supabase configurado, o app exige login. A sessão fica guardada no aparelho,
+// então quem já entrou abre direto, mesmo sem internet.
+const exigeLogin = nuvemConfigurada() && !window.claude?.use;
+let precisaLogin = exigeLogin && !(await usuarioNuvem().catch(() => null));
 
 const mostrarStatus = (status) => { statusEl.textContent = status.msg; statusEl.className = `status status-${status.modo}`; };
 const store = criarStore(() => { if (renderPendente) render({ manterRolagem: true }); }, mostrarStatus);
@@ -70,11 +76,28 @@ const ctx = {
     renderPendente = true;
   },
   render: (opts) => render(opts),
+  /** Depois do login: carrega o progresso da conta e abre o app. */
+  async aoEntrar() { precisaLogin = false; await store.conectar(); render(); },
+  /** Sai da conta e volta à tela de entrada. */
+  async sair() {
+    try { await store.desconectar(); } catch (e) { toast(e.message); return; }
+    precisaLogin = true;
+    render();
+  },
   nav(token) { location.hash = token; },
   novaNota(vinculo, titulo) { const id = criarNota(ctx.set, vinculo, titulo); ctx.nav(`nota-${id}`); },
 };
 
 function render(opts = {}) {
+  document.querySelector('.nav').hidden = precisaLogin;
+  if (precisaLogin) {
+    const tela = document.createElement('div');
+    tela.className = 'vista';
+    tela.innerHTML = entrar();
+    conteudo.replaceChildren(tela);
+    entrar.ligar(tela, ctx);
+    return;
+  }
   const token = location.hash.slice(1) || 'painel';
   const { view, id, secao } = resolver(token);
   const y = window.scrollY;
@@ -154,4 +177,4 @@ document.getElementById('crono-livre').addEventListener('click', () => iniciarCr
 
 mostrarStatus(store.status);
 render();
-store.conectar();
+if (!precisaLogin) store.conectar();
