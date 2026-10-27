@@ -10,7 +10,7 @@ O site é estático (pasta `app/`) e fica no GitHub Pages, de graça. O login e 
    - **Project URL** (ex.: `https://abcdefgh.supabase.co`);
    - a chave **anon public**.
 4. Cole os dois valores em `app/config.js`. A chave *anon* é pública por definição; quem protege os dados são as regras do `supabase.sql`. Nunca use a chave **service_role** no site.
-5. Em **Authentication → URL Configuration**, defina **Site URL** como o endereço do GitHub Pages (passo 2), por exemplo `https://SEU-USUARIO.github.io/academia-da-verdade/`.
+5. Em **Authentication → URL Configuration**, defina **Site URL** como o endereço do GitHub Pages (passo 2), neste projeto `https://leonardoxal.github.io/`.
 6. Opcional, para uso próprio: em **Authentication → Providers → Email**, desligue **Confirm email** para entrar sem precisar confirmar o e-mail. Deixe ligado se outras pessoas forem usar.
 
 Observação do plano gratuito: um projeto sem uso por uma semana é pausado. Os dados continuam lá; basta reativá-lo no painel do Supabase.
@@ -23,10 +23,10 @@ Observação do plano gratuito: um projeto sem uso por uma semana é pausado. Os
    gh auth login
    ```
 
-2. Na pasta do projeto, crie o repositório e envie o código:
+2. Na pasta do projeto, crie o repositório e envie o código. O nome `SEU-USUARIO.github.io` faz o site ficar na raiz do endereço:
 
    ```bash
-   gh repo create academia-da-verdade --public --source . --push
+   gh repo create SEU-USUARIO.github.io --public --source . --push
    ```
 
 3. No GitHub, abra **Settings → Pages** e escolha **Source: GitHub Actions**. O workflow `.github/workflows/pages.yml` roda os testes e publica a pasta `app/` a cada envio.
