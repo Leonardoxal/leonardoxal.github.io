@@ -276,6 +276,10 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--v
 .leitor-fim { background: var(--ok-suave); border-radius: var(--raio); padding: 10px 14px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-family: var(--f-ui); }
 .leitor-fim p { margin: 0; }
 .leitor-area { outline: none; }
+.leitor-tela-barra { display: none; }
+.leitor-tela.cheia, .leitor-tela:fullscreen { position: fixed; inset: 0; z-index: 30; overflow: auto; background: var(--papel); padding: 8px max(8px, env(safe-area-inset-right, 0px)) 16px max(8px, env(safe-area-inset-left, 0px)); }
+.leitor-tela.cheia .leitor-tela-barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 1; padding: max(4px, env(safe-area-inset-top, 0px)) 4px 8px; background: var(--papel); }
+body.sem-rolagem { overflow: hidden; }
 .leitor-area.continuo { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .leitor-area .pg { width: 100%; background: #fff; box-shadow: 0 1px 4px rgb(0 0 0 / .18); }
 .leitor-area .pg canvas { display: block; width: 100% !important; height: auto !important; }

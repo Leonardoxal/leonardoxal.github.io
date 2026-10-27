@@ -36,12 +36,16 @@ export function leitor({ estado }, id) {
     <fieldset class="leitor-modos"><legend class="sr">Modo de leitura</legend>
       ${Object.entries(MODOS).map(([v, r]) => `<label class="opcao"><input type="radio" name="modo" value="${v}" ${v === modo ? 'checked' : ''}> <span>${r}</span></label>`).join('')}</fieldset>
     <span class="meta" id="leitor-pos" aria-live="polite"></span>
+    <button class="btn" type="button" data-acao="tela-cheia">Tela cheia</button>
   </div>
   <div class="leitor-fim" id="leitor-fim" hidden>
     ${st.estado === 'concluido' ? '<p class="ok-msg">Este livro já está marcado como lido.</p>'
       : '<p>Você chegou à última página.</p><button class="btn primario" data-acao="concluir-leitura">Marcar como lido</button>'}
   </div>
-  <div id="leitor-area" class="leitor-area" tabindex="-1"><p class="meta">Nenhum PDF aberto.</p></div>`;
+  <div id="leitor-tela" class="leitor-tela">
+    <div class="leitor-tela-barra"><span id="leitor-pos-cheia" class="meta"></span><button class="btn pequeno" type="button" data-acao="tela-cheia">Sair da tela cheia</button></div>
+    <div id="leitor-area" class="leitor-area" tabindex="-1"><p class="meta">Nenhum PDF aberto.</p></div>
+  </div>`;
 }
 
 leitor.ligar = (root, ctx, id) => {
@@ -67,6 +71,7 @@ leitor.ligar = (root, ctx, id) => {
   function mudarPagina(n) {
     pagina = Math.max(1, Math.min(total, n));
     pos.textContent = `Página ${pagina} de ${total}`;
+    root.querySelector('#leitor-pos-cheia').textContent = pos.textContent;
     fim.hidden = pagina < total;
     clearTimeout(gravar);
     gravar = setTimeout(() => ctx.set((e) => ({ ...e, atual: { ...e.atual, livro: id }, livros: { ...e.livros, [id]: registrarPagina(e.livros[id], pagina, total) } }), { render: false }), 800);
@@ -110,7 +115,7 @@ leitor.ligar = (root, ctx, id) => {
   const duas = () => area.clientWidth >= 820;
   async function mostrarFolhas(direcao = 0) {
     const n = duas() ? [pagina, pagina + 1].filter((x) => x <= total) : [pagina];
-    const altura = window.innerHeight - 180;
+    const altura = window.innerHeight - (tela.classList.contains('cheia') ? 70 : 180);
     const largura = duas() ? (area.clientWidth - 24) / 2 : area.clientWidth;
     const folhas = document.createElement('div');
     folhas.className = `folhas${direcao > 0 ? ' virar-prox' : direcao < 0 ? ' virar-ant' : ''}`;
@@ -168,7 +173,37 @@ leitor.ligar = (root, ctx, id) => {
     const dx = ev.clientX - toqueX; toqueX = null;
     if (Math.abs(dx) > 50) virar(dx < 0 ? 1 : -1);
   });
+  // Tela cheia: usa a API do navegador quando existe; no iPhone (sem a API) o leitor cobre a página.
+  const tela = root.querySelector('#leitor-tela');
+  let redesenho = null, larguraAnterior = window.innerWidth;
+  const redesenhar = () => { clearTimeout(redesenho); redesenho = setTimeout(() => { if (doc) abrirModo(); }, 250); };
+  // só a largura importa: no celular a barra de endereço muda a altura ao rolar
+  const aoRedimensionar = () => { if (window.innerWidth !== larguraAnterior) { larguraAnterior = window.innerWidth; redesenhar(); } };
+  function marcarCheia(on) {
+    if (tela.classList.contains('cheia') === on) return;
+    tela.classList.toggle('cheia', on);
+    document.body.classList.toggle('sem-rolagem', on);
+    redesenhar();
+  }
+  function alternarCheia() {
+    if (tela.classList.contains('cheia')) {
+      marcarCheia(false);
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      return;
+    }
+    marcarCheia(true);
+    // sem esperar: se a API não existir (iPhone) ou for recusada, a versão em CSS já está ligada
+    tela.requestFullscreen?.().catch(() => {});
+  }
+  // Esc ou o botão do navegador encerram a tela cheia nativa: sai da versão em CSS junto
+  const aoMudarCheia = () => { if (!document.fullscreenElement) marcarCheia(false); };
+  const aoTecla = (ev) => { if (ev.key === 'Escape' && tela.classList.contains('cheia') && !document.fullscreenElement) marcarCheia(false); };
+  document.addEventListener('fullscreenchange', aoMudarCheia);
+  document.addEventListener('keydown', aoTecla);
+  window.addEventListener('resize', aoRedimensionar);
+
   root.addEventListener('click', (ev) => {
+    if (ev.target.closest('[data-acao="tela-cheia"]')) { alternarCheia(); return; }
     if (!ev.target.closest('[data-acao="concluir-leitura"]')) return;
     clearTimeout(gravar);
     ctx.set((e) => ({ ...e, atual: { ...e.atual, livro: e.atual.livro === id ? null : e.atual.livro }, livros: { ...e.livros, [id]: concluirLeitura(registrarPagina(e.livros[id], total, total)) } }), { render: false });
@@ -183,6 +218,12 @@ leitor.ligar = (root, ctx, id) => {
     desligar();
     doc?.destroy();
     document.removeEventListener('visibilitychange', aoVisibilidade);
+    document.removeEventListener('fullscreenchange', aoMudarCheia);
+    document.removeEventListener('keydown', aoTecla);
+    window.removeEventListener('resize', aoRedimensionar);
+    clearTimeout(redesenho);
+    document.body.classList.remove('sem-rolagem');
+    if (document.fullscreenElement === tela) document.exitFullscreen().catch(() => {});
     window.removeEventListener('hashchange', aoSair);
     window.removeEventListener('pagehide', salvarTempo);
     if (limparAnterior === encerrar) limparAnterior = null;
