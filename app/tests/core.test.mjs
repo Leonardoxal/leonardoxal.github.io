@@ -10,6 +10,7 @@ import { AUTORES, autorPorId } from '../data/autores.js';
 import { AULAS_COMPLETAS } from '../data/aulas/index.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.js';
+import { POSICOES, ESPECTRO, espectroDe } from '../data/espectro.js';
 
 const DIA = 86400000;
 const T0 = new Date(2026, 9, 26, 10).getTime(); // segunda-feira
@@ -151,6 +152,18 @@ test('leitor de PDF: página, conclusão e sessão de tempo', () => {
   assert.equal(C.registrarPagina(fim, 5, 300).estado, 'concluido', 'reabrir não desfaz a conclusão');
   assert.equal(C.sessaoLeitura('x', 'X', T0, 59000, () => 's1'), null);
   assert.deepEqual(C.sessaoLeitura('x', 'X', T0, 25 * 60000, () => 's1'), { id: 's1', inicio: T0, minutos: 25, alvo: { tipo: 'livro', id: 'x' }, obs: 'Leitura: X' });
+});
+
+test('espectro político: só movimentos existentes, posições válidas e nada antes de 1789 classificado', () => {
+  for (const [id, e] of Object.entries(ESPECTRO)) {
+    assert.ok(movimentoPorId[id], `espectro: movimento ${id} não existe`);
+    assert.ok(POSICOES[e.pos] && e.nota, `espectro: ${id}`);
+  }
+  for (const m of MOVIMENTOS) {
+    const { pos } = espectroDe(m);
+    assert.ok(POSICOES[pos], m.id);
+    if (m.fim < 1789) assert.equal(pos, 'anterior', `${m.id} é anterior à régua esquerda–direita`);
+  }
 });
 
 test('integridade: referências entre dados existem', () => {

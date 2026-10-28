@@ -300,6 +300,11 @@ body.sem-rolagem { overflow: hidden; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --a-filosofia: #7fa6d6; --a-teologia: #d98594; --a-ciencia: #82c29f; --a-politica: #d6b363; --a-mistica: #b4a0de; } }
 :root[data-theme="dark"] { --a-filosofia: #7fa6d6; --a-teologia: #d98594; --a-ciencia: #82c29f; --a-politica: #d6b363; --a-mistica: #b4a0de; }
 .gen-filtros .dias { flex: 1 1 100%; }
+/* espectro político: vermelho à esquerda e azul à direita, a convenção mais comum; as demais posições ficam neutras */
+.chip.esp-esquerda, .chip.esp-centro-esquerda { background: var(--erro-suave); color: var(--erro); }
+.chip.esp-direita, .chip.esp-centro-direita { background: var(--azul-suave); color: var(--azul); }
+.chip.esp-centro { background: var(--alerta-suave); color: var(--alerta); }
+.chip.esp-centro-esquerda, .chip.esp-centro-direita { border: 1px dashed currentColor; }
 .amostra { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-top: 5px; }
 .amostra.area-filosofia { background: var(--a-filosofia); } .amostra.area-teologia { background: var(--a-teologia); } .amostra.area-ciencia { background: var(--a-ciencia); } .amostra.area-politica { background: var(--a-politica); } .amostra.area-mistica { background: var(--a-mistica); }
 .gen-wrap { overflow-x: auto; border: 1px solid var(--linha); border-radius: var(--raio); background: var(--superficie); margin: 8px 0; }

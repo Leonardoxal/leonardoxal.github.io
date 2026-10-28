@@ -2,6 +2,7 @@
 // quem conviveu com quem e o que acontecia no mundo.
 import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.js';
 import { autorPorId } from '../data/autores.js';
+import { POSICOES, espectroDe } from '../data/espectro.js';
 import { linhagem, contemporaneos, escalaTempo, fmtAno } from '../core.js';
 import { esc, link, etiqueta } from '../ui.js';
 
@@ -17,6 +18,7 @@ const ALTURA_LINHA = 30;
 let sel = 'escolastica';
 let periodo = 'tudo';
 let areas = new Set(Object.keys(AREAS));
+let espectros = new Set(Object.keys(POSICOES));
 
 export const selecionarMovimento = (id) => { if (movimentoPorId[id]) sel = id; };
 
@@ -80,6 +82,7 @@ function detalhe(m) {
     <span class="num">${esc(AREAS[m.area])} · ${esc(m.regiao)}</span>
     <h2>${esc(m.nome)}</h2>
     <p class="gen-datas">c. ${esc(fmtAno(m.inicio))} – ${esc(fmtAno(m.fim))}</p>
+    ${(() => { const e = espectroDe(m); return `<p><strong>Espectro político:</strong> <span class="chip esp-${e.pos}">${esc(POSICOES[e.pos])}</span> ${etiqueta('interpretacao')}</p>${e.nota ? `<p class="meta">${esc(e.nota)}</p>` : ''}`; })()}
     <p><strong>Nomes:</strong> ${esc(m.pessoas)}${m.autores.length ? ` · no curso: ${m.autores.map((a) => link('autores', esc(autorPorId[a]?.nome || a))).join(', ')}` : ''}</p>
     <h3>Como começou</h3><p>${esc(m.origem)}</p>
     <h3>De onde bebeu</h3>
@@ -100,7 +103,7 @@ export function genealogia(_ctx, id) {
   ultimoId = id || null;
   const m = movimentoPorId[sel];
   const escala = escalaTempo(PERIODOS[periodo].trechos);
-  const visiveis = MOVIMENTOS.filter((x) => areas.has(x.area) && x.fim >= escala.ini && x.inicio <= escala.fim).sort((a, b) => a.inicio - b.inicio || a.fim - b.fim);
+  const visiveis = MOVIMENTOS.filter((x) => areas.has(x.area) && espectros.has(espectroDe(x).pos) && x.fim >= escala.ini && x.inicio <= escala.fim).sort((a, b) => a.inicio - b.inicio || a.fim - b.fim);
   const destaque = {
     origens: new Set(linhagem(MOVIMENTOS, sel, 'origens').keys()),
     herdeiros: new Set(linhagem(MOVIMENTOS, sel, 'herdeiros').keys()),
@@ -113,13 +116,15 @@ export function genealogia(_ctx, id) {
     <label class="campo"><span>Período</span><select id="g-periodo">${Object.entries(PERIODOS).map(([k, p]) => `<option value="${k}" ${k === periodo ? 'selected' : ''}>${p.rotulo}</option>`).join('')}</select></label>
     <label class="campo"><span>Ir para</span><select id="g-ir">${MOVIMENTOS.slice().sort((a, b) => a.inicio - b.inicio).map((x) => `<option value="${x.id}" ${x.id === sel ? 'selected' : ''}>${esc(fmtAno(x.inicio))} — ${esc(x.nome)}</option>`).join('')}</select></label>
     <fieldset class="dias"><legend>Áreas</legend>${Object.entries(AREAS).map(([k, r]) => `<label class="opcao"><input type="checkbox" value="${k}" data-area ${areas.has(k) ? 'checked' : ''}> <span class="amostra area-${k}" aria-hidden="true"></span><span>${r}</span></label>`).join('')}</fieldset>
+    <fieldset class="dias"><legend>Espectro político ${etiqueta('interpretacao')}</legend>${Object.entries(POSICOES).map(([k, r]) => `<label class="opcao"><input type="checkbox" value="${k}" data-espectro ${espectros.has(k) ? 'checked' : ''}> <span class="chip esp-${k}">${r}</span></label>`).join('')}</fieldset>
   </form>
+  <p class="meta">A régua esquerda–direita surgiu na Revolução Francesa (1789); correntes anteriores não são classificadas, e muitas escolas filosóficas não têm posição política própria.</p>
   ${periodo === 'tudo' ? '<p class="meta">Escala não linear: cada época tem largura própria, para que os séculos recentes, mais densos, fiquem legíveis.</p>' : ''}
   ${grafico(visiveis, escala, destaque)}
   <p class="meta" id="g-evento" aria-live="polite">Os losangos no topo são acontecimentos históricos; toque para ler.</p>
   ${detalhe(m)}
-  <section><h2>Lista cronológica</h2><div class="tabela-wrap"><table><thead><tr><th>Início</th><th>Fim</th><th>Movimento</th><th>Área</th><th>Bebeu de</th></tr></thead><tbody>
-    ${MOVIMENTOS.slice().sort((a, b) => a.inicio - b.inicio).map((x) => `<tr class="${x.id === sel ? 'sel' : ''}"><td class="num-tab">${esc(fmtAno(x.inicio))}</td><td class="num-tab">${esc(fmtAno(x.fim))}</td><td><button class="link-mov" data-mov="${x.id}">${esc(x.nome)}</button></td><td>${esc(AREAS[x.area])}</td><td>${x.bebeuDe.map((b) => esc(movimentoPorId[b.id].nome)).join('; ') || '—'}</td></tr>`).join('')}
+  <section><h2>Lista cronológica</h2><div class="tabela-wrap"><table><thead><tr><th>Início</th><th>Fim</th><th>Movimento</th><th>Área</th><th>Espectro</th><th>Bebeu de</th></tr></thead><tbody>
+    ${MOVIMENTOS.slice().sort((a, b) => a.inicio - b.inicio).map((x) => `<tr class="${x.id === sel ? 'sel' : ''}"><td class="num-tab">${esc(fmtAno(x.inicio))}</td><td class="num-tab">${esc(fmtAno(x.fim))}</td><td><button class="link-mov" data-mov="${x.id}">${esc(x.nome)}</button></td><td>${esc(AREAS[x.area])}</td><td>${esc(POSICOES[espectroDe(x).pos])}</td><td>${x.bebeuDe.map((b) => esc(movimentoPorId[b.id].nome)).join('; ') || '—'}</td></tr>`).join('')}
   </tbody></table></div></section>`;
 }
 
@@ -134,6 +139,12 @@ genealogia.ligar = (root, ctx) => {
     if (cb.checked) novo.add(cb.value); else novo.delete(cb.value);
     if (!novo.size) { cb.checked = true; return; }
     areas = novo; rerender();
+  }));
+  root.querySelectorAll('[data-espectro]').forEach((cb) => cb.addEventListener('change', () => {
+    const novo = new Set(espectros);
+    if (cb.checked) novo.add(cb.value); else novo.delete(cb.value);
+    if (!novo.size) { cb.checked = true; return; }
+    espectros = novo; rerender();
   }));
   root.querySelector('#gen-filtros').addEventListener('submit', (e) => e.preventDefault());
   root.addEventListener('click', (ev) => {
