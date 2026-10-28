@@ -10,7 +10,7 @@ import { AUTORES, autorPorId } from '../data/autores.js';
 import { AULAS_COMPLETAS } from '../data/aulas/index.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.js';
-import { POSICOES, ESPECTRO, espectroDe } from '../data/espectro.js';
+import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
 
 const DIA = 86400000;
 const T0 = new Date(2026, 9, 26, 10).getTime(); // segunda-feira
@@ -157,8 +157,13 @@ test('leitor de PDF: página, conclusão e sessão de tempo', () => {
 test('espectro político: só movimentos existentes, posições válidas e nada antes de 1789 classificado', () => {
   for (const [id, e] of Object.entries(ESPECTRO)) {
     assert.ok(movimentoPorId[id], `espectro: movimento ${id} não existe`);
-    assert.ok(POSICOES[e.pos] && e.nota, `espectro: ${id}`);
+    assert.ok(e.nota, `espectro: ${id} sem nota`);
+    if (e.eco) for (const [a, b] of [e.eco, e.cos]) assert.ok(a >= 0 && a <= b && b <= 100, `espectro: faixa inválida em ${id}`);
+    else assert.equal(e.pos, 'sem-posicao', id);
   }
+  assert.equal(quadrante({ eco: [0, 8], cos: [15, 45] }), 'esquerda-progressista');
+  assert.equal(quadrante({ eco: [75, 95], cos: [88, 100] }), 'direita-conservadora');
+  assert.equal(quadrante({ eco: [5, 60], cos: [5, 60] }), 'variado');
   for (const m of MOVIMENTOS) {
     const { pos } = espectroDe(m);
     assert.ok(POSICOES[pos], m.id);

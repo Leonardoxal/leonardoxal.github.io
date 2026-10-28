@@ -300,11 +300,24 @@ body.sem-rolagem { overflow: hidden; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --a-filosofia: #7fa6d6; --a-teologia: #d98594; --a-ciencia: #82c29f; --a-politica: #d6b363; --a-mistica: #b4a0de; } }
 :root[data-theme="dark"] { --a-filosofia: #7fa6d6; --a-teologia: #d98594; --a-ciencia: #82c29f; --a-politica: #d6b363; --a-mistica: #b4a0de; }
 .gen-filtros .dias { flex: 1 1 100%; }
-/* espectro político: vermelho à esquerda e azul à direita, a convenção mais comum; as demais posições ficam neutras */
-.chip.esp-esquerda, .chip.esp-centro-esquerda { background: var(--erro-suave); color: var(--erro); }
-.chip.esp-direita, .chip.esp-centro-direita { background: var(--azul-suave); color: var(--azul); }
-.chip.esp-centro { background: var(--alerta-suave); color: var(--alerta); }
-.chip.esp-centro-esquerda, .chip.esp-centro-direita { border: 1px dashed currentColor; }
+/* Espectro político: quadrantes nas cores do modelo usado para partidos (vermelho, azul, verde, roxo) */
+.chip.esp-esquerda-conservadora { background: var(--erro-suave); color: var(--erro); }
+.chip.esp-direita-conservadora { background: var(--azul-suave); color: var(--azul); }
+.chip.esp-esquerda-progressista { background: var(--ok-suave); color: var(--ok); }
+.chip.esp-direita-progressista { background: var(--papel-2); color: var(--a-mistica); border: 1px solid currentColor; }
+.mapa-politico { width: 100%; max-width: 640px; min-width: 340px; height: auto; font-family: var(--f-ui); display: block; }
+.mp-q { opacity: .22; } .mp-q.q-ec { fill: var(--erro); } .mp-q.q-dc { fill: var(--azul); } .mp-q.q-ep { fill: var(--ok); } .mp-q.q-dp { fill: var(--a-mistica); }
+.mp-tq { font-size: 13px; font-weight: 600; fill: var(--tinta-2); }
+.mp-te { font-size: 11px; fill: var(--tinta-2); }
+.mp-eixo { stroke: var(--tinta); stroke-width: 1.5; }
+.mp-mov { cursor: pointer; outline: none; }
+.mp-mov .mp-faixa { fill: var(--tinta); fill-opacity: 0; stroke: none; } /* a faixa só aparece no selecionado ou ao apontar */
+.mp-guia { stroke: var(--tinta-2); stroke-width: 1; opacity: .6; }
+.mp-mov circle { fill: var(--tinta); }
+.mp-mov text { font-size: 11px; fill: var(--tinta); paint-order: stroke; stroke: var(--papel); stroke-width: 3px; }
+.mp-mov:hover .mp-faixa, .mp-mov:focus-visible .mp-faixa { fill-opacity: .15; stroke: var(--tinta-2); }
+.mp-mov.origem circle { fill: var(--azul); } .mp-mov.herdeiro circle { fill: var(--vinho); }
+.mp-mov.sel circle { fill: var(--ouro); r: 7; } .mp-mov.sel .mp-faixa { fill: var(--ouro); fill-opacity: .25; stroke: var(--ouro); stroke-opacity: 1; } .mp-mov.sel text { font-weight: 700; }
 .amostra { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-top: 5px; }
 .amostra.area-filosofia { background: var(--a-filosofia); } .amostra.area-teologia { background: var(--a-teologia); } .amostra.area-ciencia { background: var(--a-ciencia); } .amostra.area-politica { background: var(--a-politica); } .amostra.area-mistica { background: var(--a-mistica); }
 .gen-wrap { overflow-x: auto; border: 1px solid var(--linha); border-radius: var(--raio); background: var(--superficie); margin: 8px 0; }

@@ -82,7 +82,11 @@ function detalhe(m) {
     <span class="num">${esc(AREAS[m.area])} · ${esc(m.regiao)}</span>
     <h2>${esc(m.nome)}</h2>
     <p class="gen-datas">c. ${esc(fmtAno(m.inicio))} – ${esc(fmtAno(m.fim))}</p>
-    ${(() => { const e = espectroDe(m); return `<p><strong>Espectro político:</strong> <span class="chip esp-${e.pos}">${esc(POSICOES[e.pos])}</span> ${etiqueta('interpretacao')}</p>${e.nota ? `<p class="meta">${esc(e.nota)}</p>` : ''}`; })()}
+    ${(() => {
+      const e = espectroDe(m);
+      const faixa = e.eco ? ` <span class="meta">economia ${e.eco[0]}–${e.eco[1]} · costumes ${e.cos[0]}–${e.cos[1]} (0 = estatista / progressista, 100 = liberal / conservador)</span>` : '';
+      return `<p><strong>Espectro político:</strong> <span class="chip esp-${e.pos}">${esc(POSICOES[e.pos])}</span> ${etiqueta('interpretacao')}${faixa}</p>${e.nota ? `<p class="meta">${esc(e.nota)}</p>` : ''}`;
+    })()}
     <p><strong>Nomes:</strong> ${esc(m.pessoas)}${m.autores.length ? ` · no curso: ${m.autores.map((a) => link('autores', esc(autorPorId[a]?.nome || a))).join(', ')}` : ''}</p>
     <h3>Como começou</h3><p>${esc(m.origem)}</p>
     <h3>De onde bebeu</h3>
@@ -95,6 +99,60 @@ function detalhe(m) {
     <h3>Enquanto isso, no mundo</h3>
     ${eventos.length ? `<ul class="gen-mundo">${eventos.map((e) => `<li><span class="lt-data">${esc(fmtAno(e.ano))}</span> ${esc(e.texto)}</li>`).join('')}</ul>` : '<p class="meta">Nenhum evento registrado neste intervalo.</p>'}
   </article>`;
+}
+
+const meioCos = (e) => (e.cos[0] + e.cos[1]) / 2;
+
+/** Mapa político em dois eixos (economia × costumes), no formato dos quadrantes usados para partidos. */
+function mapaPolitico(destaque) {
+  const L = 600, P = 64, A = L - 2 * P; // lado, margem para os rótulos, área útil
+  const x = (eco) => P + (eco / 100) * A;
+  const y = (cos) => P + ((100 - cos) / 100) * A; // conservador em cima
+  const todos = MOVIMENTOS.map((m) => ({ m, e: espectroDe(m) }));
+  const dentro = todos.filter(({ e }) => e.eco && espectros.has(e.pos));
+  const fora = todos.filter(({ e }) => !e.eco);
+  const quad = (cls, x0, y0, titulo, tx, ty, ancora) => `<rect class="mp-q ${cls}" x="${x0}" y="${y0}" width="${A / 2}" height="${A / 2}"/><text class="mp-tq" x="${tx}" y="${ty}" text-anchor="${ancora}">${titulo}</text>`;
+  // Rótulos: à direita do ponto (à esquerda perto da borda), descendo quando colidem com um já colocado.
+  const LETRA = 6.2, ALT = 13;
+  const colocados = [];
+  const posRotulo = (cx, cy, nome) => {
+    const w = nome.length * LETRA, aDireita = cx < L - 170;
+    const x0 = aDireita ? cx + 8 : cx - 8 - w;
+    let ty = cy + 4;
+    while (colocados.some((r) => x0 < r.x1 && x0 + w > r.x0 && Math.abs(ty - r.y) < ALT)) ty += ALT;
+    colocados.push({ x0, x1: x0 + w, y: ty });
+    return { tx: aDireita ? cx + 8 : cx - 8, ty, ancora: aDireita ? 'start' : 'end' };
+  };
+  const ponto = ({ m, e }) => {
+    const [x0, x1] = e.eco.map(x), [y1, y0] = e.cos.map(y);
+    const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+    const estado = m.id === sel ? 'sel' : destaque.origens.has(m.id) ? 'origem' : destaque.herdeiros.has(m.id) ? 'herdeiro' : '';
+    const nome = e.rotulo || m.nome;
+    const { tx, ty, ancora } = posRotulo(cx, cy, nome);
+    return `<g class="mp-mov ${estado}" data-mov="${m.id}" role="button" tabindex="0" aria-label="${esc(nome)}: ${esc(POSICOES[e.pos])}">
+      <rect class="mp-faixa" x="${x0}" y="${y0}" width="${Math.max(4, x1 - x0)}" height="${Math.max(4, y1 - y0)}" rx="4"/>
+      <circle cx="${cx}" cy="${cy}" r="5"/>
+      ${ty !== cy + 4 ? `<line class="mp-guia" x1="${cx}" y1="${cy}" x2="${ancora === 'start' ? tx - 2 : tx + 2}" y2="${ty - 4}"/>` : ''}
+      <text x="${tx}" y="${ty}" text-anchor="${ancora}">${esc(nome)}</text></g>`;
+  };
+  // de cima para baixo, para os rótulos descerem em ordem
+  dentro.sort((a, b) => meioCos(b.e) - meioCos(a.e));
+  return `<section><h2>Mapa político ${etiqueta('interpretacao')}</h2>
+    <p class="meta">Cada movimento ocupa a faixa em que seus autores se distribuem; o ponto marca o centro. Toque para ver o detalhe. Só entram correntes com posição política depois de 1789.</p>
+    <div class="svg-wrap"><svg class="mapa-politico" viewBox="0 0 ${L} ${L}" role="group" aria-label="Mapa político: economia na horizontal, costumes na vertical">
+      ${quad('q-ec', P, P, 'Esquerda conservadora', P + 8, P + 18, 'start')}
+      ${quad('q-dc', P + A / 2, P, 'Direita conservadora', P + A - 8, P + 18, 'end')}
+      ${quad('q-ep', P, P + A / 2, 'Esquerda progressista', P + 8, P + A - 10, 'start')}
+      ${quad('q-dp', P + A / 2, P + A / 2, 'Direita progressista', P + A - 8, P + A - 10, 'end')}
+      <line class="mp-eixo" x1="${P}" y1="${P + A / 2}" x2="${P + A}" y2="${P + A / 2}"/><line class="mp-eixo" x1="${P + A / 2}" y1="${P}" x2="${P + A / 2}" y2="${P + A}"/>
+      <text class="mp-te" x="${P}" y="${L - 24}">← mais estatista</text><text class="mp-te" x="${P + A}" y="${L - 24}" text-anchor="end">mais liberal na economia →</text>
+      <text class="mp-te" x="${P + A / 2}" y="${P - 14}" text-anchor="middle">↑ mais conservador nos costumes</text><text class="mp-te" x="${P + A / 2}" y="${L - 6}" text-anchor="middle">↓ mais progressista</text>
+      ${dentro.map(ponto).join('')}
+    </svg></div>
+    <details><summary>Fora do mapa (${fora.length})</summary>
+      <p class="meta">Anteriores à régua esquerda–direita ou sem posição política própria.</p>
+      <p class="gen-chips">${fora.map(({ m }) => `<button class="link-mov" data-mov="${m.id}">${esc(m.nome)}</button>`).join(' ')}</p></details>
+  </section>`;
 }
 
 let ultimoId = null; // aplica o id da rota (#ideia-x) só uma vez, para não desfazer cliques posteriores
@@ -123,6 +181,7 @@ export function genealogia(_ctx, id) {
   ${grafico(visiveis, escala, destaque)}
   <p class="meta" id="g-evento" aria-live="polite">Os losangos no topo são acontecimentos históricos; toque para ler.</p>
   ${detalhe(m)}
+  ${mapaPolitico(destaque)}
   <section><h2>Lista cronológica</h2><div class="tabela-wrap"><table><thead><tr><th>Início</th><th>Fim</th><th>Movimento</th><th>Área</th><th>Espectro</th><th>Bebeu de</th></tr></thead><tbody>
     ${MOVIMENTOS.slice().sort((a, b) => a.inicio - b.inicio).map((x) => `<tr class="${x.id === sel ? 'sel' : ''}"><td class="num-tab">${esc(fmtAno(x.inicio))}</td><td class="num-tab">${esc(fmtAno(x.fim))}</td><td><button class="link-mov" data-mov="${x.id}">${esc(x.nome)}</button></td><td>${esc(AREAS[x.area])}</td><td>${esc(POSICOES[espectroDe(x).pos])}</td><td>${x.bebeuDe.map((b) => esc(movimentoPorId[b.id].nome)).join('; ') || '—'}</td></tr>`).join('')}
   </tbody></table></div></section>`;
@@ -147,10 +206,15 @@ genealogia.ligar = (root, ctx) => {
     espectros = novo; rerender();
   }));
   root.querySelector('#gen-filtros').addEventListener('submit', (e) => e.preventDefault());
+  // os movimentos do mapa político são <g role="button">: Enter e espaço também os ativam
+  root.addEventListener('keydown', (ev) => {
+    const g = ev.target.closest('g[data-mov]');
+    if (g && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); g.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+  });
   root.addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-mov]');
     if (b) {
-      const foraDoGrafico = !!b.closest('.gen-detalhe, table');
+      const foraDoGrafico = !!b.closest('.gen-detalhe, table, .mapa-politico, details');
       sel = b.dataset.mov; rerender();
       if (foraDoGrafico) document.querySelector('.gen-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
