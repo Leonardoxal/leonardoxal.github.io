@@ -205,6 +205,11 @@ export const MODULOS = [
     objetivos: ['Comparar escolas pelo mecanismo causal de cada uma', 'Analisar instituições e comportamentos com evidência', 'Avaliar políticas pelas falhas de mercado e de governo', 'Aplicar critérios normativos explícitos, distinguindo-os da análise'],
     aulas: A(['Escolas macroeconômicas: keynesianos, monetaristas, novos clássicos e o consenso atual', 'Instituições e comportamento: Coase, North, Ostrom e a economia comportamental', 'Estado e mercado: falhas de mercado e falhas de governo', 'Ética econômica: Doutrina Social da Igreja, desenvolvimento e desigualdade', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Análise de política com critérios técnicos e normativos', 'Prova do módulo (80%)'] },
+  { id: 'e4', n: 'E4', titulo: 'Economia IV: microeconomia, crescimento, economia internacional e formação econômica do Brasil', semanas: '9–10', degrau: null, disciplina: 'economia', prereq: ['e3'],
+    descricao: 'Custos, estruturas de mercado e teoria dos jogos; moeda, ciclos e crescimento; comércio, câmbio e balanço de pagamentos; a formação econômica do Brasil dos ciclos coloniais ao Plano Real. Corresponde à etapa 8 do percurso de Economia.',
+    objetivos: ['Resolver problemas de custo e de estrutura de mercado', 'Explicar o crescimento de longo prazo pela produtividade', 'Ler o balanço de pagamentos e os efeitos do câmbio', 'Interpretar a história econômica brasileira com dados e autores'],
+    aulas: A(['Microeconomia: custos, firmas, estruturas de mercado e teoria dos jogos', 'Macroeconomia: moeda, bancos, ciclos e crescimento econômico', 'Economia internacional: comércio, câmbio e balanço de pagamentos', 'Formação econômica do Brasil: dos ciclos coloniais ao Plano Real', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Cálculos e leitura de dados resolvidos', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
