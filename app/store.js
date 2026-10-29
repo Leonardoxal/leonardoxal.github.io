@@ -140,7 +140,7 @@ export function criarStore(aoMudar, aoStatus) {
     exportarJSON: () => JSON.stringify(estado, null, 2),
     importarJSON(texto) {
       const obj = JSON.parse(texto);
-      if (!obj || typeof obj !== 'object' || obj.v !== 1) throw new Error('Arquivo não reconhecido como backup deste aplicativo.');
+      if (!obj || typeof obj !== 'object' || ![1, 2].includes(obj.v)) throw new Error('Arquivo não reconhecido como backup deste aplicativo.');
       this.set(() => normalizarEstado(obj));
     },
   };

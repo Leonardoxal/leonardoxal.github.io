@@ -6,10 +6,32 @@ export const notaMinima = () => NOTA_MINIMA;
 export const INTERVALOS_REVISAO = [1, 3, 7, 14, 30, 60, 120]; // dias
 const DIA = 86400000;
 
+/**
+ * Versão do formato salvo. v1: escada de 13 degraus (0–12). v2: escada de 14 degraus (0–13), com a
+ * patrística como degrau próprio (5). Aulas, livros, notas e sessões não mudam de id; só os degraus.
+ */
+export const VERSAO_ESTADO = 2;
+
+/**
+ * Migra o registro dos degraus da escada antiga para a nova. Cada degrau antigo leva seu progresso para o
+ * degrau de mesmo conteúdo; o antigo 6 (patrística e escolástica) vai para o 7 e, se estava concluído,
+ * conta também como concluído o novo 5 (patrística), cujo conteúdo fazia parte dele.
+ */
+const DEGRAU_V1_PARA_V2 = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13];
+export function migrarDegraus(degrausV1 = {}) {
+  const novo = {};
+  for (const [n, d] of Object.entries(degrausV1)) {
+    const alvo = DEGRAU_V1_PARA_V2[Number(n)];
+    if (alvo !== undefined) novo[alvo] = d;
+  }
+  if (degrausV1[6]?.concluido) novo[5] = { concluido: true, data: degrausV1[6].data, migrado: true };
+  return novo;
+}
+
 /** @returns {object} estado vazio de um estudante novo */
 export function estadoInicial(agora = Date.now()) {
   return {
-    v: 1, criado: agora,
+    v: VERSAO_ESTADO, criado: agora,
     perfil: { nome: '' },
     aulas: {},        // id -> { status: 'andamento'|'concluida', inicio, fim, fonteLida, acesso }
     tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]
@@ -37,6 +59,8 @@ export function normalizarEstado(salvo, agora = Date.now()) {
     else if (typeof base[k] === 'object') out[k] = typeof v === 'object' && !Array.isArray(v) ? { ...base[k], ...v } : base[k];
     else out[k] = v;
   }
+  if (!(salvo.v >= 2)) out.degraus = migrarDegraus(out.degraus); // estado salvo na escada de 13 degraus
+  out.v = VERSAO_ESTADO;
   return out;
 }
 
@@ -116,6 +140,34 @@ export function pctLivro(estado, id) {
   return l.paginas > 0 ? Math.min(100, Math.round(((l.paginaAtual || 0) / l.paginas) * 100)) : 0;
 }
 
+// ---------- Comprovação de leitura ----------
+// Marcar páginas ou registrar horas não basta para concluir um livro: o estudante escreve, com suas palavras,
+// o que entendeu. A exigência cresce com a dificuldade da obra (nível 1 a 5) e não pede concordância com o autor.
+
+export const CAMPOS_COMPROVACAO = {
+  resumo: { rotulo: 'Resumo com suas palavras', dica: 'Qual é a pergunta da obra e qual a resposta do autor, em sequência.', minimo: 300 },
+  conceitos: { rotulo: 'Definição dos conceitos essenciais', dica: 'Ao menos três termos da obra, um por linha, no formato "termo: definição".', minimo: 150 },
+  argumento: { rotulo: 'Reconstrução de um argumento', dica: 'Premissas numeradas e a conclusão que o autor tira delas.', minimo: 150 },
+  objecao: { rotulo: 'Objeção e resposta', dica: 'A objeção mais forte à tese central e a resposta que o autor daria (ou que falta).', minimo: 150 },
+  transicao: { rotulo: 'Para a próxima leitura', dica: 'O que desta obra você vai precisar na leitura seguinte, e o que ainda não ficou claro.', minimo: 80 },
+};
+
+/** Campos exigidos para comprovar a leitura de um livro do nível dado. */
+export function camposComprovacao(nivel = 3) {
+  if (nivel <= 2) return ['resumo', 'conceitos', 'transicao'];
+  if (nivel === 3) return ['resumo', 'conceitos', 'argumento', 'transicao'];
+  return ['resumo', 'conceitos', 'argumento', 'objecao', 'transicao'];
+}
+
+export const chaveComprovacao = (id, campo) => `livro-${id}-${campo}`;
+
+/** { ok, faltas } da comprovação de leitura de um livro; faltas nomeiam o que ainda precisa ser escrito. */
+export function comprovacaoLivro(livro, estado) {
+  const faltas = camposComprovacao(livro.nivel).filter((c) => (estado.discursivas[chaveComprovacao(livro.id, c)]?.texto || '').trim().length < CAMPOS_COMPROVACAO[c].minimo)
+    .map((c) => CAMPOS_COMPROVACAO[c].rotulo);
+  return { ok: faltas.length === 0, faltas };
+}
+
 // ---------- Leitor de PDF (o arquivo nunca é guardado; só a posição, o total e o tempo) ----------
 
 /** Registra a página aberta no leitor. Marca o livro como "lendo", sem desfazer um "concluído". */
@@ -132,7 +184,8 @@ export function sessaoLeitura(id, titulo, inicio, ms, novoIdFn) {
   return minutos >= 1 ? { id: novoIdFn('s'), inicio, minutos, alvo: { tipo: 'livro', id }, obs: `Leitura: ${titulo}` } : null;
 }
 
-const aulasDoDegrau =(degrau, modulos) => modulos.filter((m) => degrau.modulos.includes(m.id)).flatMap((m) => m.aulas);
+// cada aula pertence a um só degrau (degrau.aulas); o filtro por módulos fica para degraus montados à mão nos testes
+const aulasDoDegrau = (degrau, modulos) => degrau.aulas || modulos.filter((m) => degrau.modulos.includes(m.id)).flatMap((m) => m.aulas);
 
 /**
  * Progresso de um degrau: média entre aulas disponíveis concluídas, leituras obrigatórias concluídas
@@ -151,15 +204,21 @@ export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado) {
 }
 
 /** Um degrau só pode ser concluído quando seus pré-requisitos foram concluídos e seus critérios atendidos. */
-export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado) {
+/** @param {object} [livros] id → livro; com ele, cada leitura concluída precisa também da comprovação escrita. */
+export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado, livrosPorId = null) {
   const faltas = [];
   for (const p of degrau.prereq) if (!estado.degraus[p]?.concluido) faltas.push(`Concluir o degrau ${p}`);
   const pendentes = aulasDoDegrau(degrau, modulos).filter((a) => !aulaConcluida(estado, a.id));
   const emPreparacao = pendentes.filter((a) => !aulasDisponiveis.has(a.id)).length;
   if (pendentes.length - emPreparacao > 0) faltas.push(`Concluir ${pendentes.length - emPreparacao} aula(s) disponível(is)`);
-  if (emPreparacao > 0) faltas.push(`${emPreparacao} aula(s) deste degrau ainda em preparação`);
+  // aulas ainda não publicadas (emPreparacao) não bloqueiam: só o que já pode ser estudado é exigido
   const livros = degrau.leituras.filter((id) => !livroConcluido(estado, id)).length;
   if (livros) faltas.push(`Concluir ${livros} leitura(s) obrigatória(s)`);
+  if (livrosPorId) {
+    // leituras marcadas como concluídas antes da comprovação continuam concluídas; só falta escrevê-la
+    const semComprovar = degrau.leituras.filter((id) => livroConcluido(estado, id) && livrosPorId[id] && !comprovacaoLivro(livrosPorId[id], estado).ok).length;
+    if (semComprovar) faltas.push(`Escrever a comprovação de ${semComprovar} leitura(s) concluída(s)`);
+  }
   const comp = estado.degraus[degrau.n]?.competencias || [];
   if (!degrau.competencias.every((_, i) => comp[i])) faltas.push('Confirmar todas as competências');
   const compAv = estado.degraus[degrau.n]?.competenciasAv || [];

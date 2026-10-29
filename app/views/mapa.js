@@ -20,13 +20,13 @@ const listaSequencia = (d, estado) => sequenciaDegrau(d).map((it) => (it.tipo ==
   : `<li class="${aulaConcluida(estado, it.id) ? 'feito' : ''}"><span class="chip">Aula</span> ${link(`aula-${it.id}`, `${it.id} — ${esc(tituloAula[it.id])}`)}</li>`)).join('');
 
 export function mapa({ estado }) {
-  const atual = DEGRAUS.find((d) => !estado.degraus[d.n]?.concluido)?.n ?? 12;
+  const atual = DEGRAUS.find((d) => !estado.degraus[d.n]?.concluido)?.n ?? DEGRAUS[DEGRAUS.length - 1].n;
   return `<header class="cab"><h1>Mapa da formação</h1>
     <p class="sub">A escada vai da teologia católica elementar à síntese filosófica. Você pode consultar todos os degraus e leituras desde já; apenas a <em>conclusão</em> de um degrau depende dos pré-requisitos.</p>
     <p class="meta">Uma só trilha, completa: cada degrau exige todas as leituras, aulas, aprofundamentos e competências, com nota mínima de ${notaMinima()}%.</p></header>
   <ol class="escada" reversed>${DEGRAUS.slice().reverse().map((d) => {
     const pct = progressoDegrau(d, MODULOS, disponiveis, estado);
-    const conc = degrauConcluivel(d, MODULOS, disponiveis, estado);
+    const conc = degrauConcluivel(d, MODULOS, disponiveis, estado, livroPorId);
     const st = estado.degraus[d.n] || {};
     const bloqueado = d.prereq.some((p) => !estado.degraus[p]?.concluido);
     const classe = st.concluido ? 'concluido' : d.n === atual ? 'atual' : bloqueado ? 'futuro' : '';

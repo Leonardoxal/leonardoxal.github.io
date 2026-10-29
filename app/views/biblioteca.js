@@ -2,7 +2,8 @@
 import { LIVROS, livroPorId } from '../data/livros.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { buscaCatalogo } from '../data/fontes.js';
-import { pctLivro, normalizar } from '../core.js';
+import { pctLivro, normalizar, comprovacaoLivro } from '../core.js';
+import { transicaoHTML, comprovacaoHTML, ligarComprovacao } from './ficha.js';
 import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast } from '../ui.js';
 
 const FILTROS_VAZIOS = { q: '', autor: '', area: '', nivel: '', modulo: '', estado: '', prioridade: '', fav: false };
@@ -79,6 +80,7 @@ export function livro({ estado }, id) {
   <header class="cab"><span class="num">Degrau ${l.degrau} · ${l.ordem}º na ordem de leitura ·${TIPOS_LIVRO[l.tipo]}</span>
     <h1>${esc(l.titulo)} ${botaoFav(estado, 'livro', id)}</h1><p class="autor">${esc(l.autor)}</p></header>
   ${l.verificacao !== 'confirmado' ? `<div class="aviso"><strong>Dados a confirmar.</strong> ${esc(l.nota || 'Confirme título e edição em catálogo antes de adquirir.')}</div>` : ''}
+  ${transicaoHTML(estado, id)}
   <div class="grade-2">
     <section><h2>Ficha</h2><dl class="ficha">
       <dt>Área</dt><dd>${esc(l.area)}</dd>
@@ -105,6 +107,7 @@ export function livro({ estado }, id) {
       <div class="acoes-aula"><a class="btn primario" href="#ler-${id}">Ler o PDF no app</a><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro de leitura</button><button class="btn" data-acao="nota-livro">Nova nota deste livro</button></div>
     </section>
   </div>
+  ${comprovacaoHTML(estado, id)}
   <section><h2>Anotações deste livro (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong>${n.pagina ? ` <span class="meta">${esc(n.pagina)}</span>` : ''}<p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`;
 }
 
@@ -115,15 +118,24 @@ livro.ligar = (root, ctx, id) => {
     const paginas = Math.max(0, parseInt(fd.paginas, 10) || 0);
     let paginaAtual = Math.max(0, parseInt(fd.paginaAtual, 10) || 0);
     if (paginas && paginaAtual > paginas) paginaAtual = paginas;
+    // concluir exige a comprovação escrita; quem já tinha concluído antes da regra continua concluído
+    const jaConcluido = ctx.estado.livros[id]?.estado === 'concluido';
+    const comprovacao = comprovacaoLivro(livroPorId[id], ctx.estado);
+    const bloqueado = fd.estado === 'concluido' && !jaConcluido && !comprovacao.ok;
+    if (bloqueado) {
+      toast(`Para concluir, escreva antes a comprovação: ${comprovacao.faltas.join('; ')}.`);
+      root.querySelector('#comprovar')?.scrollIntoView({ behavior: 'smooth' });
+    }
     ctx.set((e) => {
       const ant = e.livros[id] || {};
-      const novoEstado = fd.estado;
+      const novoEstado = bloqueado ? (ant.estado && ant.estado !== 'nao' ? ant.estado : 'lendo') : fd.estado;
       const inicio = ant.inicio || (novoEstado !== 'nao' ? Date.now() : null);
       const fim = novoEstado === 'concluido' ? (ant.fim || Date.now()) : null;
       const atual = novoEstado === 'lendo' ? { ...e.atual, livro: id } : e.atual.livro === id && novoEstado === 'concluido' ? { ...e.atual, livro: null } : e.atual;
       return { ...e, atual, livros: { ...e.livros, [id]: { ...ant, estado: novoEstado, paginas, paginaAtual: novoEstado === 'concluido' ? paginas : paginaAtual, prioridade: fd.prioridade, edicao: fd.edicao.trim(), inicio, fim } } };
     }, { manterRolagem: true });
-    toast('Leitura salva.');
+    if (!bloqueado) toast('Leitura salva.');
   });
+  ligarComprovacao(root, ctx, id);
   root.querySelector('[data-acao="nota-livro"]').addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${livroPorId[id].titulo}`));
 };

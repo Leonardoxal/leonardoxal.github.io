@@ -2,7 +2,7 @@
 // O arquivo fica só na memória desta aba: nunca é enviado, salvo ou guardado. O app registra apenas
 // a página em que o estudante está, o total de páginas e o tempo de leitura.
 import { livroPorId } from '../data/livros.js';
-import { registrarPagina, concluirLeitura, sessaoLeitura } from '../core.js';
+import { registrarPagina, concluirLeitura, sessaoLeitura, comprovacaoLivro } from '../core.js';
 import { esc, link, toast, novoId } from '../ui.js';
 
 const PDFJS = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs';
@@ -206,6 +206,13 @@ leitor.ligar = (root, ctx, id) => {
     if (ev.target.closest('[data-acao="tela-cheia"]')) { alternarCheia(); return; }
     if (!ev.target.closest('[data-acao="concluir-leitura"]')) return;
     clearTimeout(gravar);
+    const comprovacao = comprovacaoLivro(l, ctx.estado);
+    if (!comprovacao.ok) {
+      // chegar à última página não basta: a conclusão pede a comprovação escrita, na página do livro
+      ctx.set((e) => ({ ...e, livros: { ...e.livros, [id]: registrarPagina(e.livros[id], total, total) } }), { render: false });
+      fim.innerHTML = `<p>Para marcar como lido, escreva a comprovação de compreensão (${esc(comprovacao.faltas.join('; '))}).</p>${link(`livro-${id}`, 'Ir para a comprovação', 'btn primario')}`;
+      return;
+    }
     ctx.set((e) => ({ ...e, atual: { ...e.atual, livro: e.atual.livro === id ? null : e.atual.livro }, livros: { ...e.livros, [id]: concluirLeitura(registrarPagina(e.livros[id], total, total)) } }), { render: false });
     fim.innerHTML = '<p class="ok-msg">Livro marcado como lido na Biblioteca.</p>';
     toast('Livro marcado como lido.');

@@ -11,6 +11,116 @@ import { AULAS_COMPLETAS } from '../data/aulas/index.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.js';
 import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
+import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
+import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
+import { readFileSync } from 'node:fs';
+
+const IDS_ORIGINAIS = JSON.parse(readFileSync(new URL('./ids-originais.json', import.meta.url), 'utf8'));
+
+// ---------- Integridade dos títulos ----------
+test('títulos: os 607 originais existem, são únicos, obrigatórios e têm posição na trilha', () => {
+  assert.equal(IDS_ORIGINAIS.length, 607);
+  assert.equal(LIVROS.length, 607);
+  for (const id of IDS_ORIGINAIS) assert.ok(livroPorId[id], `livro original ${id} desapareceu`);
+  assert.equal(new Set(LIVROS.map((l) => `${l.titulo}|${l.autor}`)).size, 607, 'registros duplicados');
+  for (const l of LIVROS) {
+    assert.ok(!('opcional' in l) && !('avancado' in l), `${l.id} marcado como opcional ou avançado`);
+    assert.ok(l.ordem < 1000 && Number.isInteger(posicaoNaTrilha(l.id)), `${l.id} sem posição na trilha`);
+  }
+  assert.equal(DEGRAUS.reduce((s, d) => s + d.leituras.length, 0), 607, 'soma das leituras dos degraus');
+});
+
+test('documento da ordem de leitura: idêntico ao gerado dos dados e com os 607 títulos', () => {
+  const doc = readFileSync(ARQUIVO, 'utf8');
+  assert.equal(doc, gerar(), 'leituras-em-ordem.md desatualizado: rode node scripts/leituras-em-ordem.mjs');
+  assert.equal((doc.match(/^\d+\. \*\*/gm) || []).length, 607);
+  for (const id of IDS_ORIGINAIS) assert.ok(doc.includes(`\`${id}\``), `${id} fora do documento`);
+});
+
+// ---------- Integridade pedagógica ----------
+test('escada: 14 degraus encadeados; preparação → teologia → introdução → lógica', () => {
+  assert.deepEqual(DEGRAUS.map((d) => d.n), [...Array(14).keys()]);
+  DEGRAUS.forEach((d) => assert.deepEqual(d.prereq, d.n ? [d.n - 1] : []));
+  const degrauDe = (mod) => [...new Set(todasAulas.filter((a) => a.modulo === mod).map((a) => a.degrau))];
+  assert.deepEqual(DEGRAUS[0].aulas.map((a) => a.id), ['m3-1'], 'o degrau 0 tem só o método de leitura, não a Introdução à Filosofia');
+  assert.deepEqual(degrauDe('m1'), [1]);
+  assert.ok(todasAulas.filter((a) => a.modulo === 'm3' && a.id !== 'm3-1').every((a) => a.degrau === 2), 'Introdução à Filosofia no degrau 2');
+  assert.deepEqual(degrauDe('m4'), [3]);
+  assert.deepEqual(degrauDe('m11'), [10]);
+  assert.deepEqual(degrauDe('m12'), [11]);
+});
+
+test('aulas: cada uma em um único degrau, sem repetição, e a aula anterior do módulo nunca vem depois', () => {
+  const vistas = DEGRAUS.flatMap((d) => d.aulas.map((a) => a.id));
+  assert.equal(vistas.length, todasAulas.length);
+  assert.equal(new Set(vistas).size, todasAulas.length, 'aula repetida em dois degraus');
+  for (const m of MODULOS) {
+    const aulas = todasAulas.filter((a) => a.modulo === m.id);
+    aulas.forEach((a, i) => { if (i) assert.ok(aulas[i - 1].degrau <= a.degrau, `${a.id} exige ${aulas[i - 1].id}, de degrau posterior`); });
+  }
+});
+
+test('pré-requisitos: existem, vêm antes na trilha (sem ciclos) e as aulas preparatórias não ficam depois', () => {
+  for (const l of LIVROS) {
+    for (const p of l.prereq) {
+      assert.ok(livroPorId[p], `${l.id}: pré-requisito ${p} inexistente`);
+      assert.ok(posicaoNaTrilha(p) < posicaoNaTrilha(l.id), `${l.id} (posição ${posicaoNaTrilha(l.id) + 1}) exige ${p}, que só vem na posição ${posicaoNaTrilha(p) + 1}`);
+    }
+    const f = fichaDe(l.id);
+    f.aulas.forEach((a) => assert.ok(todasAulas.find((x) => x.id === a).degrau <= l.degrau, `${l.id}: aula preparatória ${a} em degrau posterior`));
+    f.recomendadas.forEach((r) => assert.ok(posicaoNaTrilha(r) < posicaoNaTrilha(l.id), `${l.id}: recomendada ${r} depois`));
+    assert.ok(f.justificativa.length > 40 && f.criterio.length >= 3, `${l.id}: ficha incompleta`);
+  }
+});
+
+test('Mário Ferreira dos Santos e Olavo de Carvalho: degraus próprios, depois de lógica, filosofia antiga e metafísica', () => {
+  const mfs = LIVROS.filter((l) => l.obraDe === 'mfs'), olavo = LIVROS.filter((l) => l.obraDe === 'olavo' && l.id !== 'olavo-guia-mfs');
+  assert.ok(mfs.length > 30 && mfs.every((l) => l.degrau === 10));
+  assert.ok(olavo.length > 15 && olavo.every((l) => l.degrau === 11));
+  const pos = (id) => posicaoNaTrilha(id);
+  assert.ok(pos('mfs-logica-dialectica') < pos('mfs-teoria-conhecimento') && pos('mfs-ontologia') < pos('mfs-filosofia-concreta') && pos('mfs-filosofia-concreta') < pos('mfs-pitagoras'));
+  assert.ok(pos('olavo-historia-essencial') < pos('olavo-quatro-discursos') && pos('olavo-quatro-discursos') < pos('olavo-dialetica-simbolica'));
+  for (const base of ['copi-logica', 'aristoteles-metafisica', 'platao-parmenides']) assert.ok(pos(base) < Math.min(...mfs.map((l) => pos(l.id))), `${base} antes de Mário`);
+});
+
+// ---------- Integridade funcional ----------
+test('migração: progresso salvo na escada de 13 degraus é preservado na de 14', () => {
+  const v1 = { v: 1, aulas: { 'm1-1': { status: 'concluida' } }, notas: [{ id: 'n1' }], livros: { cic: { estado: 'concluido' } },
+    degraus: { 0: { concluido: true }, 5: { competencias: [true] }, 6: { concluido: true, data: 9 }, 12: { competencias: [true, false] } } };
+  const e = C.normalizarEstado(v1, T0);
+  assert.equal(e.v, 2);
+  assert.deepEqual(e.aulas, v1.aulas);
+  assert.deepEqual(e.notas, v1.notas);
+  assert.deepEqual(e.livros, v1.livros);
+  assert.deepEqual(e.degraus[0], { concluido: true });
+  assert.deepEqual(e.degraus[6], { competencias: [true] }, 'metafísica: antigo 5 → novo 6');
+  assert.deepEqual(e.degraus[7], { concluido: true, data: 9 }, 'escolástica: antigo 6 → novo 7');
+  assert.equal(e.degraus[5].concluido, true, 'patrística fazia parte do antigo 6');
+  assert.deepEqual(e.degraus[13], { competencias: [true, false] });
+  assert.deepEqual(C.normalizarEstado(e, T0).degraus, e.degraus, 'não migra duas vezes');
+});
+
+test('comprovação de leitura: proporcional à dificuldade e exigida para concluir o degrau', () => {
+  assert.deepEqual(C.camposComprovacao(1), ['resumo', 'conceitos', 'transicao']);
+  assert.ok(C.camposComprovacao(5).includes('objecao'));
+  const livro = { id: 'x', nivel: 2 };
+  const base = C.estadoInicial(T0);
+  assert.equal(C.comprovacaoLivro(livro, base).ok, false);
+  const escrito = (k, n) => [C.chaveComprovacao('x', k), { texto: 'a'.repeat(n) }];
+  const pronto = { ...base, discursivas: Object.fromEntries([escrito('resumo', 300), escrito('conceitos', 150), escrito('transicao', 80)]) };
+  assert.equal(C.comprovacaoLivro(livro, pronto).ok, true);
+  const d = { n: 0, prereq: [], modulos: [], aulas: [], leituras: ['x'], competencias: [] };
+  const lido = { ...base, livros: { x: { estado: 'concluido' } } };
+  assert.deepEqual(C.degrauConcluivel(d, [], new Set(), lido, { x: livro }).faltas, ['Escrever a comprovação de 1 leitura(s) concluída(s)']);
+  assert.equal(C.degrauConcluivel(d, [], new Set(), { ...pronto, livros: lido.livros }, { x: livro }).ok, true);
+});
+
+test('aula não publicada não bloqueia a conclusão do degrau', () => {
+  const d = { n: 0, prereq: [], modulos: [], aulas: [{ id: 'a1' }, { id: 'a2' }], leituras: [], competencias: [] };
+  const e = { ...C.estadoInicial(T0), aulas: { a1: { status: 'concluida' } } };
+  assert.equal(C.degrauConcluivel(d, [], new Set(['a1']), e).ok, true, 'a2 ainda não publicada');
+  assert.equal(C.degrauConcluivel(d, [], new Set(['a1', 'a2']), e).ok, false, 'a2 publicada e pendente');
+});
 
 const DIA = 86400000;
 const T0 = new Date(2026, 9, 26, 10).getTime(); // segunda-feira
@@ -191,7 +301,7 @@ test('integridade: referências entre dados existem', () => {
     (d.retomar || []).forEach((l) => assert.ok(livroPorId[l], `degrau ${d.n}: ${l}`));
   }
   assert.equal(MODULOS.length, 16);
-  assert.equal(DEGRAUS.length, 13);
+  assert.equal(DEGRAUS.length, 14);
   assert.equal(new Set(AULAS_COMPLETAS.map((a) => a.id)).size, AULAS_COMPLETAS.length, 'ids de aula únicos');
   assert.ok(!JSON.stringify(AULAS_COMPLETAS).includes('${'), 'nenhuma interpolação não processada (aspas simples no lugar de crase)');
   const conteudo = AULAS_COMPLETAS.filter((a) => a.tipo !== 'avaliacao');

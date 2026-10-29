@@ -18,7 +18,7 @@ export function painel({ estado, status }) {
   const curso = progressoCurso(MODULOS, estado);
   const degrauAtual = DEGRAUS.find((d) => !estado.degraus[d.n]?.concluido) || DEGRAUS[DEGRAUS.length - 1];
   const livre = (a) => aulaPorId[a.id] && !aulaConcluida(estado, a.id);
-  const proximaDisponivel = todasAulas.find((a) => degrauAtual.modulos.includes(a.modulo) && livre(a)) || todasAulas.find(livre);
+  const proximaDisponivel = todasAulas.find((a) => a.degrau === degrauAtual.n && livre(a)) || todasAulas.find(livre);
   const continuar = estado.atual.aula && !aulaConcluida(estado, estado.atual.aula) && aulaPorId[estado.atual.aula] ? estado.atual.aula : proximaDisponivel?.id;
   const aulaCont = continuar && todasAulas.find((a) => a.id === continuar);
   const proximas = todasAulas.filter((a) => aulaPorId[a.id] && !aulaConcluida(estado, a.id) && a.id !== continuar).slice(0, 4);
