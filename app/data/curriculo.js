@@ -190,6 +190,11 @@ export const MODULOS = [
     objetivos: ['Usar os conceitos fundamentais da geografia', 'Localizar e calcular com coordenadas, fusos e escalas', 'Escolher e criticar projeções e mapas temáticos', 'Interpretar dados espaciais sem erros comuns'],
     aulas: A(['O que é a geografia: espaço, lugar, paisagem, território e região', 'Localizar na Terra: coordenadas, fusos horários e escala cartográfica', 'Cartografia: projeções, elementos do mapa e leitura crítica', 'Dados espaciais: censo, mapas temáticos e imagens de satélite', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Exercícios de cálculo de fusos e escalas', 'Prova do módulo (80%)'] },
+  { id: 'e1', n: 'E1', titulo: 'Economia I: escassez, mercados, indicadores e método', semanas: '4–6', degrau: null, disciplina: 'economia', prereq: ['m4'],
+    descricao: 'Escassez, custo de oportunidade e a distinção entre economia positiva e normativa; oferta, demanda e preços; PIB, inflação, juros e desemprego com dados oficiais; modelos, cálculos de variação e juros reais, e o problema da causalidade. Corresponde às etapas 1 a 3 do percurso de Economia.',
+    objetivos: ['Usar os conceitos fundamentais da economia', 'Aplicar o modelo de oferta e demanda a casos reais', 'Interpretar indicadores oficiais brasileiros', 'Calcular variações e juros reais e distinguir correlação de causa'],
+    aulas: A(['Escassez, escolha e custo de oportunidade', 'Mercados: oferta, demanda e preços', 'Medir a economia: PIB, inflação, juros e desemprego', 'Modelos, dados e causalidade: números-índice, juros reais e evidência', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Cálculos com dados oficiais (IPCA, Selic)', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

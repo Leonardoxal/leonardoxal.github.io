@@ -645,3 +645,28 @@ test('Geografia I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase
   assert.ok(avaliacaoPorId['prova-g1']?.itens.filter((i) => i.aula).length >= 8, 'prova do módulo');
   assert.ok(noPorId.geografia.modulos.includes('g1') && !g.aulasPublicadas, 'mapa conta o progresso; percurso ainda incompleto');
 });
+
+test('disciplinas com aulas: cada aula completa, no módulo certo, com prova e bloqueio da fase 2', () => {
+  const campos = ['aprendera', 'prereq', 'explicacao', 'vocabulario', 'exemplos', 'contexto', 'argumento', 'objecoes', 'aplicacao', 'fonte', 'perguntas', 'exercicios', 'resumo', 'referencias', 'criterios', 'revisao', 'avancado'];
+  for (const d of DISCIPLINAS.filter((x) => x.aulas)) {
+    // as etapas com aulas são as primeiras do percurso, em ordem, sem pular nenhuma
+    const ordem = d.etapas.map((e) => e.etapa);
+    assert.deepEqual(Object.keys(d.aulas), ordem.slice(0, Object.keys(d.aulas).length), `${d.id}: etapas em ordem`);
+    const modulos = new Set();
+    for (const id of Object.values(d.aulas).flat()) {
+      const a = AULAS_COMPLETAS.find((x) => x.id === id);
+      const meta = todasAulas.find((x) => x.id === id);
+      assert.ok(a && meta, `${d.id}: aula ${id} publicada e no currículo`);
+      assert.equal(moduloPorId[meta.modulo].disciplina, d.id, `${id}: módulo da disciplina`);
+      modulos.add(meta.modulo);
+      if (a.tipo === 'avaliacao') continue;
+      for (const c of campos) assert.ok(a[c], `${id}: seção ${c}`);
+      assert.ok(a.exercicios.filter((e) => e.tipo === 'mc').length >= 5 && a.exercicios.some((e) => e.tipo === 'disc'), `${id}: exercícios`);
+      assert.ok(a.contexto.includes('Brasil') || a.explicacao.includes('Brasil'), `${id}: contexto brasileiro`);
+      assert.ok(a.referencias.length >= 3, `${id}: referências`);
+      assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE), `${id}: bloqueio da fase 2`);
+    }
+    for (const m of modulos) assert.ok(avaliacaoPorId[`prova-${m}`]?.itens.filter((i) => i.aula).length >= 8, `prova-${m}`);
+    assert.deepEqual([...noPorId[d.no].modulos].sort(), [...modulos].sort(), `${d.id}: a árvore conta todos os módulos`);
+  }
+});
