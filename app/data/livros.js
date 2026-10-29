@@ -9,6 +9,7 @@
 import { LINKS } from './fontes.js';
 import { OBRAS, sequenciar } from './obras/index.js';
 import { PREREQUISITOS } from './prerequisitos.js';
+import { QUESTIONARIOS } from './questionarios.js';
 
 const L = (id, titulo, autor, area, degrau, ordem, extra = {}) => ({
   id, titulo, autor, area, degrau, ordem,
@@ -276,6 +277,6 @@ function APOIO() {
 // Pré-requisitos justificados (prerequisitos.js) somados aos registrados em cada livro; `porque` guarda o motivo.
 export const LIVROS = sequenciar([...BASE, ...OBRAS]).map((l) => {
   const extra = PREREQUISITOS[l.id] || [];
-  return { ...l, prereq: [...new Set([...l.prereq, ...extra.map(([p]) => p)])], porque: Object.fromEntries(extra) };
+  return { ...l, prereq: [...new Set([...l.prereq, ...extra.map(([p]) => p)])], porque: Object.fromEntries(extra), questionario: QUESTIONARIOS[l.id] || null };
 });
 export const livroPorId = Object.fromEntries(LIVROS.map((l) => [l.id, l]));

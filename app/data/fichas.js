@@ -6,7 +6,7 @@ import { LIVROS, livroPorId } from './livros.js';
 import { DEGRAUS, todasAulas } from './curriculo.js';
 import { CONCEITOS } from './conceitos.js';
 import { INTRODUCOES } from './obras/index.js';
-import { camposComprovacao, CAMPOS_COMPROVACAO } from '../core.js';
+import { camposComprovacao, CAMPOS_COMPROVACAO, NOTA_MINIMA } from '../core.js';
 
 /** Todos os livros na ordem da trilha: degrau e posição dentro dele. */
 export const TRILHA = LIVROS.slice().sort((a, b) => a.degrau - b.degrau || a.ordem - b.ordem);
@@ -58,7 +58,7 @@ export function fichaDe(id) {
     posteriores,
     proxima: TRILHA[i + 1] || null,
     dificuldade: DIFICULDADE[l.nivel] || DIFICULDADE[3],
-    criterio: camposComprovacao(l.nivel).map((c) => CAMPOS_COMPROVACAO[c].rotulo),
+    criterio: [...(l.questionario ? [`Questionário objetivo da obra (mínimo de ${NOTA_MINIMA}%)`] : []), ...camposComprovacao(l.nivel).map((c) => CAMPOS_COMPROVACAO[c].rotulo)],
     justificativa: justificativa(l, degrau, obraAnteriorAutor, aulas),
   };
 }

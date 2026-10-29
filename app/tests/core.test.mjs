@@ -13,6 +13,7 @@ import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.j
 import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
 import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
 import { PREREQUISITOS } from '../data/prerequisitos.js';
+import { QUESTIONARIOS } from '../data/questionarios.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 
@@ -124,6 +125,26 @@ test('comprovação de leitura: proporcional à dificuldade e exigida para concl
   const lido = { ...base, livros: { x: { estado: 'concluido' } } };
   assert.deepEqual(C.degrauConcluivel(d, [], new Set(), lido, { x: livro }).faltas, ['Escrever a comprovação de 1 leitura(s) concluída(s)']);
   assert.equal(C.degrauConcluivel(d, [], new Set(), { ...pronto, livros: lido.livros }, { x: livro }).ok, true);
+});
+
+test('questionários por livro: válidos, ligados ao livro e exigidos na comprovação com 80%', () => {
+  for (const [id, itens] of Object.entries(QUESTIONARIOS)) {
+    assert.ok(livroPorId[id]?.questionario === itens, `questionário de ${id} sem livro`);
+    assert.ok(itens.length >= 5, `${id}: ao menos 5 questões`);
+    for (const q of itens) {
+      assert.ok(q.opcoes.length >= 3 && q.correta >= 0 && q.correta < q.opcoes.length, `${id}: ${q.enunciado}`);
+      assert.equal(new Set(q.opcoes).size, q.opcoes.length, `${id}: opções repetidas`);
+      assert.ok(q.explicacao.includes('Revise:'), `${id}: sem indicação de revisão`);
+    }
+  }
+  const livro = { id: 'y', nivel: 1, questionario: [{}] };
+  const textos = Object.fromEntries(C.camposComprovacao(1).map((k) => [C.chaveComprovacao('y', k), { texto: 'a'.repeat(400) }]));
+  const escrito = { ...C.estadoInicial(T0), discursivas: textos };
+  assert.deepEqual(C.comprovacaoLivro(livro, escrito).faltas, ['Obter ao menos 80% no questionário da obra']);
+  const reprovado = { ...escrito, tentativas: { [C.quizDoLivro('y')]: [{ pct: 60 }] } };
+  assert.equal(C.comprovacaoLivro(livro, reprovado).ok, false);
+  const aprovado = { ...escrito, tentativas: { [C.quizDoLivro('y')]: [{ pct: 60 }, { pct: 80 }] } };
+  assert.equal(C.comprovacaoLivro(livro, aprovado).ok, true);
 });
 
 test('aula não publicada não bloqueia a conclusão do degrau', () => {

@@ -160,11 +160,16 @@ export function camposComprovacao(nivel = 3) {
 }
 
 export const chaveComprovacao = (id, campo) => `livro-${id}-${campo}`;
+export const quizDoLivro = (id) => `quiz-livro-${id}`;
 
-/** { ok, faltas } da comprovação de leitura de um livro; faltas nomeiam o que ainda precisa ser escrito. */
+/**
+ * { ok, faltas } da comprovação de leitura de um livro; faltas nomeiam o que ainda falta.
+ * Livros com questionário objetivo (livro.questionario) exigem também a nota mínima nele.
+ */
 export function comprovacaoLivro(livro, estado) {
-  const faltas = camposComprovacao(livro.nivel).filter((c) => (estado.discursivas[chaveComprovacao(livro.id, c)]?.texto || '').trim().length < CAMPOS_COMPROVACAO[c].minimo)
-    .map((c) => CAMPOS_COMPROVACAO[c].rotulo);
+  const quiz = livro.questionario?.length && melhorNota(estado, quizDoLivro(livro.id)) < NOTA_MINIMA ? [`Obter ao menos ${NOTA_MINIMA}% no questionário da obra`] : [];
+  const faltas = [...quiz, ...camposComprovacao(livro.nivel).filter((c) => (estado.discursivas[chaveComprovacao(livro.id, c)]?.texto || '').trim().length < CAMPOS_COMPROVACAO[c].minimo)
+    .map((c) => CAMPOS_COMPROVACAO[c].rotulo)];
   return { ok: faltas.length === 0, faltas };
 }
 
