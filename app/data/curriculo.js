@@ -170,6 +170,11 @@ export const MODULOS = [
     objetivos: ['Situar os grandes historiadores e suas obras', 'Comparar critérios de verdade e finalidades da história em cada época', 'Usar os conceitos de causa profunda, teologia da história, crítica documental e longa duração', 'Relacionar a historiografia brasileira à mundial'],
     aulas: A(['Heródoto e Tucídides: o nascimento da investigação histórica', 'A história cristã: Eusébio, Agostinho e Beda', 'Erudição e ciência histórica: dos humanistas a Ranke', 'Os Annales: Marc Bloch, Lucien Febvre e Fernand Braudel', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Discursivas comparando autores', 'Prova do módulo (80%)'] },
+  { id: 'h3', n: 'H3', titulo: 'História III: escolas historiográficas, debates e interpretações do Brasil', semanas: '6–8', degrau: null, disciplina: 'historia', prereq: ['h2', 'm10'],
+    descricao: 'Positivismo, escola metódica e materialismo histórico; mentalidades, história cultural, micro-história e nova história política; o debate sobre verdade e objetividade; e as grandes interpretações do Brasil (Freyre, Buarque de Holanda, Caio Prado, Faoro). Corresponde às etapas 6 e 7 do percurso de História.',
+    objetivos: ['Separar método, teoria e filosofia da história em cada escola', 'Explicar as mudanças de escala e de objeto da historiografia recente', 'Distinguir interpretação legítima de distorção', 'Comparar as interpretações do Brasil pelas evidências'],
+    aulas: A(['Positivismo, escola metódica e materialismo histórico', 'Mentalidades, história cultural, micro-história e nova história política', 'Verdade e objetividade na história: Carr, Elton e o desafio pós-moderno', 'As interpretações do Brasil: Freyre, Buarque de Holanda, Caio Prado e Faoro', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Quadro comparativo das interpretações do Brasil', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
