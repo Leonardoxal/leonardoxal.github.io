@@ -200,6 +200,11 @@ export const MODULOS = [
     objetivos: ['Situar autores e obras do pensamento econômico', 'Explicar as teorias do valor e sua evolução', 'Comparar Keynes e Hayek com argumentos', 'Relacionar o pensamento econômico ao Brasil e à Doutrina Social'],
     aulas: A(['Antes de Smith: Aristóteles, escolástica, Salamanca, mercantilismo e fisiocracia', 'A economia clássica: Smith, Ricardo, Malthus, Say e Mill — e a crítica de Marx', 'A revolução marginalista, os neoclássicos e a Escola Austríaca', 'Keynes e Hayek: a Grande Depressão e o grande debate do século XX', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Discursivas comparando autores', 'Prova do módulo (80%)'] },
+  { id: 'e3', n: 'E3', titulo: 'Economia III: escolas, instituições, Estado e mercado, e ética econômica', semanas: '6–8', degrau: null, disciplina: 'economia', prereq: ['e2'],
+    descricao: 'Escolas macroeconômicas e a inflação inercial brasileira; instituições, bens comuns e economia comportamental; falhas de mercado e falhas de governo; Doutrina Social da Igreja, desenvolvimento e desigualdade. Corresponde às etapas 6 e 7 do percurso de Economia.',
+    objetivos: ['Comparar escolas pelo mecanismo causal de cada uma', 'Analisar instituições e comportamentos com evidência', 'Avaliar políticas pelas falhas de mercado e de governo', 'Aplicar critérios normativos explícitos, distinguindo-os da análise'],
+    aulas: A(['Escolas macroeconômicas: keynesianos, monetaristas, novos clássicos e o consenso atual', 'Instituições e comportamento: Coase, North, Ostrom e a economia comportamental', 'Estado e mercado: falhas de mercado e falhas de governo', 'Ética econômica: Doutrina Social da Igreja, desenvolvimento e desigualdade', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Análise de política com critérios técnicos e normativos', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

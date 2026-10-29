@@ -131,7 +131,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'economia', no: 'economia', nome: 'Economia', aulasPublicadas: false,
-    aulas: { fundamentos: ['e1-1'], vocabulario: ['e1-2', 'e1-3'], metodos: ['e1-4', 'e1-5'], formacao: ['e2-1', 'e2-2', 'e2-3'], autores: ['e2-4', 'e2-5'] },
+    aulas: { fundamentos: ['e1-1'], vocabulario: ['e1-2', 'e1-3'], metodos: ['e1-4', 'e1-5'], formacao: ['e2-1', 'e2-2', 'e2-3'], autores: ['e2-4', 'e2-5'], escolas: ['e3-1', 'e3-2'], debates: ['e3-3', 'e3-4', 'e3-5'] },
     metodo: 'Modelos (hipóteses simplificadas e suas consequências) testados contra dados. Distingue economia positiva (o que acontece) de normativa (o que deveria ser); a ética econômica entra na segunda.',
     prereq: ['logica'],
     etapas: [
