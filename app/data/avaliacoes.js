@@ -117,5 +117,50 @@ function provaDoModulo(m) {
 }
 
 const PROVAS = MODULOS.map(provaDoModulo).filter(Boolean);
-export const AVALIACOES = [...PROVAS, ...ESTATICAS.filter((e) => !PROVAS.some((p) => p.id === e.id))];
+
+/** Avaliação abrangente que encerra a fase teológica (exigida para concluir o degrau 2). */
+const MODULOS_TEOLOGICOS = ['m1', 'm2', 'm2b'];
+const SINTESE_TEOLOGICA = {
+  id: 'sintese-teologica', titulo: 'Avaliação de síntese da fase teológica', tipo: 'final', modulo: 'm2b', minimo: NOTA_MINIMA,
+  descricao: 'Questões objetivas de todas as aulas da fase teológica (Módulos 1, 2 e 2B) e duas discursivas de síntese. Aprovada, libera a formação multidisciplinar.',
+  itens: [
+    ...MODULOS.filter((m) => MODULOS_TEOLOGICOS.includes(m.id)).flatMap((m) => m.aulas.map((a) => aulaPorId[a.id]).filter((a) => a && a.tipo !== 'avaliacao')
+      .flatMap((a) => a.exercicios.filter((e) => e.tipo === 'mc').slice(0, 1).map((e) => ({ ...e, aula: a.id })))),
+    { tipo: 'disc', enunciado: 'Explique, com referências ao Catecismo, como Escritura, Tradição e Magistério se relacionam na transmissão da Revelação, e por que a fé não se opõe à razão.', criterios: ['Define os três termos com precisão', 'Cita o Catecismo ou a Dei Verbum', 'Explica a relação entre fé e razão com um argumento', 'Distingue doutrina de interpretação particular'] },
+    { tipo: 'disc', enunciado: 'Mostre como os Padres da Igreja e Santo Agostinho prepararam a teologia posterior: escolha dois problemas (por exemplo, o mal, a graça, a Trindade ou o tempo) e exponha a resposta e o argumento de cada um.', criterios: ['Escolhe dois problemas e os situa historicamente', 'Expõe as respostas com fidelidade às fontes', 'Reconstrói ao menos um argumento', 'Conclusão fundamentada'] },
+  ],
+};
+/** Áreas das avaliações conjuntas: rótulo e para onde o estudante vai revisar quando ficar abaixo da nota. */
+export const AREAS_CONJUNTAS = {
+  historia: { rotulo: 'História', href: 'disciplina-historia' }, geografia: { rotulo: 'Geografia', href: 'disciplina-geografia' },
+  economia: { rotulo: 'Economia', href: 'disciplina-economia' }, sociologia: { rotulo: 'Sociologia', href: 'disciplina-sociologia' },
+  politica: { rotulo: 'Ciência Política', href: 'area-ciencia-politica' }, filosofia: { rotulo: 'Filosofia', href: 'area-filo-antiga' },
+  simbologia: { rotulo: 'Simbologia', href: 'disciplina-simbologia' },
+};
+const mcA = (area, enunciado, opcoes, correta, explicacao) => ({ tipo: 'mc', area, enunciado, opcoes, correta, explicacao });
+
+/** Unidade interdisciplinar: a civilização romana vista por várias disciplinas (fase multidisciplinar). */
+const CONJUNTA_ROMA = {
+  id: 'conjunta-roma', titulo: 'Avaliação conjunta: a civilização romana', tipo: 'conjunta', minimo: NOTA_MINIMA, requerFase2: true,
+  descricao: 'Questões de História, Geografia, Economia, Sociologia, Ciência Política, Filosofia e Simbologia sobre um mesmo objeto, e uma síntese. Cada área precisa atingir a nota mínima: uma não compensa a outra.',
+  itens: [
+    mcA('historia', 'Segundo a tradição romana, Roma foi fundada em:', ['753 a.C.', '509 a.C.', '27 a.C.', '476 d.C.'], 0, 'Data tradicional (cronologia de Varrão). 509 a.C. é o início tradicional da República; 27 a.C., o principado de Augusto; 476, a deposição do último imperador do Ocidente.'),
+    mcA('historia', 'O ano convencional do fim do Império Romano do Ocidente é:', ['395', '410', '476', '1453'], 2, 'Em 476 Odoacro depôs Rômulo Augústulo. 395 é a divisão do Império, 410 o saque de Roma por Alarico e 1453 a queda de Constantinopla.'),
+    mcA('geografia', 'O mar que os romanos chamavam "mare nostrum" era o:', ['Mar Negro', 'Mediterrâneo', 'Mar do Norte', 'Mar Vermelho'], 1, 'O Império cercava todo o Mediterrâneo, eixo de suas comunicações e de seu comércio.'),
+    mcA('geografia', 'Junto com o Danúbio, que rio marcou por longo tempo a fronteira do Império com os povos germânicos?', ['Nilo', 'Tibre', 'Reno', 'Eufrates'], 2, 'Reno e Danúbio formaram a fronteira fluvial do norte (o limes).'),
+    mcA('economia', 'No fim da República, a mão de obra principal das grandes propriedades (latifúndios) da Itália era:', ['Assalariada', 'Escrava', 'Servil, presa à terra como na Idade Média', 'Cooperativa'], 1, 'As conquistas trouxeram grande número de escravos às grandes propriedades; a servidão medieval é posterior.'),
+    mcA('economia', 'A moeda de prata padrão da República e do Alto Império era o:', ['Denário', 'Dracma', 'Florim', 'Soldo de ouro'], 0, 'O denário; o soldo de ouro (solidus) é de Constantino; a dracma é grega; o florim, medieval.'),
+    mcA('sociologia', 'As duas ordens da sociedade romana arcaica eram:', ['Senhores e servos', 'Patrícios e plebeus', 'Clérigos e leigos', 'Burgueses e proletários'], 1, 'O "conflito das ordens" entre patrícios e plebeus marca os primeiros séculos da República.'),
+    mcA('sociologia', 'A relação em que um cidadão poderoso protegia dependentes em troca de apoio chamava-se:', ['Clientela', 'Vassalagem', 'Corporação', 'Casta'], 0, 'Patrono e clientes: vínculo pessoal de proteção e apoio, inclusive político.'),
+    mcA('politica', 'Os magistrados supremos da República, eleitos anualmente em dupla, eram os:', ['Tribunos', 'Cônsules', 'Censores', 'Imperadores'], 1, 'Dois cônsules por ano, para que nenhum concentrasse o poder.'),
+    mcA('politica', 'Por convenção, o principado de Augusto começa em:', ['44 a.C.', '27 a.C.', '14 d.C.', '69 d.C.'], 1, 'Em 27 a.C. o Senado concedeu a Otaviano o título de Augusto; 44 a.C. é a morte de César; 14 d.C., a morte de Augusto.'),
+    mcA('filosofia', 'O filósofo estoico, conselheiro de Nero, autor das Cartas a Lucílio, foi:', ['Epicteto', 'Sêneca', 'Lucrécio', 'Cícero'], 1, 'Sêneca. Epicteto era ex-escravo e mestre estoico; Lucrécio, epicurista; Cícero, eclético e orador.'),
+    mcA('filosofia', 'O imperador que escreveu as Meditações (Para si mesmo) foi:', ['Trajano', 'Adriano', 'Marco Aurélio', 'Constantino'], 2, 'Marco Aurélio, imperador e estoico (161–180).'),
+    mcA('simbologia', 'Segundo Lactâncio e Eusébio, Constantino adotou um sinal cristão antes da batalha:', ['de Ácio', 'da Ponte Mílvia', 'de Adrianópolis', 'de Zama'], 1, 'Ponte Mílvia (312). Os dois autores narram o episódio de modos diferentes; veja o símbolo "Cruz" no Laboratório.'),
+    mcA('simbologia', 'O acróstico ΙΧΘΥΣ ("peixe") significa:', ['Jesus Cristo, Filho de Deus, Salvador', 'Paz, luz e vida', 'Pai, Filho e Espírito', 'Roma eterna'], 0, 'Iēsoûs Christòs Theoû Hyiòs Sōtḗr; Agostinho o explica em A Cidade de Deus XVIII,23.'),
+    { tipo: 'disc', enunciado: 'Síntese: explique a crise do século III ou a cristianização do Império usando pelo menos quatro das áreas acima. Indique o que é fato documentado, o que é interpretação e onde as áreas se explicam mutuamente.', criterios: ['Usa quatro áreas com conteúdo próprio', 'Cita fontes ou dados', 'Distingue fato e interpretação', 'Mostra relações entre as áreas'] },
+  ],
+};
+
+export const AVALIACOES = [...PROVAS, SINTESE_TEOLOGICA, CONJUNTA_ROMA, ...ESTATICAS.filter((e) => !PROVAS.some((p) => p.id === e.id))];
 export const avaliacaoPorId = Object.fromEntries(AVALIACOES.map((a) => [a.id, a]));

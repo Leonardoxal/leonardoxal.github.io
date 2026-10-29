@@ -12,7 +12,9 @@ export const GRUPOS = {
   teologia: 'Teologia Católica',
   filosofia: 'Filosofia',
   humanas: 'Ciências Humanas e Sociais',
-  formais: 'Ciências Formais e Naturais',
+  formais: 'Ciências Formais',
+  naturais: 'Ciências Naturais',
+  simbolos: 'Simbologia, Semiótica e Simbolismo',
   artes: 'Artes e Humanidades',
 };
 
@@ -42,19 +44,19 @@ export const NOS = [
   N('sacramentos', 'Sacramentos', 'teol-dogmatica', 'teologia', 'Os sete sacramentos e a vida litúrgica.', { aulas: ['m1-9'] }),
   N('escatologia', 'Escatologia', 'teol-dogmatica', 'teologia', 'A vida eterna e o fim da história.', { aulas: ['m1-10'] }),
   N('teol-moral', 'Teologia moral', 'teologia', 'teologia', 'A vida em Cristo: lei, graça, virtudes e consciência.', { livros: ['suma-ii-ii', 'jp2-veritatis'], areas: ['Doutrina / Ética', 'Ética / Teologia moral'], aulas: ['m1-8', 'm1-10'] }),
-  N('patristica', 'Patrística', 'teologia', 'teologia', 'Os Padres da Igreja e a formação do pensamento cristão, em diálogo com a filosofia grega.', { degraus: [5], areas: ['Patrística'], autores: ['agostinho', 'boecio'], aulas: ['m2-7', 'm2-8', 'm2-9', 'm2-10'] }),
+  N('patristica', 'Patrística', 'teologia', 'teologia', 'Os Padres da Igreja e a formação do pensamento cristão, em diálogo com a filosofia grega.', { degraus: [2], modulos: ['m2b'], areas: ['Patrística'], autores: ['agostinho', 'boecio'] }),
   N('historia-igreja', 'História da Igreja', 'teologia', 'teologia', 'Da Igreja nascente aos concílios, com crítica das fontes históricas.', { aulas: ['m2-4', 'm2-5', 'm2-6'] }),
   N('fe-razao', 'Fé e razão', 'teologia', 'teologia', 'A relação entre o que se crê e o que a razão pode alcançar.', { livros: ['fides-et-ratio'], areas: ['Doutrina / Fé e razão', 'Epistemologia da fé'], aulas: ['m1-2', 'm3-8'] }),
 
   // ---------- Filosofia ----------
-  N('filosofia', 'Filosofia', 'teologia', 'filosofia', 'Eixo de investigação do curso: busca racional das causas e princípios, com método próprio e autônomo em seu domínio.', { modulos: ['m3'], degraus: [2] }),
-  N('intro-filosofia', 'Introdução à Filosofia', 'filosofia', 'filosofia', 'O que é filosofia, a verdade, o conhecimento e os primeiros diálogos socráticos.', { degraus: [2], areas: ['Introdução à filosofia'], autores: ['socrates'] }),
+  N('filosofia', 'Filosofia', 'teologia', 'filosofia', 'Eixo de investigação do curso: busca racional das causas e princípios, com método próprio e autônomo em seu domínio. Começa na fase multidisciplinar, depois da fase teológica.', { modulos: ['m3'], degraus: [3] }),
+  N('intro-filosofia', 'Introdução à Filosofia', 'filosofia', 'filosofia', 'O que é filosofia, a verdade, o conhecimento e os primeiros diálogos socráticos.', { degraus: [3], areas: ['Introdução à filosofia'], autores: ['socrates'] }),
   N('historia-filosofia', 'História da Filosofia', 'filosofia', 'filosofia', 'Os grandes períodos do pensamento filosófico, lidos nas fontes.', { areas: ['História da filosofia'] }),
-  N('filo-antiga', 'Filosofia antiga', 'historia-filosofia', 'filosofia', 'Pré-socráticos, Sócrates, Platão, Aristóteles e as escolas helenísticas.', { degraus: [4], modulos: ['m5'], areas: ['Filosofia antiga', 'Ética helenística'] }),
+  N('filo-antiga', 'Filosofia antiga', 'historia-filosofia', 'filosofia', 'Pré-socráticos, Sócrates, Platão, Aristóteles e as escolas helenísticas.', { degraus: [5], modulos: ['m5'], areas: ['Filosofia antiga', 'Ética helenística'] }),
   N('filo-medieval', 'Filosofia medieval e escolástica', 'historia-filosofia', 'filosofia', 'Anselmo, os universais, Tomás de Aquino e a síntese escolástica.', { degraus: [7], modulos: ['m8'], areas: ['Filosofia medieval', 'Filosofia medieval / Teologia', 'Comentário a Aristóteles', 'Tomismo do século XX'] }),
   N('filo-moderna', 'Filosofia moderna', 'historia-filosofia', 'filosofia', 'Descartes, Pascal, Locke, Hume, Rousseau e Kant.', { degraus: [8], modulos: ['m9'], areas: ['Filosofia moderna'] }),
   N('filo-contemporanea', 'Filosofia contemporânea', 'historia-filosofia', 'filosofia', 'Hegel, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo e filosofia analítica.', { degraus: [9], modulos: ['m10'], areas: ['Filosofia contemporânea', 'Fenomenologia'] }),
-  N('logica', 'Lógica', 'filosofia', 'filosofia', 'Conceitos, proposições, silogismo, falácias, dialética e retórica.', { degraus: [3], modulos: ['m4'], areas: ['Lógica', 'Lógica / Dialética', 'Lógica / Epistemologia'] }),
+  N('logica', 'Lógica', 'filosofia', 'filosofia', 'Conceitos, proposições, silogismo, falácias, dialética e retórica.', { degraus: [4], modulos: ['m4'], areas: ['Lógica', 'Lógica / Dialética', 'Lógica / Epistemologia'] }),
   N('epistemologia', 'Epistemologia', 'filosofia', 'filosofia', 'Conhecimento, justificação, ceticismo e limites do saber.', { modulos: ['m6'], areas: ['Epistemologia', 'Metafísica / Epistemologia'] }),
   N('metafisica', 'Metafísica e ontologia', 'filosofia', 'filosofia', 'Ser, essência, substância, ato e potência, causalidade.', { degraus: [6], areas: ['Metafísica', 'Teologia / Metafísica'], aulas: ['m7-1', 'm7-2', 'm7-3', 'm7-4', 'm7-5', 'm7-6'] }),
   N('filo-natureza', 'Filosofia da natureza', 'filosofia', 'filosofia', 'Mudança, matéria e forma, tempo e finalidade na natureza.', { livros: ['aristoteles-fisica', 'aristoteles-fisica-ii', 'tomas-principios-natureza'], areas: ['Filosofia da natureza'] }),
@@ -88,18 +90,20 @@ export const NOS = [
   P('educacao', 'Educação', 'humanas', 'humanas', 'Teorias e história da educação.', { livros: ['rousseau-emilio', 'locke-educacao', 'maritain-educacao', 'agostinho-mestre'] }),
 
   // ---------- Ciências Formais e Naturais ----------
-  N('formais', 'Ciências Formais e Naturais', 'filosofia', 'formais', 'Matemática e lógica formal demonstram; as ciências naturais experimentam e medem. A filosofia da natureza não substitui seus métodos.', {}),
+  N('formais', 'Ciências Formais', 'filosofia', 'formais', 'Matemática, lógica formal e estatística: conhecimento por demonstração e cálculo, a partir de definições e axiomas.', {}),
   P('matematica', 'Matemática', 'formais', 'formais', 'Álgebra, geometria, funções, cálculo e probabilidade.', { livros: ['boecio-quadrivio', 'pascal-triangulo'] }),
   P('logica-formal', 'Lógica formal', 'formais', 'formais', 'Lógica proposicional e de predicados, formalização e metalógica.', { livros: ['copi-logica', 'frege-sentido', 'wittgenstein-tractatus'], aulas: ['m4-8'] }),
   P('estatistica', 'Estatística', 'formais', 'formais', 'Estatística descritiva, inferência e métodos quantitativos.', {}),
-  P('fisica', 'Física', 'formais', 'formais', 'Mecânica, termodinâmica, eletromagnetismo e física moderna, com método experimental.', { livros: ['descartes-ensaios', 'aristoteles-ceu', 'kant-historia-ceu', 'kant-principios-metafisicos'] }),
-  P('quimica', 'Química', 'formais', 'formais', 'Estrutura da matéria, ligações e reações.', {}),
-  P('biologia', 'Biologia', 'formais', 'formais', 'Células, genética, evolução, fisiologia e ecologia.', { livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
-  P('astronomia', 'Astronomia', 'formais', 'formais', 'O sistema solar e o universo.', { livros: ['aristoteles-ceu'] }),
-  P('ciencias-terra', 'Ciências da Terra', 'formais', 'formais', 'Geologia, clima e processos terrestres.', { livros: ['aristoteles-meteorologicos'] }),
-  P('ciencias-ambientais', 'Ciências ambientais', 'formais', 'formais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', {}),
+  N('naturais', 'Ciências Naturais', 'filosofia', 'naturais', 'Física, química, biologia, astronomia e ciências da Terra: conhecimento por observação, experimento e medida. A filosofia da natureza não substitui seus métodos.', {}),
+  P('fisica', 'Física', 'naturais', 'naturais', 'Mecânica, termodinâmica, eletromagnetismo e física moderna, com método experimental.', { livros: ['descartes-ensaios', 'aristoteles-ceu', 'kant-historia-ceu', 'kant-principios-metafisicos'] }),
+  P('quimica', 'Química', 'naturais', 'naturais', 'Estrutura da matéria, ligações e reações.', {}),
+  P('biologia', 'Biologia', 'naturais', 'naturais', 'Células, genética, evolução, fisiologia e ecologia.', { livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
+  P('astronomia', 'Astronomia', 'naturais', 'naturais', 'O sistema solar e o universo.', { livros: ['aristoteles-ceu'] }),
+  P('ciencias-terra', 'Ciências da Terra', 'naturais', 'naturais', 'Geologia, clima e processos terrestres.', { livros: ['aristoteles-meteorologicos'] }),
+  P('ciencias-ambientais', 'Ciências ambientais', 'naturais', 'naturais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', {}),
 
   // ---------- Artes e Humanidades ----------
+  P('simbologia', 'Simbologia, Semiótica e Simbolismo', 'filosofia', 'simbolos', 'Signos e significação (semiótica), símbolos em seus contextos (simbologia), seu uso na expressão (simbolismo), e a análise de imagens (iconografia e iconologia). Ver também o Laboratório de Signos e Símbolos.', { livros: ['mfs-simbolica', 'agostinho-doutrina-crista'] }),
   N('artes', 'Artes e Humanidades', 'filosofia', 'artes', 'Linguagem, literatura, artes e cultura, com métodos de análise e interpretação próprios.', {}),
   P('linguistica', 'Linguística', 'artes', 'artes', 'Estrutura e história das línguas.', { livros: ['gilson-linguistica', 'rousseau-linguas'], areas: ['Línguas'] }),
   P('literatura', 'Literatura', 'artes', 'artes', 'Obras literárias, gêneros e crítica.', { areas: ['Literatura'], livros: ['sartre-literatura'] }),
@@ -131,11 +135,16 @@ const RELACOES_EXPLICITAS = [
   { de: 'logica', para: 'retorica', tipo: 'conceitual', porque: 'Os Tópicos e as Refutações ligam dialética e retórica; Aristóteles chama a retórica de "contraparte da dialética".' },
   { de: 'antropologia-filosofica', para: 'psicologia', tipo: 'historica', porque: 'O estudo da alma (Da Alma, de Aristóteles) antecede a psicologia científica, que dele se separa pelo método experimental.' },
   { de: 'estetica', para: 'historia-arte', tipo: 'conceitual', porque: 'A teoria do belo e da arte orienta a leitura das obras estudadas na história da arte.' },
+  { de: 'simbologia', para: 'linguistica', tipo: 'interdisciplinar', porque: 'Saussure fundou a semiologia a partir da linguística: o signo linguístico é o modelo da teoria geral dos signos.' },
+  { de: 'simbologia', para: 'historia-arte', tipo: 'interdisciplinar', porque: 'A iconografia e a iconologia (Panofsky) são métodos da história da arte para identificar e interpretar o que as imagens representam.' },
+  { de: 'sacramentos', para: 'simbologia', tipo: 'conceitual', porque: 'A liturgia celebra por sinais e símbolos (água, óleo, pão, vinho, luz), cujo sentido o Catecismo expõe (CIC 1145–1152).' },
+  { de: 'escritura', para: 'simbologia', tipo: 'conceitual', porque: 'A tradição católica distingue o sentido literal e os sentidos espirituais da Escritura (alegórico, moral, anagógico), CIC 115–119.' },
+  { de: 'patristica', para: 'simbologia', tipo: 'historica', porque: 'Agostinho, em A Doutrina Cristã, formulou uma das primeiras teorias do signo (signos naturais e convencionais).' },
   { de: 'filo-medieval', para: 'teol-dogmatica', tipo: 'historica', porque: 'A escolástica elaborou com conceitos filosóficos as doutrinas da Trindade, da criação e de Cristo.' },
 ];
 
 /** A escada curricular, nó a nó: cada degrau exige o anterior. Liga a árvore à progressão. */
-export const TRILHA = ['preparacao', 'teologia', 'intro-filosofia', 'logica', 'filo-antiga', 'patristica', 'metafisica', 'filo-medieval', 'filo-moderna', 'filo-contemporanea', 'mfs', 'olavo', 'etica', 'sintese'];
+export const TRILHA = ['preparacao', 'teologia', 'patristica', 'intro-filosofia', 'logica', 'filo-antiga', 'metafisica', 'filo-medieval', 'filo-moderna', 'filo-contemporanea', 'mfs', 'olavo', 'etica', 'sintese'];
 const TRILHA_RELACOES = TRILHA.slice(1).map((id, i) => ({ de: TRILHA[i], para: id, tipo: 'prerequisito', trilha: true, porque: `Na escada curricular, o degrau ${i + 1} vem depois do degrau ${i}: ${NOS.find((n) => n.id === TRILHA[i]).nome} prepara ${NOS.find((n) => n.id === id).nome}.` }));
 
 export const RELACOES = [...RELACOES_EXPLICITAS, ...TRILHA_RELACOES];

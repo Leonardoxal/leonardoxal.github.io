@@ -1,5 +1,6 @@
 // Renderização e correção de itens de avaliação (usado nas aulas e na página de avaliações).
-import { corrigir, NOTA_MINIMA } from '../core.js';
+import { corrigir, NOTA_MINIMA, resultadoPorArea } from '../core.js';
+import { AREAS_CONJUNTAS } from '../data/avaliacoes.js';
 import { esc, fmtData, toast, link } from '../ui.js';
 import { todasAulas } from '../data/curriculo.js';
 
@@ -112,9 +113,16 @@ export function ligarQuiz(root, itens, ctx, aoCorrigir) {
     });
     // questões de prova guardam a aula de origem: os erros viram a lista do que revisar
     const revisar = [...new Set(itens.filter((it, i) => it.aula && !r.detalhes[i]).map((it) => it.aula))];
-    const tentativa = { data: Date.now(), acertos: r.acertos, total: r.total, pct: r.pct, ...(revisar.length ? { revisar } : {}) };
+    // avaliação conjunta: a nota que conta é a da área mais fraca (uma área não compensa outra)
+    const porArea = resultadoPorArea(itens, r.detalhes);
+    const pct = porArea.pct ?? r.pct;
+    const tentativa = { data: Date.now(), acertos: r.acertos, total: r.total, pct, ...(porArea.pct !== null ? { areas: porArea.areas, pctGeral: r.pct } : {}), ...(revisar.length ? { revisar } : {}) };
     ctx.set((e) => ({ ...e, tentativas: { ...e.tentativas, [avalId]: [...(e.tentativas[avalId] || []), tentativa] } }), { render: false });
-    form.querySelector('.resultado').innerHTML = `${r.acertos}/${r.total} — <strong>${r.pct}%</strong> ${r.pct >= minimo ? '· aprovado' : `· abaixo de ${minimo}%: revise a explicação e tente de novo`}`;
+    form.querySelector('.resultado').innerHTML = `${r.acertos}/${r.total} — <strong>${pct}%</strong>${porArea.pct !== null ? ' (nota da área mais fraca)' : ''} ${pct >= minimo ? '· aprovado' : `· abaixo de ${minimo}%: revise a explicação e tente de novo`}`;
+    if (porArea.pct !== null) {
+      const linhas = Object.entries(porArea.areas).map(([a, v]) => `<tr><td>${link(AREAS_CONJUNTAS[a]?.href || 'mapa', esc(AREAS_CONJUNTAS[a]?.rotulo || a))}</td><td class="num-tab">${v.acertos}/${v.total}</td><td class="num-tab">${v.pct}%</td><td>${v.pct >= minimo ? 'dominada' : '<strong>revisar</strong>'}</td></tr>`).join('');
+      form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<div class="tabela-wrap"><table class="por-area"><thead><tr><th>Área</th><th>Acertos</th><th>Nota</th><th>Situação</th></tr></thead><tbody>${linhas}</tbody></table></div><p class="meta">Resultado integrado: ${r.pct}%. A síntese discursiva é avaliada pela rubrica.</p>`);
+    }
     if (revisar.length) form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<p class="revisar-aulas"><strong>Revise antes de tentar de novo:</strong> ${revisar.map((a) => link(`aula-${a}`, `${a} — ${esc(tituloAula[a] || '')}`)).join(' · ')}</p>`);
     aoCorrigir?.(r);
   });

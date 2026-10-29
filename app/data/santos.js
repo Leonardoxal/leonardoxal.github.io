@@ -119,6 +119,11 @@ export const SANTOS = {
     fonte: { rotulo: 'Bento XVI, audiência geral de 2 de março de 2011', url: AUD(2011, '20110302') },
     documento: { rotulo: 'Pio XI, encíclica Rerum omnium perturbationem (1923): padroeiro dos escritores católicos', url: 'https://www.vatican.va/content/pius-xi/it/encyclicals/documents/hf_p-xi_enc_26011923_rerum-omnium-perturbationem.html' },
   },
+  'joao-damasceno': {
+    nome: 'São João Damasceno', datas: 'c. 675–749', imagem: 'Ioann Damaskin ikona.jpg', licenca: 'Domínio público',
+    resumo: 'Monge e Doutor da Igreja. Nos três Discursos contra os que caluniam as santas imagens defendeu a veneração das imagens, ligando-a ao mistério da Encarnação.',
+    fonte: { rotulo: 'Bento XVI, audiência geral de 6 de maio de 2009', url: AUD(2009, '20090506') },
+  },
   'tomas-more': {
     nome: 'São Tomás More', datas: '1478–1535', imagem: 'Hans Holbein, the Younger - Sir Thomas More - Google Art Project.jpg', licenca: 'Domínio público',
     resumo: 'Jurista, autor de Utopia (1516) e chanceler da Inglaterra. Executado por não aceitar, em consciência, a supremacia do rei sobre a Igreja. Canonizado em 1935.',
@@ -142,6 +147,7 @@ export const SANTOS_DAS_ABAS = {
     { santo: 'joao-bosco', natureza: 'tematica', motivo: 'Educador que acompanhava cada jovem de perto: o plano mede o percurso real e indica o próximo passo.' },
     { santo: 'bento', natureza: 'tematica', motivo: 'A Regra dá ao dia horários fixos de oração, leitura e trabalho: o cronômetro e as sessões registram esse ritmo de estudo.' },
   ],
+  simbolos: [{ santo: 'joao-damasceno', natureza: 'tematica', motivo: 'Fundamentou teologicamente o uso das imagens sagradas: o laboratório estuda signos e símbolos com fontes, como ele fez. (Mesmo santo da área de Simbologia, pelo mesmo motivo.)' }],
   busca: [{ santo: 'antonio-padua', natureza: 'devocao', motivo: 'A devoção popular o invoca para encontrar o que se perdeu; a busca encontra aulas, livros, conceitos e autores.' }],
 };
 
@@ -153,7 +159,8 @@ export const SANTOS_DAS_AREAS = {
   geografia: { santo: 'francisco-xavier', natureza: 'tematica', motivo: 'Percorreu a Índia, as Molucas e o Japão, descrevendo regiões, povos e culturas em suas cartas.' },
   sociologia: { santo: 'vicente-paulo', natureza: 'tematica', motivo: 'Organizou a caridade de forma estável, a partir do conhecimento das necessidades concretas da sociedade.' },
   economia: { santo: 'jose', natureza: 'tematica', motivo: 'Trabalhador que sustentou a família: o trabalho e sua dignidade estão no centro da economia. (Padroeiro dos operários; não da economia como ciência.)' },
-  formais: { santo: 'alberto-magno', natureza: 'patronagem', motivo: 'Padroeiro dos cultores das ciências naturais, que estudou com observação e experiência.' },
+  simbologia: { santo: 'joao-damasceno', natureza: 'tematica', motivo: 'Defendeu as imagens sagradas com argumentos teológicos: ponto de partida da reflexão cristã sobre o que uma imagem significa.' },
+  naturais: { santo: 'alberto-magno', natureza: 'patronagem', motivo: 'Padroeiro dos cultores das ciências naturais, que estudou com observação e experiência.' },
   artes: { santo: 'francisco-sales', natureza: 'patronagem', motivo: 'Padroeiro dos escritores católicos: clareza de linguagem a serviço da formação.' },
   'ciencia-politica': { santo: 'tomas-more', natureza: 'patronagem', motivo: 'Padroeiro dos governantes e dos políticos: responsabilidade pública guiada pela consciência.' },
   direito: { santo: 'tomas-more', natureza: 'tematica', motivo: 'Jurista e chanceler que não aceitou uma lei contrária à consciência: o problema da lei injusta. (Mesmo santo de Ciência Política, pelo vínculo entre os dois campos.)' },

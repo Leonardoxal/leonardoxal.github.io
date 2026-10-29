@@ -81,7 +81,7 @@ function blocoConclusao(estado, m, meta, a, conc) {
 /** Aula de avaliação do módulo: orientação de estudo e a prova gerada a partir das aulas. */
 function aulaAvaliacao(estado, m, meta, a) {
   const prova = avaliacaoPorId[a.prova];
-  const conc = aulaConcluivel(a, estado, m.aulas[meta.n - 2]?.id, prova);
+  const conc = aulaConcluivel(a, estado, m.aulas[meta.n - 2]?.id, prova, m.degrau);
   return `<nav class="migalha">${link('curso', 'Curso')} / ${link(`mod-${m.id}`, `Módulo ${m.n}`)} / Aula ${meta.n}</nav>
   <article class="aula">
   <header class="cab"><span class="num">Módulo ${m.n}: ${esc(m.titulo)} · ${esc(a.duracao)}</span><h1>${esc(a.titulo)}</h1>
@@ -103,7 +103,7 @@ export function aula({ estado }, id) {
   if (!a) return aulaEmPreparacao(m, meta);
   if (a.tipo === 'avaliacao') return aulaAvaliacao(estado, m, meta, a);
   const anterior = m.aulas[meta.n - 2]?.id;
-  const conc = aulaConcluivel(a, estado, anterior);
+  const conc = aulaConcluivel(a, estado, anterior, null, m.degrau);
   const st = estado.aulas[id] || {};
   const nota = melhorNota(estado, `quiz-${id}`);
   const proxima = m.aulas[meta.n];

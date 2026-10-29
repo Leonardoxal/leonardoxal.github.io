@@ -15,6 +15,10 @@ import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
 import { PREREQUISITOS } from '../data/prerequisitos.js';
 import { QUESTIONARIOS } from '../data/questionarios.js';
 import { notasDe, conexoesAula, conexoesLivro } from '../views/conexoes.js';
+import { SIMBOLOS, TIPOS_SENTIDO, TRADICOES } from '../data/simbolos.js';
+import { linhasGrade } from '../views/grade.js';
+import { cruz } from '../ornamentos.js';
+import { AREAS_CONJUNTAS } from '../data/avaliacoes.js';
 import { SANTOS, SANTOS_DAS_ABAS, SANTOS_DAS_AREAS, NATUREZAS } from '../data/santos.js';
 import { DISCIPLINAS, DISCIPLINAS_PENDENTES, ETAPAS, TIPOS_REFERENCIA } from '../data/disciplinas.js';
 import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
@@ -44,26 +48,28 @@ test('documento da ordem de leitura: idêntico ao gerado dos dados e com os 607 
 });
 
 // ---------- Integridade pedagógica ----------
-test('escada: 14 degraus encadeados; preparação → teologia → introdução → lógica', () => {
+test('escada: 14 degraus encadeados; preparação → teologia → patrística → introdução → lógica', () => {
   assert.deepEqual(DEGRAUS.map((d) => d.n), [...Array(14).keys()]);
   DEGRAUS.forEach((d) => assert.deepEqual(d.prereq, d.n ? [d.n - 1] : []));
   const degrauDe = (mod) => [...new Set(todasAulas.filter((a) => a.modulo === mod).map((a) => a.degrau))];
   assert.deepEqual(DEGRAUS[0].aulas.map((a) => a.id), ['m3-1'], 'o degrau 0 tem só o método de leitura, não a Introdução à Filosofia');
   assert.deepEqual(degrauDe('m1'), [1]);
   assert.deepEqual(degrauDe('m0'), [0]);
-  assert.deepEqual(degrauDe('m3'), [2], 'Introdução à Filosofia só no degrau 2');
+  assert.deepEqual(degrauDe('m3'), [3], 'Introdução à Filosofia só no degrau 3, primeiro da fase multidisciplinar');
+  assert.deepEqual(degrauDe('m2b'), [2], 'patrística na fase teológica');
   // Cada módulo pertence a um único degrau: nenhum aparece em duas etapas da escada.
   for (const m of MODULOS) assert.deepEqual(degrauDe(m.id), [m.degrau], `módulo ${m.id} em um só degrau`);
   assert.equal(DEGRAUS.filter((d) => d.modulos.includes('m3')).length, 1);
   assert.deepEqual(DEGRAUS[0].modulos, ['m0']);
-  assert.deepEqual(DEGRAUS[5].modulos, ['m2b']);
+  assert.deepEqual(DEGRAUS[2].modulos, ['m2b']);
+  assert.deepEqual(DEGRAUS[5].modulos, ['m5']);
   // O degrau 0 não exige a Introdução à Filosofia antes da teologia.
   assert.ok(!moduloPorId.m1.prereq.includes('m3') && !moduloPorId.m0.prereq.length);
   // Uma só nota de aprovação nas avaliações objetivas; ensaios e projetos (mínimo 0) são avaliados por rubrica.
   for (const a of AVALIACOES) assert.ok([0, C.NOTA_MINIMA].includes(a.minimo ?? 0), `avaliação ${a.id}: mínimo ${a.minimo}`);
   for (const a of AULAS_COMPLETAS) (a.criterios || []).forEach((c) => assert.ok(!/\b70 ?%/.test(c), `aula ${a.id}: critério com 70%`));
   MODULOS.forEach((m) => (m.criterios || []).forEach((c) => assert.ok(!/\b70 ?%/.test(c), `módulo ${m.id}: critério com 70%`)));
-  assert.deepEqual(degrauDe('m4'), [3]);
+  assert.deepEqual(degrauDe('m4'), [4]);
   assert.deepEqual(degrauDe('m11'), [10]);
   assert.deepEqual(degrauDe('m12'), [11]);
 });
@@ -116,16 +122,49 @@ test('migração: progresso salvo na escada de 13 degraus é preservado na de 14
   const v1 = { v: 1, aulas: { 'm1-1': { status: 'concluida' } }, notas: [{ id: 'n1' }], livros: { cic: { estado: 'concluido' } },
     degraus: { 0: { concluido: true }, 5: { competencias: [true] }, 6: { concluido: true, data: 9 }, 12: { competencias: [true, false] } } };
   const e = C.normalizarEstado(v1, T0);
-  assert.equal(e.v, 2);
+  assert.equal(e.v, 3);
   assert.deepEqual(e.aulas, v1.aulas);
   assert.deepEqual(e.notas, v1.notas);
   assert.deepEqual(e.livros, v1.livros);
   assert.deepEqual(e.degraus[0], { concluido: true });
   assert.deepEqual(e.degraus[6], { competencias: [true] }, 'metafísica: antigo 5 → novo 6');
   assert.deepEqual(e.degraus[7], { concluido: true, data: 9 }, 'escolástica: antigo 6 → novo 7');
-  assert.equal(e.degraus[5].concluido, true, 'patrística fazia parte do antigo 6');
+  assert.equal(e.degraus[2].concluido, true, 'patrística (hoje degrau 2) fazia parte do antigo 6');
   assert.deepEqual(e.degraus[13], { competencias: [true, false] });
   assert.deepEqual(C.normalizarEstado(e, T0).degraus, e.degraus, 'não migra duas vezes');
+});
+
+test('migração v2 → v3: cada registro acompanha seu conteúdo quando a patrística passa para a fase teológica', () => {
+  const v2 = { v: 2, degraus: { 1: { concluido: true }, 2: { competencias: [true] }, 3: { concluido: true }, 4: { data: 4 }, 5: { competencias: [false, true] }, 6: { data: 6 } } };
+  const e = C.normalizarEstado(v2, T0);
+  assert.deepEqual(e.degraus, { 1: { concluido: true }, 2: { competencias: [false, true] }, 3: { competencias: [true] }, 4: { concluido: true }, 5: { data: 4 }, 6: { data: 6 } });
+  assert.deepEqual(C.normalizarEstado(e, T0).degraus, e.degraus, 'não migra duas vezes');
+});
+
+test('fases: teologia exclusiva primeiro; a fase 2 só conclui depois dela, mas pode ser consultada', () => {
+  const vazio = C.estadoInicial(T0);
+  assert.equal(C.faseFormacao(vazio), 'preparacao');
+  assert.deepEqual(DEGRAUS.filter((d) => C.FASE_TEOLOGICA.includes(d.n)).flatMap((d) => d.modulos), ['m0', 'm1', 'm2', 'm2b'], 'só teologia (e o método) na fase 1');
+  // a fase 1 não contém nenhum livro ou aula de filosofia regular
+  const fase1 = LIVROS.filter((l) => l.degrau <= 2);
+  assert.ok(!fase1.some((l) => ['Introdução à filosofia', 'Lógica', 'Filosofia antiga'].includes(l.area)), 'filosofia regular na fase teológica');
+  assert.equal(livroPorId['chaui-convite'].degrau, 3, 'Convite à Filosofia no percurso de introdução filosófica');
+  // bloqueio na lógica: aula, livro e degrau da fase 2
+  const aulaF2 = AULAS_COMPLETAS.find((a) => a.id === 'm3-2');
+  assert.ok(C.aulaConcluivel(aulaF2, vazio, null, null, 3).faltas.includes(C.MSG_FASE));
+  assert.ok(!C.aulaConcluivel(AULAS_COMPLETAS.find((a) => a.id === 'm1-1'), vazio, null, null, 1).faltas.includes(C.MSG_FASE));
+  assert.ok(C.comprovacaoLivro(livroPorId['platao-apologia'] || LIVROS.find((l) => l.degrau === 5), vazio).faltas.includes(C.MSG_FASE));
+  assert.ok(!C.comprovacaoLivro(livroPorId.cic, vazio).faltas.includes(C.MSG_FASE));
+  assert.ok(C.degrauConcluivel(DEGRAUS[3], MODULOS, new Set(), vazio).faltas.includes(C.MSG_FASE));
+  // concluir a síntese teológica é exigido no degrau 2
+  assert.ok(C.degrauConcluivel(DEGRAUS[2], MODULOS, new Set(), vazio).faltas.some((f) => f.includes('síntese')));
+  const sintese = avaliacaoPorId['sintese-teologica'];
+  assert.ok(sintese.itens.filter((i) => i.aula).length >= 15 && sintese.itens.every((i) => !i.aula || ['m1', 'm2', 'm2b'].includes(todasAulas.find((a) => a.id === i.aula).modulo)));
+  // fase concluída libera a 2
+  const pronto = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true } } };
+  assert.equal(C.faseFormacao(pronto), 'liberada');
+  assert.ok(!C.aulaConcluivel(aulaF2, pronto, null, null, 3).faltas.includes(C.MSG_FASE));
+  assert.equal(C.faseFormacao({ ...pronto, degraus: { ...pronto.degraus, 3: { competencias: [true] } } }), 'multidisciplinar');
 });
 
 test('comprovação de leitura: proporcional à dificuldade e exigida para concluir o degrau', () => {
@@ -448,17 +487,19 @@ test('santos de referência: cada aba tem um, com fonte, imagem e natureza decla
 });
 
 test('disciplinas: História, Geografia, Sociologia e Economia com as onze etapas e bibliografia mundial e brasileira', () => {
-  assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), ['economia', 'geografia', 'historia', 'sociologia']);
+  assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), ['economia', 'geografia', 'historia', 'simbologia', 'sociologia']);
   for (const d of DISCIPLINAS) {
     assert.ok(noPorId[d.no] && d.metodo.length > 60, `${d.id}: nó e método`);
-    assert.deepEqual(d.etapas.map((e) => e.etapa), Object.keys(ETAPAS), `${d.id}: etapas completas e em ordem`);
+    const esperadas = d.trilhaPropria ? Array.from({ length: 12 }, (_, i) => `m${i + 1}`) : Object.keys(ETAPAS);
+    assert.deepEqual(d.etapas.map((e) => e.etapa), esperadas, `${d.id}: etapas completas e em ordem`);
+    if (d.trilhaPropria) d.etapas.forEach((e) => assert.ok(e.titulo, `${d.id}/${e.etapa}: título`));
     for (const e of d.etapas) assert.ok(e.objetivo && e.conteudos.length >= 2 && e.exercicio && e.criterio, `${d.id}/${e.etapa}`);
     assert.ok(d.etapas.some((e) => e.brasil), `${d.id}: integração com o Brasil`);
     d.prereq.forEach((p) => assert.ok(noPorId[p], `${d.id}: pré-requisito ${p}`));
     assert.ok(d.bibliografia.length >= 10, `${d.id}: bibliografia`);
     assert.ok(d.bibliografia.some((b) => b.brasil) && d.bibliografia.some((b) => !b.brasil), `${d.id}: obras mundiais e brasileiras`);
     for (const b of d.bibliografia) {
-      assert.ok(b.autor && b.titulo && b.ano && TIPOS_REFERENCIA[b.tipo] && ETAPAS[b.etapa], `${d.id}: ${b.titulo}`);
+      assert.ok(b.autor && b.titulo && b.ano && TIPOS_REFERENCIA[b.tipo] && esperadas.includes(b.etapa), `${d.id}: ${b.titulo}`);
       if (b.livro) assert.ok(livroPorId[b.livro], `${d.id}: livro ${b.livro}`);
       if (b.url) assert.ok(b.url.startsWith('http'), `${d.id}: url`);
     }
@@ -491,4 +532,62 @@ test('integração: nota aparece em todos os conteúdos vinculados; conexões us
   const aula = conexoesAula(estado, 'm7-4');
   assert.ok(aula.includes('#conceito-substancia') && aula.includes('#nota-n1') && aula.includes('#area-'), 'aula liga conceito, nota e área');
   assert.ok(conexoesLivro(estado, 'aristoteles-metafisica').includes('#aula-'), 'livro liga às aulas que o estudam');
+});
+test('laboratório de símbolos: cada sentido com tipo de fonte; ligações reais; hipóteses declaradas', () => {
+  assert.equal(new Set(SIMBOLOS.map((s) => s.id)).size, SIMBOLOS.length);
+  for (const s of SIMBOLOS) {
+    assert.ok(TRADICOES[s.tradicao] && s.contexto && s.periodo, `${s.id}: contexto`);
+    assert.ok(s.significados.length >= 2, `${s.id}: ao menos dois sentidos`);
+    for (const g of s.significados) {
+      assert.ok(TIPOS_SENTIDO[g.tipo] && g.texto, `${s.id}: tipo`);
+      // só a hipótese pode ficar sem fonte; doutrina, Escritura e história precisam citá-la
+      if (g.tipo !== 'hipotese') assert.ok(g.fonte && g.fonte !== '—', `${s.id}: "${g.texto}" sem fonte`);
+    }
+    s.livros.forEach((l) => assert.ok(livroPorId[l], `${s.id}: livro ${l}`));
+    s.aulas.forEach((a) => assert.ok(todasAulas.some((x) => x.id === a), `${s.id}: aula ${a}`));
+  }
+  assert.ok(SIMBOLOS.some((s) => s.tradicao === 'brasileira'), 'símbolos nacionais do Brasil');
+  assert.ok(noPorId.simbologia && noPorId.simbologia.grupo === 'simbolos' && noPorId.simbologia.pai === 'filosofia', 'ramo próprio no mapa');
+  assert.ok(SANTOS_DAS_ABAS.simbolos?.length && SANTOS_DAS_AREAS.simbologia, 'santo do laboratório e da área');
+});
+
+test('avaliação conjunta: questões por área, nota da área mais fraca e bloqueio antes da fase 2', () => {
+  const c = avaliacaoPorId['conjunta-roma'];
+  assert.ok(c.requerFase2);
+  const areas = new Set(c.itens.filter((i) => i.area).map((i) => i.area));
+  assert.ok(areas.size >= 6, 'várias disciplinas');
+  areas.forEach((a) => assert.ok(AREAS_CONJUNTAS[a], `área ${a} sem destino de revisão`));
+  assert.ok(c.itens.some((i) => i.tipo === 'disc'), 'questão final de síntese');
+  // acertar tudo menos uma área inteira não aprova: uma área não compensa outra
+  const detalhes = c.itens.map((i) => (i.tipo === 'disc' ? null : i.area !== 'economia'));
+  const r = C.resultadoPorArea(c.itens, detalhes);
+  assert.equal(r.areas.economia.pct, 0);
+  assert.equal(r.pct, 0);
+  assert.ok(C.corrigir(c.itens, c.itens.map((i) => (i.tipo === 'mc' ? (i.area === 'economia' ? (i.correta + 1) % i.opcoes.length : i.correta) : null))).pct >= 80, 'a nota global sozinha aprovaria');
+  assert.equal(C.resultadoPorArea([{ tipo: 'mc' }], [true]).pct, null, 'avaliação sem áreas não muda');
+});
+
+test('grade escolar: uma matéria na fase teológica; várias em paralelo depois, respeitando pré-requisitos', () => {
+  const vazio = C.estadoInicial(T0);
+  const g1 = linhasGrade(vazio);
+  assert.equal(g1.length, 1);
+  assert.equal(g1[0].disciplina, 'Teologia Católica');
+  assert.equal(g1[0].minutos, vazio.plano.horasSemana * 60);
+  const fase2 = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true } } };
+  const g2 = linhasGrade(fase2);
+  assert.ok(g2.length >= 5 && g2[0].disciplina.startsWith('Filosofia'));
+  // sem lógica concluída, as disciplinas que a exigem aguardam e não recebem horas
+  for (const l of g2.slice(1)) assert.ok(l.bloqueio.length ? l.minutos === 0 : true, l.disciplina);
+  const comLogica = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true }, 5: { concluido: true } } };
+  const g3 = linhasGrade(comLogica);
+  assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');
+  assert.ok(Math.abs(g3.reduce((s, l) => s + l.minutos, 0) - comLogica.plano.horasSemana * 60) <= g3.length, 'horas somam a carga semanal');
+});
+
+test('identidade: cruz gótica vetorial ao lado do nome', () => {
+  const svg = cruz(34);
+  assert.ok(svg.startsWith('<svg') && svg.includes('viewBox="0 0 40 60"') && svg.includes('aria-hidden="true"'));
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.ok(/<span id="emblema"[^>]*><\/span><span>Academia da Verdade/.test(html), 'emblema imediatamente antes do nome');
+  assert.ok(html.includes('rel="icon"'), 'favicon com a cruz');
 });

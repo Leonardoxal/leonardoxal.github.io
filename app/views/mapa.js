@@ -2,7 +2,7 @@
 import { DEGRAUS, MODULOS, moduloPorId, todasAulas, sequenciaDegrau } from '../data/curriculo.js';
 import { livroPorId } from '../data/livros.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { progressoDegrau, degrauConcluivel, livroConcluido, aulaConcluida, notaMinima } from '../core.js';
+import { progressoDegrau, degrauConcluivel, livroConcluido, aulaConcluida, notaMinima, FASE_TEOLOGICA } from '../core.js';
 import { esc, barra, link, fmtData, toast } from '../ui.js';
 import { abasMapa } from './arvore.js';
 
@@ -34,7 +34,7 @@ export function escada({ estado }) {
     const classe = st.concluido ? 'concluido' : d.n === atual ? 'atual' : bloqueado ? 'futuro' : '';
     return `<li class="degrau ${classe}" style="--n:${d.n}" id="degrau-${d.n}">
       <details ${(abertos ? abertos.has(d.n) : d.n === atual) ? 'open' : ''}>
-        <summary><span class="dn">${d.n}</span><span class="dt"><strong>${esc(d.nome)}</strong><span class="meta">${st.concluido ? `Concluído em ${fmtData(st.data)}` : `${pct}%`}${bloqueado && !st.concluido ? ' · requer degrau ' + d.prereq.join(', ') : ''}</span></span>${barra(pct, `Progresso do degrau ${d.n}`)}</summary>
+        <summary><span class="dn">${d.n}</span><span class="dt"><strong>${esc(d.nome)} <span class="chip fase-chip">${FASE_TEOLOGICA.includes(d.n) ? 'Fase 1 · Teologia' : 'Fase 2'}</span></strong><span class="meta">${st.concluido ? `Concluído em ${fmtData(st.data)}` : `${pct}%`}${bloqueado && !st.concluido ? ' · requer degrau ' + d.prereq.join(', ') : ''}</span></span>${barra(pct, `Progresso do degrau ${d.n}`)}</summary>
         <div class="degrau-corpo">
           <p><strong>Objetivo:</strong> ${esc(d.objetivo)}</p>
           ${d.nota ? `<p class="aviso">${esc(d.nota)}</p>` : ''}

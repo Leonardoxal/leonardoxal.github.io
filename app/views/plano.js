@@ -4,6 +4,7 @@ import { aulaPorId } from '../data/aulas/index.js';
 import { livroPorId } from '../data/livros.js';
 import { planejarSemana, minutosSemana, inicioSemana, minutosTotal, revisoesPendentes, aulaConcluida, melhorNota, duracaoMin, progressoModulo, notaMinima } from '../core.js';
 import { nuvemConfigurada } from '../nuvem.js';
+import { gradeHTML } from './grade.js';
 import { esc, fmtData, fmtMin, link, barra, DIAS_SEMANA, novoId, toast, copiar, salvarArquivo, hojeISO } from '../ui.js';
 
 const MIN_AULA_PADRAO = 75; // estimativa para aulas ainda sem conteúdo
@@ -49,6 +50,7 @@ export function plano({ estado, status }) {
   const maxMin = Math.max(p.horasSemana * 60, ...ultimas.map((u) => u.min), 1);
   const sessoes = estado.sessoes.slice().sort((a, b) => b.inicio - a.inicio).slice(0, 20);
   return `<header class="cab"><h1>Plano de estudos</h1><p class="sub">O plano se ajusta ao seu ritmo real: atrasos alteram a data projetada, notas baixas trazem a aula de volta, e nenhum conteúdo é marcado como dominado automaticamente.</p></header>
+  ${gradeHTML(estado)}
   <div class="grade-2">
   <section><h2>Minhas preferências</h2>
     <form id="form-plano" class="form-plano">

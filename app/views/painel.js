@@ -7,6 +7,7 @@ import { progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, reviso
 import { esc, barra, link, fmtData, fmtMin } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
 import { fachada } from '../ornamentos.js';
+import { faseHTML } from './grade.js';
 
 const disponiveis = new Set(Object.keys(aulaPorId));
 
@@ -46,6 +47,7 @@ export function painel({ estado, status }) {
   return `<header class="cab painel-cab"><div>
     <p class="num">${saudacao()}${estado.perfil.nome ? `, ${esc(estado.perfil.nome)}` : ''}</p>
     <h1>Degrau ${degrauAtual.n}: ${esc(degrauAtual.nome)}</h1>
+    ${faseHTML(estado)}
     <p class="sub">${esc(degrauAtual.objetivo)}</p>
     ${aulaCont ? `<a class="btn primario grande" href="#aula-${aulaCont.id}">Continuar estudando — ${esc(aulaCont.titulo)}</a>
       <p class="meta">Módulo ${moduloPorId[aulaCont.modulo].n}: ${esc(moduloPorId[aulaCont.modulo].titulo)}</p>` : '<p>Todas as aulas disponíveis foram concluídas. Novas aulas serão publicadas em lotes.</p>'}

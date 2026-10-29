@@ -10,7 +10,38 @@ const DIA = 86400000;
  * Versão do formato salvo. v1: escada de 13 degraus (0–12). v2: escada de 14 degraus (0–13), com a
  * patrística como degrau próprio (5). Aulas, livros, notas e sessões não mudam de id; só os degraus.
  */
-export const VERSAO_ESTADO = 2;
+export const VERSAO_ESTADO = 3;
+
+/**
+ * v2 → v3: a fase teológica passou a vir inteira antes da filosofia. A patrística (antigo 5) é agora o
+ * degrau 2; introdução à filosofia, lógica e filosofia antiga (antigos 2, 3, 4) passam a 3, 4, 5.
+ * Cada registro acompanha o mesmo conteúdo; nada é apagado.
+ */
+const DEGRAU_V2_PARA_V3 = { 2: 3, 3: 4, 4: 5, 5: 2 };
+export function migrarParaFaseTeologica(degraus = {}) {
+  return Object.fromEntries(Object.entries(degraus).map(([n, d]) => [DEGRAU_V2_PARA_V3[n] ?? Number(n), d]));
+}
+
+// ---------- Fases da formação ----------
+/** Fase 1: teologia católica exclusiva (preparação, fundamentos e patrística). A fase 2 começa no degrau 3. */
+export const FASE_TEOLOGICA = [0, 1, 2];
+export const INICIO_MULTIDISCIPLINAR = 3;
+export const faseTeologicaConcluida = (estado) => FASE_TEOLOGICA.every((n) => estado.degraus[n]?.concluido);
+/** Conteúdo da fase 2 pode ser consultado, mas só conta (é concluído) depois da fase teológica. */
+export const bloqueadoPelaFase = (estado, degrau) => degrau >= INICIO_MULTIDISCIPLINAR && !faseTeologicaConcluida(estado);
+export const MSG_FASE = 'Concluir antes a fase teológica (degraus 0 a 2)';
+
+export const FASES = {
+  preparacao: 'Preparação teológica', teologia: 'Teologia em andamento', liberada: 'Teologia concluída: formação multidisciplinar liberada',
+  multidisciplinar: 'Formação multidisciplinar em andamento', concluida: 'Formação integral concluída',
+};
+/** @param {number} [totalDegraus] */
+export function faseFormacao(estado, totalDegraus = 14) {
+  if (!estado.degraus[0]?.concluido) return 'preparacao';
+  if (!faseTeologicaConcluida(estado)) return 'teologia';
+  if (Array.from({ length: totalDegraus }, (_, n) => n).every((n) => estado.degraus[n]?.concluido)) return 'concluida';
+  return Object.keys(estado.degraus).some((n) => n >= INICIO_MULTIDISCIPLINAR && (estado.degraus[n].concluido || estado.degraus[n].competencias?.some(Boolean))) ? 'multidisciplinar' : 'liberada';
+}
 
 /**
  * Migra o registro dos degraus da escada antiga para a nova. Cada degrau antigo leva seu progresso para o
@@ -42,6 +73,7 @@ export function estadoInicial(agora = Date.now()) {
     sessoes: [],      // { id, inicio, minutos, alvo: {tipo, id}, obs }
     revisoes: [],     // { id, frente, verso, origem, proxima, nivel, historico: [{data, lembrou}] }
     degraus: {},      // n -> { competencias: bool[], concluido, data }
+    disciplinas: {},  // id da disciplina -> { etapa: data em que o estudante cumpriu exercício e critério }
     plano: { horasSemana: 6, dias: [1, 3, 5, 6], paginasHora: 12, livrosSimultaneos: 2, dataAlvo: '' },
     atual: { aula: null, livro: null },
   };
@@ -60,6 +92,7 @@ export function normalizarEstado(salvo, agora = Date.now()) {
     else out[k] = v;
   }
   if (!(salvo.v >= 2)) out.degraus = migrarDegraus(out.degraus); // estado salvo na escada de 13 degraus
+  if (!(salvo.v >= 3)) out.degraus = migrarParaFaseTeologica(out.degraus);
   out.v = VERSAO_ESTADO;
   return out;
 }
@@ -86,6 +119,22 @@ export function corrigir(itens, respostas) {
   return { acertos, total, pct: total ? Math.round((acertos / total) * 100) : 100, detalhes };
 }
 
+/**
+ * Resultado de uma avaliação conjunta por área (itens com `area`). A nota final é a da área mais fraca:
+ * o bom desempenho numa disciplina não compensa o desconhecimento de outra.
+ */
+export function resultadoPorArea(itens, detalhes) {
+  const areas = {};
+  itens.forEach((it, i) => {
+    if (!it.area || detalhes[i] === null) return;
+    const a = (areas[it.area] ||= { acertos: 0, total: 0 });
+    a.total += 1; if (detalhes[i]) a.acertos += 1;
+  });
+  for (const a of Object.values(areas)) a.pct = Math.round((a.acertos / a.total) * 100);
+  const pcts = Object.values(areas).map((a) => a.pct);
+  return { areas, pct: pcts.length ? Math.min(...pcts) : null };
+}
+
 export const melhorNota = (estado, avaliacaoId) =>
   Math.max(-1, ...(estado.tentativas[avaliacaoId] || []).map((t) => t.pct));
 
@@ -94,8 +143,9 @@ export const melhorNota = (estado, avaliacaoId) =>
  * Bloqueia conclusão prematura: exige a aula anterior do mesmo módulo, quiz ≥ mínimo,
  * discursivas respondidas e fonte lida. Abrir a aula nunca é bloqueado.
  */
-export function aulaConcluivel(aula, estado, aulaAnteriorId, prova = null) {
+export function aulaConcluivel(aula, estado, aulaAnteriorId, prova = null, degrau = 0) {
   const faltas = [];
+  if (bloqueadoPelaFase(estado, degrau)) faltas.push(MSG_FASE);
   const min = notaMinima(estado);
   const respondida = (chave) => (estado.discursivas[chave]?.texto || '').trim();
   if (aulaAnteriorId && estado.aulas[aulaAnteriorId]?.status !== 'concluida') faltas.push('Concluir a aula anterior do módulo');
@@ -168,7 +218,9 @@ export const quizDoLivro = (id) => `quiz-livro-${id}`;
  */
 export function comprovacaoLivro(livro, estado) {
   const quiz = livro.questionario?.length && melhorNota(estado, quizDoLivro(livro.id)) < NOTA_MINIMA ? [`Obter ao menos ${NOTA_MINIMA}% no questionário da obra`] : [];
-  const faltas = [...quiz, ...camposComprovacao(livro.nivel).filter((c) => (estado.discursivas[chaveComprovacao(livro.id, c)]?.texto || '').trim().length < CAMPOS_COMPROVACAO[c].minimo)
+  // consultar uma obra da fase 2 é livre; comprová-la (e assim concluí-la) só depois da fase teológica
+  const fase = bloqueadoPelaFase(estado, livro.degrau) ? [MSG_FASE] : [];
+  const faltas = [...fase, ...quiz, ...camposComprovacao(livro.nivel).filter((c) => (estado.discursivas[chaveComprovacao(livro.id, c)]?.texto || '').trim().length < CAMPOS_COMPROVACAO[c].minimo)
     .map((c) => CAMPOS_COMPROVACAO[c].rotulo)];
   return { ok: faltas.length === 0, faltas };
 }
@@ -213,6 +265,8 @@ export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado) {
 export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado, livrosPorId = null) {
   const faltas = [];
   for (const p of degrau.prereq) if (!estado.degraus[p]?.concluido) faltas.push(`Concluir o degrau ${p}`);
+  if (bloqueadoPelaFase(estado, degrau.n)) faltas.push(MSG_FASE);
+  if (degrau.prova && melhorNota(estado, degrau.prova) < NOTA_MINIMA) faltas.push(`Obter ao menos ${NOTA_MINIMA}% na avaliação de síntese da fase teológica`);
   const pendentes = aulasDoDegrau(degrau, modulos).filter((a) => !aulaConcluida(estado, a.id));
   const emPreparacao = pendentes.filter((a) => !aulasDisponiveis.has(a.id)).length;
   if (pendentes.length - emPreparacao > 0) faltas.push(`Concluir ${pendentes.length - emPreparacao} aula(s) disponível(is)`);

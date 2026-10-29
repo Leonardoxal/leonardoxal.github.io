@@ -21,16 +21,16 @@ export const ORDEM_AUTOR = Object.fromEntries(GRUPOS.map((g) => [g.chave, g.iten
  * na ordem do autor; um id isolado coloca aquele livro naquele ponto. Cada livro entra uma só vez.
  */
 export const SEQUENCIA = {
-  0: ['adler-como-ler', 'chaui-convite', 'japiassu-dicionario', 'sertillanges-vida', 'booth-pesquisa'],
+  0: ['adler-como-ler', 'japiassu-dicionario', 'sertillanges-vida', 'booth-pesquisa'],
   1: ['biblia-marcos', 'biblia-lucas', 'biblia-atos', 'biblia-joao', 'biblia-genesis-exodo', 'biblia-salmos', 'compendio-cic', 'cic', 'ratzinger-introducao', 'dei-verbum', 'newman-desenvolvimento', 'denzinger'],
-  2: ['pieper-filosofar', 'maritain-introducao', '@socrates', 'fides-et-ratio', 'newman-gramatica'],
-  3: ['weston-arte', 'copi-logica', '@aristoteles', '@maritain', 'kreeft-logica'],
-  4: ['hadot-antiga', 'jaeger-paideia', 'grego-instrumental', '@platao', '@aristoteles', '@epicuro', '@epicteto', '@marco-aurelio'],
+  3: ['chaui-convite', 'pieper-filosofar', 'maritain-introducao', '@socrates', 'fides-et-ratio', 'newman-gramatica'],
+  4: ['weston-arte', 'copi-logica', '@aristoteles', '@maritain', 'kreeft-logica'],
+  5: ['hadot-antiga', 'jaeger-paideia', 'grego-instrumental', '@platao', '@aristoteles', '@epicuro', '@epicteto', '@marco-aurelio'],
   // Patrística: o latim e a introdução de Gilson preparam Agostinho; Boécio fecha a Antiguidade cristã.
-  5: ['latim-instrumental', 'gilson-agostinho', '@agostinho', '@boecio'],
+  2: ['latim-instrumental', 'gilson-agostinho', '@agostinho', '@boecio'],
   // Metafísica e filosofia da religião antes da escolástica: dão a Tomás os conceitos que ele pressupõe.
   6: ['introducao-epistemologia', '@platao', '@aristoteles', '@tomas', 'leibniz-monadologia', '@hume', 'garrigou-deus', 'feser-cinco', 'mackie-milagre'],
-  7: ['gilson-espirito', 'gilson-filosofia-idade-media', '@anselmo', 'boaventura-itinerario', 'gilson-boaventura', 'pieper-tomas', 'gilson-tomismo', '@tomas', '@gilson'],
+  7: ['gilson-espirito', 'gilson-filosofia-idade-media', '@boecio', '@anselmo', 'boaventura-itinerario', 'gilson-boaventura', 'pieper-tomas', 'gilson-tomismo', '@tomas', '@gilson'],
   8: ['@descartes', 'gilson-index', 'gilson-estudos-cartesianos', 'spinoza-etica', '@pascal', '@locke', '@hume', '@rousseau', '@kant', '@gilson'],
   9: ['manual-contemporanea', '@hegel', '@kierkegaard', '@marx', '@nietzsche', 'frege-sentido', 'husserl-meditacoes', 'heidegger-ser-tempo', '@wittgenstein', '@popper', 'kuhn-estrutura', '@sartre', '@maritain', '@gilson', 'anscombe-mmp', '@macintyre', 'voegelin-nova-ciencia', 'taylor-era-secular'],
   // Mário Ferreira dos Santos por dependência: cosmovisão → lógica → conhecimento → ontologia → Filosofia Concreta
@@ -57,12 +57,18 @@ const AUTORES_PATRISTICA = new Set(['agostinho', 'boecio']);
 const IDS_PATRISTICA = new Set(['latim-instrumental', 'gilson-agostinho']);
 const DEGRAU_DO_AUTOR = { mfs: 10, olavo: 11 };
 const DEGRAU_DO_ID = { 'olavo-guia-mfs': 10 }; // guia de estudo do Mário: abre o degrau 10
+// Boécio lógico (comentários ao Órganon e quadrívio) é filosofia: vai para a escolástica, depois de Aristóteles.
+const BOECIO_LOGICO = new Set(['boecio-isagoge', 'boecio-categorias', 'boecio-interpretacao', 'boecio-logicos', 'boecio-quadrivio']);
+/** Fase teológica primeiro: a patrística (2) vem antes da introdução à filosofia (3), da lógica (4) e da antiga (5). */
+export const POSICAO_NA_ESCADA = { 2: 3, 3: 4, 4: 5, 5: 2 };
+const naEscada = (n) => POSICAO_NA_ESCADA[n] ?? n;
 
 function degrauNovo(l, chave) {
   if (DEGRAU_DO_ID[l.id] !== undefined) return DEGRAU_DO_ID[l.id];
   if (DEGRAU_DO_AUTOR[chave] !== undefined) return DEGRAU_DO_AUTOR[chave];
-  if (l.degrau === 6 && (AUTORES_PATRISTICA.has(chave) || IDS_PATRISTICA.has(l.id))) return 5;
-  return ANTIGO_PARA_NOVO[l.degrau];
+  if (BOECIO_LOGICO.has(l.id)) return 7;
+  if (l.degrau === 6 && (AUTORES_PATRISTICA.has(chave) || IDS_PATRISTICA.has(l.id))) return naEscada(5);
+  return naEscada(ANTIGO_PARA_NOVO[l.degrau]);
 }
 
 /**
@@ -73,10 +79,10 @@ function degrauNovo(l, chave) {
 export const INTRODUCOES = {
   0: { '^': ['m3-1'] },
   1: { '^': ['m1-1', 'm1-2', 'm1-3'], 'biblia-marcos': ['m2-1', 'm2-2', 'm2-3'], 'compendio-cic': ['m1-4'] },
-  2: { '^': ['m3-2'], '@socrates': ['m3-5', 'm3-6', 'm3-7'], 'fides-et-ratio': ['m3-8'] },
-  3: { '^': ['m4-1'], '@aristoteles': ['m4-2', 'm4-3', 'm4-4', 'm4-5', 'm4-6', 'm4-7'] },
-  4: { '^': ['m5-1', 'm5-2'], '@platao': ['m5-3', 'm5-4', 'm5-5', 'm5-6'], '@aristoteles': ['m5-7', 'm5-8', 'm5-9'], '@epicuro': ['m5-10'], '@epicteto': ['m5-11'] },
-  5: { '^': ['m2-7', 'm2-8'], '@agostinho': ['m2-9', 'm2-10', 'm8-1', 'm8-2'], '@boecio': ['m8-3'] },
+  3: { '^': ['m3-2'], '@socrates': ['m3-5', 'm3-6', 'm3-7'], 'fides-et-ratio': ['m3-8'] },
+  4: { '^': ['m4-1'], '@aristoteles': ['m4-2', 'm4-3', 'm4-4', 'm4-5', 'm4-6', 'm4-7'] },
+  5: { '^': ['m5-1', 'm5-2'], '@platao': ['m5-3', 'm5-4', 'm5-5', 'm5-6'], '@aristoteles': ['m5-7', 'm5-8', 'm5-9'], '@epicuro': ['m5-10'], '@epicteto': ['m5-11'] },
+  2: { '^': ['m2-7', 'm2-8'], '@agostinho': ['m2-9', 'm2-10', 'm8-1', 'm8-2'], '@boecio': ['m8-3'] },
   6: { '^': ['m6-1', 'm7-1', 'm7-2'], '@aristoteles': ['m7-4', 'm7-5'], '@tomas': ['m7-3', 'm7-7'], '@hume': ['m6-5'] },
   7: { '@anselmo': ['m8-4'], '@tomas': ['m8-5', 'm8-7', 'm8-8'] },
   8: { '@descartes': ['m9-1', 'm9-2'], '@pascal': ['m9-3'], '@locke': ['m9-4'], '@hume': ['m9-5'], '@rousseau': ['m9-6'], '@kant': ['m9-7', 'm9-8'] },

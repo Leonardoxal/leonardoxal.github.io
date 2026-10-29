@@ -3,6 +3,8 @@ import { livroPorId, LIVROS } from '../data/livros.js';
 import { todasAulas } from '../data/curriculo.js';
 import { CONCEITOS, conceitoPorId } from '../data/conceitos.js';
 import { AUTORES, autorPorId } from '../data/autores.js';
+import { SIMBOLOS, simboloPorId } from '../data/simbolos.js';
+import { DISCIPLINAS, disciplinaPorId } from '../data/disciplinas.js';
 import { normalizar, notasParaMarkdown, novoCartao } from '../core.js';
 import { esc, link, fmtData, novoId, toast, copiar, salvarArquivo } from '../ui.js';
 
@@ -15,9 +17,11 @@ export function rotuloVinculo(v) {
   if (v.tipo === 'livro') return `Livro: ${livroPorId[v.id]?.titulo || v.id}`;
   if (v.tipo === 'conceito') return `Conceito: ${conceitoPorId[v.id]?.termo || v.id}`;
   if (v.tipo === 'autor') return `Autor: ${autorPorId[v.id]?.nome || v.id}`;
+  if (v.tipo === 'simbolo') return `Símbolo: ${simboloPorId[v.id]?.nome || v.id}`;
+  if (v.tipo === 'disciplina') return `Disciplina: ${disciplinaPorId[v.id]?.nome || v.id}`;
   return '';
 }
-const hrefVinculo = (v) => (v ? { aula: `aula-${v.id}`, livro: `livro-${v.id}`, conceito: `conceito-${v.id}`, autor: 'autores' }[v.tipo] : null);
+const hrefVinculo = (v) => (v ? { aula: `aula-${v.id}`, livro: `livro-${v.id}`, conceito: `conceito-${v.id}`, autor: 'autores', simbolo: `simbolo-${v.id}`, disciplina: `disciplina-${v.id}` }[v.tipo] : null);
 
 let filtro = { q: '', tipo: '' };
 
@@ -62,7 +66,9 @@ const opcoesVinculo = (v) => {
     ${grupo('Aulas', 'aula', todasAulas.map((a) => [a.id, `${a.id} — ${a.titulo}`]))}
     ${grupo('Livros', 'livro', LIVROS.map((l) => [l.id, l.titulo]))}
     ${grupo('Autores', 'autor', AUTORES.map((a) => [a.id, a.nome]))}
-    ${grupo('Conceitos', 'conceito', CONCEITOS.map((c) => [c.id, c.termo]))}`;
+    ${grupo('Conceitos', 'conceito', CONCEITOS.map((c) => [c.id, c.termo]))}
+    ${grupo('Disciplinas', 'disciplina', DISCIPLINAS.map((d) => [d.id, d.nome]))}
+    ${grupo('Símbolos', 'simbolo', SIMBOLOS.map((s) => [s.id, s.nome]))}`;
 };
 
 export function nota({ estado }, id) {

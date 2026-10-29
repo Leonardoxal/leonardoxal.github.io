@@ -10,12 +10,14 @@ import { AUTORES } from './data/autores.js';
 import { painel } from './views/painel.js';
 import { escada } from './views/mapa.js';
 import { arvore } from './views/arvore.js';
-import { rosacea } from './ornamentos.js';
+import { cruz } from './ornamentos.js';
 import { santosDaAba } from './views/santo.js';
 import { selecionarAutor } from './views/atlas.js';
 import { NOS } from './data/arvore.js';
 import { DISCIPLINAS } from './data/disciplinas.js';
 import { disciplina } from './views/disciplina.js';
+import { simbolos } from './views/simbolos.js';
+import { SIMBOLOS } from './data/simbolos.js';
 import { curso, modulo, aula } from './views/curso.js';
 import { biblioteca, livro } from './views/biblioteca.js';
 import { caderno, nota, criarNota } from './views/caderno.js';
@@ -35,6 +37,7 @@ const INDICE = [
   ...AUTORES.map((a) => ({ tipo: 'Autor', href: 'autores', titulo: a.nome, texto: a.resumo })),
   ...MOVIMENTOS.map((m) => ({ tipo: 'Ideia', href: `ideia-${m.id}`, titulo: m.nome, texto: `${m.pessoas} ${m.origem}` })),
   ...NOS.map((n) => ({ tipo: 'Área', href: `area-${n.id}`, titulo: n.nome, texto: n.desc })),
+  ...SIMBOLOS.map((s) => ({ tipo: 'Símbolo', href: `simbolo-${s.id}`, titulo: s.nome, texto: `${s.contexto} ${s.significados.map((g) => g.texto).join(' ')}` })),
   ...DISCIPLINAS.map((d) => ({ tipo: 'Disciplina', href: `disciplina-${d.id}`, titulo: `Percurso de ${d.nome}`, texto: d.metodo })),
 ];
 let consulta = '';
@@ -52,10 +55,10 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa: arvore, escada, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
-const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina };
-const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
+const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
+const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
+const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos'],['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -177,7 +180,7 @@ barraCrono.querySelector('[data-crono="descartar"]').addEventListener('click', (
 document.getElementById('crono-livre').addEventListener('click', () => iniciarCronometro(null));
 
 // ---------- Identidade visual: emblema e tema (preferência local; automático segue o sistema) ----------
-document.getElementById('emblema').innerHTML = rosacea(34);
+document.getElementById('emblema').innerHTML = cruz(34);
 const CHAVE_TEMA = 'academia-verdade-tema';
 const TEMAS = { auto: 'automático', light: 'claro', dark: 'escuro' };
 const botaoTema = document.getElementById('tema');

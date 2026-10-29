@@ -18,6 +18,25 @@ export function rosacea(tamanho = 34, classe = '') {
     <circle cx="50" cy="50" r="47"/><circle cx="50" cy="50" r="41"/>${raios}${lobulos}<circle cx="50" cy="50" r="11"/><circle cx="50" cy="50" r="4" fill="currentColor"/></svg>`;
 }
 
+/**
+ * Cruz latina gótica: braços com terminais ogivais (pontas de lanceta) ladeados por lóbulos (trevo),
+ * haste inferior mais longa e veio central gravado. Simétrica; legível a partir de ~16 px.
+ */
+export function cruz(altura = 34, classe = '') {
+  const tri = (x1, y1, x2, y2) => `<circle cx="${x1}" cy="${y1}" r="2.3"/><circle cx="${x2}" cy="${y2}" r="2.3"/>`;
+  return `<svg class="cruz ${classe}" viewBox="0 0 40 60" height="${altura}" width="${f((altura * 40) / 60)}" aria-hidden="true">
+    <g fill="currentColor">
+      <rect x="17.4" y="9" width="5.2" height="43"/><rect x="7" y="17.4" width="26" height="5.2"/>
+      <path d="M17.4 10C17.4 6.6 18.9 4.4 20 1.5 21.1 4.4 22.6 6.6 22.6 10Z"/>
+      <path d="M17.4 51C17.4 54.6 18.9 56.8 20 59.5 21.1 56.8 22.6 54.6 22.6 51Z"/>
+      <path d="M8 17.4C4.6 17.4 2.4 18.9.5 20 2.4 21.1 4.6 22.6 8 22.6Z"/>
+      <path d="M32 17.4C35.4 17.4 37.6 18.9 39.5 20 37.6 21.1 35.4 22.6 32 22.6Z"/>
+      ${tri(16.6, 9.2, 23.4, 9.2)}${tri(8.6, 16.6, 8.6, 23.4)}${tri(31.4, 16.6, 31.4, 23.4)}${tri(16.6, 50.8, 23.4, 50.8)}
+    </g>
+    <path class="cruz-veio" d="M20 6V55M4 20H36" fill="none" stroke-width=".9"/>
+    <path class="cruz-veio" d="M20 16.2 23.8 20 20 23.8 16.2 20Z" fill="none" stroke-width=".9"/></svg>`;
+}
+
 /** Lanceta: janela estreita de arco ogival, de largura w e altura h, a partir do canto inferior esquerdo (x, y). */
 const lanceta = (x, y, w, h) => `<path d="M${x} ${y}V${y - h + w}C${x} ${y - h + w * 0.35} ${x + w * 0.3} ${y - h + 2} ${x + w / 2} ${y - h}C${x + w * 0.7} ${y - h + 2} ${x + w} ${y - h + w * 0.35} ${x + w} ${y - h + w}V${y}"/>`;
 

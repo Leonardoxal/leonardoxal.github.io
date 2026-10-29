@@ -26,7 +26,7 @@ const BASE = [
     tipo: 'secundaria', nivel: 1, modulo: 'm3', ano: '1940; ed. revista 1972',
     objetivo: 'Aprender leitura ativa: inspecionar, classificar, delimitar a pergunta central, interpretar e só então criticar.',
     edicao: 'Tradução brasileira disponível no mercado; registre a editora da sua edição.' }),
-  L('chaui-convite', 'Convite à Filosofia', 'Marilena Chaui', 'Introdução à filosofia', 0, 2, {
+  L('chaui-convite', 'Convite à Filosofia', 'Marilena Chaui', 'Introdução à filosofia', 2, 2, {
     tipo: 'secundaria', nivel: 1, modulo: 'm3', ano: '1994', prereq: ['adler-como-ler'],
     objetivo: 'Panorama dos problemas filosóficos. Estudar como introdução filosófica, não como fonte de doutrina católica; a autora escreve de uma perspectiva própria, não confessional.' }),
   L('japiassu-dicionario', 'Dicionário Básico de Filosofia', 'Hilton Japiassú e Danilo Marcondes', 'Referência', 0, 3, {

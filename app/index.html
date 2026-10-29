@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#551222">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23551222'/%3E%3Cg fill='%23d8b86a' transform='translate(12 2)'%3E%3Crect x='17.4' y='9' width='5.2' height='43'/%3E%3Crect x='7' y='17.4' width='26' height='5.2'/%3E%3Cpath d='M17.4 10C17.4 6.6 18.9 4.4 20 1.5 21.1 4.4 22.6 6.6 22.6 10ZM17.4 51C17.4 54.6 18.9 56.8 20 59.5 21.1 56.8 22.6 54.6 22.6 51ZM8 17.4C4.6 17.4 2.4 18.9.5 20 2.4 21.1 4.6 22.6 8 22.6ZM32 17.4C35.4 17.4 37.6 18.9 39.5 20 37.6 21.1 35.4 22.6 32 22.6Z'/%3E%3C/g%3E%3C/svg%3E">
 <title>Academia da Verdade</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -466,7 +467,10 @@ details > summary { cursor: pointer; }
 /* Seletor de tema no topo */
 #tema { margin-left: 4px; }
 @media (max-width: 560px) { .marca { font-size: 1rem; } .marca .rosacea { width: 26px; height: 26px; } .nav a { padding: 8px 7px 6px; } }
-#emblema { display: inline-flex; color: var(--ouro-claro); margin-right: 8px; vertical-align: middle; }
+#emblema { display: inline-flex; color: var(--ouro-claro); margin-right: 10px; vertical-align: middle; filter: drop-shadow(0 1px 0 rgb(0 0 0 / .35)); }
+#emblema .cruz-veio { stroke: var(--bordo); }
+.marca { display: inline-flex; align-items: center; }
+@media (max-width: 560px) { #emblema .cruz { height: 26px; width: 17px; } }
 
 /* ---------- Mapa do conhecimento (árvore) e abas árvore/escada ---------- */
 :root { --g-teologia: var(--vinho); --g-filosofia: var(--ouro-texto); --g-humanas: var(--azul); --g-formais: #2f6152; --g-artes: #5b3a70; }
@@ -578,6 +582,29 @@ details > summary { cursor: pointer; }
 .etapa-corpo { padding: 0 16px 12px; }
 .etapa-corpo h3 { font: 600 .72rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); margin: 12px 0 4px; }
 .brasil-nota { border-left: 3px solid var(--ok); padding-left: 10px; }
+
+/* ---------- Fases, grade escolar, avaliação conjunta e laboratório de símbolos ---------- */
+:root { --g-naturais: #2f6152; --g-simbolos: #7a3b1d; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --g-naturais: #8fc4ae; --g-simbolos: #e0a77f; } }
+:root[data-theme="dark"] { --g-naturais: #8fc4ae; --g-simbolos: #e0a77f; }
+:root { --g-formais: #3f4f8a; } :root[data-theme="dark"] { --g-formais: #a9b6e8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --g-formais: #a9b6e8; } }
+.g-naturais { --g: var(--g-naturais); } .g-simbolos { --g: var(--g-simbolos); }
+.fase { margin: 4px 0 10px; font: .9rem var(--f-ui); color: var(--tinta-2); }
+.fase .chip { background: var(--vinho); color: var(--superficie); }
+.fase-chip { font-size: .66rem; vertical-align: middle; margin-left: 6px; }
+.grade-escolar { border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); background: var(--superficie); padding: 14px 18px; margin-bottom: 18px; }
+.por-area td:last-child strong { color: var(--erro); }
+.lab { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: start; }
+.lab-lista { border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); background: var(--superficie); padding: 10px 14px; }
+.lab-lista h3 { font: 600 .7rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); margin: 10px 0 4px; }
+.lista-simbolos { list-style: none; padding: 0; margin: 0; } .lista-simbolos a { display: block; padding: 4px 6px; border-radius: var(--raio); }
+.lista-simbolos a[aria-current="true"] { background: var(--vinho); color: var(--superficie); text-decoration: none; }
+.lab-ficha { border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); background: var(--superficie); padding: 14px 18px; }
+.sentido-escritura { border-left: 3px solid var(--vinho); } .sentido-doutrina { border-left: 3px solid var(--ouro); } .sentido-historia { border-left: 3px solid var(--azul); }
+.sentido-interpretacao { border-left: 3px solid var(--g-naturais); } .sentido-hipotese { border-left: 3px dashed var(--pedra); }
+.comparar { border-left: 2px solid var(--ouro); padding-left: 10px; }
+@media (max-width: 760px) { .lab { grid-template-columns: minmax(0, 1fr); } }
 </style>
 
 <header class="topo">

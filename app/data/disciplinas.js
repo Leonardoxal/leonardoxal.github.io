@@ -166,6 +166,48 @@ export const DISCIPLINAS = [
   },
 ];
 
+/** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
+const M = (n, titulo, objetivo, conteudos, exercicio, criterio, brasil = null) => ({ ...E(`m${n}`, objetivo, conteudos, exercicio, criterio, brasil), titulo });
+DISCIPLINAS.push({
+  id: 'simbologia', no: 'simbologia', nome: 'Simbologia, Semiótica e Simbolismo', aulasPublicadas: false, trilhaPropria: true,
+  metodo: 'Distinguir semiótica (teoria dos signos e da interpretação), simbologia (símbolos em seus contextos históricos e religiosos), simbolismo (uso expressivo dos símbolos e os movimentos com esse nome), iconografia (identificar o que a imagem mostra) e iconologia (interpretar seu sentido com fontes). Nenhum significado é atribuído sem documento.',
+  prereq: ['logica', 'intro-filosofia', 'filo-linguagem'],
+  etapas: [
+    M(1, 'Fundamentos do signo e da significação', 'Distinguir signo, símbolo, ícone, índice e sinal.', ['Signo e significado', 'Natural e convencional', 'Denotação e conotação'], 'Classificar 20 exemplos (fumaça, palavra, bandeira, retrato, cruz) e justificar cada classificação.', 'Classificação justificada com o vocabulário técnico.'),
+    M(2, 'História da semiótica e da semiologia', 'Conhecer a tradição da teoria dos signos.', ['Agostinho: signos naturais e dados (A Doutrina Cristã II)', 'Escolástica: modos de significar', 'Locke e o termo "semiótica"', 'Século XX: Peirce, Saussure, Eco'], 'Linha do tempo da teoria do signo com uma fonte primária por época.', 'Cada marco com autor, obra e tese.'),
+    M(3, 'Charles Sanders Peirce e a teoria dos signos', 'Entender a tríade signo, objeto e interpretante.', ['Ícone, índice e símbolo', 'Semiose ilimitada', 'Abdução'], 'Analisar uma placa de trânsito e um retrato segundo a tríade de Peirce.', 'Uso correto dos três termos.'),
+    M(4, 'Ferdinand de Saussure e a tradição semiológica', 'Entender significante, significado e arbitrariedade do signo.', ['Língua e fala', 'Sincronia e diacronia', 'Barthes e a semiologia da cultura'], 'Comparar Peirce e Saussure num quadro e aplicar ambos a um mesmo exemplo.', 'Distingue as duas tradições sem confundi-las.'),
+    M(5, 'Simbologia na tradição católica', 'Estudar sinais e símbolos litúrgicos e sacramentais com as fontes da Igreja.', ['Sinais e símbolos na liturgia (CIC 1145–1152)', 'Símbolos do Espírito Santo: água, unção, fogo, nuvem e luz, selo, mão, pomba (CIC 694–701)', 'Cruz, cordeiro, pastor, videira, Alfa e Ômega', 'Defesa das imagens: São João Damasceno e o II Concílio de Niceia (787)'], 'Ficha de cinco símbolos com o texto bíblico, o parágrafo do Catecismo e o uso litúrgico.', 'Cada sentido com a fonte; distingue doutrina de interpretação particular.'),
+    M(6, 'Bíblia, alegoria e interpretação simbólica', 'Conhecer os sentidos da Escritura e seus limites.', ['Sentido literal e espirituais (CIC 115–119)', 'Tipologia: Adão e Cristo, Êxodo e Batismo', 'Exegese patrística e medieval'], 'Ler 1Cor 10,1–6 e explicar a tipologia que Paulo usa.', 'Distingue sentido literal e tipológico com base no texto.'),
+    M(7, 'Mário Ferreira dos Santos e a simbólica', 'Ler o Tratado de Simbólica com a preparação lógica e filosófica do curso.', ['Símbolo e simbolizado', 'Simbólica, dialética e metafísica', 'Comparação com Peirce e com a tradição tomista'], 'Expor uma tese do Tratado e confrontá-la com uma teoria do signo estudada nos módulos 3 e 4.', 'Expõe a tese com fidelidade e não a apresenta como consenso.'),
+    M(8, 'Simbolismo nas artes, na literatura e na arquitetura', 'Distinguir iconografia e iconologia; estudar a arte sacra e os movimentos simbolistas.', ['Panofsky: os três níveis de interpretação', 'Arquitetura gótica: luz, vitrais, rosáceas', 'Simbolismo literário (Baudelaire, Mallarmé; no Brasil, Cruz e Sousa)'], 'Análise iconográfica e iconológica de um vitral ou pintura sacra, com as fontes usadas.', 'Separa o que a imagem mostra do que ela significa e cita as fontes.', 'O simbolismo literário brasileiro (Cruz e Sousa, Alphonsus de Guimaraens) é estudado ao lado do francês.'),
+    M(9, 'Símbolos e mitologias em diferentes culturas', 'Comparar sistemas simbólicos sem reduzi-los a um sentido universal.', ['Eliade: o sagrado e o simbolismo religioso', 'Mitologias grega, nórdica e indígenas', 'Riscos do comparativismo'], 'Comparar o símbolo da árvore em duas tradições, indicando as fontes de cada uma.', 'Aponta semelhanças e diferenças sem afirmar origem comum sem prova.', 'Símbolos de povos indígenas do Brasil são estudados por fontes etnográficas, não por generalização.'),
+    M(10, 'Símbolos políticos, históricos e nacionais', 'Estudar heráldica, bandeiras, brasões e monumentos pela sua história documentada.', ['Heráldica: regras e vocabulário', 'Símbolos do Império e da República no Brasil', 'Monumentos e memória coletiva'], 'Reconstituir a história da bandeira republicana a partir do Decreto nº 4 (1889) e da Lei nº 5.700 (1971).', 'Cada afirmação apoiada no documento; distingue intenção documentada e interpretação posterior.', 'A bandeira de 1889 e seu lema de inspiração positivista são estudados nas fontes legais e na historiografia (José Murilo de Carvalho).'),
+    M(11, 'Semiótica aplicada à comunicação, à sociedade e à economia', 'Aplicar a análise de signos a publicidade, marcas e discurso público.', ['Signo e publicidade', 'Marcas e valor', 'Propaganda política'], 'Analisar semioticamente uma campanha publicitária, separando descrição e avaliação.', 'Aplica conceitos dos módulos 3 e 4 corretamente.'),
+    M(12, 'Investigação avançada e projeto final', 'Conduzir uma investigação própria sobre um signo ou símbolo.', ['Escolha do objeto', 'Fontes primárias e iconográficas', 'Redação e defesa'], 'Ensaio de 10 a 15 páginas sobre um símbolo, com fontes documentais e comparação de interpretações; o Laboratório de Signos e Símbolos serve de caderno de campo.', 'Rubrica: fontes, distinção entre doutrina, história e hipótese, rigor da comparação.'),
+  ],
+  bibliografia: [
+    B('Santo Agostinho', 'A doutrina cristã', '397–426', 'primaria', 'm2', { livro: 'agostinho-doutrina-crista' }),
+    B('Charles S. Peirce', 'Collected Papers', '1931–1958', 'primaria', 'm3'),
+    B('Ferdinand de Saussure', 'Curso de linguística geral', '1916', 'primaria', 'm4'),
+    B('Roland Barthes', 'Elementos de semiologia', '1964', 'estudo', 'm4'),
+    B('Igreja Católica', 'Catecismo da Igreja Católica, §§ 694–701 e 1145–1152', '1992', 'doutrina', 'm5', { livro: 'cic' }),
+    B('São João Damasceno', 'Discursos contra os que caluniam as santas imagens', 'c. 730', 'primaria', 'm5'),
+    B('Henri de Lubac', 'Exegese medieval', '1959–1964', 'estudo', 'm6'),
+    B('Mário Ferreira dos Santos', 'Tratado de Simbólica', '1956', 'primaria', 'm7', { livro: 'mfs-simbolica', brasil: true }),
+    B('Émile Mâle', "L'art religieux du XIIIe siècle en France", '1898', 'estudo', 'm8'),
+    B('Erwin Panofsky', 'Estudos de iconologia', '1939', 'estudo', 'm8'),
+    B('Mircea Eliade', 'Imagens e símbolos', '1952', 'estudo', 'm9'),
+    B('Jean Chevalier e Alain Gheerbrant', 'Dicionário de símbolos', '1969', 'manual', 'm9'),
+    B('Governo Provisório da República', 'Decreto nº 4, de 19 de novembro de 1889 (símbolos nacionais)', '1889', 'primaria', 'm10', { brasil: true }),
+    B('Congresso Nacional', 'Lei nº 5.700, de 1º de setembro de 1971 (forma e apresentação dos símbolos nacionais)', '1971', 'primaria', 'm10', { brasil: true }),
+    B('José Murilo de Carvalho', 'A formação das almas: o imaginário da República no Brasil', '1990', 'estudo', 'm10', { brasil: true }),
+    B('Umberto Eco', 'Tratado geral de semiótica', '1975', 'estudo', 'm12'),
+  ],
+});
+
 export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, d]));
+/** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
+export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
 export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'antropologia', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'astronomia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];

@@ -2,7 +2,7 @@
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { moduloPorId, todasAulas } from '../data/curriculo.js';
-import { melhorNota, revisoesPendentes, responderCartao, novoCartao } from '../core.js';
+import { melhorNota, revisoesPendentes, responderCartao, novoCartao, faseTeologicaConcluida, MSG_FASE } from '../core.js';
 import { esc, link, fmtData, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
 
@@ -13,7 +13,7 @@ function aulasARevisar(estado) {
   return Object.entries(contagem).sort((a, b) => b[1] - a[1]).slice(0, 10);
 }
 
-const TIPOS = { prova: 'Prova de módulo', logica: 'Lógica', comparacao: 'Comparação entre autores', final: 'Avaliação final' };
+const TIPOS = { prova: 'Prova de módulo', logica: 'Lógica', comparacao: 'Comparação entre autores', final: 'Avaliação final', conjunta: 'Avaliação interdisciplinar' };
 
 export function avaliacoes({ estado }) {
   const pend = revisoesPendentes(estado.revisoes);
@@ -38,7 +38,9 @@ export function avaliacao({ estado }, id) {
   if (!a) return '<p>Avaliação não encontrada.</p>';
   return `<nav class="migalha">${link('avaliacoes', 'Avaliações')} / ${TIPOS[a.tipo]}</nav>
   <header class="cab"><h1>${esc(a.titulo)}</h1><p class="sub">${esc(a.descricao)}</p>${a.minimo ? `<p class="meta">Nota mínima: ${a.minimo}%. Vale a melhor tentativa.</p>` : ''}</header>
-  ${quizHTML(a.itens, a.id, a.id, estado, a.minimo || 0)}`;
+  ${a.requerFase2 && !faseTeologicaConcluida(estado)
+    ? `<div class="aviso"><strong>Disponível na fase multidisciplinar.</strong> ${esc(MSG_FASE)}. Você pode ler as questões no ${link('escada', 'plano da escada')}, mas a avaliação só abre depois.</div>`
+    : quizHTML(a.itens, a.id, a.id, estado, a.minimo || 0)}`;
 }
 avaliacao.ligar = (root, ctx, id) => ligarQuiz(root, avaliacaoPorId[id].itens, ctx);
 
