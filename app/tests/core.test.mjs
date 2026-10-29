@@ -595,15 +595,20 @@ test('identidade: cruz gótica vetorial ao lado do nome', () => {
   assert.ok(html.includes('rel="icon"'), 'favicon com a cruz');
 });
 
-test('História I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase 2 e ligação ao percurso', () => {
+test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio da fase 2 e ligação ao percurso', () => {
   const h = DISCIPLINAS.find((d) => d.id === 'historia');
   const ids = Object.values(h.aulas).flat();
-  assert.deepEqual(Object.keys(h.aulas), ['fundamentos', 'vocabulario', 'metodos'], 'etapas 1 a 3');
+  // as etapas com aulas são as primeiras do percurso, em ordem, sem pular nenhuma
+  assert.deepEqual(Object.keys(h.aulas), Object.keys(ETAPAS).slice(0, 5), 'etapas 1 a 5');
+  const modulos = [...new Set(ids.map((id) => todasAulas.find((x) => x.id === id)?.modulo))];
+  assert.deepEqual(modulos, ['h1', 'h2']);
+  for (const m of modulos) assert.ok(avaliacaoPorId[`prova-${m}`]?.itens.filter((i) => i.aula).length >= 8, `prova-${m}`);
+  assert.ok(moduloPorId.h2.prereq.includes('h1'), 'H2 depois de H1');
   const campos = ['aprendera', 'prereq', 'explicacao', 'vocabulario', 'exemplos', 'contexto', 'argumento', 'objecoes', 'aplicacao', 'fonte', 'perguntas', 'exercicios', 'resumo', 'referencias', 'criterios', 'revisao'];
   for (const id of ids) {
     const a = AULAS_COMPLETAS.find((x) => x.id === id);
     assert.ok(a, `aula ${id} publicada`);
-    assert.equal(todasAulas.find((x) => x.id === id).modulo, 'h1');
+    assert.equal(todasAulas.find((x) => x.id === id).degrau, null, `${id}: fora da escada`);
     if (a.tipo === 'avaliacao') continue;
     for (const c of campos) assert.ok(a[c] && (typeof a[c] !== 'object' || Object.keys(a[c]).length), `${id}: seção ${c}`);
     assert.ok(a.exercicios.filter((e) => e.tipo === 'mc').length >= 5 && a.exercicios.some((e) => e.tipo === 'disc'), `${id}: exercícios`);
@@ -612,7 +617,5 @@ test('História I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase
     // concluir exige a fase teológica
     assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE));
   }
-  const prova = avaliacaoPorId['prova-h1'];
-  assert.ok(prova && prova.itens.filter((i) => i.aula).length >= 8, 'prova do módulo com questões das aulas');
-  assert.ok(noPorId.historia.modulos.includes('h1'), 'a árvore conta o progresso das aulas de História');
+  assert.deepEqual(noPorId.historia.modulos, modulos, 'a árvore conta o progresso das aulas de História');
 });

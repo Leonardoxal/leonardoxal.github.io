@@ -165,6 +165,11 @@ export const MODULOS = [
     objetivos: ['Distinguir passado, conhecimento histórico e historiografia', 'Datar e periodizar com consciência das convenções', 'Aplicar crítica externa e interna a um documento', 'Confrontar testemunhos independentes'],
     aulas: A(['O que é a história: passado, fonte e testemunho', 'O tempo histórico: cronologia, calendários e periodização', 'Crítica das fontes: autenticidade, autoria e credibilidade', 'Prática de crítica documental: a Carta de Pero Vaz de Caminha', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Ficha crítica da Carta de Caminha', 'Prova do módulo (80%) e discursivas'] },
+  { id: 'h2', n: 'H2', titulo: 'História II: formação da historiografia e autores fundamentais', semanas: '5–6', degrau: null, disciplina: 'historia', prereq: ['h1', 'm5', 'm2b'],
+    descricao: 'Da investigação grega (Heródoto, Tucídides) à história cristã (Eusébio, Agostinho, Beda), à erudição moderna e a Ranke, e aos Annales (Bloch, Febvre, Braudel), com a historiografia brasileira em cada etapa. Corresponde às etapas 4 e 5 do percurso de História.',
+    objetivos: ['Situar os grandes historiadores e suas obras', 'Comparar critérios de verdade e finalidades da história em cada época', 'Usar os conceitos de causa profunda, teologia da história, crítica documental e longa duração', 'Relacionar a historiografia brasileira à mundial'],
+    aulas: A(['Heródoto e Tucídides: o nascimento da investigação histórica', 'A história cristã: Eusébio, Agostinho e Beda', 'Erudição e ciência histórica: dos humanistas a Ranke', 'Os Annales: Marc Bloch, Lucien Febvre e Fernand Braudel', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Discursivas comparando autores', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
