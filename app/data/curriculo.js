@@ -185,6 +185,11 @@ export const MODULOS = [
     objetivos: ['Situar os grandes acontecimentos do século XX e do Brasil republicano', 'Aplicar o método histórico a temas recentes e ao debate público', 'Formular e executar um projeto de pesquisa com fontes primárias', 'Demonstrar domínio integrado do percurso de História'],
     aulas: A(['O século XX: guerras mundiais, totalitarismos, Guerra Fria e descolonização', 'O Brasil republicano: da Primeira República à Constituição de 1988', 'História no espaço público: patrimônio, arquivos e uso do passado', 'Projeto de pesquisa histórica: do problema à redação', 'Avaliação integradora de História']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Avaliação integradora (80%) com questões de H1 a H5', 'Trabalho final de pesquisa segundo a rubrica'] },
+  { id: 'g1', n: 'G1', titulo: 'Geografia I: conceitos, localização, cartografia e dados espaciais', semanas: '4–6', degrau: null, disciplina: 'geografia', prereq: ['m4'],
+    descricao: 'Espaço, lugar, paisagem, território, região e escala; coordenadas, fusos e escalas cartográficas; projeções e leitura crítica de mapas; censo, mapas temáticos e imagens de satélite, com dados do IBGE e do INPE. Corresponde às etapas 1 a 3 do percurso de Geografia.',
+    objetivos: ['Usar os conceitos fundamentais da geografia', 'Localizar e calcular com coordenadas, fusos e escalas', 'Escolher e criticar projeções e mapas temáticos', 'Interpretar dados espaciais sem erros comuns'],
+    aulas: A(['O que é a geografia: espaço, lugar, paisagem, território e região', 'Localizar na Terra: coordenadas, fusos horários e escala cartográfica', 'Cartografia: projeções, elementos do mapa e leitura crítica', 'Dados espaciais: censo, mapas temáticos e imagens de satélite', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Exercícios de cálculo de fusos e escalas', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

@@ -627,3 +627,21 @@ test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio d
   }
   assert.deepEqual([...noPorId.historia.modulos].sort(), modulos, 'a árvore conta o progresso das aulas de História');
 });
+
+test('Geografia I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase 2 e ligação ao percurso', () => {
+  const g = DISCIPLINAS.find((d) => d.id === 'geografia');
+  assert.deepEqual(Object.keys(g.aulas), Object.keys(ETAPAS).slice(0, 3), 'etapas 1 a 3');
+  const campos = ['aprendera', 'prereq', 'explicacao', 'vocabulario', 'exemplos', 'contexto', 'argumento', 'objecoes', 'aplicacao', 'fonte', 'perguntas', 'exercicios', 'resumo', 'referencias', 'criterios', 'revisao', 'avancado'];
+  for (const id of Object.values(g.aulas).flat()) {
+    const a = AULAS_COMPLETAS.find((x) => x.id === id);
+    assert.ok(a, `aula ${id} publicada`);
+    assert.equal(todasAulas.find((x) => x.id === id).modulo, 'g1');
+    if (a.tipo === 'avaliacao') continue;
+    for (const c of campos) assert.ok(a[c], `${id}: seção ${c}`);
+    assert.ok(a.exercicios.filter((e) => e.tipo === 'mc').length >= 5 && a.exercicios.some((e) => e.tipo === 'disc'), `${id}: exercícios`);
+    assert.ok(a.contexto.includes('Brasil'), `${id}: contexto brasileiro`);
+    assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE));
+  }
+  assert.ok(avaliacaoPorId['prova-g1']?.itens.filter((i) => i.aula).length >= 8, 'prova do módulo');
+  assert.ok(noPorId.geografia.modulos.includes('g1') && !g.aulasPublicadas, 'mapa conta o progresso; percurso ainda incompleto');
+});
