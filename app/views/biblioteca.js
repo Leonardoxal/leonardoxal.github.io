@@ -5,6 +5,7 @@ import { buscaCatalogo } from '../data/fontes.js';
 import { pctLivro, normalizar, comprovacaoLivro } from '../core.js';
 import { transicaoHTML, comprovacaoHTML, ligarComprovacao } from './ficha.js';
 import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast } from '../ui.js';
+import { conexoesLivro, notasDe } from './conexoes.js';
 
 const FILTROS_VAZIOS = { q: '', autor: '', area: '', nivel: '', modulo: '', estado: '', prioridade: '', fav: false };
 let filtros = { ...FILTROS_VAZIOS };
@@ -74,7 +75,7 @@ export function livro({ estado }, id) {
   const l = livroPorId[id];
   if (!l) return '<p>Livro não encontrado.</p>';
   const st = { estado: 'nao', ...estado.livros[id] };
-  const notas = estado.notas.filter((n) => n.vinculo?.tipo === 'livro' && n.vinculo.id === id);
+  const notas = notasDe(estado, 'livro', id);
   const m = l.modulo && moduloPorId[l.modulo];
   return `<nav class="migalha">${link('biblioteca', 'Biblioteca')} / Degrau ${l.degrau}</nav>
   <header class="cab"><span class="num">Degrau ${l.degrau} · ${l.ordem}º na ordem de leitura ·${TIPOS_LIVRO[l.tipo]}</span>
@@ -108,6 +109,7 @@ export function livro({ estado }, id) {
     </section>
   </div>
   ${comprovacaoHTML(estado, id)}
+  ${conexoesLivro(estado, id)}
   <section><h2>Anotações deste livro (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong>${n.pagina ? ` <span class="meta">${esc(n.pagina)}</span>` : ''}<p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`;
 }
 

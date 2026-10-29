@@ -1,11 +1,12 @@
 // Curso completo, página de módulo e sala de aula.
-import { MODULOS, moduloPorId } from '../data/curriculo.js';
+import { MODULOS, moduloPorId, todasAulas } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { LIVROS } from '../data/livros.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { progressoModulo, aulaConcluivel, aulaConcluida, melhorNota, novoCartao, notaMinima } from '../core.js';
 import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
+import { conexoesAula } from './conexoes.js';
 
 const statusAula = (estado, a) => {
   if (aulaConcluida(estado, a.id)) return '<span class="chip ok">Concluída</span>';
@@ -94,8 +95,8 @@ function aulaAvaliacao(estado, m, meta, a) {
 }
 
 export function aula({ estado }, id) {
-  const [mid] = id.split('-');
-  const m = moduloPorId[mid];
+  // o módulo vem do currículo, não do prefixo do id: aulas que mudaram de módulo conservam o id antigo
+  const m = moduloPorId[todasAulas.find((x) => x.id === id)?.modulo];
   const meta = m?.aulas.find((x) => x.id === id);
   if (!meta) return '<p>Aula não encontrada.</p>';
   const a = aulaPorId[id];
@@ -135,6 +136,7 @@ export function aula({ estado }, id) {
   <section id="s12"><h2>Resumo final</h2><ul class="resumo">${a.resumo.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>
   <section id="s13"><h2>Referências verificáveis</h2><ul class="refs">${a.referencias.map((r) => `<li>${esc(r.texto)} ${linkExterno(r.link)}</li>`).join('')}</ul>
     <p class="meta">Etiquetas usadas no texto: ${['doutrina', 'fato', 'argumento', 'interpretacao', 'hipotese', 'debate'].map(etiqueta).join(' ')}</p></section>
+  ${conexoesAula(estado, id)}
   ${a.avancado ? `<section id="s15" class="avancado-sec texto"><h2>Aprofundamento</h2>
     <p class="dica">Parte obrigatória da aula: questionário com mínimo de ${notaMinima(estado)}% e questão discursiva.</p>
     ${a.avancado.texto}

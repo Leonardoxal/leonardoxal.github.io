@@ -1,0 +1,171 @@
+// Percursos das disciplinas além da filosofia: etapas, métodos próprios, integração com o Brasil,
+// exercícios, critérios de conclusão e bibliografia progressiva (coleção complementar).
+//
+// Estado honesto: o percurso e a bibliografia estão definidos; as AULAS completas destas disciplinas
+// (modelo de 18 seções) e as avaliações objetivas ainda não foram publicadas (`aulasPublicadas: false`).
+// A bibliografia é complementar: não substitui nem altera os 607 títulos obrigatórios do acervo.
+// Só entram obras de autoria e título amplamente documentados; o ano é o da primeira edição original.
+// `livro` aponta para o título correspondente do acervo, quando ele já existe lá.
+
+/** As onze etapas comuns; cada disciplina as preenche com o método que lhe é próprio. */
+export const ETAPAS = {
+  fundamentos: 'Fundamentos', vocabulario: 'Vocabulário', metodos: 'Métodos próprios', formacao: 'Formação histórica da área',
+  autores: 'Autores e obras fundamentais', escolas: 'Teorias e escolas', debates: 'Debates e críticas', avancado: 'Estudos avançados',
+  aplicacoes: 'Aplicações', avaliacao: 'Avaliação', pesquisa: 'Pesquisa independente',
+};
+
+const E = (etapa, objetivo, conteudos, exercicio, criterio, brasil = null) => ({ etapa, objetivo, conteudos, exercicio, criterio, brasil });
+const B = (autor, titulo, ano, tipo, etapa, extra = {}) => ({ autor, titulo, ano, tipo, etapa, ...extra });
+
+export const TIPOS_REFERENCIA = { primaria: 'Fonte primária', estudo: 'Estudo clássico', manual: 'Manual', dados: 'Fonte de dados oficial', doutrina: 'Documento da Igreja' };
+
+export const DISCIPLINAS = [
+  {
+    id: 'historia', no: 'historia', nome: 'História', aulasPublicadas: false,
+    metodo: 'Crítica de fontes: autenticidade, autoria, data, intenção e confronto entre testemunhos. A narrativa histórica é uma interpretação fundamentada em documentos, não uma opinião.',
+    prereq: ['logica', 'intro-filosofia'],
+    etapas: [
+      E('fundamentos', 'Entender o que a história estuda e como se distingue da memória e do mito.', ['Passado, fonte e testemunho', 'Tempo histórico: cronologia, duração e periodização', 'Fato, interpretação e narrativa'], 'Escrever uma página distinguindo, num relato familiar, o que é testemunho, o que é lembrança e o que é inferência.', 'Distingue fato documentado de interpretação em três exemplos.'),
+      E('vocabulario', 'Dominar os termos técnicos do ofício.', ['Fonte primária e secundária', 'Anacronismo', 'Historiografia', 'Periodização (Antiguidade, Idade Média, Idade Moderna, Contemporânea)'], 'Montar um glossário de 15 termos com exemplo de uso.', 'Usa os termos corretamente num parágrafo de análise.'),
+      E('metodos', 'Aplicar a crítica externa e interna a um documento.', ['Crítica externa: autenticidade, data e procedência', 'Crítica interna: intenção, credibilidade, contradições', 'Confronto de fontes divergentes'], 'Analisar a Carta de Pero Vaz de Caminha (1500): quem escreve, para quem, com que intenção e o que ela não diz.', 'Reconstrói o contexto do documento e identifica ao menos dois limites do testemunho.', 'A Carta de Caminha e os relatos de jesuítas e viajantes são fontes da formação do Brasil e exigem a mesma crítica aplicada a qualquer documento.'),
+      E('formacao', 'Conhecer como a escrita da história se formou.', ['Heródoto e Tucídides', 'Historiografia cristã: Eusébio, Agostinho e Beda', 'Erudição moderna e crítica documental', 'Escola dos Annales'], 'Comparar o método de Heródoto com o de Tucídides a partir dos prólogos das duas obras.', 'Explica o que cada historiador considera prova.'),
+      E('autores', 'Ler as obras que definiram o campo.', ['Leitura orientada de Heródoto, Tucídides e Beda', 'Bloch: o ofício do historiador', 'Braudel: as durações'], 'Ficha de leitura de Apologia da história (Bloch) com os conceitos centrais.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as principais correntes historiográficas.', ['Historicismo', 'Materialismo histórico', 'Annales e história das mentalidades', 'História política renovada'], 'Quadro comparativo de três escolas: objeto, fontes preferidas e crítica que recebem.', 'Atribui corretamente objeto e método a cada escola.'),
+      E('debates', 'Examinar debates abertos sem reduzi-los a slogans.', ['Objetividade histórica (Carr e seus críticos)', 'A "Idade das Trevas": mito e evidência', 'Interpretações da colonização ibérica'], 'Ensaio de 2 páginas expondo duas leituras de um mesmo evento com as fontes de cada uma.', 'Apresenta as duas posições com justiça antes de concluir.', 'Freyre, Buarque de Holanda e Caio Prado Júnior oferecem interpretações divergentes da formação brasileira; o estudante deve distingui-las e confrontá-las com as fontes.'),
+      E('avancado', 'Estudar períodos em profundidade.', ['Antiguidade: Grécia e Roma', 'Cristandade medieval', 'Revoluções modernas', 'Formação do Brasil: Colônia, Império e República'], 'Linha do tempo comentada do Brasil (1500–1889), com uma fonte primária por período.', 'Cada marco tem data, fonte e explicação causal.', 'A formação do Brasil é estudada dentro da expansão ibérica, do mundo atlântico e da história da Igreja.'),
+      E('aplicacoes', 'Usar a história para compreender o presente sem anacronismo.', ['História e identidade nacional', 'Uso político do passado', 'Patrimônio e arquivos'], 'Examinar uma afirmação histórica de jornal e verificá-la nas fontes.', 'Indica a fonte original e o grau de confiabilidade.'),
+      E('avaliacao', 'Demonstrar domínio do método e dos conteúdos.', ['Análise de documento inédito', 'Questões sobre periodização e escolas'], 'Prova: análise crítica de um documento escolhido pelo estudante no acervo da Biblioteca Nacional Digital.', 'Rubrica: contexto, crítica externa e interna, confronto e conclusão.'),
+      E('pesquisa', 'Conduzir uma pequena pesquisa com fontes primárias.', ['Escolha de problema', 'Levantamento em arquivo', 'Redação e citação'], 'Artigo de 8 a 12 páginas sobre um tema da história do Brasil ou da Igreja, com fontes primárias.', 'Problema delimitado, fontes citadas, conclusão proporcional às provas.', 'Arquivo Nacional e Biblioteca Nacional Digital oferecem documentos digitalizados para essa pesquisa.'),
+    ],
+    bibliografia: [
+      B('Heródoto', 'Histórias', 'séc. V a.C.', 'primaria', 'formacao'),
+      B('Tucídides', 'História da Guerra do Peloponeso', 'séc. V a.C.', 'primaria', 'formacao'),
+      B('Eusébio de Cesareia', 'História eclesiástica', 'c. 325', 'primaria', 'formacao'),
+      B('Beda, o Venerável', 'História eclesiástica do povo inglês', '731', 'primaria', 'autores'),
+      B('Santo Agostinho', 'A Cidade de Deus', '413–426', 'primaria', 'formacao', { livro: 'agostinho-cidade' }),
+      B('Pero Vaz de Caminha', 'Carta a el-rei D. Manuel', '1500', 'primaria', 'metodos', { brasil: true }),
+      B('Marc Bloch', 'Apologia da história, ou O ofício de historiador', '1949', 'estudo', 'autores'),
+      B('Fernand Braudel', 'O Mediterrâneo e o mundo mediterrâneo na época de Filipe II', '1949', 'estudo', 'autores'),
+      B('Edward Hallett Carr', 'Que é história?', '1961', 'estudo', 'debates'),
+      B('Jacques Le Goff', 'A civilização do Ocidente medieval', '1964', 'estudo', 'avancado'),
+      B('Eric Hobsbawm', 'A era das revoluções', '1962', 'estudo', 'avancado'),
+      B('Capistrano de Abreu', 'Capítulos de história colonial', '1907', 'estudo', 'avancado', { brasil: true }),
+      B('Gilberto Freyre', 'Casa-grande & senzala', '1933', 'estudo', 'debates', { brasil: true }),
+      B('Sérgio Buarque de Holanda', 'Raízes do Brasil', '1936', 'estudo', 'debates', { brasil: true }),
+      B('Caio Prado Júnior', 'Formação do Brasil contemporâneo', '1942', 'estudo', 'debates', { brasil: true }),
+      B('Boris Fausto', 'História do Brasil', '1994', 'manual', 'avancado', { brasil: true }),
+      B('José Murilo de Carvalho', 'A formação das almas', '1990', 'estudo', 'avancado', { brasil: true }),
+      B('Alexis de Tocqueville', 'A democracia na América', '1835–1840', 'estudo', 'aplicacoes', { livro: 'tocqueville-democracia' }),
+      B('Arquivo Nacional', 'Acervo e documentos digitalizados', '—', 'dados', 'pesquisa', { brasil: true, url: 'https://www.gov.br/arquivonacional' }),
+      B('Fundação Biblioteca Nacional', 'Biblioteca Nacional Digital', '—', 'dados', 'pesquisa', { brasil: true, url: 'https://bndigital.bn.gov.br' }),
+    ],
+  },
+  {
+    id: 'geografia', no: 'geografia', nome: 'Geografia', aulasPublicadas: false,
+    metodo: 'Interpretação espacial: localizar, representar (mapas, escalas, projeções) e explicar a distribuição dos fenômenos naturais e humanos e suas relações.',
+    prereq: ['logica'],
+    etapas: [
+      E('fundamentos', 'Entender o objeto da geografia: o espaço e as relações entre sociedade e natureza.', ['Lugar, paisagem, região, território', 'Escala geográfica', 'Natureza e sociedade'], 'Descrever o próprio bairro em três escalas: local, regional e nacional.', 'Usa corretamente os quatro conceitos básicos.'),
+      E('vocabulario', 'Dominar a linguagem técnica.', ['Latitude, longitude e fusos', 'Relevo, clima, bioma', 'Densidade, migração, urbanização'], 'Glossário de 20 termos com exemplo localizado no mapa.', 'Cada termo com definição e exemplo real.'),
+      E('metodos', 'Ler e produzir representações espaciais.', ['Cartografia: escala, projeção, legenda', 'Leitura de gráficos e dados censitários', 'Imagens de satélite'], 'Calcular distâncias reais num mapa em escala e comparar duas projeções do mesmo continente.', 'Cálculos corretos e explicação das distorções.', 'O Atlas Geográfico Escolar e os dados do IBGE são as referências nacionais para mapas e população.'),
+      E('formacao', 'Conhecer a história do pensamento geográfico.', ['Geografia antiga (Estrabão, Ptolomeu)', 'Humboldt e a geografia física moderna', 'Ratzel e Vidal de la Blache', 'Geografia crítica'], 'Comparar o determinismo de Ratzel com o possibilismo de Vidal de la Blache.', 'Expõe as duas teses e uma crítica a cada uma.'),
+      E('autores', 'Ler os textos fundadores.', ['Humboldt, Cosmos', 'Vidal de la Blache, Princípios de geografia humana', 'Mackinder, "O pivô geográfico da história"'], 'Ficha de leitura do artigo de Mackinder (1904).', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as correntes do pensamento geográfico.', ['Geografia regional clássica', 'Geografia quantitativa', 'Geografia crítica', 'Geografia humanista'], 'Quadro: objeto, método e principal autor de cada corrente.', 'Atribui corretamente método e autor.'),
+      E('debates', 'Examinar debates abertos.', ['Determinismo ambiental (Diamond e seus críticos)', 'Desenvolvimento e meio ambiente', 'Globalização e território'], 'Ensaio sobre a tese de Armas, germes e aço com uma objeção fundamentada.', 'Apresenta a tese com justiça antes da crítica.'),
+      E('avancado', 'Estudar os grandes conjuntos físicos e humanos.', ['Climatologia e geomorfologia', 'População e urbanização mundiais', 'Geopolítica', 'Domínios morfoclimáticos do Brasil'], 'Mapa comentado dos domínios de natureza do Brasil (Ab\'Sáber) com relevo, clima e vegetação.', 'Cada domínio caracterizado corretamente.', 'Os domínios de Ab\'Sáber e a organização territorial brasileira são estudados depois das bases físicas gerais.'),
+      E('aplicacoes', 'Usar a geografia para decisões concretas.', ['Planejamento urbano', 'Recursos hídricos', 'Riscos naturais'], 'Analisar com dados do IBGE a distribuição da população de um estado brasileiro.', 'Dados citados com fonte e interpretação correta.'),
+      E('avaliacao', 'Demonstrar domínio do método e dos conteúdos.', ['Leitura de mapas e gráficos', 'Questões de geografia física e humana'], 'Prova: interpretação de um conjunto de mapas e dados de uma região do mundo e do Brasil.', 'Rubrica: leitura correta, relação entre variáveis, conclusão fundamentada.'),
+      E('pesquisa', 'Investigar um problema espacial.', ['Delimitação', 'Coleta de dados', 'Representação cartográfica'], 'Estudo de caso com mapa próprio e dados oficiais.', 'Problema delimitado, dados citados, mapa legível.'),
+    ],
+    bibliografia: [
+      B('Alexander von Humboldt', 'Cosmos', '1845–1862', 'primaria', 'autores'),
+      B('Friedrich Ratzel', 'Geografia política', '1897', 'primaria', 'formacao'),
+      B('Halford Mackinder', 'O pivô geográfico da história (artigo)', '1904', 'primaria', 'autores'),
+      B('Paul Vidal de la Blache', 'Princípios de geografia humana', '1922', 'estudo', 'autores'),
+      B('Yves Lacoste', 'A geografia — isso serve, em primeiro lugar, para fazer a guerra', '1976', 'estudo', 'escolas'),
+      B('Jared Diamond', 'Armas, germes e aço', '1997', 'estudo', 'debates'),
+      B('Josué de Castro', 'Geografia da fome', '1946', 'estudo', 'aplicacoes', { brasil: true }),
+      B('Milton Santos', 'A natureza do espaço', '1996', 'estudo', 'escolas', { brasil: true }),
+      B('Aziz Ab\'Sáber', 'Os domínios de natureza no Brasil', '2003', 'estudo', 'avancado', { brasil: true }),
+      B('IBGE', 'Atlas geográfico escolar e dados do Censo', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.ibge.gov.br' }),
+      B('INPE', 'Dados de monitoramento por satélite', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/inpe' }),
+    ],
+  },
+  {
+    id: 'sociologia', no: 'sociologia', nome: 'Sociologia', aulasPublicadas: false,
+    metodo: 'Investigação empírica da vida social (observação, estatística, entrevista, comparação) e interpretação de seus significados. Distingue a descrição dos fatos sociais do juízo moral sobre eles.',
+    prereq: ['logica', 'filo-antiga'],
+    etapas: [
+      E('fundamentos', 'Entender o que é um fato social e como estudá-lo.', ['Indivíduo e sociedade', 'Instituições, normas e papéis', 'Descrição e avaliação'], 'Descrever uma instituição (família, escola, paróquia) separando o que se observa do que se avalia.', 'Separa descrição de juízo em todo o texto.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Status e papel', 'Socialização', 'Estratificação', 'Anomia, solidariedade, racionalização'], 'Glossário de 15 conceitos com o autor que os formulou.', 'Atribuição correta de autor e sentido.'),
+      E('metodos', 'Conhecer e avaliar métodos de pesquisa.', ['Estatística e amostragem', 'Entrevista e etnografia', 'Método comparativo', 'Tipo ideal (Weber)'], 'Ler uma tabela do Censo e redigir três conclusões que os dados sustentam e uma que não sustentam.', 'Distingue correlação de causa.', 'O Censo do IBGE é a principal base de dados sobre a sociedade brasileira.'),
+      E('formacao', 'Conhecer a origem da sociologia.', ['Montesquieu e Tocqueville', 'Comte e o positivismo', 'A "tradição sociológica" (Nisbet)'], 'Explicar por que Nisbet liga a sociologia às reações à Revolução Francesa.', 'Expõe a tese com os conceitos-chave de Nisbet.'),
+      E('autores', 'Ler os clássicos.', ['Durkheim: As regras do método sociológico', 'Weber: A ética protestante', 'Marx: classe e modo de produção'], 'Ficha comparativa: o que é a sociedade para Durkheim, Weber e Marx.', 'Cada posição exposta com uma citação localizada.'),
+      E('escolas', 'Distinguir correntes teóricas.', ['Funcionalismo', 'Sociologia compreensiva', 'Teoria crítica', 'Construcionismo (Berger e Luckmann)'], 'Quadro comparativo das quatro correntes.', 'Objeto e método corretos para cada uma.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Secularização: tese e críticas', 'Desigualdade e mobilidade', 'Sociedade e moral: a Doutrina Social da Igreja diante das teorias sociológicas'], 'Ensaio comparando a visão de sociedade da Rerum Novarum com a de um clássico da sociologia.', 'Distingue doutrina, teoria e evidência.'),
+      E('avancado', 'Estudar a formação social brasileira.', ['Patrimonialismo (Faoro)', 'Família e sociedade patriarcal (Freyre, Oliveira Vianna)', 'Modernização e classes (Florestan Fernandes)', 'Cultura e hierarquia (DaMatta)'], 'Confrontar Faoro e Florestan Fernandes sobre o Estado brasileiro.', 'Expõe as duas teses e os dados que cada uma usa.', 'As interpretações do Brasil são estudadas depois dos clássicos, para que os conceitos gerais não sejam confundidos com traços nacionais.'),
+      E('aplicacoes', 'Usar a sociologia para compreender problemas concretos.', ['Violência e coesão social', 'Educação', 'Religião no Brasil (dados censitários)'], 'Relatório curto sobre a evolução das religiões no Brasil com dados do Censo.', 'Dados citados com fonte e ano.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre os clássicos', 'Análise de dados'], 'Prova: interpretar uma pesquisa sociológica e avaliar seu método.', 'Rubrica: identificação do método, limites, conclusão.'),
+      E('pesquisa', 'Fazer uma pequena pesquisa empírica.', ['Pergunta', 'Instrumento (questionário ou entrevista)', 'Análise'], 'Pesquisa com 10 a 20 entrevistas sobre um tema delimitado, com relatório.', 'Ética da pesquisa respeitada, método descrito, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Alexis de Tocqueville', 'A democracia na América', '1835–1840', 'primaria', 'formacao', { livro: 'tocqueville-democracia' }),
+      B('Émile Durkheim', 'As regras do método sociológico', '1895', 'primaria', 'autores'),
+      B('Émile Durkheim', 'O suicídio', '1897', 'primaria', 'metodos'),
+      B('Max Weber', 'A ética protestante e o "espírito" do capitalismo', '1904–1905', 'primaria', 'autores'),
+      B('Karl Marx', 'O capital, livro I', '1867', 'primaria', 'autores', { livro: 'marx-capital-i' }),
+      B('Leão XIII', 'Rerum Novarum', '1891', 'doutrina', 'debates', { url: 'https://www.vatican.va/content/leo-xiii/pt/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html' }),
+      B('Pontifício Conselho Justiça e Paz', 'Compêndio da Doutrina Social da Igreja', '2004', 'doutrina', 'debates', { url: 'https://www.vatican.va/roman_curia/pontifical_councils/justpeace/documents/rc_pc_justpeace_doc_20060526_compendio-dott-soc_po.html' }),
+      B('Robert Nisbet', 'A tradição sociológica', '1966', 'estudo', 'formacao'),
+      B('Peter Berger e Thomas Luckmann', 'A construção social da realidade', '1966', 'estudo', 'escolas'),
+      B('Oliveira Vianna', 'Populações meridionais do Brasil', '1920', 'estudo', 'avancado', { brasil: true }),
+      B('Gilberto Freyre', 'Sobrados e mucambos', '1936', 'estudo', 'avancado', { brasil: true }),
+      B('Raymundo Faoro', 'Os donos do poder', '1958', 'estudo', 'avancado', { brasil: true }),
+      B('Florestan Fernandes', 'A revolução burguesa no Brasil', '1975', 'estudo', 'avancado', { brasil: true }),
+      B('Roberto DaMatta', 'Carnavais, malandros e heróis', '1979', 'estudo', 'avancado', { brasil: true }),
+      B('IBGE', 'Censo Demográfico', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.ibge.gov.br' }),
+    ],
+  },
+  {
+    id: 'economia', no: 'economia', nome: 'Economia', aulasPublicadas: false,
+    metodo: 'Modelos (hipóteses simplificadas e suas consequências) testados contra dados. Distingue economia positiva (o que acontece) de normativa (o que deveria ser); a ética econômica entra na segunda.',
+    prereq: ['logica'],
+    etapas: [
+      E('fundamentos', 'Entender escassez, escolha e troca.', ['Escassez e custo de oportunidade', 'Incentivos', 'Divisão do trabalho e troca'], 'Explicar com um exemplo do cotidiano o custo de oportunidade de uma hora de estudo.', 'Usa corretamente custo de oportunidade.'),
+      E('vocabulario', 'Dominar os termos básicos.', ['Oferta e demanda', 'Preço, inflação, juros', 'PIB, renda, produtividade'], 'Glossário de 20 termos com a fórmula ou o indicador correspondente.', 'Definições e indicadores corretos.'),
+      E('metodos', 'Ler modelos e dados.', ['Gráficos de oferta e demanda', 'Números-índice e inflação', 'Correlação e causalidade em economia'], 'Calcular a inflação acumulada de 12 meses a partir de variações mensais do IPCA.', 'Cálculo composto correto (não soma simples).', 'IPCA (IBGE), Selic e câmbio (Banco Central) são as séries brasileiras de referência.'),
+      E('formacao', 'Conhecer a história do pensamento econômico.', ['Escolástica tardia: preço justo e moeda', 'Mercantilismo e fisiocracia', 'Economia clássica (Smith, Ricardo)', 'Revolução marginalista'], 'Comparar a teoria do valor de Smith com a de Menger.', 'Expõe as duas teorias e a diferença central.'),
+      E('autores', 'Ler os clássicos.', ['Smith, A riqueza das nações (livro I)', 'Ricardo: vantagens comparativas', 'Keynes, Teoria geral (caps. 1–3)', 'Hayek, "O uso do conhecimento na sociedade"'], 'Resolver um exemplo numérico de vantagem comparativa entre dois países.', 'Identifica corretamente a especialização.'),
+      E('escolas', 'Distinguir escolas.', ['Clássica e neoclássica', 'Keynesiana', 'Austríaca', 'Monetarista', 'Marxista'], 'Quadro: como cada escola explica uma recessão e que política recomenda.', 'Cada escola com seu mecanismo causal correto.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Planejamento central e cálculo econômico', 'Papel do Estado na economia', 'Ética econômica: preço justo, trabalho e propriedade na Doutrina Social da Igreja'], 'Ensaio confrontando O caminho da servidão com a Centesimus Annus sobre mercado e Estado.', 'Distingue afirmações positivas e normativas.'),
+      E('avancado', 'Estudar micro, macro e economia internacional.', ['Microeconomia: firma e mercados', 'Macroeconomia: moeda, ciclos, crescimento', 'Comércio e câmbio', 'Formação econômica do Brasil'], 'Linha do tempo dos ciclos e planos econômicos do Brasil (açúcar, ouro, café, industrialização, planos de estabilização) com causas e resultados.', 'Datas e mecanismos corretos.', 'Celso Furtado e Roberto Campos são lidos como interpretações diferentes da economia brasileira, depois da teoria geral.'),
+      E('aplicacoes', 'Aplicar a análise econômica.', ['Orçamento familiar e juros compostos', 'Políticas públicas', 'Trabalho e dignidade'], 'Comparar o custo total de uma compra à vista e parcelada com juros, usando a taxa real.', 'Cálculo correto e conclusão justificada.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Exercícios numéricos', 'Interpretação de gráficos', 'Questões de história do pensamento'], 'Prova com problemas numéricos e uma questão dissertativa sobre escolas.', 'Acertos nos cálculos e argumentação fundamentada.'),
+      E('pesquisa', 'Investigar uma questão econômica com dados.', ['Pergunta', 'Séries de dados', 'Análise e limites'], 'Estudo de 6 a 10 páginas com séries do IPEADATA ou do Banco Central.', 'Dados citados, gráficos corretos, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Adam Smith', 'A riqueza das nações', '1776', 'primaria', 'autores'),
+      B('David Ricardo', 'Princípios de economia política e tributação', '1817', 'primaria', 'autores'),
+      B('Carl Menger', 'Princípios de economia política', '1871', 'primaria', 'formacao'),
+      B('Alfred Marshall', 'Princípios de economia', '1890', 'primaria', 'escolas'),
+      B('John Maynard Keynes', 'A teoria geral do emprego, do juro e da moeda', '1936', 'primaria', 'autores'),
+      B('Joseph Schumpeter', 'Capitalismo, socialismo e democracia', '1942', 'estudo', 'debates'),
+      B('Friedrich A. Hayek', 'O caminho da servidão', '1944', 'estudo', 'debates'),
+      B('Ludwig von Mises', 'Ação humana', '1949', 'estudo', 'escolas'),
+      B('Milton Friedman', 'Capitalismo e liberdade', '1962', 'estudo', 'escolas'),
+      B('Karl Marx', 'O capital, livro I', '1867', 'primaria', 'escolas', { livro: 'marx-capital-i' }),
+      B('João Paulo II', 'Centesimus Annus', '1991', 'doutrina', 'debates', { livro: 'jp2-centesimus' }),
+      B('Leão XIII', 'Rerum Novarum', '1891', 'doutrina', 'debates', { url: 'https://www.vatican.va/content/leo-xiii/pt/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html' }),
+      B('N. Gregory Mankiw', 'Introdução à economia', '1998', 'manual', 'fundamentos'),
+      B('Eugênio Gudin', 'Princípios de economia monetária', '1943', 'estudo', 'avancado', { brasil: true }),
+      B('Celso Furtado', 'Formação econômica do Brasil', '1959', 'estudo', 'avancado', { brasil: true }),
+      B('Roberto Campos', 'A lanterna na popa', '1994', 'estudo', 'avancado', { brasil: true }),
+      B('Banco Central do Brasil', 'Séries temporais (Selic, câmbio, crédito)', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.bcb.gov.br' }),
+      B('Ipea', 'IPEADATA', '—', 'dados', 'pesquisa', { brasil: true, url: 'http://www.ipeadata.gov.br' }),
+    ],
+  },
+];
+
+export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, d]));
+/** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
+export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'antropologia', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'astronomia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];

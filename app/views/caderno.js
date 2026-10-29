@@ -77,6 +77,9 @@ export function nota({ estado }, id) {
       <label class="campo"><span>Vinculada a</span><select id="nt-vinculo" name="vinculo">${opcoesVinculo(n.vinculo)}</select></label>
       <label class="campo"><span>Página ou trecho</span><input id="nt-pagina" name="pagina" value="${esc(n.pagina || '')}" placeholder="ex.: p. 42 ou §158"></label>
     </div>
+    <div class="campo largo vinculos-extra"><span>Outros vínculos (a nota aparece também nessas páginas)</span>
+      ${(n.vinculos || []).length ? `<ul class="lista-curta">${n.vinculos.map((v, i) => `<li>${hrefVinculo(v) ? link(hrefVinculo(v), esc(rotuloVinculo(v))) : esc(rotuloVinculo(v))} <button type="button" class="btn pequeno" data-remover-vinculo="${i}" aria-label="Remover vínculo ${esc(rotuloVinculo(v))}">×</button></li>`).join('')}</ul>` : ''}
+      <select id="nt-mais" aria-label="Adicionar outro vínculo">${opcoesVinculo(null).replace('Sem vínculo', 'Adicionar outro vínculo…')}</select></div>
     <label class="campo largo"><span>Texto</span><textarea id="nt-texto" name="texto" rows="14">${esc(n.texto)}</textarea></label>
     <p class="meta">Criada em ${fmtData(n.criada)} · editada em ${fmtData(n.editada)} ${href ? `· ${link(href, 'Abrir vínculo')}` : ''}</p>
     <div class="acoes-aula"><button class="btn primario" type="submit">Salvar</button>
@@ -98,11 +101,20 @@ nota.ligar = (root, ctx, id) => {
     return { titulo: fd.titulo.trim(), tipo: fd.tipo, pagina: fd.pagina.trim(), texto: fd.texto, vinculo: tipoV ? { tipo: tipoV, id: resto.join(':') } : null };
   };
   const salvar = (render) => ctx.set((e) => ({ ...e, notas: e.notas.map((n) => (n.id === id ? { ...n, ...ler(), editada: Date.now() } : n)) }), { render });
+  const mudarVinculos = (fn) => ctx.set((e) => ({ ...e, notas: e.notas.map((n) => (n.id === id ? { ...n, ...ler(), vinculos: fn(n.vinculos || []), editada: Date.now() } : n)) }), { manterRolagem: true });
+  root.querySelector('#nt-mais').addEventListener('change', (ev) => {
+    const [tipo, ...resto] = ev.target.value.split(':');
+    if (!tipo) return;
+    const v = { tipo, id: resto.join(':') };
+    mudarVinculos((vs) => (vs.some((x) => x.tipo === v.tipo && x.id === v.id) ? vs : [...vs, v]));
+  });
   let t;
   form.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => salvar(false), 800); });
   form.addEventListener('submit', (ev) => { ev.preventDefault(); clearTimeout(t); salvar(false); toast('Nota salva.'); });
   root.addEventListener('click', (ev) => {
     const a = ev.target.closest('[data-acao]')?.dataset.acao;
+    const rem = ev.target.closest('[data-remover-vinculo]');
+    if (rem) { const i = Number(rem.dataset.removerVinculo); mudarVinculos((vs) => vs.filter((_, j) => j !== i)); return; }
     if (a === 'excluir') root.querySelector('#confirmar-exclusao').hidden = false;
     if (a === 'excluir-nao') root.querySelector('#confirmar-exclusao').hidden = true;
     if (a === 'excluir-sim') { clearTimeout(t); ctx.set((e) => ({ ...e, notas: e.notas.filter((n) => n.id !== id) }), { render: false }); toast('Nota excluída.'); ctx.nav('caderno'); }

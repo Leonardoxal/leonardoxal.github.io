@@ -1,10 +1,17 @@
 // Avaliações (provas, lógica, comparações, final), histórico e revisões periódicas.
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { moduloPorId } from '../data/curriculo.js';
+import { moduloPorId, todasAulas } from '../data/curriculo.js';
 import { melhorNota, revisoesPendentes, responderCartao, novoCartao } from '../core.js';
 import { esc, link, fmtData, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
+
+/** Aulas com erros nas três últimas tentativas de cada avaliação, da mais errada para a menos. */
+function aulasARevisar(estado) {
+  const contagem = {};
+  Object.values(estado.tentativas).forEach((ts) => ts.slice(-3).forEach((t) => (t.revisar || []).forEach((a) => { contagem[a] = (contagem[a] || 0) + 1; })));
+  return Object.entries(contagem).sort((a, b) => b[1] - a[1]).slice(0, 10);
+}
 
 const TIPOS = { prova: 'Prova de módulo', logica: 'Lógica', comparacao: 'Comparação entre autores', final: 'Avaliação final' };
 
@@ -17,6 +24,7 @@ export function avaliacoes({ estado }) {
   <section class="painel-revisao"><h2>Revisões periódicas</h2>
     <p>${pend.length ? `<strong>${pend.length}</strong> cartão(ões) para revisar hoje.` : 'Nenhuma revisão pendente hoje.'} Total de cartões: ${estado.revisoes.length}.</p>
     <div class="acoes-aula">${pend.length ? '<a class="btn primario" href="#revisar">Revisar agora</a>' : ''}<a class="btn" href="#cartoes">Ver e criar cartões</a></div></section>
+  ${(() => { const r = aulasARevisar(estado); return r.length ? `<section><h2>Aulas a revisar</h2><p class="meta">Indicadas pelos erros nas provas (últimas três tentativas de cada uma).</p><ul class="lista-curta">${r.map(([a, n]) => `<li>${link(`aula-${a}`, `${a} — ${esc(todasAulas.find((x) => x.id === a)?.titulo || '')}`)} <span class="meta">${n} erro(s)</span></li>`).join('')}</ul></section>` : ''; })()}
   <section><h2>Avaliações</h2><ul class="lista-aval">${AVALIACOES.map((a) => {
     const n = melhorNota(estado, a.id);
     return `<li><a href="#aval-${a.id}"><span class="num">${TIPOS[a.tipo]}${a.modulo ? ` · Módulo ${moduloPorId[a.modulo].n}` : ''}</span><strong>${esc(a.titulo)}</strong><p>${esc(a.descricao)}</p>${n >= 0 ? `<span class="chip ${n >= a.minimo ? 'ok' : 'alerta'}">melhor: ${n}%</span>` : ''}</a></li>`;

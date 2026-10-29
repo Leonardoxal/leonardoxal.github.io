@@ -537,6 +537,47 @@ details > summary { cursor: pointer; }
   .arvore-painel { max-height: none; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+/* ---------- Santo de referência (views/santo.js): medalhão em moldura de vitral, expansível ---------- */
+.santos-aba { display: grid; gap: 8px; margin: -4px 0 18px; }
+.santo { border: 1px solid var(--linha); border-radius: 999px 999px var(--raio) var(--raio) / 28px 28px var(--raio) var(--raio); background: var(--superficie); box-shadow: inset 0 0 0 3px var(--superficie), inset 0 0 0 4px color-mix(in srgb, var(--ouro) 40%, transparent); }
+.santo[open] { border-radius: 28px 28px var(--raio) var(--raio); }
+.santo > summary { display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 10px; cursor: pointer; list-style: none; flex-wrap: wrap; }
+.santo > summary::-webkit-details-marker { display: none; }
+.santo > summary::after { content: "▾"; margin-left: auto; color: var(--ouro-texto); transition: transform .2s; }
+.santo[open] > summary::after { transform: rotate(180deg); }
+.santo > summary img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: top; border: 2px solid var(--ouro); background: var(--papel-2); flex: none; }
+.santo > summary > span:first-of-type { display: flex; flex-direction: column; line-height: 1.2; }
+.santo-rot { font: 600 .66rem var(--f-capital); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-2); }
+.santo > summary strong { font-family: var(--f-titulo); font-size: 1.1rem; color: var(--vinho); }
+.santo .chip { font-size: .7rem; }
+.santo-patronagem { border-left: 3px solid var(--ouro); } .santo-tematica { border-left: 3px solid var(--azul); } .santo-devocao { border-left: 3px solid var(--pedra); }
+.santo-corpo { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; padding: 4px 16px 14px; font-size: .95rem; }
+.santo-corpo p { margin: 0 0 .5em; }
+.santo-corpo figure { margin: 0; }
+.santo-corpo figure img { width: 120px; height: 150px; object-fit: cover; object-position: top; display: block; border-radius: 60px 60px 2px 2px; border: 2px solid var(--ouro); background: var(--papel-2); }
+.santo-corpo figcaption { font: .68rem var(--f-ui); color: var(--tinta-2); margin-top: 4px; }
+.santo.compacto { margin: 8px 0 12px; } .santo.compacto .santo-corpo { grid-template-columns: minmax(0, 1fr); } .santo.compacto figure { display: none; }
+@media (max-width: 560px) { .santo-corpo { grid-template-columns: minmax(0, 1fr); } .santo-corpo figure img { width: 96px; height: 120px; } }
+
+/* ---------- Conexões entre conteúdos e percursos das disciplinas ---------- */
+.conexoes { border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); background: var(--superficie); padding: 14px 18px; }
+.conexoes dl { margin: 0; display: grid; gap: 8px; }
+.conexao { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 4px 14px; padding-bottom: 8px; border-bottom: 1px dotted var(--linha); }
+.conexao:last-child { border-bottom: 0; }
+.conexao dt { font: 600 .7rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--ouro-texto); padding-top: 3px; }
+.conexao dd { margin: 0; }
+@media (max-width: 640px) { .conexao { grid-template-columns: minmax(0, 1fr); } }
+.revisar-aulas { margin-top: 8px; font: .9rem var(--f-ui); }
+.chip.brasil { background: color-mix(in srgb, var(--ok) 18%, var(--superficie)); color: var(--tinta); }
+.vinculos-extra select { max-width: 100%; }
+.etapas-disc { list-style: none; padding: 0; display: grid; gap: 8px; }
+.etapas-disc details { border: 1px solid var(--linha); border-radius: var(--raio); background: var(--superficie); }
+.etapas-disc summary { cursor: pointer; padding: 10px 14px; font-weight: 600; }
+.etapas-disc summary .num { display: block; font: 600 .7rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--ouro-texto); }
+.etapa-corpo { padding: 0 16px 12px; }
+.etapa-corpo h3 { font: 600 .72rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); margin: 12px 0 4px; }
+.brasil-nota { border-left: 3px solid var(--ok); padding-left: 10px; }
 </style>
 
 <header class="topo">

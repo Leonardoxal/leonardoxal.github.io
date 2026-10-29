@@ -1,6 +1,9 @@
 // Renderização e correção de itens de avaliação (usado nas aulas e na página de avaliações).
 import { corrigir, NOTA_MINIMA } from '../core.js';
-import { esc, fmtData, toast } from '../ui.js';
+import { esc, fmtData, toast, link } from '../ui.js';
+import { todasAulas } from '../data/curriculo.js';
+
+const tituloAula = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
 
 const PAPEIS = { p: 'Premissa', c: 'Conclusão', x: 'Não faz parte' };
 
@@ -107,9 +110,12 @@ export function ligarQuiz(root, itens, ctx, aoCorrigir) {
       fb.innerHTML = `<strong>${ok ? 'Correto.' : 'Incorreto.'}</strong> ${ok ? '' : certo}${esc(it.explicacao)}`;
       fb.hidden = false;
     });
-    const tentativa = { data: Date.now(), acertos: r.acertos, total: r.total, pct: r.pct };
+    // questões de prova guardam a aula de origem: os erros viram a lista do que revisar
+    const revisar = [...new Set(itens.filter((it, i) => it.aula && !r.detalhes[i]).map((it) => it.aula))];
+    const tentativa = { data: Date.now(), acertos: r.acertos, total: r.total, pct: r.pct, ...(revisar.length ? { revisar } : {}) };
     ctx.set((e) => ({ ...e, tentativas: { ...e.tentativas, [avalId]: [...(e.tentativas[avalId] || []), tentativa] } }), { render: false });
     form.querySelector('.resultado').innerHTML = `${r.acertos}/${r.total} — <strong>${r.pct}%</strong> ${r.pct >= minimo ? '· aprovado' : `· abaixo de ${minimo}%: revise a explicação e tente de novo`}`;
+    if (revisar.length) form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<p class="revisar-aulas"><strong>Revise antes de tentar de novo:</strong> ${revisar.map((a) => link(`aula-${a}`, `${a} — ${esc(tituloAula[a] || '')}`)).join(' · ')}</p>`);
     aoCorrigir?.(r);
   });
 }

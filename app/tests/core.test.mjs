@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import * as C from '../core.js';
 import { LIVROS, livroPorId } from '../data/livros.js';
 import { ORDEM_AUTOR, SEQUENCIA, INTRODUCOES } from '../data/obras/index.js';
-import { MODULOS, DEGRAUS, todasAulas, sequenciaDegrau } from '../data/curriculo.js';
+import { MODULOS, DEGRAUS, todasAulas, sequenciaDegrau, moduloPorId } from '../data/curriculo.js';
 import { CONCEITOS, conceitoPorId } from '../data/conceitos.js';
 import { AUTORES, autorPorId } from '../data/autores.js';
 import { AULAS_COMPLETAS } from '../data/aulas/index.js';
@@ -14,6 +14,9 @@ import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
 import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
 import { PREREQUISITOS } from '../data/prerequisitos.js';
 import { QUESTIONARIOS } from '../data/questionarios.js';
+import { notasDe, conexoesAula, conexoesLivro } from '../views/conexoes.js';
+import { SANTOS, SANTOS_DAS_ABAS, SANTOS_DAS_AREAS, NATUREZAS } from '../data/santos.js';
+import { DISCIPLINAS, DISCIPLINAS_PENDENTES, ETAPAS, TIPOS_REFERENCIA } from '../data/disciplinas.js';
 import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
@@ -47,7 +50,19 @@ test('escada: 14 degraus encadeados; preparação → teologia → introdução 
   const degrauDe = (mod) => [...new Set(todasAulas.filter((a) => a.modulo === mod).map((a) => a.degrau))];
   assert.deepEqual(DEGRAUS[0].aulas.map((a) => a.id), ['m3-1'], 'o degrau 0 tem só o método de leitura, não a Introdução à Filosofia');
   assert.deepEqual(degrauDe('m1'), [1]);
-  assert.ok(todasAulas.filter((a) => a.modulo === 'm3' && a.id !== 'm3-1').every((a) => a.degrau === 2), 'Introdução à Filosofia no degrau 2');
+  assert.deepEqual(degrauDe('m0'), [0]);
+  assert.deepEqual(degrauDe('m3'), [2], 'Introdução à Filosofia só no degrau 2');
+  // Cada módulo pertence a um único degrau: nenhum aparece em duas etapas da escada.
+  for (const m of MODULOS) assert.deepEqual(degrauDe(m.id), [m.degrau], `módulo ${m.id} em um só degrau`);
+  assert.equal(DEGRAUS.filter((d) => d.modulos.includes('m3')).length, 1);
+  assert.deepEqual(DEGRAUS[0].modulos, ['m0']);
+  assert.deepEqual(DEGRAUS[5].modulos, ['m2b']);
+  // O degrau 0 não exige a Introdução à Filosofia antes da teologia.
+  assert.ok(!moduloPorId.m1.prereq.includes('m3') && !moduloPorId.m0.prereq.length);
+  // Uma só nota de aprovação nas avaliações objetivas; ensaios e projetos (mínimo 0) são avaliados por rubrica.
+  for (const a of AVALIACOES) assert.ok([0, C.NOTA_MINIMA].includes(a.minimo ?? 0), `avaliação ${a.id}: mínimo ${a.minimo}`);
+  for (const a of AULAS_COMPLETAS) (a.criterios || []).forEach((c) => assert.ok(!/\b70 ?%/.test(c), `aula ${a.id}: critério com 70%`));
+  MODULOS.forEach((m) => (m.criterios || []).forEach((c) => assert.ok(!/\b70 ?%/.test(c), `módulo ${m.id}: critério com 70%`)));
   assert.deepEqual(degrauDe('m4'), [3]);
   assert.deepEqual(degrauDe('m11'), [10]);
   assert.deepEqual(degrauDe('m12'), [11]);
@@ -333,7 +348,7 @@ test('integridade: referências entre dados existem', () => {
     d.modulos.forEach((m) => assert.ok(modIds.has(m)));
     (d.retomar || []).forEach((l) => assert.ok(livroPorId[l], `degrau ${d.n}: ${l}`));
   }
-  assert.equal(MODULOS.length, 16);
+  assert.equal(MODULOS.length, 18);
   assert.equal(DEGRAUS.length, 14);
   assert.equal(new Set(AULAS_COMPLETAS.map((a) => a.id)).size, AULAS_COMPLETAS.length, 'ids de aula únicos');
   assert.ok(!JSON.stringify(AULAS_COMPLETAS).includes('${'), 'nenhuma interpolação não processada (aspas simples no lugar de crase)');
@@ -408,4 +423,72 @@ test('integridade: árvore do conhecimento', () => {
   // A trilha da árvore percorre os 14 degraus na ordem da escada.
   assert.equal(TRILHA_ARVORE.length, DEGRAUS.length);
   TRILHA_ARVORE.forEach((id, i) => assert.ok(noPorId[id].degraus.includes(i), `trilha: ${id} é o degrau ${i}`));
+});
+
+test('santos de referência: cada aba tem um, com fonte, imagem e natureza declarada', () => {
+  const abas = ['painel', 'mapa', 'escada', 'curso', 'biblioteca', 'genealogia', 'caderno', 'avaliacoes', 'atlas', 'plano', 'busca'];
+  for (const a of abas) assert.ok(SANTOS_DAS_ABAS[a]?.length, `aba ${a} sem santo`);
+  const refs = [...Object.values(SANTOS_DAS_ABAS).flat(), ...Object.values(SANTOS_DAS_AREAS)];
+  for (const r of refs) {
+    const s = SANTOS[r.santo];
+    assert.ok(s, `santo ${r.santo}`);
+    assert.ok(NATUREZAS[r.natureza], `${r.santo}: natureza`);
+    assert.ok(r.motivo.length > 40, `${r.santo}: motivo`);
+    // patronagem só com documento citado; o resto é declarado como tema ou devoção
+    if (r.natureza === 'patronagem') assert.ok(s.documento?.url.startsWith('https://'), `${r.santo}: patronagem sem documento`);
+  }
+  for (const [id, s] of Object.entries(SANTOS)) {
+    assert.ok(s.fonte.url.startsWith('https://') && s.imagem && s.licenca && s.resumo, `santo ${id} incompleto`);
+    (s.livros || []).forEach((l) => assert.ok(livroPorId[l], `santo ${id}: livro ${l}`));
+    if (s.autor) assert.ok(ORDEM_AUTOR[s.autor], `santo ${id}: autor ${s.autor}`);
+  }
+  Object.keys(SANTOS_DAS_AREAS).forEach((n) => assert.ok(noPorId[n], `área ${n}`));
+  // sem repetir o mesmo santo em todas as abas
+  assert.ok(new Set(Object.values(SANTOS_DAS_ABAS).flat().map((r) => r.santo)).size >= 11);
+});
+
+test('disciplinas: História, Geografia, Sociologia e Economia com as onze etapas e bibliografia mundial e brasileira', () => {
+  assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), ['economia', 'geografia', 'historia', 'sociologia']);
+  for (const d of DISCIPLINAS) {
+    assert.ok(noPorId[d.no] && d.metodo.length > 60, `${d.id}: nó e método`);
+    assert.deepEqual(d.etapas.map((e) => e.etapa), Object.keys(ETAPAS), `${d.id}: etapas completas e em ordem`);
+    for (const e of d.etapas) assert.ok(e.objetivo && e.conteudos.length >= 2 && e.exercicio && e.criterio, `${d.id}/${e.etapa}`);
+    assert.ok(d.etapas.some((e) => e.brasil), `${d.id}: integração com o Brasil`);
+    d.prereq.forEach((p) => assert.ok(noPorId[p], `${d.id}: pré-requisito ${p}`));
+    assert.ok(d.bibliografia.length >= 10, `${d.id}: bibliografia`);
+    assert.ok(d.bibliografia.some((b) => b.brasil) && d.bibliografia.some((b) => !b.brasil), `${d.id}: obras mundiais e brasileiras`);
+    for (const b of d.bibliografia) {
+      assert.ok(b.autor && b.titulo && b.ano && TIPOS_REFERENCIA[b.tipo] && ETAPAS[b.etapa], `${d.id}: ${b.titulo}`);
+      if (b.livro) assert.ok(livroPorId[b.livro], `${d.id}: livro ${b.livro}`);
+      if (b.url) assert.ok(b.url.startsWith('http'), `${d.id}: url`);
+    }
+    // a disciplina não é declarada concluída enquanto as aulas não existirem
+    assert.equal(d.aulasPublicadas, false);
+  }
+  // todo ramo sem percurso próprio está listado como pendente: nada é apresentado como pronto sem estar
+  const semPercurso = NOS.filter((n) => !n.percurso).map((n) => n.id);
+  for (const id of semPercurso) assert.ok(DISCIPLINAS.some((d) => d.no === id) || DISCIPLINAS_PENDENTES.includes(id), `ramo ${id} sem situação declarada`);
+  DISCIPLINAS_PENDENTES.forEach((id) => assert.ok(noPorId[id], `pendente ${id}`));
+  assert.equal(LIVROS.length, 607, 'a coleção complementar não altera o acervo obrigatório');
+});
+
+test('integração: questões de prova indicam a aula a revisar', () => {
+  const provas = AVALIACOES.filter((a) => a.tipo === 'prova');
+  assert.ok(provas.length >= 10);
+  const ids = new Set(todasAulas.map((a) => a.id));
+  for (const p of provas) {
+    const objetivas = p.itens.filter((i) => i.aula);
+    assert.ok(objetivas.length, `${p.id}: questões com aula de origem`);
+    objetivas.forEach((i) => assert.ok(ids.has(i.aula) && todasAulas.find((a) => a.id === i.aula).modulo === p.modulo, `${p.id}: aula ${i.aula} do mesmo módulo`));
+  }
+});
+test('integração: nota aparece em todos os conteúdos vinculados; conexões usam os dados reais', () => {
+  const estado = { notas: [{ id: 'n1', titulo: 'Substância', vinculo: { tipo: 'aula', id: 'm7-4' }, vinculos: [{ tipo: 'livro', id: 'aristoteles-metafisica' }, { tipo: 'conceito', id: 'substancia' }] }] };
+  assert.equal(notasDe(estado, 'aula', 'm7-4').length, 1);
+  assert.equal(notasDe(estado, 'livro', 'aristoteles-metafisica').length, 1);
+  assert.equal(notasDe(estado, 'conceito', 'substancia').length, 1);
+  assert.equal(notasDe(estado, 'livro', 'outro').length, 0);
+  const aula = conexoesAula(estado, 'm7-4');
+  assert.ok(aula.includes('#conceito-substancia') && aula.includes('#nota-n1') && aula.includes('#area-'), 'aula liga conceito, nota e área');
+  assert.ok(conexoesLivro(estado, 'aristoteles-metafisica').includes('#aula-'), 'livro liga às aulas que o estudam');
 });

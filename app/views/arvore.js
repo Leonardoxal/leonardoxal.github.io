@@ -10,6 +10,9 @@ import { AUTORES } from '../data/autores.js';
 import { livroConcluido, aulaConcluida, buscar } from '../core.js';
 import { esc, barra, link } from '../ui.js';
 import { rosacea } from '../ornamentos.js';
+import { SANTOS_DAS_AREAS } from '../data/santos.js';
+import { disciplinaPorId } from '../data/disciplinas.js';
+import { santoHTML } from './santo.js';
 
 /** Abas que ligam os dois sistemas complementares: a árvore (áreas) e a escada (progressão). */
 export const abasMapa = (atual) => `<nav class="abas-mapa" aria-label="Modos do mapa">
@@ -40,8 +43,8 @@ function progressoNo(id, estado) {
 /** Nó mais específico (menos conteúdo) que contém o item — destino da busca. */
 const tamanho = (id) => conteudo[id].livros.length + conteudo[id].aulas.length;
 const noMaisEspecifico = (pred) => NOS.filter(pred).sort((a, b) => tamanho(a.id) - tamanho(b.id))[0]?.id;
-const noDoLivro = (id) => noMaisEspecifico((n) => conteudo[n.id].livros.includes(id));
-const noDaAula = (id) => noMaisEspecifico((n) => conteudo[n.id].aulas.includes(id));
+export const noDoLivro = (id) => noMaisEspecifico((n) => conteudo[n.id].livros.includes(id));
+export const noDaAula = (id) => noMaisEspecifico((n) => conteudo[n.id].aulas.includes(id));
 
 const INDICE = [
   ...NOS.map((n) => ({ tipo: 'Ramo', titulo: n.nome, texto: n.desc, no: n.id })),
@@ -97,7 +100,7 @@ function noSVG(id, { x, y }, estado) {
     <path class="no-friso" d="M5 ${ALT - 4}V13Q5 5 13 5H${LARG - 13}Q${LARG - 5} 5 ${LARG - 5} 13V${ALT - 4}Z"/>
     ${n.pai ? '' : `<g transform="translate(9 6) scale(.3)" class="no-rosa" fill="none" stroke="currentColor" stroke-width="3">${ROSA}</g>`}
     <text x="${x0}" y="${pr.total || !n.percurso ? 20 : 26}" class="no-nome">${esc(corta(n.nome, n.pai ? 26 : 21))}</text>
-    ${pr.total ? `<rect class="no-trilho" x="${x0}" y="27" width="${w}" height="4" rx="2"/><rect class="no-prog" x="${x0}" y="27" width="${(w * pr.pct) / 100}" height="4" rx="2"/><text class="no-pct" x="160" y="32">${pr.pct}%</text>` : n.percurso ? '' : `<text class="no-pct" x="${x0}" y="34">em preparação</text>`}
+    ${pr.total ? `<rect class="no-trilho" x="${x0}" y="27" width="${w}" height="4" rx="2"/><rect class="no-prog" x="${x0}" y="27" width="${(w * pr.pct) / 100}" height="4" rx="2"/><text class="no-pct" x="160" y="32">${pr.pct}%</text>` : n.percurso ? '' : `<text class="no-pct" x="${x0}" y="34">${disciplinaPorId[id] ? 'percurso definido' : 'em preparação'}</text>`}
     ${fs.length ? `<g class="no-botao" data-alternar="${id}" transform="translate(${LARG} ${ALT / 2})" aria-hidden="true"><circle r="10"/><text y="4" text-anchor="middle">${aberto ? '−' : fs.length}</text></g>` : ''}
   </g>`;
 }
@@ -126,7 +129,8 @@ function painelNo(id, estado) {
   return `<p class="num">${esc(GRUPOS[n.grupo])}${n.pai ? ` · ramo de ${botaoNo(n.pai)}` : ''}</p>
     <h2>${esc(n.nome)}</h2>
     <p>${esc(n.desc)}</p>
-    ${n.percurso ? '' : '<p class="aviso"><strong>Percurso em preparação.</strong> Esta disciplina ainda não tem aulas e bibliografia próprias no curso; os livros listados são obras do acervo que tocam o tema, não o currículo da disciplina.</p>'}
+    ${SANTOS_DAS_AREAS[id] ? santoHTML(SANTOS_DAS_AREAS[id], { compacto: true }) : ''}
+    ${disciplinaPorId[id] ? `<p class="aviso"><strong>Percurso definido; aulas em preparação.</strong> Etapas, método, exercícios, critérios e bibliografia já estão disponíveis.</p><p><a class="btn primario" href="#disciplina-${id}">Abrir o percurso de ${esc(n.nome)}</a></p>` : n.percurso ? '' : '<p class="aviso"><strong>Percurso em preparação.</strong> Esta disciplina ainda não tem percurso, aulas e bibliografia próprias no curso; os livros listados são obras do acervo que tocam o tema, não o currículo da disciplina.</p>'}
     ${pr.total ? `<p class="meta">${pr.feitos} de ${pr.total} itens concluídos (livros e aulas publicadas)</p>${barra(pr.pct, `Progresso em ${n.nome}`)}` : ''}
     ${filhos[id].length ? `<h3>Ramos</h3><p>${filhos[id].map(botaoNo).join(' · ')}</p>` : ''}
     ${prereqs.length ? `<h3>Pré-requisitos</h3>${lista(prereqs, (r) => `<li>${botaoNo(r.de)} — <span class="meta">${esc(r.porque)}</span></li>`)}` : ''}
@@ -139,7 +143,9 @@ function painelNo(id, estado) {
 
 const listaTexto = (id) => `<li>${botaoNo(id)}${noPorId[id].percurso ? '' : ' <span class="meta">(em preparação)</span>'}${filhos[id].length ? `<ul>${filhos[id].map(listaTexto).join('')}</ul>` : ''}</li>`;
 
-export function arvore() {
+export function arvore(ctx, id) {
+  // rota #area-<id>: abre a árvore já com o ramo selecionado e visível
+  if (id && noPorId[id] && vista.sel !== id) { vista.sel = id; ancestrais(id).forEach((a) => vista.abertos.add(a)); vista.t = null; vista.centrar = id; }
   const legenda = Object.entries(TIPOS_RELACAO).map(([t, r]) => `<label class="leg"><input type="checkbox" data-tipo="${t}" ${vista.tipos.has(t) ? 'checked' : ''}><svg width="36" height="10" aria-hidden="true"><path class="lig lig-${t}" d="M1 5H35"/></svg> ${esc(r)}</label>`).join('');
   return `<header class="cab"><h1>Mapa do conhecimento</h1>
     <p class="sub">A formação parte da Teologia Católica, tem a Filosofia como eixo de investigação e se abre às ciências e às humanidades.</p></header>
@@ -217,6 +223,7 @@ arvore.ligar = (root, ctx) => {
   }
   desenhar();
   if (vista.t) aplicar(); else inicial();
+  if (vista.centrar) { centrar(vista.centrar); vista.centrar = null; }
 
   // Arrastar (um ponteiro) e pinça (dois). O arrasto só captura o ponteiro depois de 4 px, para não engolir cliques.
   const ponteiros = new Map();

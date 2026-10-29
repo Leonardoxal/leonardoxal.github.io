@@ -1,4 +1,4 @@
-﻿// Módulo 2 — aulas 6 a 11.
+// Módulo 2 — aulas 6 a 11.
 import { tag, LINKS } from '../fontes.js';
 import { aula, avaliacao, mc, disc } from './_modelo.js';
 
@@ -287,11 +287,11 @@ aula({
 
 avaliacao('m2-11', 'Avaliação do módulo', `
 <h3>O que esta prova avalia</h3>
-<p>Questões objetivas sobre Escritura, história, concílios e Padres, e discursivas que pedem síntese entre história e doutrina.</p>
+<p>Questões objetivas sobre Escritura, história da Igreja antiga e concílios, e discursivas que pedem síntese entre história e doutrina.</p>
 <h3>Antes de começar</h3>
-<ul><li>Revise os cartões das aulas 1 a 10.</li><li>Refaça a linha do tempo das aulas 2, 4 e 9.</li><li>Leia de novo a definição de Calcedônia.</li></ul>`,
+<ul><li>Revise os cartões das aulas 1 a 6.</li><li>Refaça a linha do tempo das aulas 2 e 4.</li><li>Leia de novo a definição de Calcedônia.</li></ul>`,
 [
   disc('Escreva um ensaio de 30 a 50 linhas mostrando como as controvérsias de Niceia, Éfeso e Calcedônia formaram a doutrina sobre Cristo. Para cada concílio, indique o erro combatido, a fórmula adotada e o argumento que a sustenta.', ['Situa cada concílio com data e erro combatido', 'Explica as fórmulas com precisão', 'Reconstrói ao menos um argumento', 'Distingue doutrina, fato e interpretação']),
-  disc('A relação entre os Padres e a filosofia grega foi helenização da fé ou cristianização da filosofia? Use ao menos três autores estudados.', ['Expõe a tese de Harnack', 'Usa três autores', 'Apresenta exemplos de transformação', 'Conclusão justificada']),
+  disc('Explique como a Igreja reconheceu o cânon do Novo Testamento até o fim do século IV. Indique os critérios usados (origem apostólica, uso litúrgico, conformidade com a regra de fé) e ao menos um testemunho antigo, como o Fragmento Muratoriano ou a Carta Festal 39 de Atanásio (367).', ['Distingue reconhecimento e criação do cânon', 'Explica ao menos dois critérios', 'Cita um testemunho antigo com data', 'Distingue fato histórico e interpretação']),
 ]),
 ];

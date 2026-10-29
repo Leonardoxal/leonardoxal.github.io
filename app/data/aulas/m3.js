@@ -96,7 +96,7 @@ export const AULAS_M3 = [
     { texto: 'Mortimer J. Adler e Charles Van Doren, Como Ler Livros (orig. 1940; ed. revista 1972).' },
     { texto: 'Hilton Japiassú e Danilo Marcondes, Dicionário Básico de Filosofia (para consulta de termos).' },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Preencher uma ficha de leitura', 'Fazer a leitura inspecional de um livro'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Preencher uma ficha de leitura', 'Fazer a leitura inspecional de um livro'],
   revisao: [['Quatro níveis de leitura (Adler)', 'Elementar, inspecional, analítica, sintópica.'], ['Quatro perguntas ao texto', 'De que trata? O que diz e como? É verdadeiro? E daí?'], ['Regra de ouro', 'Compreender antes de criticar.']],
 },
 ];

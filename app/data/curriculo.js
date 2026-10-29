@@ -63,22 +63,29 @@ function COMPETENCIAS_AVANCADAS_() {
 }
 
 const A = (titulos) => titulos.map((t, i) => ({ n: i + 1, titulo: t }));
+/** Aulas que mudaram de módulo e conservam o id original (o progresso salvo é guardado pelo id). */
+const AI = (pares) => pares.map(([id, t], i) => ({ n: i + 1, titulo: t, id }));
 
 export const MODULOS = [
+  { id: 'm0', n: 0, titulo: 'Preparação intelectual e método de estudo', semanas: '1–2', degrau: 0, prereq: [],
+    descricao: 'Leitura ativa, fichamento e organização do estudo: as ferramentas que todas as disciplinas pressupõem, antes de qualquer conteúdo de teologia ou filosofia.',
+    objetivos: ['Fazer leitura inspecional e analítica', 'Preencher uma ficha de leitura', 'Organizar um plano semanal de estudo'],
+    aulas: AI([['m3-1', 'Como ler textos filosóficos: leitura ativa']]),
+    criterios: ['Aula concluída', 'Ficha de leitura preenchida'] },
   { id: 'm1', n: 1, titulo: 'Fundamentos da teologia católica', semanas: '6–8', degrau: 1, prereq: [],
     descricao: 'O vocabulário e a estrutura da fé católica: o que é teologia, como Deus se revela, como a Revelação é transmitida e como o Credo organiza a fé.',
     objetivos: ['Definir teologia e distingui-la da filosofia', 'Explicar Revelação, fé e razão segundo o Catecismo', 'Distinguir Escritura, Tradição e Magistério', 'Usar o Catecismo e o Compêndio com referências', 'Explicar os artigos do Credo'],
     aulas: A(['O que é teologia?', 'Fé, Revelação e razão', 'Bíblia, Tradição e Magistério', 'Como ler o Catecismo', 'O Credo e os fundamentos da fé', 'Deus e o conhecimento natural', 'Jesus Cristo e a Revelação cristã', 'Criação, ser humano, pecado e graça', 'Igreja e sacramentos', 'Moral cristã e vida eterna', 'Revisão geral', 'Avaliação do módulo']),
-    criterios: ['Concluir as aulas com nota mínima de 70% nos questionários', 'Responder às questões discursivas', 'Aprovação na prova do módulo (mínimo 70%)'] },
-  { id: 'm2', n: 2, titulo: 'Bíblia, história cristã e pensamento patrístico', semanas: '6–8', degrau: 1, prereq: ['m1'],
-    descricao: 'A Escritura em seu contexto, a formação da doutrina, os primeiros concílios e os Padres da Igreja até Agostinho.',
-    objetivos: ['Situar os livros bíblicos no tempo', 'Explicar a formação do cânon e dos primeiros credos', 'Apresentar os Padres da Igreja e seu diálogo com o pensamento grego'],
-    aulas: A(['Como ler a Escritura: sentidos e gêneros literários', 'O contexto histórico de Israel e do Novo Testamento', 'A formação do cânon', 'A Igreja nascente e as perseguições', 'Os primeiros concílios: Niceia e Constantinopla', 'Calcedônia e a cristologia', 'Padres apostólicos e apologistas', 'Os Padres e a filosofia grega', 'Santo Agostinho: vida e conversão', 'Agostinho: liberdade, mal e interioridade', 'Avaliação do módulo']),
+    criterios: ['Concluir as aulas com nota mínima de 80% nos questionários', 'Responder às questões discursivas', 'Aprovação na prova do módulo (mínimo 80%)'] },
+  { id: 'm2', n: 2, titulo: 'Bíblia e história da Igreja antiga', semanas: '5–6', degrau: 1, prereq: ['m1'],
+    descricao: 'A Escritura em seu contexto, a formação do cânon, a Igreja nascente e os primeiros concílios. Os Padres da Igreja são estudados no Módulo 2B, depois da filosofia antiga.',
+    objetivos: ['Situar os livros bíblicos no tempo', 'Explicar a formação do cânon e dos primeiros credos', 'Explicar as fórmulas de Niceia e Calcedônia'],
+    aulas: AI([['m2-1', 'Como ler a Escritura: sentidos e gêneros literários'], ['m2-2', 'O contexto histórico de Israel e do Novo Testamento'], ['m2-3', 'A formação do cânon'], ['m2-4', 'A Igreja nascente e as perseguições'], ['m2-5', 'Os primeiros concílios: Niceia e Constantinopla'], ['m2-6', 'Calcedônia e a cristologia'], ['m2-11', 'Avaliação do módulo']]),
     criterios: ['Aulas concluídas', 'Prova do módulo'] },
-  { id: 'm3', n: 3, titulo: 'Introdução à filosofia', semanas: '6–8', degrau: 2, prereq: [],
-    descricao: 'Como ler textos difíceis, a origem da filosofia, opinião e conhecimento, verdade e os primeiros diálogos de Platão.',
-    objetivos: ['Praticar leitura ativa', 'Distinguir opinião, crença e conhecimento', 'Identificar problemas filosóficos', 'Ler Apologia, Críton e Eutífron com método'],
-    aulas: A(['Como ler textos filosóficos: leitura ativa', 'O que é filosofia?', 'Opinião, crença e conhecimento', 'O que é a verdade?', 'Sócrates e a Apologia', 'Críton: justiça e leis', 'Eutífron: em busca de uma definição', 'Fé e razão: Fides et Ratio', 'Escolas e métodos filosóficos', 'Avaliação do módulo']),
+  { id: 'm3', n: 3, titulo: 'Introdução à filosofia', semanas: '6–8', degrau: 2, prereq: ['m0', 'm1'],
+    descricao: 'A origem da filosofia, opinião e conhecimento, verdade e os primeiros diálogos de Platão. Pressupõe o método de leitura do Módulo 0 e os fundamentos de teologia do Módulo 1.',
+    objetivos: ['Distinguir opinião, crença e conhecimento', 'Identificar problemas filosóficos', 'Ler Apologia, Críton e Eutífron com método'],
+    aulas: AI([['m3-2', 'O que é filosofia?'], ['m3-3', 'Opinião, crença e conhecimento'], ['m3-4', 'O que é a verdade?'], ['m3-5', 'Sócrates e a Apologia'], ['m3-6', 'Críton: justiça e leis'], ['m3-7', 'Eutífron: em busca de uma definição'], ['m3-8', 'Fé e razão: Fides et Ratio'], ['m3-9', 'Escolas e métodos filosóficos'], ['m3-10', 'Avaliação do módulo']]),
     criterios: ['Aulas concluídas', 'Resumo comentado de um diálogo', 'Prova do módulo'] },
   { id: 'm4', n: 4, titulo: 'Lógica e argumentação', semanas: '8–10', degrau: 3, prereq: ['m3'],
     descricao: 'Conceitos, proposições, inferência, silogismos, validade, falácias, dialética e retórica.',
@@ -90,6 +97,11 @@ export const MODULOS = [
     objetivos: ['Expor os problemas dos pré-socráticos', 'Explicar a teoria platônica das Formas', 'Explicar causas, substância e virtude em Aristóteles', 'Comparar estoicismo e epicurismo'],
     aulas: A(['Os pré-socráticos e a pergunta pela physis', 'Parmênides e Heráclito', 'Os sofistas e Sócrates', 'Mênon: a virtude pode ser ensinada?', 'Fédon e a alma', 'República: justiça e a caverna', 'Aristóteles: as quatro causas', 'Aristóteles: substância e Metafísica', 'Ética a Nicômaco: felicidade e virtude', 'Epicurismo', 'Estoicismo', 'Ceticismo antigo', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas', 'Ensaio comparativo Platão × Aristóteles', 'Prova do módulo'] },
+  { id: 'm2b', n: '2B', titulo: 'Patrística e filosofia cristã antiga', semanas: '6–8', degrau: 5, prereq: ['m2', 'm5'],
+    descricao: 'Padres apostólicos e apologistas, o diálogo dos Padres com a filosofia grega, Santo Agostinho e Boécio. Vem depois da filosofia antiga porque usa seu vocabulário (Formas, alma, causa, eternidade).',
+    objetivos: ['Apresentar os Padres e seu uso crítico da filosofia grega', 'Explicar a conversão e as teses centrais de Agostinho sobre o mal, a liberdade e o tempo', 'Explicar a distinção entre eternidade e tempo infinito em Boécio'],
+    aulas: AI([['m2-7', 'Padres apostólicos e apologistas'], ['m2-8', 'Os Padres e a filosofia grega'], ['m2-9', 'Santo Agostinho: vida e conversão'], ['m2-10', 'Agostinho: liberdade, mal e interioridade'], ['m8-1', 'Confissões: o mal e o tempo'], ['m8-2', 'O livre-arbítrio'], ['m8-3', 'Boécio: providência e eternidade']]),
+    criterios: ['Aulas concluídas, com 80% nos questionários', 'Leituras do degrau 5 com comprovação'] },
   { id: 'm6', n: 6, titulo: 'Epistemologia e filosofia da ciência', semanas: '6–8', degrau: 6, prereq: ['m5'],
     descricao: 'Crença, conhecimento, justificação, ceticismo, percepção, indução e método científico.',
     objetivos: ['Definir conhecimento e justificação', 'Avaliar argumentos céticos', 'Explicar o problema da indução'],
@@ -101,9 +113,9 @@ export const MODULOS = [
     aulas: A(['O que é metafísica?', 'Ser, ente e existência', 'Essência e existência em Tomás', 'Substância e acidente', 'Ato e potência', 'Causalidade', 'As cinco vias', 'O argumento ontológico e suas críticas', 'O argumento teleológico', 'O problema do mal', 'Críticas filosóficas à religião', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas', 'Reconstrução de dois argumentos com objeções', 'Prova do módulo'] },
   { id: 'm8', n: 8, titulo: 'Filosofia medieval e escolástica', semanas: '10–12', degrau: 7, prereq: ['m7'],
-    descricao: 'Agostinho, Boécio, Anselmo, Tomás de Aquino, universais, lei natural e virtudes.',
+    descricao: 'Anselmo, método escolástico, universais, Tomás de Aquino, lei natural e virtudes. Agostinho e Boécio são estudados antes, no Módulo 2B.',
     objetivos: ['Explicar a síntese medieval entre fé e razão', 'Ler artigos da Suma com seu método', 'Explicar a lei natural'],
-    aulas: A(['Confissões: o mal e o tempo', 'O livre-arbítrio', 'Boécio: providência e eternidade', 'Anselmo: fé que busca compreender', 'O método escolástico', 'A querela dos universais', 'Como ler um artigo da Suma', 'Tomás: Deus e os nomes divinos', 'Felicidade e atos humanos', 'Lei e lei natural', 'Virtudes', 'Avaliação do módulo']),
+    aulas: AI([['m8-4', 'Anselmo: fé que busca compreender'], ['m8-5', 'O método escolástico'], ['m8-6', 'A querela dos universais'], ['m8-7', 'Como ler um artigo da Suma'], ['m8-8', 'Tomás: Deus e os nomes divinos'], ['m8-9', 'Felicidade e atos humanos'], ['m8-10', 'Lei e lei natural'], ['m8-11', 'Virtudes'], ['m8-12', 'Avaliação do módulo']]),
     criterios: ['Aulas concluídas', 'Prova do módulo'] },
   { id: 'm9', n: 9, titulo: 'Filosofia moderna', semanas: '10–12', degrau: 8, prereq: ['m8'],
     descricao: 'Descartes, Pascal, Locke, Hume, Rousseau e Kant.',
@@ -145,17 +157,11 @@ export const MODULOS = [
     objetivos: ['Formular uma pergunta filosófica', 'Reconstruir três argumentos de fontes primárias', 'Concluir com justificação'],
     aulas: A(['Escolher a pergunta', 'Definir conceitos e contexto', 'Fontes primárias', 'Reconstruir argumentos', 'Objeções e comparação', 'Redação do ensaio', 'Avaliação final', 'Plano de estudos avançados']),
     criterios: ['Projeto final completo conforme a rubrica'] },
-].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: `${m.id}-${a.n}` })) }));
+].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
 
-/**
- * Aulas que ficam num degrau diferente do de seu módulo. O degrau 0 recebe só a aula de método de leitura
- * (o resto da Introdução à Filosofia fica no 2); a patrística (5) recebe as aulas sobre os Padres, Agostinho
- * e Boécio que estavam nos módulos de Bíblia e de filosofia medieval. Mantêm os mesmos ids e o progresso.
- */
-const DEGRAU_DA_AULA = { 'm3-1': 0, 'm2-7': 5, 'm2-8': 5, 'm2-9': 5, 'm2-10': 5, 'm2-11': 5, 'm8-1': 5, 'm8-2': 5, 'm8-3': 5 };
-export const todasAulas = MODULOS.flatMap((m) => m.aulas.map((a) => ({ ...a, modulo: m.id, degrau: DEGRAU_DA_AULA[a.id] ?? m.degrau })));
+export const todasAulas = MODULOS.flatMap((m) => m.aulas.map((a) => ({ ...a, modulo: m.id, degrau: m.degrau })));
 
 export const DEGRAUS = DEGRAUS_BASE.map((d) => {
   const aulas = todasAulas.filter((a) => a.degrau === d.n);

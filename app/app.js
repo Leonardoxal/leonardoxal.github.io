@@ -11,6 +11,11 @@ import { painel } from './views/painel.js';
 import { escada } from './views/mapa.js';
 import { arvore } from './views/arvore.js';
 import { rosacea } from './ornamentos.js';
+import { santosDaAba } from './views/santo.js';
+import { selecionarAutor } from './views/atlas.js';
+import { NOS } from './data/arvore.js';
+import { DISCIPLINAS } from './data/disciplinas.js';
+import { disciplina } from './views/disciplina.js';
 import { curso, modulo, aula } from './views/curso.js';
 import { biblioteca, livro } from './views/biblioteca.js';
 import { caderno, nota, criarNota } from './views/caderno.js';
@@ -29,6 +34,8 @@ const INDICE = [
   ...CONCEITOS.map((c) => ({ tipo: 'Conceito', href: `conceito-${c.id}`, titulo: c.termo, texto: `${c.simples} ${c.tecnica}` })),
   ...AUTORES.map((a) => ({ tipo: 'Autor', href: 'autores', titulo: a.nome, texto: a.resumo })),
   ...MOVIMENTOS.map((m) => ({ tipo: 'Ideia', href: `ideia-${m.id}`, titulo: m.nome, texto: `${m.pessoas} ${m.origem}` })),
+  ...NOS.map((n) => ({ tipo: 'Área', href: `area-${n.id}`, titulo: n.nome, texto: n.desc })),
+  ...DISCIPLINAS.map((d) => ({ tipo: 'Disciplina', href: `disciplina-${d.id}`, titulo: `Percurso de ${d.nome}`, texto: d.metodo })),
 ];
 let consulta = '';
 
@@ -46,9 +53,9 @@ busca.ligar = (root, ctx) => {
 
 // Rotas: token exato ou prefixo seguido de id.
 const ROTAS = { painel, mapa: arvore, escada, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
-const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia };
+const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', escada: 'mapa' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -92,7 +99,11 @@ function render(opts = {}) {
   const novo = document.createElement('div');
   novo.className = 'vista';
   try {
-    novo.innerHTML = view(ctx, id);
+    const html = view(ctx, id);
+    // santo de referência só nas abas principais, logo depois do cabeçalho da página
+    const santos = id === null ? santosDaAba(token, secao) : '';
+    const fim = html.indexOf('</header>');
+    novo.innerHTML = santos && fim >= 0 ? `${html.slice(0, fim + 9)}<div class="santos-aba">${santos}</div>${html.slice(fim + 9)}` : html;
   } catch (e) {
     novo.innerHTML = `<div class="aviso"><strong>Não foi possível abrir esta página.</strong> ${esc(e.message)} ${link('painel', 'Voltar ao painel')}</div>`;
   }
@@ -117,6 +128,8 @@ document.addEventListener('click', (ev) => {
     fav.classList.toggle('on', on); fav.setAttribute('aria-pressed', String(on)); fav.firstChild.textContent = on ? '★' : '☆';
     toast(on ? 'Adicionado aos favoritos.' : 'Removido dos favoritos.');
   }
+  const au = ev.target.closest('[data-autor-sel]');
+  if (au) selecionarAutor(au.dataset.autorSel);
   const cr = ev.target.closest('[data-acao="cronometro"]');
   if (cr) iniciarCronometro(cr.dataset.alvo);
 });

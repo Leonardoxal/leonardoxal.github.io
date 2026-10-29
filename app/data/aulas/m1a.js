@@ -81,7 +81,7 @@ export const AULAS_M1A = [
     { texto: 'Tomás de Aquino, Suma Teológica, I, q. 1 (natureza da sagrada doutrina).' },
     { texto: 'Anselmo de Cantuária, Proslógio, proêmio e cap. 1.' },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Responder à questão discursiva e autoavaliá-la', 'Ler a fonte orientada (CIC §158)'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Responder à questão discursiva e autoavaliá-la', 'Ler a fonte orientada (CIC §158)'],
   revisao: [['O que significa "teologia"?', 'Discurso racional sobre Deus (theos + logos).'], ['Teologia natural × revelada', 'Natural: só razão, parte da filosofia. Revelada: parte da Revelação e a investiga racionalmente.'], ['Fides quaerens intellectum', 'A fé que busca compreender — Anselmo; CIC §158.']],
 },
 
@@ -175,7 +175,7 @@ export const AULAS_M1A = [
     { texto: 'João Paulo II, Fides et Ratio (1998), Introdução e caps. II–III.', link: LINKS.fidesRatio },
     { texto: 'David Hume, Investigação sobre o Entendimento Humano, seção X ("Dos milagres") — para o Degrau 7.' },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Responder à questão discursiva', 'Ler CIC §150–159'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Responder à questão discursiva', 'Ler CIC §150–159'],
   revisao: [['Duas dimensões da fé (CIC §150)', 'Adesão pessoal a Deus + assentimento livre à verdade revelada.'], ['Motivos de credibilidade', 'Sinais (milagres, profecias, vida da Igreja) que mostram a razoabilidade da fé — CIC §156.'], ['Fideísmo × racionalismo', 'Fideísmo: fé sem razão. Racionalismo: só a razão. Ambos rejeitados (Vaticano I).']],
 },
 
@@ -259,7 +259,7 @@ export const AULAS_M1A = [
     { texto: 'Concílio Vaticano II, Dei Verbum, §7–10.', link: LINKS.deiVerbum },
     { texto: 'Catecismo da Igreja Católica, §74–141.', link: LINKS.cicRevelacao },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Responder à questão discursiva', 'Ler DV §9–10'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Responder à questão discursiva', 'Ler DV §9–10'],
   revisao: [['Cânon católico', '73 livros: 46 AT + 27 NT (CIC §120).'], ['Tradição × tradições', 'Apostólica (Revelação) × locais/disciplinares (mutáveis) — CIC §83.'], ['Limite do Magistério', 'Não está acima da Palavra; a serve (DV 10; CIC §86).']],
 },
 ];

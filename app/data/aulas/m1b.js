@@ -89,7 +89,7 @@ export const AULAS_M1B = [
     { texto: 'Compêndio do Catecismo da Igreja Católica (2005).', link: LINKS.compendio },
     { texto: 'Índice do Catecismo em português (vatican.va).', link: LINKS.cicIndice },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Fazer o exercício do método', 'Ler o Prólogo §11–17'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Fazer o exercício do método', 'Ler o Prólogo §11–17'],
   revisao: [['Quatro partes do Catecismo', 'Profissão da fé; celebração; vida em Cristo; oração (crer, celebrar, viver, rezar).'], ['Método de consulta', 'Pergunta → localização → leitura com fontes → síntese com §.'], ['Compêndio', '2005, 598 perguntas e respostas.']],
 },
 
@@ -182,7 +182,7 @@ export const AULAS_M1B = [
     { texto: 'Catecismo, §422–682 (Jesus Cristo).', link: LINKS.cicCristo },
     { texto: 'Catecismo, §683–1065 (Espírito Santo, Igreja, vida eterna).', link: LINKS.cicEspirito },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Responder à questão discursiva', 'Ler CIC §185–197'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Responder à questão discursiva', 'Ler CIC §185–197'],
   revisao: [['Estrutura do Credo (CIC §190)', 'Pai-criação; Filho-redenção; Espírito Santo-santificação.'], ['Trindade', 'Um só Deus, uma natureza, três Pessoas realmente distintas.'], ['Calcedônia (451)', 'Cristo: uma Pessoa, duas naturezas.'], ['Niceia (325)', 'Filho consubstancial ao Pai, contra Ário.']],
 },
 
@@ -270,7 +270,7 @@ export const AULAS_M1B = [
     { texto: 'Sabedoria 13,1–9; Romanos 1,19–20; Atos 17,16–34.' },
     { texto: 'Hume, Diálogos sobre a Religião Natural; Kant, Crítica da Razão Pura, Dialética Transcendental — para os Degraus 5 e 7.' },
   ],
-  criterios: ['Acertar pelo menos 70% do questionário', 'Responder à questão discursiva', 'Ler CIC §31–38'],
+  criterios: ['Acertar pelo menos 80% do questionário', 'Responder à questão discursiva', 'Ler CIC §31–38'],
   revisao: [['CIC §36', 'Deus pode ser conhecido com certeza pela luz natural da razão a partir das criaturas (Vaticano I).'], ['Contingente × necessário', 'Pode não existir × não pode não existir.'], ['Dois caminhos (CIC §32–33)', 'A partir do mundo e a partir da pessoa humana.']],
 },
 ];

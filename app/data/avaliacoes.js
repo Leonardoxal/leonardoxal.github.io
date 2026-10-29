@@ -6,11 +6,12 @@
 //  validade  — dizer se o argumento é válido (a conclusão segue das premissas), independentemente da verdade
 
 import { MODULOS } from './curriculo.js';
+import { NOTA_MINIMA } from '../core.js';
 import { aulaPorId } from './aulas/index.js';
 
 const ESTATICAS = [
   {
-    id: 'prova-m1', titulo: 'Prova do Módulo 1', tipo: 'prova', modulo: 'm1', minimo: 70,
+    id: 'prova-m1', titulo: 'Prova do Módulo 1', tipo: 'prova', modulo: 'm1', minimo: NOTA_MINIMA,
     descricao: 'Questões de síntese do módulo.',
     itens: [
       { tipo: 'mc', enunciado: 'Qual par está corretamente relacionado?', opcoes: ['Teologia natural — parte da Revelação', 'Teologia revelada — parte do que Deus revelou e o investiga pela razão', 'Fideísmo — só a razão vale', 'Dogma — opinião de um teólogo'], correta: 1,
@@ -31,7 +32,7 @@ const ESTATICAS = [
     ],
   },
   {
-    id: 'logica-1', titulo: 'Exercícios de lógica I: premissas, conclusões e validade', tipo: 'logica', modulo: 'm4', minimo: 70,
+    id: 'logica-1', titulo: 'Exercícios de lógica I: premissas, conclusões e validade', tipo: 'logica', modulo: 'm4', minimo: NOTA_MINIMA,
     descricao: 'Treino preparatório para o Degrau 3. Pode ser feito desde já, junto com a aula de leitura ativa.',
     itens: [
       { tipo: 'premissas', enunciado: 'Classifique cada frase.', frases: ['Sócrates é homem.', 'Todo homem é mortal.', 'Logo, Sócrates é mortal.'], papeis: ['p', 'p', 'c'], explicacao: 'O clássico silogismo: duas premissas e a conclusão indicada por "logo".' },
@@ -57,7 +58,7 @@ const ESTATICAS = [
     ],
   },
   {
-    id: 'logica-2', titulo: 'Exercícios de lógica II (avançado): silogística, equivalências e falácias sutis', tipo: 'logica', modulo: 'm4', minimo: 80,
+    id: 'logica-2', titulo: 'Exercícios de lógica II (avançado): silogística, equivalências e falácias sutis', tipo: 'logica', modulo: 'm4', minimo: NOTA_MINIMA,
     descricao: 'Nível avançado do Degrau 3. Exige as regras do silogismo, o quadrado das oposições e a distinção entre forma e conteúdo.',
     itens: [
       { tipo: 'validade', enunciado: 'Válido?', argumento: ['Nenhum M é P.', 'Todo S é M.', 'Logo, nenhum S é P.'], valido: true, explicacao: 'Válido: modo Celarent da primeira figura.' },
@@ -84,7 +85,7 @@ const ESTATICAS = [
     ],
   },
   {
-    id: 'final', titulo: 'Avaliação final: projeto de conclusão (Degrau 12)', tipo: 'final', modulo: 'm16', minimo: 0,
+    id: 'final', titulo: 'Avaliação final: projeto de conclusão (Degrau 13)', tipo: 'final', modulo: 'm16', minimo: 0,
     descricao: 'Exige demonstração de competência, não de memorização nem de concordância com uma conclusão predeterminada. Pode ser iniciada a qualquer momento como rascunho.',
     itens: [
       { tipo: 'disc', enunciado: 'Escolha uma grande questão (ex.: Deus existe? O que é a verdade? Existe liberdade humana? Fé e razão podem entrar em contradição? O que caracteriza uma sociedade justa?) e escreva o ensaio final.',
@@ -106,9 +107,10 @@ function provaDoModulo(m) {
   if (av?.tipo !== 'avaliacao' || av.prova !== `prova-${m.id}`) return null;
   const extra = ESTATICAS.find((e) => e.id === av.prova);
   const conteudo = m.aulas.map((a) => aulaPorId[a.id]).filter((a) => a && a.tipo !== 'avaliacao');
-  const auto = conteudo.flatMap((a) => a.exercicios.filter((e) => e.tipo === 'mc').slice(0, QUESTOES_POR_AULA));
+  // cada questão guarda a aula de origem: um erro indica o que revisar
+  const auto = conteudo.flatMap((a) => a.exercicios.filter((e) => e.tipo === 'mc').slice(0, QUESTOES_POR_AULA).map((e) => ({ ...e, aula: a.id })));
   return {
-    id: av.prova, titulo: `Prova do Módulo ${m.n}: ${m.titulo}`, tipo: 'prova', modulo: m.id, minimo: 70,
+    id: av.prova, titulo: `Prova do Módulo ${m.n}: ${m.titulo}`, tipo: 'prova', modulo: m.id, minimo: NOTA_MINIMA,
     descricao: `${conteudo.length} aulas cobertas: questões objetivas de cada aula e questões discursivas de síntese.`,
     itens: [...(extra?.itens.filter((i) => i.tipo !== 'disc') || []), ...auto, ...(extra?.itens.filter((i) => i.tipo === 'disc') || []), ...av.discursivas],
   };

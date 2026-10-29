@@ -5,6 +5,7 @@ import { LIVROS, livroPorId } from '../data/livros.js';
 import { todasAulas } from '../data/curriculo.js';
 import { normalizar } from '../core.js';
 import { esc, link, botaoFav } from '../ui.js';
+import { conexoesConceito } from './conexoes.js';
 
 const aulaTitulo = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
 let busca = '';
@@ -38,6 +39,7 @@ export function conceito({ estado }, id) {
     <dt>Livros</dt><dd>${c.livros.map((l) => link(`livro-${l}`, esc(livroPorId[l].titulo))).join('<br>') || '—'}</dd>
     <dt>Conceitos relacionados</dt><dd>${c.relacionados.map((r) => link(`conceito-${r}`, esc(conceitoPorId[r].termo))).join(', ') || '—'}</dd>
   </dl>
+  ${conexoesConceito(estado, c)}
   <div class="acoes-aula"><button class="btn" data-acao="nota-conceito">Nova nota sobre este conceito</button></div>`;
 }
 conceito.ligar = (root, ctx, id) => {
@@ -46,6 +48,8 @@ conceito.ligar = (root, ctx, id) => {
 };
 
 let autorSel = 'tomas';
+/** Usado pelos links de autor de outras páginas (conexões), antes de abrir #autores. */
+export const selecionarAutor = (id) => { autorSel = id; };
 
 /** Mapa radial: autor no centro, influências à esquerda, influenciados à direita, conceitos embaixo. */
 function mapaRelacoes(id) {
