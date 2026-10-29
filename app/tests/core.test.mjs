@@ -630,9 +630,10 @@ test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio d
 
 test('Geografia I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase 2 e ligação ao percurso', () => {
   const g = DISCIPLINAS.find((d) => d.id === 'geografia');
-  assert.deepEqual(Object.keys(g.aulas), Object.keys(ETAPAS).slice(0, 3), 'etapas 1 a 3');
+  const etapasG1 = Object.keys(ETAPAS).slice(0, 3);
+  assert.deepEqual(Object.keys(g.aulas).slice(0, 3), etapasG1, 'etapas 1 a 3');
   const campos = ['aprendera', 'prereq', 'explicacao', 'vocabulario', 'exemplos', 'contexto', 'argumento', 'objecoes', 'aplicacao', 'fonte', 'perguntas', 'exercicios', 'resumo', 'referencias', 'criterios', 'revisao', 'avancado'];
-  for (const id of Object.values(g.aulas).flat()) {
+  for (const id of etapasG1.flatMap((e) => g.aulas[e])) {
     const a = AULAS_COMPLETAS.find((x) => x.id === id);
     assert.ok(a, `aula ${id} publicada`);
     assert.equal(todasAulas.find((x) => x.id === id).modulo, 'g1');
