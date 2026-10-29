@@ -175,6 +175,11 @@ export const MODULOS = [
     objetivos: ['Separar método, teoria e filosofia da história em cada escola', 'Explicar as mudanças de escala e de objeto da historiografia recente', 'Distinguir interpretação legítima de distorção', 'Comparar as interpretações do Brasil pelas evidências'],
     aulas: A(['Positivismo, escola metódica e materialismo histórico', 'Mentalidades, história cultural, micro-história e nova história política', 'Verdade e objetividade na história: Carr, Elton e o desafio pós-moderno', 'As interpretações do Brasil: Freyre, Buarque de Holanda, Caio Prado e Faoro', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Quadro comparativo das interpretações do Brasil', 'Prova do módulo (80%)'] },
+  { id: 'h4', n: 'H4', titulo: 'História IV: Antiguidade, Cristandade medieval, revoluções modernas e formação do Brasil', semanas: '8–10', degrau: null, disciplina: 'historia', prereq: ['h3', 'm8'],
+    descricao: 'Estudo por períodos, lido nas fontes: a pólis, Roma e a cristianização do Império; a Cristandade medieval e Portugal; Reformas, Revolução Científica, revoluções políticas e industrial; e a formação do Brasil, da colonização à República. Corresponde à etapa 8 do percurso de História.',
+    objetivos: ['Situar os grandes marcos de cada período com datas e fontes', 'Ler fontes antigas, medievais e modernas com crítica', 'Relacionar a história do Brasil aos processos mundiais', 'Distinguir fatos, estimativas e debates de cada período'],
+    aulas: A(['Antiguidade: a pólis grega, Roma e a cristianização do Império', 'A Cristandade medieval: reinos, Igreja, cidades e universidades', 'Revoluções modernas: Reformas, ciência, política e indústria', 'A formação do Brasil: Colônia e Império (1500–1889)', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Linhas do tempo das aulas 3 e 4', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

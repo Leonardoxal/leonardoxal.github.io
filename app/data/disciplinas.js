@@ -23,7 +23,7 @@ export const DISCIPLINAS = [
   {
     id: 'historia', no: 'historia', nome: 'História', aulasPublicadas: false,
     // aulas completas já publicadas, por etapa (módulo H1); as demais etapas seguem em preparação
-    aulas: { fundamentos: ['h1-1'], vocabulario: ['h1-2'], metodos: ['h1-3', 'h1-4', 'h1-5'], formacao: ['h2-1', 'h2-2', 'h2-3'], autores: ['h2-4', 'h2-5'], escolas: ['h3-1', 'h3-2'], debates: ['h3-3', 'h3-4', 'h3-5'] },
+    aulas: { fundamentos: ['h1-1'], vocabulario: ['h1-2'], metodos: ['h1-3', 'h1-4', 'h1-5'], formacao: ['h2-1', 'h2-2', 'h2-3'], autores: ['h2-4', 'h2-5'], escolas: ['h3-1', 'h3-2'], debates: ['h3-3', 'h3-4', 'h3-5'], avancado: ['h4-1', 'h4-2', 'h4-3', 'h4-4', 'h4-5'] },
     metodo: 'Crítica de fontes: autenticidade, autoria, data, intenção e confronto entre testemunhos. A narrativa histórica é uma interpretação fundamentada em documentos, não uma opinião.',
     prereq: ['logica', 'intro-filosofia'],
     etapas: [

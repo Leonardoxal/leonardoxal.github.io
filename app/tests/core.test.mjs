@@ -599,9 +599,10 @@ test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio d
   const h = DISCIPLINAS.find((d) => d.id === 'historia');
   const ids = Object.values(h.aulas).flat();
   // as etapas com aulas são as primeiras do percurso, em ordem, sem pular nenhuma
-  assert.deepEqual(Object.keys(h.aulas), Object.keys(ETAPAS).slice(0, 7), 'etapas 1 a 7');
+  assert.deepEqual(Object.keys(h.aulas), Object.keys(ETAPAS).slice(0, 8), 'etapas 1 a 8');
   const modulos = [...new Set(ids.map((id) => todasAulas.find((x) => x.id === id)?.modulo))];
-  assert.deepEqual(modulos, ['h1', 'h2', 'h3']);
+  assert.deepEqual(modulos, ['h1', 'h2', 'h3', 'h4']);
+  assert.ok(moduloPorId.h4.prereq.includes('h3'), 'H4 depois de H3');
   assert.ok(moduloPorId.h3.prereq.includes('h2'), 'H3 depois de H2');
   for (const m of modulos) assert.ok(avaliacaoPorId[`prova-${m}`]?.itens.filter((i) => i.aula).length >= 8, `prova-${m}`);
   assert.ok(moduloPorId.h2.prereq.includes('h1'), 'H2 depois de H1');
