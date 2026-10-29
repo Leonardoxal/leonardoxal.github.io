@@ -20,7 +20,7 @@ export function gerar() {
       const f = fichaDe(l.id);
       const extras = [l.ano, `dificuldade ${l.nivel}/5`, l.verificacao === 'a confirmar' ? 'dados a confirmar' : ''].filter(Boolean).join(' · ');
       linhas.push(`${++n}. **${l.titulo}** — ${l.autor} (${extras}) \`${l.id}\``);
-      if (f.obrigatorias.length) linhas.push(`   - Pré-requisitos: ${f.obrigatorias.map((p) => livroPorId[p].titulo).join('; ')}`);
+      if (f.obrigatorias.length) linhas.push(`   - Pré-requisitos: ${f.obrigatorias.map((p) => `${livroPorId[p].titulo}${l.porque?.[p] ? ` (${l.porque[p]})` : ''}`).join('; ')}`);
       linhas.push(`   - Por que aqui: ${f.justificativa.replace(/^Faz parte do degrau [^:]+: [^.]+\.\s*/, '') || 'pressupõe apenas os degraus anteriores.'}`);
     }
     linhas.push('');

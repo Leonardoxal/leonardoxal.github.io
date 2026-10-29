@@ -12,6 +12,7 @@ import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { MOVIMENTOS, EVENTOS, AREAS, movimentoPorId } from '../data/genealogia.js';
 import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
 import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
+import { PREREQUISITOS } from '../data/prerequisitos.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 
@@ -70,6 +71,16 @@ test('pré-requisitos: existem, vêm antes na trilha (sem ciclos) e as aulas pre
     f.aulas.forEach((a) => assert.ok(todasAulas.find((x) => x.id === a).degrau <= l.degrau, `${l.id}: aula preparatória ${a} em degrau posterior`));
     f.recomendadas.forEach((r) => assert.ok(posicaoNaTrilha(r) < posicaoNaTrilha(l.id), `${l.id}: recomendada ${r} depois`));
     assert.ok(f.justificativa.length > 40 && f.criterio.length >= 3, `${l.id}: ficha incompleta`);
+  }
+});
+
+test('pré-requisitos justificados: livro e pré-requisito existem e cada dependência tem motivo', () => {
+  for (const [id, deps] of Object.entries(PREREQUISITOS)) {
+    assert.ok(livroPorId[id], `prerequisitos.js: livro ${id} inexistente`);
+    for (const [p, porque] of deps) {
+      assert.ok(livroPorId[p], `${id}: pré-requisito ${p} inexistente`);
+      assert.ok(livroPorId[id].prereq.includes(p) && porque.length > 20, `${id} ← ${p}: sem motivo`);
+    }
   }
 });
 

@@ -19,7 +19,9 @@ export function transicaoHTML(estado, id) {
     <p class="meta">Posição ${f.posicaoGeral} de ${f.total} na trilha · degrau ${f.degrau.n}, ${l.ordem}º do degrau${pendentes ? ` · <strong>${pendentes} preparação(ões) pendente(s)</strong>` : ' · preparação concluída'}</p>
     <h3>Por que estou lendo esta obra agora?</h3><p>${esc(f.justificativa)}</p>
     <h3>O que preciso saber antes de começar?</h3>
-    <p><strong>Obrigatório:</strong></p>${lista(f.obrigatorias, 'Nenhuma obra específica: bastam os degraus anteriores.')}
+    <p><strong>Obrigatório:</strong></p>${f.obrigatorias.length
+      ? `<ul class="lista-curta">${f.obrigatorias.map((x) => `${itemLivro(estado, x).replace(/<\/li>$/, '')}${l.porque?.[x] ? `<br><span class="meta">${esc(l.porque[x])}</span>` : ''}</li>`).join('')}</ul>`
+      : '<p class="meta">Nenhuma obra específica: bastam os degraus anteriores.</p>'}
     ${f.recomendadas.length ? `<p><strong>Recomendado:</strong></p>${lista(f.recomendadas, '')}` : ''}
     ${f.aulas.length ? `<p><strong>Aulas preparatórias:</strong></p><ul class="lista-curta">${f.aulas.map((a) => `<li>${link(`aula-${a}`, esc(a))} ${marca(aulaConcluida(estado, a))}</li>`).join('')}</ul>` : ''}
     ${f.conceitos.length ? `<p><strong>Conceitos:</strong> ${f.conceitos.map((c) => link(`conceito-${c.id}`, esc(c.termo))).join(', ')}</p>` : ''}

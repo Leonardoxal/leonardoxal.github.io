@@ -375,25 +375,31 @@ Conhecimento, ceticismo, ser, essência, substância, ato e potência, causalida
    - Pré-requisitos: A República (livros I–X)
    - Por que aqui: Vem depois de A República (livros I–X), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Diálogos duvidosos e espúrios (Alcibíades II, Hiparco, Os Rivais, Teages, Clitofonte, Minos, Definições e outros), cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
 157. **Metafísica (livros I–XIV)** — Aristóteles (c. 350–320 a.C. · dificuldade 5/5) `aristoteles-metafisica-completa`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Obras pseudo-aristotélicas (Problemas, Do Mundo, Econômicos, Das Virtudes e dos Vícios e outras), cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2, m7-4, m7-5 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Metafísica (livros I e IV, com orientação) (Os livros I e IV, lidos com orientação no degrau 4, apresentam a ciência do ente enquanto ente que o tratado inteiro desenvolve.); Categorias (Substância e acidente, das Categorias, são o ponto de partida dos livros VII e VIII.)
+   - Por que aqui: Vem depois de Metafísica (livros I e IV, com orientação), Categorias, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Obras pseudo-aristotélicas (Problemas, Do Mundo, Econômicos, Das Virtudes e dos Vícios e outras), cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2, m7-4, m7-5 preparam o vocabulário e o contexto antes desta leitura.
 158. **Os Princípios da Natureza** — Tomás de Aquino (c. 1252–1256 · dificuldade 3/5) `tomas-principios-natureza`
-   - Por que aqui: As aulas m6-1, m7-1, m7-2, m7-3, m7-7 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Física, Livro II (com orientação) (O opúsculo resume para estudantes matéria, forma, privação e as quatro causas da Física II.)
+   - Por que aqui: Vem depois de Física, Livro II (com orientação), que fornece os conceitos que esta obra pressupõe. As aulas m6-1, m7-1, m7-2, m7-3, m7-7 preparam o vocabulário e o contexto antes desta leitura.
 159. **O Ente e a Essência** — Tomás de Aquino (c. 1252–1256 · dificuldade 4/5) `tomas-ente-essencia`
-   - Pré-requisitos: Metafísica (livros I e IV, com orientação)
-   - Por que aqui: Vem depois de Metafísica (livros I e IV, com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Os Princípios da Natureza, cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2, m7-3, m7-7 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Metafísica (livros I e IV, com orientação); Os Princípios da Natureza (A distinção entre essência das substâncias compostas e das simples pressupõe matéria e forma.)
+   - Por que aqui: Vem depois de Metafísica (livros I e IV, com orientação), Os Princípios da Natureza, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Os Princípios da Natureza, cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2, m7-3, m7-7 preparam o vocabulário e o contexto antes desta leitura.
 160. **Suma Teológica, I, q. 2–13 (com orientação)** — Tomás de Aquino (1265–1274 (obra inteira) · dificuldade 5/5) `suma-q2-13`
    - Pré-requisitos: O Ente e a Essência
    - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Ente e a Essência, cujo vocabulário e problemas retoma. As aulas m6-1, m7-1, m7-2, m7-3, m7-7 preparam o vocabulário e o contexto antes desta leitura.
 161. **Monadologia** — G. W. Leibniz (1714 · dificuldade 4/5) `leibniz-monadologia`
-   - Por que aqui: As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Metafísica (livros I–XIV) (A substância como princípio de atividade retoma a forma substancial aristotélica que Leibniz quer reabilitar.)
+   - Por que aqui: Vem depois de Metafísica (livros I–XIV), que fornece os conceitos que esta obra pressupõe. As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
 162. **Diálogos sobre a Religião Natural** — David Hume (1779 (póstumo) · dificuldade 4/5) `hume-dialogos`
    - Por que aqui: As aulas m6-1, m7-1, m7-2, m6-5 preparam o vocabulário e o contexto antes desta leitura.
 163. **Dieu, son existence et sa nature** — Réginald Garrigou-Lagrange (1915 · dificuldade 5/5) `garrigou-deus`
-   - Por que aqui: As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I, q. 2–13 (com orientação) (É um comentário escolástico às provas e aos atributos divinos da Suma I, q. 2–13.)
+   - Por que aqui: Vem depois de Suma Teológica, I, q. 2–13 (com orientação), que fornece os conceitos que esta obra pressupõe. As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
 164. **Five Proofs of the Existence of God** — Edward Feser (2017 · dificuldade 4/5) `feser-cinco`
-   - Por que aqui: As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I, q. 2–13 (com orientação) (Defende versões das cinco vias: é preciso conhecer o texto original.); Metafísica (livros I–XIV) (O argumento aristotélico do livro parte de ato e potência.)
+   - Por que aqui: Vem depois de Suma Teológica, I, q. 2–13 (com orientação), Metafísica (livros I–XIV), que fornecem os conceitos que esta obra pressupõe. As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
 165. **The Miracle of Theism** — J. L. Mackie (1982 · dificuldade 4/5) `mackie-milagre`
-   - Por que aqui: As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Diálogos sobre a Religião Natural (Mackie desenvolve as objeções de Hume ao argumento do desígnio.); Suma Teológica, I, q. 2–13 (com orientação) (Critica os argumentos cosmológicos de tipo tomista.)
+   - Por que aqui: Vem depois de Diálogos sobre a Religião Natural, Suma Teológica, I, q. 2–13 (com orientação), que fornecem os conceitos que esta obra pressupõe. As aulas m6-1, m7-1, m7-2 preparam o vocabulário e o contexto antes desta leitura.
 
 ## Degrau 7 — Filosofia medieval e escolástica
 
@@ -406,10 +412,11 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 168. **Monológio** — Santo Anselmo (1076 · dificuldade 3/5) `anselmo-monologio`
    - Por que aqui: A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 169. **Proslógio** — Santo Anselmo (c. 1077–1078 · dificuldade 3/5) `anselmo-proslogio`
-   - Pré-requisitos: Da Interpretação
-   - Por que aqui: Vem depois de Da Interpretação, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Monológio, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Interpretação; Monológio (No proêmio, Anselmo diz que buscou um argumento único que dispensasse a longa cadeia do Monológio.)
+   - Por que aqui: Vem depois de Da Interpretação, Monológio, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Monológio, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 170. **Livro em favor do insensato (Gaunilo) e Resposta de Anselmo** — Santo Anselmo (c. 1078 · dificuldade 3/5) `anselmo-gaunilo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Proslógio, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Proslógio (É a objeção de Gaunilo ao argumento do Proslógio e a resposta de Anselmo.)
+   - Por que aqui: Vem depois de Proslógio, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Proslógio, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 171. **O Gramático** — Santo Anselmo (c. 1080–1085 · dificuldade 4/5) `anselmo-gramatico`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Livro em favor do insensato (Gaunilo) e Resposta de Anselmo, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 172. **A Verdade** — Santo Anselmo (c. 1080–1085 · dificuldade 3/5) `anselmo-verdade`
@@ -427,7 +434,8 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 178. **A Processão do Espírito Santo** — Santo Anselmo (1102 · dificuldade 4/5) `anselmo-procissao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Concepção Virginal e o Pecado Original, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 179. **A Concórdia da Presciência, da Predestinação e da Graça com o Livre-Arbítrio** — Santo Anselmo (1107–1108 · dificuldade 5/5) `anselmo-concordia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Processão do Espírito Santo, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Liberdade do Arbítrio (Usa a definição de liberdade estabelecida em A Liberdade do Arbítrio.)
+   - Por que aqui: Vem depois de A Liberdade do Arbítrio, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Processão do Espírito Santo, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 180. **Orações e Meditações** — Santo Anselmo (c. 1070–1080 · dificuldade 2/5) `anselmo-oracoes`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Concórdia da Presciência, da Predestinação e da Graça com o Livre-Arbítrio, cujo vocabulário e problemas retoma. A aula m8-4 prepara o vocabulário e o contexto antes desta leitura.
 181. **Cartas** — Santo Anselmo (1070–1109 · dificuldade 2/5) `anselmo-cartas`
@@ -435,7 +443,8 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 182. **Itinerário da Mente para Deus** — São Boaventura (1259 · dificuldade 4/5) `boaventura-itinerario`
    - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
 183. **A Filosofia de São Boaventura** — Étienne Gilson (1924 · dificuldade 4/5) `gilson-boaventura`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Filosofia na Idade Média, cujo vocabulário e problemas retoma.
+   - Pré-requisitos: Itinerário da Mente para Deus (Estudo da filosofia de Boaventura; o Itinerário é o texto que ele mais analisa.)
+   - Por que aqui: Vem depois de Itinerário da Mente para Deus, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Filosofia na Idade Média, cujo vocabulário e problemas retoma.
 184. **Guide to Thomas Aquinas** — Josef Pieper (1958 · dificuldade 3/5) `pieper-tomas`
    - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
 185. **O Tomismo** — Étienne Gilson (1919 (1ª ed.; várias revisões) · dificuldade 4/5) `gilson-tomismo`
@@ -455,9 +464,11 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 192. **As Razões da Fé (contra sarracenos, gregos e armênios)** — Tomás de Aquino (c. 1265 · dificuldade 3/5) `tomas-razoes-fe`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Compêndio de Teologia, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 193. **Comentário ao Tratado da Trindade de Boécio** — Tomás de Aquino (c. 1257–1259 · dificuldade 5/5) `tomas-trindade-boecio`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Razões da Fé (contra sarracenos, gregos e armênios), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório (Comenta o tratado A Trindade, dos Opuscula sacra de Boécio.)
+   - Por que aqui: Vem depois de Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de As Razões da Fé (contra sarracenos, gregos e armênios), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 194. **Comentário às Hebdômadas de Boécio** — Tomás de Aquino (c. 1257–1259 · dificuldade 5/5) `tomas-hebdomadas`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário ao Tratado da Trindade de Boécio, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório (Comenta As Hebdômadas, dos Opuscula sacra de Boécio.)
+   - Por que aqui: Vem depois de Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário ao Tratado da Trindade de Boécio, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 195. **Questões Disputadas sobre a Verdade** — Tomás de Aquino (1256–1259 · dificuldade 5/5) `tomas-verdade`
    - Pré-requisitos: O Ente e a Essência
    - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário às Hebdômadas de Boécio, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
@@ -467,48 +478,63 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
    - Pré-requisitos: Suma Teológica, I, q. 2–13 (com orientação)
    - Por que aqui: Vem depois de Suma Teológica, I, q. 2–13 (com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário às Sentenças de Pedro Lombardo (Scriptum super Sententiis), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 198. **Suma Teológica — Primeira Parte (q. 1–119, integral)** — Tomás de Aquino (1266–1268 · dificuldade 5/5) `suma-i`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Suma contra os Gentios (livros I–IV), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I, q. 2–13 (com orientação) (A Primeira Parte integral amplia as questões 2–13, já estudadas.)
+   - Por que aqui: Vem depois de Suma Teológica, I, q. 2–13 (com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma contra os Gentios (livros I–IV), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 199. **Suma Teológica, I–II (felicidade, atos humanos, lei: seleções)** — Tomás de Aquino (dificuldade 5/5) `suma-i-ii`
    - Pré-requisitos: Suma Teológica, I, q. 2–13 (com orientação); Ética a Nicômaco
    - Por que aqui: Vem depois de Suma Teológica, I, q. 2–13 (com orientação), Ética a Nicômaco, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Primeira Parte (q. 1–119, integral), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 200. **Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral)** — Tomás de Aquino (1268–1270 · dificuldade 5/5) `suma-i-ii-integral`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Suma Teológica, I–II (felicidade, atos humanos, lei: seleções), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I–II (felicidade, atos humanos, lei: seleções) (As seleções da I–II já lidas são o núcleo da Primeira Seção da Segunda Parte.); Suma Teológica — Primeira Parte (q. 1–119, integral) (O tratado do homem (I, q. 75–102) é pressuposto pela teoria dos atos humanos.)
+   - Por que aqui: Vem depois de Suma Teológica, I–II (felicidade, atos humanos, lei: seleções), Suma Teológica — Primeira Parte (q. 1–119, integral), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma Teológica, I–II (felicidade, atos humanos, lei: seleções), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 201. **Suma Teológica — Segunda Seção da Segunda Parte (q. 1–189)** — Tomás de Aquino (1271–1272 · dificuldade 5/5) `suma-ii-ii`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral) (As virtudes em particular pressupõem o tratado geral dos hábitos e das virtudes da I–II.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 202. **Suma Teológica — Terceira Parte (q. 1–90) e Suplemento** — Tomás de Aquino (1272–1273; Suplemento póstumo · dificuldade 5/5) `suma-iii`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Segunda Seção da Segunda Parte (q. 1–189), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Parte (q. 1–119, integral) (Cristologia e sacramentos usam a doutrina de Deus e da criação da Primeira Parte.); Suma Teológica — Segunda Seção da Segunda Parte (q. 1–189) (A Terceira Parte fecha o plano da Suma: Deus, o retorno do homem a Deus e Cristo como caminho.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Parte (q. 1–119, integral), Suma Teológica — Segunda Seção da Segunda Parte (q. 1–189), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Segunda Seção da Segunda Parte (q. 1–189), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 203. **Questões Disputadas sobre o Poder de Deus (De potentia)** — Tomás de Aquino (1265–1266 · dificuldade 5/5) `tomas-potencia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Terceira Parte (q. 1–90) e Suplemento, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Parte (q. 1–119, integral) (Retoma em forma de questão disputada a potência divina e a criação da Primeira Parte.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Parte (q. 1–119, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Suma Teológica — Terceira Parte (q. 1–90) e Suplemento, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 204. **Questões Disputadas sobre o Mal (De malo)** — Tomás de Aquino (c. 1270–1271 · dificuldade 5/5) `tomas-mal`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre o Poder de Deus (De potentia), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral) (Pecado e vício são tratados antes na I–II.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre o Poder de Deus (De potentia), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 205. **Questões Disputadas sobre a Alma (De anima)** — Tomás de Aquino (1265–1266 · dificuldade 5/5) `tomas-alma`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre o Mal (De malo), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Parte (q. 1–119, integral) (As questões 75–89 da Primeira Parte sobre a alma são a versão breve desta disputa.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Parte (q. 1–119, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre o Mal (De malo), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 206. **Questões Disputadas sobre as Criaturas Espirituais** — Tomás de Aquino (1267–1268 · dificuldade 5/5) `tomas-criaturas-espirituais`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre a Alma (De anima), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 207. **Questões Disputadas sobre as Virtudes** — Tomás de Aquino (1271–1272 · dificuldade 5/5) `tomas-virtudes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre as Criaturas Espirituais, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral) (Pressupõe o tratado geral das virtudes da I–II.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Seção da Segunda Parte (q. 1–114, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre as Criaturas Espirituais, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 208. **Questão Disputada sobre a União do Verbo Encarnado** — Tomás de Aquino (1272 · dificuldade 5/5) `tomas-uniao-verbo`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Disputadas sobre as Virtudes, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 209. **Questões Quodlibetais I–XII** — Tomás de Aquino (1256–1259; 1268–1272 · dificuldade 4/5) `tomas-quodlibetos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questão Disputada sobre a União do Verbo Encarnado, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 210. **Comentário ao Da Interpretação de Aristóteles** — Tomás de Aquino (1270–1271 (inacabado) · dificuldade 5/5) `tomas-com-interpretacao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questões Quodlibetais I–XII, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Interpretação (Comentário linha a linha ao Da Interpretação.)
+   - Por que aqui: Vem depois de Da Interpretação, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Questões Quodlibetais I–XII, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 211. **Comentário aos Analíticos Posteriores** — Tomás de Aquino (1271–1272 · dificuldade 5/5) `tomas-com-analiticos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário ao Da Interpretação de Aristóteles, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Analíticos Posteriores (Comentário linha a linha aos Analíticos Posteriores.)
+   - Por que aqui: Vem depois de Analíticos Posteriores, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário ao Da Interpretação de Aristóteles, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 212. **Comentário à Física** — Tomás de Aquino (1268–1269 · dificuldade 5/5) `tomas-com-fisica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário aos Analíticos Posteriores, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Física (livros I–VIII) (Comentário linha a linha à Física.)
+   - Por que aqui: Vem depois de Física (livros I–VIII), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário aos Analíticos Posteriores, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 213. **Comentários ao Do Céu, à Geração e Corrupção e aos Meteorológicos** — Tomás de Aquino (1272–1273 (inacabados) · dificuldade 5/5) `tomas-com-ceu-geracao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário à Física, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 214. **Comentário ao Da Alma (Sentencia libri De anima)** — Tomás de Aquino (1267–1268 · dificuldade 5/5) `tomas-com-alma`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentários ao Do Céu, à Geração e Corrupção e aos Meteorológicos, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Alma (De Anima) (Comentário linha a linha ao Da Alma.)
+   - Por que aqui: Vem depois de Da Alma (De Anima), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentários ao Do Céu, à Geração e Corrupção e aos Meteorológicos, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 215. **Comentários ao Do Sentido e do Sensível e à Memória e Reminiscência** — Tomás de Aquino (1268–1269 · dificuldade 5/5) `tomas-com-sentido-memoria`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário ao Da Alma (Sentencia libri De anima), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 216. **Comentário à Ética a Nicômaco** — Tomás de Aquino (1271–1272 · dificuldade 5/5) `tomas-com-etica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentários ao Do Sentido e do Sensível e à Memória e Reminiscência, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Ética a Nicômaco (Comentário linha a linha à Ética a Nicômaco.)
+   - Por que aqui: Vem depois de Ética a Nicômaco, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentários ao Do Sentido e do Sensível e à Memória e Reminiscência, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 217. **Comentário à Política (até III, 6)** — Tomás de Aquino (1269–1272 (inacabado) · dificuldade 5/5) `tomas-com-politica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário à Ética a Nicômaco, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Política (Comentário à Política, até o livro III.)
+   - Por que aqui: Vem depois de Política, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário à Ética a Nicômaco, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 218. **Comentário à Metafísica** — Tomás de Aquino (1270–1273 · dificuldade 5/5) `tomas-com-metafisica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário à Política (até III, 6), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Metafísica (livros I–XIV) (Comentário linha a linha à Metafísica inteira.)
+   - Por que aqui: Vem depois de Metafísica (livros I–XIV), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário à Política (até III, 6), cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 219. **Comentário ao Livro das Causas** — Tomás de Aquino (1272 · dificuldade 5/5) `tomas-livro-causas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário à Metafísica, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 220. **Comentário aos Nomes Divinos de Dionísio** — Tomás de Aquino (c. 1261–1268 · dificuldade 5/5) `tomas-nomes-divinos`
@@ -536,11 +562,13 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 231. **Contra a Doutrina dos que Afastam da Vida Religiosa** — Tomás de Aquino (1271 · dificuldade 3/5) `tomas-retrahentes`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Perfeição da Vida Espiritual, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 232. **A Unidade do Intelecto contra os Averroístas** — Tomás de Aquino (1270 · dificuldade 5/5) `tomas-unidade-intelecto`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Contra a Doutrina dos que Afastam da Vida Religiosa, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Comentário ao Da Alma (Sentencia libri De anima) (Interpreta Da Alma III contra Averróis com a leitura que Tomás fez no seu comentário.)
+   - Por que aqui: Vem depois de Comentário ao Da Alma (Sentencia libri De anima), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Contra a Doutrina dos que Afastam da Vida Religiosa, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 233. **A Eternidade do Mundo** — Tomás de Aquino (c. 1270–1271 · dificuldade 4/5) `tomas-eternidade`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Unidade do Intelecto contra os Averroístas, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 234. **As Substâncias Separadas** — Tomás de Aquino (c. 1271–1273 (inacabado) · dificuldade 5/5) `tomas-substancias-separadas`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Eternidade do Mundo, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Ente e a Essência (Usa a composição de essência e ser nas criaturas espirituais, exposta em O Ente e a Essência.)
+   - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Eternidade do Mundo, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 235. **Contra os Erros dos Gregos** — Tomás de Aquino (1263–1264 · dificuldade 3/5) `tomas-erros-gregos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Substâncias Separadas, cujo vocabulário e problemas retoma. As aulas m8-5, m8-7, m8-8 preparam o vocabulário e o contexto antes desta leitura.
 236. **O Reino (Do Governo dos Príncipes, ao rei de Chipre)** — Tomás de Aquino (c. 1267 (inacabado) · dificuldade 3/5) `tomas-reino`
@@ -564,19 +592,22 @@ Anselmo, universais, razão e Revelação, Tomás de Aquino: essência e existê
 245. **A Teologia Mística de São Bernardo** — Étienne Gilson (1934 · dificuldade 4/5 · dados a confirmar) `gilson-bernardo`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Tomismo, cujo vocabulário e problemas retoma.
 246. **João Duns Escoto (Jean Duns Scot)** — Étienne Gilson (1952 · dificuldade 5/5 · dados a confirmar) `gilson-escoto`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Teologia Mística de São Bernardo, cujo vocabulário e problemas retoma.
+   - Pré-requisitos: O Ente e a Essência (Compara Escoto com a distinção tomista entre essência e ser.)
+   - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Teologia Mística de São Bernardo, cujo vocabulário e problemas retoma.
 247. **História da Filosofia Cristã na Idade Média** — Étienne Gilson (1955 · dificuldade 5/5 · dados a confirmar) `gilson-historia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de João Duns Escoto (Jean Duns Scot), cujo vocabulário e problemas retoma.
 248. **Razão e Revelação na Idade Média** — Étienne Gilson (1938 · dificuldade 2/5) `gilson-razao-revelacao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de História da Filosofia Cristã na Idade Média, cujo vocabulário e problemas retoma.
 249. **O Ser e a Essência (L’être et l’essence; Being and Some Philosophers)** — Étienne Gilson (1948; 1949 · dificuldade 5/5) `gilson-ser-essencia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Razão e Revelação na Idade Média, cujo vocabulário e problemas retoma.
+   - Pré-requisitos: O Ente e a Essência (Faz a história da relação entre ser e essência a partir da tese de Tomás.)
+   - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Razão e Revelação na Idade Média, cujo vocabulário e problemas retoma.
 250. **Deus e a Filosofia (God and Philosophy)** — Étienne Gilson (1941 · dificuldade 2/5) `gilson-deus-filosofia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Ser e a Essência (L’être et l’essence; Being and Some Philosophers), cujo vocabulário e problemas retoma.
 251. **O Realismo Metódico** — Étienne Gilson (1935 · dificuldade 3/5) `gilson-realismo-metodico`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Deus e a Filosofia (God and Philosophy), cujo vocabulário e problemas retoma.
 252. **Realismo Tomista e Crítica do Conhecimento** — Étienne Gilson (1939 · dificuldade 4/5 · dados a confirmar) `gilson-realismo-tomista`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Realismo Metódico, cujo vocabulário e problemas retoma.
+   - Pré-requisitos: O Realismo Metódico (Desenvolve a tese de O Realismo Metódico contra o ponto de partida crítico.)
+   - Por que aqui: Vem depois de O Realismo Metódico, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Realismo Metódico, cujo vocabulário e problemas retoma.
 253. **Dante e a Filosofia** — Étienne Gilson (1939 · dificuldade 4/5 · dados a confirmar) `gilson-dante`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Realismo Tomista e Crítica do Conhecimento, cujo vocabulário e problemas retoma.
 254. **O Filósofo e a Teologia** — Étienne Gilson (1960 · dificuldade 3/5) `gilson-filosofo-teologia`
@@ -600,13 +631,16 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
    - Pré-requisitos: Discurso do Método
    - Por que aqui: Vem depois de Discurso do Método, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Mundo (Tratado da Luz) e Tratado do Homem, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 261. **Objeções e Respostas às Meditações** — René Descartes (1641–1642 · dificuldade 5/5) `descartes-objecoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Meditações Metafísicas, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Metafísicas (São as objeções às Meditações e as respostas de Descartes.)
+   - Por que aqui: Vem depois de Meditações Metafísicas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Meditações Metafísicas, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 262. **Princípios da Filosofia** — René Descartes (1644; trad. francesa 1647 · dificuldade 4/5) `descartes-principios`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Objeções e Respostas às Meditações, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Metafísicas (A primeira parte resume a metafísica das Meditações antes da física.)
+   - Por que aqui: Vem depois de Meditações Metafísicas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Objeções e Respostas às Meditações, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 263. **Correspondência com Elisabeth da Boêmia** — René Descartes (1643–1649 · dificuldade 3/5) `descartes-cartas-elisabeth`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Princípios da Filosofia, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 264. **As Paixões da Alma** — René Descartes (1649 · dificuldade 3/5) `descartes-paixoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Correspondência com Elisabeth da Boêmia, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Correspondência com Elisabeth da Boêmia (Nasce da correspondência com Elisabeth sobre a união da alma e do corpo.)
+   - Por que aqui: Vem depois de Correspondência com Elisabeth da Boêmia, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Correspondência com Elisabeth da Boêmia, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 265. **A Busca da Verdade pela Luz Natural** — René Descartes (póstumo · dificuldade 2/5) `descartes-busca-verdade`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Paixões da Alma, cujo vocabulário e problemas retoma. As aulas m9-1, m9-2 preparam o vocabulário e o contexto antes desta leitura.
 266. **Escritos menores (Compêndio de Música, Notas contra um Programa, Carta a Voetius, Entrevista com Burman) e Correspondência geral** — René Descartes (1618–1650 · dificuldade 3/5) `descartes-outros`
@@ -614,9 +648,11 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 267. **Índice Escolástico-Cartesiano (Index scolastico-cartésien)** — Étienne Gilson (1913 · dificuldade 4/5 · dados a confirmar) `gilson-index`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Introdução à Filosofia Cristã (Elementos de Filosofia Cristã), cujo vocabulário e problemas retoma.
 268. **Estudos sobre o Papel do Pensamento Medieval na Formação do Sistema Cartesiano** — Étienne Gilson (1930 · dificuldade 5/5 · dados a confirmar) `gilson-estudos-cartesianos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Índice Escolástico-Cartesiano (Index scolastico-cartésien), cujo vocabulário e problemas retoma.
+   - Pré-requisitos: Meditações Metafísicas (Compara as provas de Deus das Meditações com as escolásticas.); Suma Teológica — Primeira Parte (q. 1–119, integral) (A comparação pressupõe conhecer as provas e a doutrina de Deus em Tomás.)
+   - Por que aqui: Vem depois de Meditações Metafísicas, Suma Teológica — Primeira Parte (q. 1–119, integral), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Índice Escolástico-Cartesiano (Index scolastico-cartésien), cujo vocabulário e problemas retoma.
 269. **Ética** — Baruch Spinoza (1677 (póstumo) · dificuldade 5/5) `spinoza-etica`
-   - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
+   - Pré-requisitos: Princípios da Filosofia (Spinoza expôs os Princípios de Descartes "em ordem geométrica" antes de escrever a Ética, que parte da noção cartesiana de substância.)
+   - Por que aqui: Vem depois de Princípios da Filosofia, que fornece os conceitos que esta obra pressupõe.
 270. **Escritos sobre o vácuo (Experiências Novas, Prefácio para o Tratado do Vácuo)** — Blaise Pascal (1647–1651 · dificuldade 2/5) `pascal-vacuo`
    - Por que aqui: A aula m9-3 prepara o vocabulário e o contexto antes desta leitura.
 271. **Tratado do Triângulo Aritmético e correspondência com Fermat** — Blaise Pascal (1654 · dificuldade 4/5) `pascal-triangulo`
@@ -632,7 +668,8 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 276. **Escritos sobre a Graça** — Blaise Pascal (c. 1656–1658 · dificuldade 4/5) `pascal-graca`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Provinciais, cujo vocabulário e problemas retoma. A aula m9-3 prepara o vocabulário e o contexto antes desta leitura.
 277. **Pensamentos** — Blaise Pascal (póstumo, 1670 · dificuldade 3/5) `pascal-pensamentos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Escritos sobre a Graça, cujo vocabulário e problemas retoma. A aula m9-3 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Conversa com o Sr. de Sacy sobre Epicteto e Montaigne (Epicteto e Montaigne, os dois polos da Conversa com o Sr. de Sacy, estruturam a apologia.); Meditações Metafísicas (Pascal opõe o Deus de Abraão ao "Deus dos filósofos" e critica Descartes.)
+   - Por que aqui: Vem depois de Conversa com o Sr. de Sacy sobre Epicteto e Montaigne, Meditações Metafísicas, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Escritos sobre a Graça, cujo vocabulário e problemas retoma. A aula m9-3 prepara o vocabulário e o contexto antes desta leitura.
 278. **Três Discursos sobre a Condição dos Grandes; Oração para Pedir a Deus o Bom Uso das Doenças; Cartas** — Blaise Pascal (1647–1660 · dificuldade 2/5) `pascal-grandes`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Pensamentos, cujo vocabulário e problemas retoma. A aula m9-3 prepara o vocabulário e o contexto antes desta leitura.
 279. **Dois Opúsculos sobre o Governo** — John Locke (1660–1662 (póstumos) · dificuldade 3/5 · dados a confirmar) `locke-tratados-governo-1660`
@@ -642,11 +679,13 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 281. **Ensaio sobre a Tolerância** — John Locke (1667 · dificuldade 3/5 · dados a confirmar) `locke-ensaio-tolerancia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ensaios sobre a Lei da Natureza, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 282. **Ensaio sobre o Entendimento Humano** — John Locke (1689 · dificuldade 3/5) `locke-ensaio`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ensaio sobre a Tolerância, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Metafísicas (O livro I combate as ideias inatas da tradição cartesiana.)
+   - Por que aqui: Vem depois de Meditações Metafísicas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Ensaio sobre a Tolerância, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 283. **Carta sobre a Tolerância (e Segunda e Terceira Cartas)** — John Locke (1689–1692 · dificuldade 3/5) `locke-carta-tolerancia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ensaio sobre o Entendimento Humano, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 284. **Dois Tratados sobre o Governo** — John Locke (1689 · dificuldade 3/5) `locke-dois-tratados`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Carta sobre a Tolerância (e Segunda e Terceira Cartas), cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Ensaios sobre a Lei da Natureza (A lei natural, tema dos Ensaios, fundamenta o estado de natureza do Segundo Tratado.)
+   - Por que aqui: Vem depois de Ensaios sobre a Lei da Natureza, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Carta sobre a Tolerância (e Segunda e Terceira Cartas), cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 285. **Alguns Pensamentos sobre a Educação** — John Locke (1693 · dificuldade 2/5) `locke-educacao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Dois Tratados sobre o Governo, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 286. **A Razoabilidade do Cristianismo** — John Locke (1695 · dificuldade 3/5) `locke-razoabilidade`
@@ -656,7 +695,8 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 288. **Escritos econômicos (Considerações sobre juros e moeda) e Paráfrase das Epístolas de Paulo** — John Locke (1691–1707 · dificuldade 3/5 · dados a confirmar) `locke-outros`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Da Conduta do Entendimento, cujo vocabulário e problemas retoma. A aula m9-4 prepara o vocabulário e o contexto antes desta leitura.
 289. **Tratado da Natureza Humana (livros I–III) e Sinopse** — David Hume (1739–1740 · dificuldade 5/5) `hume-tratado`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Diálogos sobre a Religião Natural, cujo vocabulário e problemas retoma. A aula m9-5 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Ensaio sobre o Entendimento Humano (Desenvolve a teoria das ideias de Locke até suas consequências céticas.)
+   - Por que aqui: Vem depois de Ensaio sobre o Entendimento Humano, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Diálogos sobre a Religião Natural, cujo vocabulário e problemas retoma. A aula m9-5 prepara o vocabulário e o contexto antes desta leitura.
 290. **Carta de um Cavalheiro a seu Amigo em Edimburgo** — David Hume (1745 · dificuldade 2/5) `hume-carta-cavalheiro`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tratado da Natureza Humana (livros I–III) e Sinopse, cujo vocabulário e problemas retoma. A aula m9-5 prepara o vocabulário e o contexto antes desta leitura.
 291. **Investigação sobre o Entendimento Humano** — David Hume (1748 · dificuldade 3/5) `hume-investigacao`
@@ -689,7 +729,8 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 304. **Emílio ou Da Educação** — Jean-Jacques Rousseau (1762 · dificuldade 3/5) `rousseau-emilio`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Júlia ou a Nova Heloísa, cujo vocabulário e problemas retoma. A aula m9-6 prepara o vocabulário e o contexto antes desta leitura.
 305. **Do Contrato Social** — Jean-Jacques Rousseau (1762 · dificuldade 3/5) `rousseau-contrato`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Emílio ou Da Educação, cujo vocabulário e problemas retoma. A aula m9-6 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Discurso sobre a Origem e os Fundamentos da Desigualdade (O estado de natureza do segundo Discurso é o ponto de partida do Contrato.); Dois Tratados sobre o Governo (Contrato e soberania são pensados contra e a partir de Hobbes e Locke.)
+   - Por que aqui: Vem depois de Discurso sobre a Origem e os Fundamentos da Desigualdade, Dois Tratados sobre o Governo, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Emílio ou Da Educação, cujo vocabulário e problemas retoma. A aula m9-6 prepara o vocabulário e o contexto antes desta leitura.
 306. **Carta a Christophe de Beaumont e Cartas Escritas da Montanha** — Jean-Jacques Rousseau (1763–1764 · dificuldade 3/5) `rousseau-beaumont`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Do Contrato Social, cujo vocabulário e problemas retoma. A aula m9-6 prepara o vocabulário e o contexto antes desta leitura.
 307. **Projeto de Constituição para a Córsega; Considerações sobre o Governo da Polônia** — Jean-Jacques Rousseau (1765; 1772 · dificuldade 3/5) `rousseau-corsega-polonia`
@@ -732,14 +773,15 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
    - Pré-requisitos: Investigação sobre o Entendimento Humano
    - Por que aqui: Vem depois de Investigação sobre o Entendimento Humano, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Dissertação de 1770 (Da Forma e dos Princípios do Mundo Sensível e Inteligível), cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 326. **Crítica da Razão Pura** — Immanuel Kant (1781; 2ª ed. 1787 · dificuldade 5/5) `kant-crp`
-   - Pré-requisitos: Prolegômenos a Toda Metafísica Futura
-   - Por que aqui: Vem depois de Prolegômenos a Toda Metafísica Futura, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Prolegômenos a Toda Metafísica Futura, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Prolegômenos a Toda Metafísica Futura; Dissertação de 1770 (Da Forma e dos Princípios do Mundo Sensível e Inteligível) (A distinção entre sensibilidade e entendimento da Dissertação de 1770 é a base da Estética e da Analítica.); Meditações Metafísicas (A refutação do idealismo e os paralogismos discutem diretamente Descartes.)
+   - Por que aqui: Vem depois de Prolegômenos a Toda Metafísica Futura, Dissertação de 1770 (Da Forma e dos Princípios do Mundo Sensível e Inteligível), Meditações Metafísicas, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Prolegômenos a Toda Metafísica Futura, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 327. **Ideia de uma História Universal com Propósito Cosmopolita** — Immanuel Kant (1784 · dificuldade 2/5) `kant-historia-universal`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica da Razão Pura, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 328. **Resposta à Pergunta: Que é o Esclarecimento?** — Immanuel Kant (1784 · dificuldade 1/5) `kant-esclarecimento`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ideia de uma História Universal com Propósito Cosmopolita, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 329. **Fundamentação da Metafísica dos Costumes** — Immanuel Kant (1785 · dificuldade 4/5) `kant-fundamentacao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Resposta à Pergunta: Que é o Esclarecimento?, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Investigação sobre os Princípios da Moral (Kant busca um princípio moral a priori, contra a fundamentação no sentimento de Hume.)
+   - Por que aqui: Vem depois de Investigação sobre os Princípios da Moral, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Resposta à Pergunta: Que é o Esclarecimento?, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 330. **Princípios Metafísicos da Ciência da Natureza** — Immanuel Kant (1786 · dificuldade 5/5) `kant-principios-metafisicos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Fundamentação da Metafísica dos Costumes, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 331. **Que Significa Orientar-se no Pensamento?** — Immanuel Kant (1786 · dificuldade 3/5) `kant-orientar`
@@ -747,14 +789,16 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 332. **Começo Conjectural da História Humana** — Immanuel Kant (1786 · dificuldade 2/5) `kant-comeco-historia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Que Significa Orientar-se no Pensamento?, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 333. **Crítica da Razão Prática** — Immanuel Kant (1788 · dificuldade 5/5) `kant-crpratica`
-   - Pré-requisitos: Fundamentação da Metafísica dos Costumes
-   - Por que aqui: Vem depois de Fundamentação da Metafísica dos Costumes, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Começo Conjectural da História Humana, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Fundamentação da Metafísica dos Costumes; Crítica da Razão Pura (A liberdade como ideia da razão vem da terceira antinomia da primeira Crítica.)
+   - Por que aqui: Vem depois de Fundamentação da Metafísica dos Costumes, Crítica da Razão Pura, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Começo Conjectural da História Humana, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 334. **Crítica da Faculdade de Julgar** — Immanuel Kant (1790 · dificuldade 5/5) `kant-juizo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica da Razão Prática, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Crítica da Razão Pura (Quer unir o domínio da natureza, da primeira Crítica, ao da liberdade.); Crítica da Razão Prática (O domínio da liberdade é o da segunda Crítica.)
+   - Por que aqui: Vem depois de Crítica da Razão Pura, Crítica da Razão Prática, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Crítica da Razão Prática, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 335. **Sobre o Fracasso de Todas as Tentativas Filosóficas na Teodiceia** — Immanuel Kant (1791 · dificuldade 3/5) `kant-teodiceia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica da Faculdade de Julgar, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 336. **A Religião nos Limites da Simples Razão** — Immanuel Kant (1793 · dificuldade 4/5) `kant-religiao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sobre o Fracasso de Todas as Tentativas Filosóficas na Teodiceia, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Crítica da Razão Prática (A religião "nos limites da razão" parte dos postulados da razão prática.)
+   - Por que aqui: Vem depois de Crítica da Razão Prática, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Sobre o Fracasso de Todas as Tentativas Filosóficas na Teodiceia, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 337. **Sobre a Expressão Corrente: Isto Pode Ser Correto na Teoria, mas Nada Vale na Prática** — Immanuel Kant (1793 · dificuldade 3/5) `kant-teoria-pratica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Religião nos Limites da Simples Razão, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 338. **O Fim de Todas as Coisas** — Immanuel Kant (1794 · dificuldade 2/5) `kant-fim-coisas`
@@ -762,7 +806,8 @@ Descartes, Pascal, Locke, Hume, Rousseau e Kant, ligados pelos problemas que com
 339. **À Paz Perpétua** — Immanuel Kant (1795 · dificuldade 2/5) `kant-paz`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Fim de Todas as Coisas, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 340. **Metafísica dos Costumes (Doutrina do Direito e Doutrina da Virtude)** — Immanuel Kant (1797 · dificuldade 4/5) `kant-metafisica-costumes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de À Paz Perpétua, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Fundamentação da Metafísica dos Costumes (Aplica ao direito e à virtude o princípio estabelecido na Fundamentação.)
+   - Por que aqui: Vem depois de Fundamentação da Metafísica dos Costumes, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de À Paz Perpétua, cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 341. **Sobre um Suposto Direito de Mentir por Amor à Humanidade** — Immanuel Kant (1797 · dificuldade 2/5) `kant-mentir`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Metafísica dos Costumes (Doutrina do Direito e Doutrina da Virtude), cujo vocabulário e problemas retoma. As aulas m9-7, m9-8 preparam o vocabulário e o contexto antes desta leitura.
 342. **O Conflito das Faculdades** — Immanuel Kant (1798 · dificuldade 3/5) `kant-conflito`
@@ -793,19 +838,24 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 352. **Sobre as Maneiras Científicas de Tratar o Direito Natural** — G. W. F. Hegel (1802–1803 · dificuldade 5/5) `hegel-direito-natural`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Fé e Saber, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 353. **Fenomenologia do Espírito** — G. W. F. Hegel (1807 · dificuldade 5/5) `hegel-fenomenologia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sobre as Maneiras Científicas de Tratar o Direito Natural, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Crítica da Razão Pura (A Introdução critica a ideia kantiana de examinar o conhecimento antes de conhecer.)
+   - Por que aqui: Vem depois de Crítica da Razão Pura, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Sobre as Maneiras Científicas de Tratar o Direito Natural, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 354. **Ciência da Lógica** — G. W. F. Hegel (1812–1816; revisão do livro I em 1832 · dificuldade 5/5) `hegel-logica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Fenomenologia do Espírito, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Fenomenologia do Espírito (Para Hegel, a Fenomenologia é a introdução à Lógica.)
+   - Por que aqui: Vem depois de Fenomenologia do Espírito, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Fenomenologia do Espírito, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 355. **Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito)** — G. W. F. Hegel (1817; 1827; 1830 · dificuldade 5/5) `hegel-enciclopedia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ciência da Lógica, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Ciência da Lógica (A primeira parte da Enciclopédia é a versão breve da Ciência da Lógica.)
+   - Por que aqui: Vem depois de Ciência da Lógica, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Ciência da Lógica, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 356. **Princípios da Filosofia do Direito** — G. W. F. Hegel (1820 · dificuldade 5/5) `hegel-direito`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito), cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito) (Desenvolve o "espírito objetivo" da Enciclopédia.); Metafísica dos Costumes (Doutrina do Direito e Doutrina da Virtude) (A crítica da moralidade abstrata dirige-se a Kant.)
+   - Por que aqui: Vem depois de Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito), Metafísica dos Costumes (Doutrina do Direito e Doutrina da Virtude), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Enciclopédia das Ciências Filosóficas (Lógica, Filosofia da Natureza, Filosofia do Espírito), cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 357. **Lições sobre a Filosofia da História** — G. W. F. Hegel (póstumo, 1837 · dificuldade 3/5) `hegel-historia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Princípios da Filosofia do Direito, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 358. **Lições sobre a Estética** — G. W. F. Hegel (póstumo, 1835–1838 · dificuldade 4/5) `hegel-estetica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Lições sobre a Filosofia da História, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 359. **Lições sobre a Filosofia da Religião e sobre as Provas da Existência de Deus** — G. W. F. Hegel (póstumo, 1832 · dificuldade 5/5) `hegel-religiao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Lições sobre a Estética, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Fenomenologia do Espírito (Retoma o capítulo sobre a religião da Fenomenologia.)
+   - Por que aqui: Vem depois de Fenomenologia do Espírito, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Lições sobre a Estética, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 360. **Lições sobre a História da Filosofia** — G. W. F. Hegel (póstumo, 1833–1836 · dificuldade 5/5) `hegel-historia-filosofia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Lições sobre a Filosofia da Religião e sobre as Provas da Existência de Deus, cujo vocabulário e problemas retoma. A aula m10-1 prepara o vocabulário e o contexto antes desta leitura.
 361. **Escritos políticos (A Constituição da Alemanha; Sobre o Reform Bill inglês)** — G. W. F. Hegel (1799–1831 · dificuldade 3/5) `hegel-politicos`
@@ -813,11 +863,13 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 362. **O Ponto de Vista Explicativo da Minha Obra como Escritor** — Søren Kierkegaard (escrito 1848 (póstumo, 1859) · dificuldade 2/5) `kierkegaard-ponto-vista`
    - Por que aqui: A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 363. **O Conceito de Ironia, Constantemente Referido a Sócrates** — Søren Kierkegaard (1841 · dificuldade 4/5) `kierkegaard-ironia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Ponto de Vista Explicativo da Minha Obra como Escritor, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Apologia de Sócrates (A tese é sobre o Sócrates de Platão e de Xenofonte.)
+   - Por que aqui: Vem depois de Apologia de Sócrates, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Ponto de Vista Explicativo da Minha Obra como Escritor, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 364. **Ou–Ou (Enten–Eller)** — Søren Kierkegaard (1843 · dificuldade 3/5) `kierkegaard-ou-ou`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Conceito de Ironia, Constantemente Referido a Sócrates, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 365. **Temor e Tremor** — Søren Kierkegaard (1843 · dificuldade 4/5) `kierkegaard-temor`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ou–Ou (Enten–Eller), cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Gênesis 1–3 e passagens do Êxodo (Medita sobre o sacrifício de Isaac (Gênesis 22).)
+   - Por que aqui: Vem depois de Gênesis 1–3 e passagens do Êxodo, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Ou–Ou (Enten–Eller), cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 366. **A Repetição** — Søren Kierkegaard (1843 · dificuldade 3/5) `kierkegaard-repeticao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Temor e Tremor, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 367. **Discursos Edificantes (1843–1844)** — Søren Kierkegaard (1843–1844 · dificuldade 2/5) `kierkegaard-discursos-1843`
@@ -831,7 +883,8 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 371. **Estádios no Caminho da Vida** — Søren Kierkegaard (1845 · dificuldade 3/5) `kierkegaard-estadios`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Prefácios, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 372. **Pós-escrito Final Não Científico às Migalhas Filosóficas** — Søren Kierkegaard (1846 · dificuldade 5/5) `kierkegaard-posescrito`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Estádios no Caminho da Vida, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Migalhas Filosóficas (É, pelo próprio título, o pós-escrito às Migalhas Filosóficas.)
+   - Por que aqui: Vem depois de Migalhas Filosóficas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Estádios no Caminho da Vida, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 373. **Uma Resenha Literária (A Época Presente)** — Søren Kierkegaard (1846 · dificuldade 2/5) `kierkegaard-epoca-presente`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Pós-escrito Final Não Científico às Migalhas Filosóficas, cujo vocabulário e problemas retoma. A aula m10-3 prepara o vocabulário e o contexto antes desta leitura.
 374. **Discursos Edificantes em Diversos Espíritos (A Pureza de Coração é Querer uma Só Coisa)** — Søren Kierkegaard (1847 · dificuldade 2/5) `kierkegaard-pureza`
@@ -857,17 +910,20 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 384. **Diferença entre a Filosofia da Natureza de Demócrito e a de Epicuro** — Karl Marx (1841 · dificuldade 4/5) `marx-tese`
    - Por que aqui: A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 385. **Crítica da Filosofia do Direito de Hegel e sua Introdução** — Karl Marx (1843–1844 · dificuldade 4/5) `marx-critica-hegel`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Diferença entre a Filosofia da Natureza de Demócrito e a de Epicuro, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Princípios da Filosofia do Direito (Comenta parágrafos da Filosofia do Direito de Hegel.)
+   - Por que aqui: Vem depois de Princípios da Filosofia do Direito, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Diferença entre a Filosofia da Natureza de Demócrito e a de Epicuro, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 386. **Sobre a Questão Judaica** — Karl Marx (1843 · dificuldade 3/5) `marx-questao-judaica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica da Filosofia do Direito de Hegel e sua Introdução, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 387. **Manuscritos Econômico-Filosóficos** — Karl Marx (1844 (póstumos, 1932) · dificuldade 3/5) `marx-manuscritos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sobre a Questão Judaica, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Fenomenologia do Espírito (O último manuscrito é uma crítica da dialética da Fenomenologia.)
+   - Por que aqui: Vem depois de Fenomenologia do Espírito, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Sobre a Questão Judaica, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 388. **A Sagrada Família (com Engels)** — Karl Marx (1845 · dificuldade 3/5) `marx-sagrada-familia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Manuscritos Econômico-Filosóficos, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 389. **Teses sobre Feuerbach** — Karl Marx (1845 · dificuldade 2/5) `marx-teses-feuerbach`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Sagrada Família (com Engels), cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 390. **A Ideologia Alemã (com Engels)** — Karl Marx (1845–1846 (póstuma) · dificuldade 3/5) `marx-ideologia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Teses sobre Feuerbach, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Teses sobre Feuerbach (As Teses são o esboço do acerto de contas com Feuerbach desenvolvido na Ideologia.)
+   - Por que aqui: Vem depois de Teses sobre Feuerbach, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Teses sobre Feuerbach, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 391. **Miséria da Filosofia** — Karl Marx (1847 · dificuldade 3/5) `marx-miseria`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Ideologia Alemã (com Engels), cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 392. **Manifesto do Partido Comunista** — Karl Marx e Friedrich Engels (1848 · dificuldade 2/5) `marx-manifesto`
@@ -885,13 +941,15 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 398. **Salário, Preço e Lucro** — Karl Marx (1865 · dificuldade 2/5) `marx-salario-preco`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Contribuição à Crítica da Economia Política (com o Prefácio de 1859), cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 399. **O Capital, livro I** — Karl Marx (1867 · dificuldade 5/5) `marx-capital-i`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Salário, Preço e Lucro, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Contribuição à Crítica da Economia Política (com o Prefácio de 1859) (O Capital retoma e reformula a teoria do valor da Contribuição (1859).)
+   - Por que aqui: Vem depois de Contribuição à Crítica da Economia Política (com o Prefácio de 1859), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Salário, Preço e Lucro, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 400. **A Guerra Civil na França** — Karl Marx (1871 · dificuldade 3/5) `marx-guerra-civil`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Capital, livro I, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 401. **Crítica do Programa de Gotha** — Karl Marx (1875 · dificuldade 2/5) `marx-gotha`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Guerra Civil na França, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 402. **O Capital, livros II e III (editados por Engels) e Teorias da Mais-Valia** — Karl Marx (póstumos, 1885–1910 · dificuldade 5/5) `marx-capital-ii-iii`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica do Programa de Gotha, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Capital, livro I (Os livros II e III continuam o livro I.)
+   - Por que aqui: Vem depois de O Capital, livro I, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Crítica do Programa de Gotha, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 403. **Últimos escritos e cartas (cartas a Vera Zasulich; correspondência com Engels)** — Karl Marx (1881 e outras · dificuldade 3/5) `marx-cartas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Capital, livros II e III (editados por Engels) e Teorias da Mais-Valia, cujo vocabulário e problemas retoma. A aula m10-2 prepara o vocabulário e o contexto antes desta leitura.
 404. **O Nascimento da Tragédia** — Friedrich Nietzsche (1872 · dificuldade 3/5) `nietzsche-tragedia`
@@ -913,7 +971,8 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 412. **Além do Bem e do Mal** — Friedrich Nietzsche (1886 · dificuldade 3/5) `nietzsche-alem`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Assim Falou Zaratustra, cujo vocabulário e problemas retoma. A aula m10-4 prepara o vocabulário e o contexto antes desta leitura.
 413. **Genealogia da Moral** — Friedrich Nietzsche (1887 · dificuldade 4/5) `nietzsche-genealogia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Além do Bem e do Mal, cujo vocabulário e problemas retoma. A aula m10-4 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Além do Bem e do Mal (A folha de rosto a apresenta como complemento de Além do Bem e do Mal.)
+   - Por que aqui: Vem depois de Além do Bem e do Mal, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Além do Bem e do Mal, cujo vocabulário e problemas retoma. A aula m10-4 prepara o vocabulário e o contexto antes desta leitura.
 414. **O Caso Wagner e Nietzsche contra Wagner** — Friedrich Nietzsche (1888–1889 · dificuldade 2/5) `nietzsche-wagner`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Genealogia da Moral, cujo vocabulário e problemas retoma. A aula m10-4 prepara o vocabulário e o contexto antes desta leitura.
 415. **Crepúsculo dos Ídolos** — Friedrich Nietzsche (1889 · dificuldade 3/5) `nietzsche-crepusculo`
@@ -927,15 +986,19 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 419. **Fragmentos Póstumos (edição Colli–Montinari; não a compilação "A Vontade de Poder")** — Friedrich Nietzsche (1869–1889 · dificuldade 4/5) `nietzsche-fragmentos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ditirambos de Dioniso e poemas, cujo vocabulário e problemas retoma. A aula m10-4 prepara o vocabulário e o contexto antes desta leitura.
 420. **Sobre o Sentido e a Referência** — Gottlob Frege (1892 · dificuldade 4/5) `frege-sentido`
-   - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
+   - Pré-requisitos: Introdução à Lógica (Pressupõe a lógica de predicados, nome e predicado, identidade.)
+   - Por que aqui: Vem depois de Introdução à Lógica, que fornece os conceitos que esta obra pressupõe.
 421. **Meditações Cartesianas** — Edmund Husserl (1931 · dificuldade 5/5) `husserl-meditacoes`
-   - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
+   - Pré-requisitos: Meditações Metafísicas (Retoma o método cartesiano como "nova introdução à fenomenologia".)
+   - Por que aqui: Vem depois de Meditações Metafísicas, que fornece os conceitos que esta obra pressupõe.
 422. **Ser e Tempo (seleções)** — Martin Heidegger (1927 · dificuldade 5/5) `heidegger-ser-tempo`
-   - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
+   - Pré-requisitos: Meditações Cartesianas (Usa e transforma o método fenomenológico de Husserl, a quem a obra é dedicada.); Metafísica (livros I–XIV) (A pergunta pelo sentido do ser parte da ontologia grega.)
+   - Por que aqui: Vem depois de Meditações Cartesianas, Metafísica (livros I–XIV), que fornecem os conceitos que esta obra pressupõe.
 423. **Diários 1914–1916 (Notebooks)** — Ludwig Wittgenstein (1914–1916 (póstumos) · dificuldade 3/5) `wittgenstein-diarios`
    - Por que aqui: A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 424. **Tractatus Logico-Philosophicus** — Ludwig Wittgenstein (1921 · dificuldade 5/5) `wittgenstein-tractatus`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Diários 1914–1916 (Notebooks), cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Sobre o Sentido e a Referência (O prefácio nomeia Frege e Russell como interlocutores.)
+   - Por que aqui: Vem depois de Sobre o Sentido e a Referência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Diários 1914–1916 (Notebooks), cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 425. **Conferência sobre Ética** — Ludwig Wittgenstein (1929 · dificuldade 2/5) `wittgenstein-etica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tractatus Logico-Philosophicus, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 426. **Algumas Observações sobre a Forma Lógica** — Ludwig Wittgenstein (1929 · dificuldade 4/5) `wittgenstein-forma-logica`
@@ -951,11 +1014,13 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 431. **Observações sobre os Fundamentos da Matemática** — Ludwig Wittgenstein (1937–1944 (póstumas) · dificuldade 5/5) `wittgenstein-matematica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Lições e Conversas sobre Estética, Psicologia e Crença Religiosa, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 432. **Investigações Filosóficas** — Ludwig Wittgenstein (1953 (póstumo) · dificuldade 5/5) `wittgenstein-investigacoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Observações sobre os Fundamentos da Matemática, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Tractatus Logico-Philosophicus (O prefácio pede que os novos pensamentos sejam lidos contra o fundo do Tractatus.)
+   - Por que aqui: Vem depois de Tractatus Logico-Philosophicus, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Observações sobre os Fundamentos da Matemática, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 433. **Observações sobre a Filosofia da Psicologia e Zettel** — Ludwig Wittgenstein (1946–1949 (póstumas) · dificuldade 4/5) `wittgenstein-psicologia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Investigações Filosóficas, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 434. **Da Certeza** — Ludwig Wittgenstein (1949–1951 (póstumo) · dificuldade 4/5) `wittgenstein-certeza`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Observações sobre a Filosofia da Psicologia e Zettel, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Investigações Filosóficas (Aplica a análise dos jogos de linguagem à certeza e à dúvida.)
+   - Por que aqui: Vem depois de Investigações Filosóficas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Observações sobre a Filosofia da Psicologia e Zettel, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 435. **Observações sobre as Cores; Cultura e Valor** — Ludwig Wittgenstein (1950–1951; anotações 1914–1951 (póstumas) · dificuldade 3/5) `wittgenstein-cores-cultura`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Da Certeza, cujo vocabulário e problemas retoma. A aula m10-9 prepara o vocabulário e o contexto antes desta leitura.
 436. **Os Dois Problemas Fundamentais da Teoria do Conhecimento** — Karl Popper (escrito 1930–1933 (publicado 1979) · dificuldade 4/5 · dados a confirmar) `popper-dois-problemas`
@@ -970,13 +1035,15 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 440. **Conjecturas e Refutações** — Karl Popper (1963 · dificuldade 3/5) `popper-conjecturas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Miséria do Historicismo, cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 441. **Conhecimento Objetivo** — Karl Popper (1972 · dificuldade 4/5) `popper-conhecimento-objetivo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Conjecturas e Refutações, cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Lógica da Pesquisa Científica (Parte do falseacionismo exposto na Lógica da Pesquisa.)
+   - Por que aqui: Vem depois de A Lógica da Pesquisa Científica, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Conjecturas e Refutações, cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 442. **Autobiografia Intelectual (Busca Inacabada)** — Karl Popper (1976 · dificuldade 2/5) `popper-autobiografia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Conhecimento Objetivo, cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 443. **O Eu e seu Cérebro (com John Eccles)** — Karl Popper (1977 · dificuldade 4/5) `popper-eu-cerebro`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Autobiografia Intelectual (Busca Inacabada), cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 444. **Pós-escrito à Lógica da Pesquisa (O Realismo e o Objetivo da Ciência; O Universo Aberto; A Teoria Quântica e o Cisma na Física)** — Karl Popper (1982–1983 · dificuldade 5/5) `popper-posescrito`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Eu e seu Cérebro (com John Eccles), cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Lógica da Pesquisa Científica (É o pós-escrito à Lógica da Pesquisa Científica.)
+   - Por que aqui: Vem depois de A Lógica da Pesquisa Científica, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Eu e seu Cérebro (com John Eccles), cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 445. **Escritos tardios (Em Busca de um Mundo Melhor; Um Mundo de Propensões; O Mito do Contexto; Toda Vida é Resolução de Problemas)** — Karl Popper (1984–1994 · dificuldade 2/5) `popper-tardios`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Pós-escrito à Lógica da Pesquisa (O Realismo e o Objetivo da Ciência; O Universo Aberto; A Teoria Quântica e o Cisma na Física), cujo vocabulário e problemas retoma. As aulas m10-7, m10-8 preparam o vocabulário e o contexto antes desta leitura.
 446. **A Estrutura das Revoluções Científicas** — Thomas S. Kuhn (1962 · dificuldade 4/5) `kuhn-estrutura`
@@ -995,7 +1062,8 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 452. **O Muro (contos)** — Jean-Paul Sartre (1939 · dificuldade 2/5) `sartre-muro`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Náusea, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 453. **O Ser e o Nada** — Jean-Paul Sartre (1943 · dificuldade 5/5) `sartre-ser-nada`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Muro (contos), cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Cartesianas (O método é a fenomenologia de Husserl.); Ser e Tempo (seleções) (Dialoga com a analítica da existência de Ser e Tempo.)
+   - Por que aqui: Vem depois de Meditações Cartesianas, Ser e Tempo (seleções), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Muro (contos), cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 454. **Teatro (As Moscas; Entre Quatro Paredes; As Mãos Sujas; O Diabo e o Bom Deus)** — Jean-Paul Sartre (1943–1951 · dificuldade 2/5) `sartre-teatro`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Ser e o Nada, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 455. **Os Caminhos da Liberdade (A Idade da Razão; Sursis; Com a Morte na Alma)** — Jean-Paul Sartre (1945–1949 · dificuldade 2/5) `sartre-caminhos`
@@ -1009,9 +1077,11 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 459. **Saint Genet, Ator e Mártir** — Jean-Paul Sartre (1952 · dificuldade 4/5) `sartre-genet`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Cadernos para uma Moral, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 460. **Questão de Método** — Jean-Paul Sartre (1957 · dificuldade 4/5) `sartre-metodo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Saint Genet, Ator e Mártir, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Ideologia Alemã (com Engels) (Discute o materialismo histórico como "filosofia insuperável" do seu tempo.)
+   - Por que aqui: Vem depois de A Ideologia Alemã (com Engels), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Saint Genet, Ator e Mártir, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 461. **Crítica da Razão Dialética** — Jean-Paul Sartre (1960 · dificuldade 5/5) `sartre-critica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Questão de Método, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Ser e o Nada (Reformula a liberdade de O Ser e o Nada em termos de práxis.); Questão de Método (Questão de Método é a introdução da Crítica.)
+   - Por que aqui: Vem depois de O Ser e o Nada, Questão de Método, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Questão de Método, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 462. **As Palavras** — Jean-Paul Sartre (1964 · dificuldade 2/5) `sartre-palavras`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítica da Razão Dialética, cujo vocabulário e problemas retoma. As aulas m10-5, m10-6 preparam o vocabulário e o contexto antes desta leitura.
 463. **Situações (ensaios, 10 volumes) e O Idiota da Família** — Jean-Paul Sartre (1947–1976; 1971–1972 · dificuldade 3/5) `sartre-situacoes`
@@ -1031,11 +1101,13 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 470. **Religião e Cultura (Religion et culture)** — Jacques Maritain (1930 · dificuldade 3/5 · dados a confirmar) `maritain-religiao-cultura`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Doutor Angélico (Le docteur angélique), cujo vocabulário e problemas retoma.
 471. **Os Graus do Saber (Distinguir para Unir)** — Jacques Maritain (1932 · dificuldade 5/5) `maritain-graus`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Religião e Cultura (Religion et culture), cujo vocabulário e problemas retoma.
+   - Pré-requisitos: Suma Teológica — Primeira Parte (q. 1–119, integral) (Expõe a teoria tomista do conhecimento, da Primeira Parte, em confronto com a ciência moderna.)
+   - Por que aqui: Vem depois de Suma Teológica — Primeira Parte (q. 1–119, integral), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Religião e Cultura (Religion et culture), cujo vocabulário e problemas retoma.
 472. **O Sonho de Descartes (Le songe de Descartes)** — Jacques Maritain (1932 · dificuldade 3/5 · dados a confirmar) `maritain-sonho-descartes`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Os Graus do Saber (Distinguir para Unir), cujo vocabulário e problemas retoma.
 473. **Sete Lições sobre o Ser** — Jacques Maritain (1934 · dificuldade 4/5) `maritain-sete-licoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Sonho de Descartes (Le songe de Descartes), cujo vocabulário e problemas retoma.
+   - Pré-requisitos: Metafísica (livros I–XIV) (Lições sobre a noção de ser da metafísica aristotélico-tomista.)
+   - Por que aqui: Vem depois de Metafísica (livros I–XIV), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Sonho de Descartes (Le songe de Descartes), cujo vocabulário e problemas retoma.
 474. **Ciência e Sabedoria** — Jacques Maritain (1935 · dificuldade 3/5 · dados a confirmar) `maritain-ciencia-sabedoria`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sete Lições sobre o Ser, cujo vocabulário e problemas retoma.
 475. **Fronteiras da Poesia (Frontières de la poésie)** — Jacques Maritain (1935 · dificuldade 3/5 · dados a confirmar) `maritain-fronteiras-poesia`
@@ -1049,7 +1121,8 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 479. **Rumos da Educação (Education at the Crossroads)** — Jacques Maritain (1943 · dificuldade 2/5 · dados a confirmar) `maritain-educacao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Cristianismo e Democracia, cujo vocabulário e problemas retoma.
 480. **Breve Tratado da Existência e do Existente** — Jacques Maritain (1947 · dificuldade 4/5) `maritain-breve-tratado`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Rumos da Educação (Education at the Crossroads), cujo vocabulário e problemas retoma.
+   - Pré-requisitos: O Ente e a Essência (Parte da distinção entre essência e existência.)
+   - Por que aqui: Vem depois de O Ente e a Essência, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Rumos da Educação (Education at the Crossroads), cujo vocabulário e problemas retoma.
 481. **A Pessoa e o Bem Comum** — Jacques Maritain (1947 · dificuldade 3/5) `maritain-pessoa-bem-comum`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Breve Tratado da Existência e do Existente, cujo vocabulário e problemas retoma.
 482. **Nove Lições sobre as Noções Primeiras da Filosofia Moral** — Jacques Maritain (1951 · dificuldade 3/5 · dados a confirmar) `maritain-nove-licoes`
@@ -1081,7 +1154,8 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 495. **O Ateísmo Difícil (L’athéisme difficile)** — Étienne Gilson (póstumo, 1979 · dificuldade 2/5 · dados a confirmar) `gilson-ateismo`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Tribulações de Sofia (Les tribulations de Sophie), cujo vocabulário e problemas retoma.
 496. **Modern Moral Philosophy (artigo)** — G. E. M. Anscombe (1958 · dificuldade 4/5) `anscombe-mmp`
-   - Por que aqui: Não depende de outra obra específica deste degrau; pressupõe apenas os degraus anteriores.
+   - Pré-requisitos: Fundamentação da Metafísica dos Costumes (Critica a moral do dever e da lei sem legislador.); Investigação sobre os Princípios da Moral (Discute a passagem do "é" ao "deve" em Hume.)
+   - Por que aqui: Vem depois de Fundamentação da Metafísica dos Costumes, Investigação sobre os Princípios da Moral, que fornecem os conceitos que esta obra pressupõe.
 497. **Uma Breve História da Ética** — Alasdair MacIntyre (1966 · dificuldade 2/5) `macintyre-breve-historia`
    - Por que aqui: A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 498. **Marxismo e Cristianismo** — Alasdair MacIntyre (1953; ed. revista 1968 · dificuldade 3/5) `macintyre-marxismo`
@@ -1089,12 +1163,14 @@ Idealismo alemão, Marx, Kierkegaard, Nietzsche, fenomenologia, existencialismo,
 499. **O Inconsciente: uma Análise Conceitual** — Alasdair MacIntyre (1958 · dificuldade 3/5 · dados a confirmar) `macintyre-inconsciente`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Marxismo e Cristianismo, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 500. **Depois da Virtude** — Alasdair MacIntyre (1981 · dificuldade 4/5) `macintyre-virtude`
-   - Pré-requisitos: Ética a Nicômaco; Genealogia da Moral
-   - Por que aqui: Vem depois de Ética a Nicômaco, Genealogia da Moral, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Inconsciente: uma Análise Conceitual, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Ética a Nicômaco; Genealogia da Moral; Modern Moral Philosophy (artigo) (Retoma a tese de Anscombe sobre o vocabulário moral moderno como fragmento de uma tradição perdida.)
+   - Por que aqui: Vem depois de Ética a Nicômaco, Genealogia da Moral, Modern Moral Philosophy (artigo), que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Inconsciente: uma Análise Conceitual, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 501. **Justiça de Quem? Qual Racionalidade?** — Alasdair MacIntyre (1988 · dificuldade 4/5) `macintyre-justica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Depois da Virtude, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Depois da Virtude (Continuação declarada de Depois da Virtude.)
+   - Por que aqui: Vem depois de Depois da Virtude, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Depois da Virtude, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 502. **Três Versões Rivais da Investigação Moral** — Alasdair MacIntyre (1990 · dificuldade 4/5) `macintyre-tres-versoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Justiça de Quem? Qual Racionalidade?, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Justiça de Quem? Qual Racionalidade? (Completa a trilogia iniciada em Depois da Virtude.)
+   - Por que aqui: Vem depois de Justiça de Quem? Qual Racionalidade?, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Justiça de Quem? Qual Racionalidade?, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 503. **Animais Racionais Dependentes** — Alasdair MacIntyre (1999 · dificuldade 3/5) `macintyre-animais`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Três Versões Rivais da Investigação Moral, cujo vocabulário e problemas retoma. A aula m10-10 prepara o vocabulário e o contexto antes desta leitura.
 504. **Edith Stein: um Prólogo Filosófico** — Alasdair MacIntyre (2006 · dificuldade 3/5 · dados a confirmar) `macintyre-stein`
