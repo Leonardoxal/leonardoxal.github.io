@@ -5,6 +5,33 @@
 // pré-requisito exista e venha antes na trilha.
 
 export const PREREQUISITOS = {
+  // ---------- Degrau 4: filosofia antiga ----------
+  'platao-fedro': [['platao-banquete', 'Retoma o tema do amor e da beleza discutido no Banquete.']],
+  'platao-politico': [['platao-sofista', 'Continuação dramática do Sofista, com o mesmo Estrangeiro de Eleia e o mesmo método de divisão.']],
+  'platao-timeu': [['platao-republica', 'Abre com o resumo da conversa sobre a cidade justa da República.']],
+  'platao-critias': [['platao-timeu', 'É a continuação do Timeu, anunciada no próprio Timeu.']],
+  'platao-leis': [['platao-republica', 'Retoma o projeto de cidade da República como a "segunda melhor" constituição.']],
+  'platao-epinomis': [['platao-leis', 'Apêndice às Leis, como indica o título.']],
+  'aristoteles-fisica': [['aristoteles-fisica-ii', 'O livro II, já lido com orientação, traz as quatro causas que estruturam os demais livros.']],
+  'aristoteles-ceu': [['aristoteles-fisica', 'Aplica ao universo a teoria do movimento e do lugar da Física.']],
+  'aristoteles-geracao': [['aristoteles-fisica', 'Pressupõe as noções de mudança, matéria e forma da Física.']],
+  'aristoteles-meteorologicos': [['aristoteles-geracao', 'Começa remetendo aos tratados Do Céu e Da Geração, que dá por lidos.']],
+  'aristoteles-parva-naturalia': [['aristoteles-alma', 'Continua o Da Alma: sensação, memória, sono e sonho como funções da alma.']],
+  'aristoteles-partes-animais': [['aristoteles-historia-animais', 'Explica pelas causas o que a História dos Animais descreve.']],
+  'aristoteles-geracao-animais': [['aristoteles-partes-animais', 'Completa o estudo causal dos animais iniciado em Das Partes dos Animais.']],
+  'aristoteles-retorica': [['aristoteles-topicos', 'A retórica é, na primeira frase, "contraparte da dialética" e usa os lugares dos Tópicos.']],
+
+  // ---------- Degrau 5: patrística ----------
+  'agostinho-imortalidade': [['agostinho-soliloquios', 'Retoma o argumento sobre a imortalidade que o livro II dos Solilóquios deixara inacabado.']],
+  'agostinho-natureza-graca': [['agostinho-espirito-letra', 'Mesma controvérsia contra Pelágio; usa a distinção entre a lei e a graça de O Espírito e a Letra.']],
+  'agostinho-juliano': [['agostinho-graca-cristo', 'Defende contra Juliano a doutrina do pecado original exposta contra Pelágio.']],
+  'agostinho-graca-tardia': [['agostinho-livre-arbitrio', 'Retoma e precisa o que escrevera em O Livre-Arbítrio, como explica nas Retratações.']],
+  'boecio-isagoge': [['aristoteles-categorias', 'A Isagoge de Porfírio é uma introdução às Categorias.']],
+  'boecio-categorias': [['aristoteles-categorias', 'Comentário ao texto das Categorias.']],
+  'boecio-interpretacao': [['aristoteles-interpretacao', 'Comentário ao texto do Da Interpretação.']],
+  'boecio-logicos': [['aristoteles-analiticos', 'Os tratados sobre o silogismo expõem a silogística dos Analíticos Anteriores.']],
+  'boecio-opuscula': [['agostinho-trindade', 'No prólogo de A Trindade, Boécio declara seguir as sementes lançadas por Agostinho.']],
+
   // ---------- Degrau 6: conhecimento, metafísica e filosofia da religião ----------
   'aristoteles-metafisica-completa': [
     ['aristoteles-metafisica', 'Os livros I e IV, lidos com orientação no degrau 4, apresentam a ciência do ente enquanto ente que o tratado inteiro desenvolve.'],
@@ -138,4 +165,45 @@ export const PREREQUISITOS = {
   'macintyre-virtude': [['anscombe-mmp', 'Retoma a tese de Anscombe sobre o vocabulário moral moderno como fragmento de uma tradição perdida.']],
   'macintyre-justica': [['macintyre-virtude', 'Continuação declarada de Depois da Virtude.']],
   'macintyre-tres-versoes': [['macintyre-justica', 'Completa a trilogia iniciada em Depois da Virtude.']],
+
+  // ---------- Degrau 10: Mário Ferreira dos Santos ----------
+  'mfs-sabedoria': [['mfs-filosofia-concreta', 'A Mathesis Megisthe desenvolve os princípios demonstrados na Filosofia Concreta.']],
+  'mfs-marxismo': [
+    ['marx-manifesto', 'A análise pressupõe conhecer as teses de Marx em fonte primária.'],
+    ['mfs-logica-dialectica', 'Aplica ao marxismo a dialética do autor, exposta em Lógica e Dialéctica.'],
+  ],
+  'mfs-logistica': [['copi-logica', 'Critica a lógica simbólica ("logística"); é preciso conhecer suas noções básicas.']],
+  'mfs-traducoes': [['nietzsche-zaratustra', 'Inclui a tradução comentada do Zaratustra.']],
+
+  // ---------- Degrau 11: Olavo de Carvalho ----------
+  'olavo-como-vencer': [['aristoteles-topicos', 'Comenta a Dialética Erística de Schopenhauer, cujos estratagemas pressupõem a dialética dos Tópicos.']],
+  'olavo-tradicionalistas': [['guenon-crise', 'Escritos da fase em que estudou os perenialistas; Guénon é a referência central.']],
+  'voegelin-ordem': [['voegelin-nova-ciencia', 'A Nova Ciência da Política apresenta a teoria da representação e da ordem que Ordem e História desenvolve.']],
+  'olavo-descartes': [['descartes-meditacoes', 'Interpreta as Meditações, do gênio maligno à veracidade divina.']],
+  'olavo-husserl': [['husserl-meditacoes', 'Pressupõe conhecer o método fenomenológico de Husserl.']],
+
+  // ---------- Degrau 12: ética, política, direito, cultura ----------
+  'jp2-pessoa-acao': [
+    ['jp2-scheler', 'A ética de Scheler, avaliada na tese, é retrabalhada na antropologia de Pessoa e Ação.'],
+    ['husserl-meditacoes', 'Usa o método fenomenológico para descrever a experiência da ação.'],
+  ],
+  'jp2-teologia-corpo': [['jp2-amor-responsabilidade', 'Desenvolve em chave bíblica e teológica a ética do amor de Amor e Responsabilidade.']],
+  'jp2-dives': [['jp2-redemptor', 'Segunda encíclica da trilogia trinitária iniciada com Redemptor hominis.']],
+  'jp2-dominum': [['jp2-dives', 'Fecha a trilogia trinitária (Filho, Pai, Espírito Santo).']],
+  'jp2-veritatis': [['suma-i-ii', 'Fundamenta a moral na lei natural e na teoria dos atos humanos de Tomás.']],
+  'jp2-evangelium': [['jp2-veritatis', 'Aplica à vida humana os princípios morais de Veritatis splendor, que cita.']],
+  'finnis-lei-natural': [['suma-i-ii', 'Releitura analítica da lei natural de Tomás (I–II, q. 94).']],
+  'strauss-direito-natural': [
+    ['aristoteles-politica', 'Contrapõe o direito natural clássico ao moderno; a Política é a referência do clássico.'],
+    ['locke-dois-tratados', 'Locke é um dos autores modernos analisados.'],
+  ],
+  'rawls-justica': [
+    ['rousseau-contrato', 'Declara retomar a tradição do contrato social de Locke, Rousseau e Kant.'],
+    ['kant-fundamentacao', 'Propõe uma interpretação kantiana da justiça como equidade.'],
+  ],
+  'arendt-condicao': [
+    ['aristoteles-politica', 'A distinção entre vida ativa e vida na pólis parte de Aristóteles.'],
+    ['marx-capital-i', 'Discute longamente a teoria do trabalho de Marx.'],
+  ],
+  'burke-reflexoes': [['rousseau-contrato', 'Responde aos princípios abstratos de direito que inspiraram a Revolução.']],
 };

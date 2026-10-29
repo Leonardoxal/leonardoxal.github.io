@@ -156,7 +156,8 @@ Pré-socráticos, Sócrates, Platão, Aristóteles e escolas helenísticas, em o
    - Pré-requisitos: Fédon
    - Por que aqui: Vem depois de Fédon, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de O Banquete, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 58. **Fedro** — Platão (c. 370 a.C. · dificuldade 3/5) `platao-fedro`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A República (livros I–X), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Banquete (Retoma o tema do amor e da beleza discutido no Banquete.)
+   - Por que aqui: Vem depois de O Banquete, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A República (livros I–X), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 59. **Teeteto** — Platão (dificuldade 5/5) `platao-teeteto`
    - Pré-requisitos: Mênon
    - Por que aqui: Vem depois de Mênon, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Fedro, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
@@ -164,17 +165,22 @@ Pré-socráticos, Sócrates, Platão, Aristóteles e escolas helenísticas, em o
    - Pré-requisitos: Teeteto
    - Por que aqui: Vem depois de Teeteto, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Teeteto, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 61. **Político** — Platão (c. 360 a.C. · dificuldade 4/5) `platao-politico`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sofista, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Sofista (Continuação dramática do Sofista, com o mesmo Estrangeiro de Eleia e o mesmo método de divisão.)
+   - Por que aqui: Vem depois de Sofista, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Sofista, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 62. **Filebo** — Platão (c. 350 a.C. · dificuldade 5/5) `platao-filebo`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Político, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 63. **Timeu** — Platão (c. 360 a.C. · dificuldade 5/5) `platao-timeu`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Filebo, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A República (livros I–X) (Abre com o resumo da conversa sobre a cidade justa da República.)
+   - Por que aqui: Vem depois de A República (livros I–X), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Filebo, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 64. **Crítias** — Platão (c. 360 a.C. · dificuldade 3/5) `platao-critias`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Timeu, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Timeu (É a continuação do Timeu, anunciada no próprio Timeu.)
+   - Por que aqui: Vem depois de Timeu, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Timeu, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 65. **As Leis** — Platão (c. 350 a.C. · dificuldade 4/5) `platao-leis`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Crítias, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A República (livros I–X) (Retoma o projeto de cidade da República como a "segunda melhor" constituição.)
+   - Por que aqui: Vem depois de A República (livros I–X), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Crítias, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 66. **Epínomis** — Platão (c. 347 a.C. · dificuldade 3/5) `platao-epinomis`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de As Leis, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: As Leis (Apêndice às Leis, como indica o título.)
+   - Por que aqui: Vem depois de As Leis, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de As Leis, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 67. **Cartas (especialmente a Carta VII)** — Platão (século IV a.C. · dificuldade 3/5) `platao-cartas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Epínomis, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-3, m5-4, m5-5, m5-6 preparam o vocabulário e o contexto antes desta leitura.
 68. **Diálogos duvidosos e espúrios (Alcibíades II, Hiparco, Os Rivais, Teages, Clitofonte, Minos, Definições e outros)** — Platão (séculos IV–III a.C. · dificuldade 2/5) `platao-duvidosos`
@@ -185,26 +191,33 @@ Pré-socráticos, Sócrates, Platão, Aristóteles e escolas helenísticas, em o
    - Pré-requisitos: Categorias
    - Por que aqui: Vem depois de Categorias, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Protréptico (fragmentos), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 71. **Física (livros I–VIII)** — Aristóteles (c. 350–330 a.C. · dificuldade 5/5) `aristoteles-fisica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Física, Livro II (com orientação), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Física, Livro II (com orientação) (O livro II, já lido com orientação, traz as quatro causas que estruturam os demais livros.)
+   - Por que aqui: Vem depois de Física, Livro II (com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Física, Livro II (com orientação), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 72. **Do Céu** — Aristóteles (c. 350–330 a.C. · dificuldade 4/5) `aristoteles-ceu`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Física (livros I–VIII), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Física (livros I–VIII) (Aplica ao universo a teoria do movimento e do lugar da Física.)
+   - Por que aqui: Vem depois de Física (livros I–VIII), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Física (livros I–VIII), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 73. **Da Geração e da Corrupção** — Aristóteles (c. 350–330 a.C. · dificuldade 4/5) `aristoteles-geracao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Do Céu, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Física (livros I–VIII) (Pressupõe as noções de mudança, matéria e forma da Física.)
+   - Por que aqui: Vem depois de Física (livros I–VIII), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Do Céu, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 74. **Meteorológicos** — Aristóteles (c. 340 a.C. · dificuldade 3/5) `aristoteles-meteorologicos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Da Geração e da Corrupção, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Geração e da Corrupção (Começa remetendo aos tratados Do Céu e Da Geração, que dá por lidos.)
+   - Por que aqui: Vem depois de Da Geração e da Corrupção, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Da Geração e da Corrupção, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 75. **Da Alma (De Anima)** — Aristóteles (dificuldade 5/5) `aristoteles-alma`
    - Pré-requisitos: Física, Livro II (com orientação)
    - Por que aqui: Vem depois de Física, Livro II (com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Meteorológicos, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 76. **Pequenos Tratados de História Natural (Parva Naturalia)** — Aristóteles (c. 340 a.C. · dificuldade 4/5) `aristoteles-parva-naturalia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Da Alma (De Anima), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Alma (De Anima) (Continua o Da Alma: sensação, memória, sono e sonho como funções da alma.)
+   - Por que aqui: Vem depois de Da Alma (De Anima), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Da Alma (De Anima), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 77. **História dos Animais** — Aristóteles (c. 340 a.C. · dificuldade 3/5) `aristoteles-historia-animais`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Pequenos Tratados de História Natural (Parva Naturalia), cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 78. **Das Partes dos Animais** — Aristóteles (c. 340 a.C. · dificuldade 4/5) `aristoteles-partes-animais`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de História dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: História dos Animais (Explica pelas causas o que a História dos Animais descreve.)
+   - Por que aqui: Vem depois de História dos Animais, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de História dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 79. **Do Movimento dos Animais e Da Marcha dos Animais** — Aristóteles (c. 340 a.C. · dificuldade 4/5) `aristoteles-movimento-animais`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Das Partes dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 80. **Da Geração dos Animais** — Aristóteles (c. 340 a.C. · dificuldade 4/5) `aristoteles-geracao-animais`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Do Movimento dos Animais e Da Marcha dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Das Partes dos Animais (Completa o estudo causal dos animais iniciado em Das Partes dos Animais.)
+   - Por que aqui: Vem depois de Das Partes dos Animais, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Do Movimento dos Animais e Da Marcha dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 81. **Ética a Nicômaco** — Aristóteles (dificuldade 3/5) `aristoteles-etica`
    - Pré-requisitos: A República (livros I–X)
    - Por que aqui: Vem depois de A República (livros I–X), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Da Geração dos Animais, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
@@ -218,7 +231,8 @@ Pré-socráticos, Sócrates, Platão, Aristóteles e escolas helenísticas, em o
 85. **Constituição dos Atenienses** — Aristóteles (c. 330 a.C. · dificuldade 3/5) `aristoteles-constituicao-atenas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Política, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 86. **Retórica** — Aristóteles (c. 350–330 a.C. · dificuldade 4/5) `aristoteles-retorica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Constituição dos Atenienses, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Tópicos e Refutações Sofísticas (A retórica é, na primeira frase, "contraparte da dialética" e usa os lugares dos Tópicos.)
+   - Por que aqui: Vem depois de Tópicos e Refutações Sofísticas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Constituição dos Atenienses, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 87. **Poética** — Aristóteles (c. 335 a.C. · dificuldade 4/5) `aristoteles-poetica`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Retórica, cujo vocabulário e problemas retoma. As aulas m5-1, m5-2, m5-7, m5-8, m5-9 preparam o vocabulário e o contexto antes desta leitura.
 88. **Metafísica (livros I e IV, com orientação)** — Aristóteles (dificuldade 5/5) `aristoteles-metafisica`
@@ -269,7 +283,8 @@ Padres da Igreja, contexto dos primeiros concílios e Santo Agostinho: a base pa
 107. **Solilóquios** — Santo Agostinho (386–387 · dificuldade 3/5) `agostinho-soliloquios`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Ordem, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 108. **A Imortalidade da Alma** — Santo Agostinho (387 · dificuldade 3/5) `agostinho-imortalidade`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Solilóquios, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Solilóquios (Retoma o argumento sobre a imortalidade que o livro II dos Solilóquios deixara inacabado.)
+   - Por que aqui: Vem depois de Solilóquios, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Solilóquios, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 109. **A Grandeza da Alma** — Santo Agostinho (387–388 · dificuldade 3/5) `agostinho-grandeza-alma`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Imortalidade da Alma, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 110. **O Mestre** — Santo Agostinho (389 · dificuldade 3/5) `agostinho-mestre`
@@ -314,7 +329,8 @@ Padres da Igreja, contexto dos primeiros concílios e Santo Agostinho: a base pa
 129. **Os Méritos e a Remissão dos Pecados e o Batismo das Crianças** — Santo Agostinho (411–412 · dificuldade 4/5) `agostinho-meritos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de O Espírito e a Letra, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 130. **A Natureza e a Graça** — Santo Agostinho (415 · dificuldade 4/5) `agostinho-natureza-graca`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Os Méritos e a Remissão dos Pecados e o Batismo das Crianças, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Espírito e a Letra (Mesma controvérsia contra Pelágio; usa a distinção entre a lei e a graça de O Espírito e a Letra.)
+   - Por que aqui: Vem depois de O Espírito e a Letra, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Os Méritos e a Remissão dos Pecados e o Batismo das Crianças, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 131. **A Graça de Cristo e o Pecado Original** — Santo Agostinho (418 · dificuldade 4/5) `agostinho-graca-cristo`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Natureza e a Graça, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 132. **O Gênesis ao Pé da Letra (12 livros)** — Santo Agostinho (401–415 · dificuldade 4/5) `agostinho-genesis-letra`
@@ -343,9 +359,11 @@ Padres da Igreja, contexto dos primeiros concílios e Santo Agostinho: a base pa
 143. **Obras morais e ascéticas (A Continência, A Paciência, O Cuidado Devido aos Mortos, A Fé nas Coisas que não se Veem e outras)** — Santo Agostinho (395–426 · dificuldade 2/5) `agostinho-asceticos`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Regra (Praeceptum), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 144. **Contra Juliano e Obra Inacabada contra Juliano** — Santo Agostinho (421–430 · dificuldade 5/5) `agostinho-juliano`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Obras morais e ascéticas (A Continência, A Paciência, O Cuidado Devido aos Mortos, A Fé nas Coisas que não se Veem e outras), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Graça de Cristo e o Pecado Original (Defende contra Juliano a doutrina do pecado original exposta contra Pelágio.)
+   - Por que aqui: Vem depois de A Graça de Cristo e o Pecado Original, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Obras morais e ascéticas (A Continência, A Paciência, O Cuidado Devido aos Mortos, A Fé nas Coisas que não se Veem e outras), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 145. **A Graça e o Livre-Arbítrio; A Correção e a Graça; A Predestinação dos Santos; O Dom da Perseverança** — Santo Agostinho (426–429 · dificuldade 5/5) `agostinho-graca-tardia`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Contra Juliano e Obra Inacabada contra Juliano, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: O Livre-Arbítrio (Retoma e precisa o que escrevera em O Livre-Arbítrio, como explica nas Retratações.)
+   - Por que aqui: Vem depois de O Livre-Arbítrio, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Contra Juliano e Obra Inacabada contra Juliano, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 146. **As Heresias** — Santo Agostinho (428–429 · dificuldade 2/5) `agostinho-heresias`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Graça e o Livre-Arbítrio; A Correção e a Graça; A Predestinação dos Santos; O Dom da Perseverança, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m2-9, m2-10, m8-1, m8-2 preparam o vocabulário e o contexto antes desta leitura.
 147. **Retratações** — Santo Agostinho (426–427 · dificuldade 3/5) `agostinho-retratacoes`
@@ -353,15 +371,20 @@ Padres da Igreja, contexto dos primeiros concílios e Santo Agostinho: a base pa
 148. **A Consolação da Filosofia** — Boécio (c. 524 · dificuldade 3/5) `boecio-consolacao`
    - Por que aqui: As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 149. **Comentários à Isagoge de Porfírio (dois comentários)** — Boécio (c. 504–510 · dificuldade 4/5) `boecio-isagoge`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Consolação da Filosofia, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Categorias (A Isagoge de Porfírio é uma introdução às Categorias.)
+   - Por que aqui: Vem depois de Categorias, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Consolação da Filosofia, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 150. **Comentário às Categorias de Aristóteles** — Boécio (c. 510 · dificuldade 4/5) `boecio-categorias`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentários à Isagoge de Porfírio (dois comentários), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Categorias (Comentário ao texto das Categorias.)
+   - Por que aqui: Vem depois de Categorias, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentários à Isagoge de Porfírio (dois comentários), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 151. **Comentários ao Da Interpretação (dois comentários)** — Boécio (c. 510–516 · dificuldade 5/5) `boecio-interpretacao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentário às Categorias de Aristóteles, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Da Interpretação (Comentário ao texto do Da Interpretação.)
+   - Por que aqui: Vem depois de Da Interpretação, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentário às Categorias de Aristóteles, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 152. **Tratados lógicos (Silogismos Categóricos, Silogismos Hipotéticos, A Divisão, As Diferenças Tópicas)** — Boécio (c. 505–523 · dificuldade 4/5) `boecio-logicos`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Comentários ao Da Interpretação (dois comentários), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Analíticos Anteriores (com orientação) (Os tratados sobre o silogismo expõem a silogística dos Analíticos Anteriores.)
+   - Por que aqui: Vem depois de Analíticos Anteriores (com orientação), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Comentários ao Da Interpretação (dois comentários), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 153. **Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório** — Boécio (c. 512–522 · dificuldade 5/5) `boecio-opuscula`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tratados lógicos (Silogismos Categóricos, Silogismos Hipotéticos, A Divisão, As Diferenças Tópicas), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Trindade (No prólogo de A Trindade, Boécio declara seguir as sementes lançadas por Agostinho.)
+   - Por que aqui: Vem depois de A Trindade, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Tratados lógicos (Silogismos Categóricos, Silogismos Hipotéticos, A Divisão, As Diferenças Tópicas), cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 154. **A Instituição Aritmética e A Instituição Musical** — Boécio (c. 500–510 · dificuldade 4/5) `boecio-quadrivio`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tratados teológicos (Opuscula sacra): A Trindade; Se o Pai, o Filho e o Espírito Santo se predicam substancialmente da divindade; As Hebdômadas; A Fé Católica; Contra Êutiques e Nestório, cujo vocabulário e problemas retoma. As aulas m2-7, m2-8, m8-3 preparam o vocabulário e o contexto antes desta leitura.
 
@@ -1251,9 +1274,11 @@ Estudar seu sistema filosófico com lógica, filosofia antiga, teoria do conheci
 532. **Erros na Filosofia da Natureza** — Mário Ferreira dos Santos (década de 1960 · dificuldade 4/5 · dados a confirmar) `mfs-erros-natureza`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Origem dos Grandes Erros Filosóficos, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 533. **Grandezas e Misérias da Logística** — Mário Ferreira dos Santos (década de 1960 · dificuldade 5/5 · dados a confirmar) `mfs-logistica`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Erros na Filosofia da Natureza, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Introdução à Lógica (Critica a lógica simbólica ("logística"); é preciso conhecer suas noções básicas.)
+   - Por que aqui: Vem depois de Introdução à Lógica, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Erros na Filosofia da Natureza, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 534. **Mathesis Megisthe: A Sabedoria dos Princípios; A Sabedoria da Unidade; A Sabedoria do Ser e do Nada; A Sabedoria das Leis Eternas** — Mário Ferreira dos Santos (décadas de 1960 (algumas póstumas) · dificuldade 5/5 · dados a confirmar) `mfs-sabedoria`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Grandezas e Misérias da Logística, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Filosofia Concreta (vol. I, II e III) (A Mathesis Megisthe desenvolve os princípios demonstrados na Filosofia Concreta.)
+   - Por que aqui: Vem depois de Filosofia Concreta (vol. I, II e III), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Grandezas e Misérias da Logística, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 535. **Filosofia e História da Cultura** — Mário Ferreira dos Santos (década de 1960 · dificuldade 4/5 · dados a confirmar) `mfs-cultura`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Mathesis Megisthe: A Sabedoria dos Princípios; A Sabedoria da Unidade; A Sabedoria do Ser e do Nada; A Sabedoria das Leis Eternas, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 536. **Análise de Temas Sociais; O Problema Social; Temática e Problemática das Ciências Sociais** — Mário Ferreira dos Santos (década de 1960 · dificuldade 4/5 · dados a confirmar) `mfs-temas-sociais`
@@ -1261,13 +1286,15 @@ Estudar seu sistema filosófico com lógica, filosofia antiga, teoria do conheci
 537. **Tratado de Economia** — Mário Ferreira dos Santos (década de 1960 · dificuldade 3/5 · dados a confirmar) `mfs-economia`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Análise de Temas Sociais; O Problema Social; Temática e Problemática das Ciências Sociais, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 538. **Análise Dialéctica do Marxismo** — Mário Ferreira dos Santos (década de 1950 · dificuldade 4/5 · dados a confirmar) `mfs-marxismo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tratado de Economia, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Manifesto do Partido Comunista (A análise pressupõe conhecer as teses de Marx em fonte primária.); Lógica e Dialéctica (Aplica ao marxismo a dialética do autor, exposta em Lógica e Dialéctica.)
+   - Por que aqui: Vem depois de Manifesto do Partido Comunista, Lógica e Dialéctica, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Tratado de Economia, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 539. **Invasão Vertical dos Bárbaros** — Mário Ferreira dos Santos (1967 · dificuldade 2/5 · dados a confirmar) `mfs-invasao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Análise Dialéctica do Marxismo, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 540. **Curso de Oratória e Retórica; Técnica do Discurso Moderno** — Mário Ferreira dos Santos (décadas de 1940–1950 · dificuldade 2/5 · dados a confirmar) `mfs-oratoria`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Invasão Vertical dos Bárbaros, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 541. **Traduções e comentários (Nietzsche: Assim Falava Zaratustra e Vontade de Potência; Pitágoras; outros)** — Mário Ferreira dos Santos (décadas de 1940–1960 · dificuldade 3/5 · dados a confirmar) `mfs-traducoes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Curso de Oratória e Retórica; Técnica do Discurso Moderno, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Assim Falou Zaratustra (Inclui a tradução comentada do Zaratustra.)
+   - Por que aqui: Vem depois de Assim Falou Zaratustra, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Curso de Oratória e Retórica; Técnica do Discurso Moderno, cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 542. **Páginas Várias e escritos dispersos** — Mário Ferreira dos Santos (várias datas · dificuldade 2/5 · dados a confirmar) `mfs-paginas`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Traduções e comentários (Nietzsche: Assim Falava Zaratustra e Vontade de Potência; Pitágoras; outros), cujo vocabulário e problemas retoma. As aulas m11-1, m11-2 preparam o vocabulário e o contexto antes desta leitura.
 543. **Dicionário de Filosofia e Ciências Culturais** — Mário Ferreira dos Santos (dificuldade 3/5) `mfs-dicionario`
@@ -1278,7 +1305,8 @@ Estudar seu sistema filosófico com lógica, filosofia antiga, teoria do conheci
 Conhecer método, interpretações históricas, teoria dos discursos e crítica cultural do autor, sem confundir sua perspectiva com consenso acadêmico.
 
 544. **Como Vencer um Debate sem Precisar Ter Razão** — Arthur Schopenhauer (introdução, notas e comentários de Olavo de Carvalho) (dificuldade 2/5) `olavo-como-vencer`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Guia para o estudo da obra de Mário Ferreira dos Santos, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Tópicos e Refutações Sofísticas (Comenta a Dialética Erística de Schopenhauer, cujos estratagemas pressupõem a dialética dos Tópicos.)
+   - Por que aqui: Vem depois de Tópicos e Refutações Sofísticas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Guia para o estudo da obra de Mário Ferreira dos Santos, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 545. **História Essencial da Filosofia** — Olavo de Carvalho (dificuldade 3/5 · dados a confirmar) `olavo-historia-essencial`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Como Vencer um Debate sem Precisar Ter Razão, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 546. **Aristóteles em Nova Perspectiva: Introdução à Teoria dos Quatro Discursos** — Olavo de Carvalho (1996 · dificuldade 4/5) `olavo-quatro-discursos`
@@ -1294,9 +1322,11 @@ Conhecer método, interpretações históricas, teoria dos discursos e crítica 
 550. **A Crise do Mundo Moderno** — René Guénon (1927 · dificuldade 4/5) `guenon-crise`
    - Por que aqui: As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 551. **Escritos da fase tradicionalista (Universalidade e Abstração; Astros e Símbolos; Fronteiras da Tradição)** — Olavo de Carvalho (década de 1980 · dificuldade 3/5 · dados a confirmar) `olavo-tradicionalistas`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Filosofia e seu Inverso, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Crise do Mundo Moderno (Escritos da fase em que estudou os perenialistas; Guénon é a referência central.)
+   - Por que aqui: Vem depois de A Crise do Mundo Moderno, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Filosofia e seu Inverso, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 552. **Ordem e História** — Eric Voegelin (1956–1987 · dificuldade 5/5) `voegelin-ordem`
-   - Por que aqui: As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: A Nova Ciência da Política (A Nova Ciência da Política apresenta a teoria da representação e da ordem que Ordem e História desenvolve.)
+   - Por que aqui: Vem depois de A Nova Ciência da Política, que fornece os conceitos que esta obra pressupõe. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 553. **O Jardim das Aflições** — Olavo de Carvalho (1995 · dificuldade 4/5) `olavo-jardim`
    - Pré-requisitos: Carta a Meneceu; Do Contrato Social; Manifesto do Partido Comunista
    - Por que aqui: Vem depois de Carta a Meneceu, Do Contrato Social, Manifesto do Partido Comunista, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Escritos da fase tradicionalista (Universalidade e Abstração; Astros e Símbolos; Fronteiras da Tradição), cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
@@ -1320,9 +1350,11 @@ Conhecer método, interpretações históricas, teoria dos discursos e crítica 
 562. **Os EUA e a Nova Ordem Mundial (debate com Alexandr Dugin)** — Olavo de Carvalho (2012 · dificuldade 2/5 · dados a confirmar) `olavo-dugin`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Maquiavel ou A Confusão Demoníaca, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 563. **Visões de Descartes: Entre o Gênio Mau e o Espírito da Verdade** — Olavo de Carvalho (2013 · dificuldade 3/5 · dados a confirmar) `olavo-descartes`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Os EUA e a Nova Ordem Mundial (debate com Alexandr Dugin), cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Metafísicas (Interpreta as Meditações, do gênio maligno à veracidade divina.)
+   - Por que aqui: Vem depois de Meditações Metafísicas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Os EUA e a Nova Ordem Mundial (debate com Alexandr Dugin), cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 564. **Edmund Husserl contra o Psicologismo (aulas transcritas)** — Olavo de Carvalho (transcrições de aulas · dificuldade 4/5 · dados a confirmar) `olavo-husserl`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Visões de Descartes: Entre o Gênio Mau e o Espírito da Verdade, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Meditações Cartesianas (Pressupõe conhecer o método fenomenológico de Husserl.)
+   - Por que aqui: Vem depois de Meditações Cartesianas, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Visões de Descartes: Entre o Gênio Mau e o Espírito da Verdade, cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 565. **Seminário de Filosofia (aulas gravadas e transcrições)** — Olavo de Carvalho (2009–2022 · dificuldade 3/5 · dados a confirmar) `olavo-seminario`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Edmund Husserl contra o Psicologismo (aulas transcritas), cujo vocabulário e problemas retoma. As aulas m12-1, m12-2 preparam o vocabulário e o contexto antes desta leitura.
 566. **Coletâneas tardias (A Fórmula para Enlouquecer o Mundo; O Dever de Insultar e outras)** — Olavo de Carvalho (2014–2022 · dificuldade 2/5 · dados a confirmar) `olavo-tardios`
@@ -1339,7 +1371,8 @@ Virtudes, lei natural, justiça, autoridade, direito, mente, linguagem, estétic
 569. **A Loja do Ourives (teatro)** — João Paulo II (1960 · dificuldade 2/5) `jp2-loja-ourives`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Amor e Responsabilidade, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 570. **Pessoa e Ação** — João Paulo II (1969 · dificuldade 5/5) `jp2-pessoa-acao`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de A Loja do Ourives (teatro), cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Avaliação da Possibilidade de Construir uma Ética Cristã sobre as Bases do Sistema de Max Scheler (A ética de Scheler, avaliada na tese, é retrabalhada na antropologia de Pessoa e Ação.); Meditações Cartesianas (Usa o método fenomenológico para descrever a experiência da ação.)
+   - Por que aqui: Vem depois de Avaliação da Possibilidade de Construir uma Ética Cristã sobre as Bases do Sistema de Max Scheler, Meditações Cartesianas, que fornecem os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de A Loja do Ourives (teatro), cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 571. **Fontes da Renovação: Estudo sobre a Prática do Vaticano II** — João Paulo II (1972 · dificuldade 3/5 · dados a confirmar) `jp2-fontes-renovacao`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Pessoa e Ação, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 572. **Sinal de Contradição** — João Paulo II (1976 · dificuldade 2/5) `jp2-sinal-contradicao`
@@ -1347,9 +1380,11 @@ Virtudes, lei natural, justiça, autoridade, direito, mente, linguagem, estétic
 573. **Redemptor hominis** — João Paulo II (1979 · dificuldade 3/5) `jp2-redemptor`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Sinal de Contradição, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 574. **Teologia do Corpo (Homem e Mulher os Criou: catequeses)** — João Paulo II (1979–1984 · dificuldade 4/5) `jp2-teologia-corpo`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Redemptor hominis, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Amor e Responsabilidade (Desenvolve em chave bíblica e teológica a ética do amor de Amor e Responsabilidade.)
+   - Por que aqui: Vem depois de Amor e Responsabilidade, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Redemptor hominis, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 575. **Dives in misericordia** — João Paulo II (1980 · dificuldade 3/5) `jp2-dives`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Teologia do Corpo (Homem e Mulher os Criou: catequeses), cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Redemptor hominis (Segunda encíclica da trilogia trinitária iniciada com Redemptor hominis.)
+   - Por que aqui: Vem depois de Redemptor hominis, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Teologia do Corpo (Homem e Mulher os Criou: catequeses), cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 576. **Laborem exercens** — João Paulo II (1981 · dificuldade 3/5) `jp2-laborem`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Dives in misericordia, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 577. **Familiaris consortio** — João Paulo II (1981 · dificuldade 3/5) `jp2-familiaris`
@@ -1361,7 +1396,8 @@ Virtudes, lei natural, justiça, autoridade, direito, mente, linguagem, estétic
 580. **Slavorum apostoli** — João Paulo II (1985 · dificuldade 2/5) `jp2-slavorum`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Reconciliatio et paenitentia, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 581. **Dominum et vivificantem** — João Paulo II (1986 · dificuldade 3/5) `jp2-dominum`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Slavorum apostoli, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Dives in misericordia (Fecha a trilogia trinitária (Filho, Pai, Espírito Santo).)
+   - Por que aqui: Vem depois de Dives in misericordia, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Slavorum apostoli, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 582. **Redemptoris Mater** — João Paulo II (1987 · dificuldade 3/5) `jp2-redemptoris-mater`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Dominum et vivificantem, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 583. **Sollicitudo rei socialis** — João Paulo II (1987 · dificuldade 3/5) `jp2-sollicitudo`
@@ -1377,11 +1413,13 @@ Virtudes, lei natural, justiça, autoridade, direito, mente, linguagem, estétic
 588. **Centesimus annus** — João Paulo II (1991 · dificuldade 3/5) `jp2-centesimus`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Ex corde Ecclesiae, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 589. **Veritatis splendor** — João Paulo II (1993 · dificuldade 4/5) `jp2-veritatis`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Centesimus annus, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I–II (felicidade, atos humanos, lei: seleções) (Fundamenta a moral na lei natural e na teoria dos atos humanos de Tomás.)
+   - Por que aqui: Vem depois de Suma Teológica, I–II (felicidade, atos humanos, lei: seleções), que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Centesimus annus, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 590. **Carta às Famílias; Ordinatio sacerdotalis; Tertio millennio adveniente; Carta às Mulheres** — João Paulo II (1994–1995 · dificuldade 2/5) `jp2-cartas-1994-1995`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Veritatis splendor, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 591. **Evangelium vitae** — João Paulo II (1995 · dificuldade 3/5) `jp2-evangelium`
-   - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Carta às Famílias; Ordinatio sacerdotalis; Tertio millennio adveniente; Carta às Mulheres, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Veritatis splendor (Aplica à vida humana os princípios morais de Veritatis splendor, que cita.)
+   - Por que aqui: Vem depois de Veritatis splendor, que fornece os conceitos que esta obra pressupõe. Na ordem de estudo da obra do autor, vem depois de Carta às Famílias; Ordinatio sacerdotalis; Tertio millennio adveniente; Carta às Mulheres, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 592. **Ut unum sint** — João Paulo II (1995 · dificuldade 3/5) `jp2-ut-unum`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Evangelium vitae, cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 593. **Cruzando o Limiar da Esperança** — João Paulo II (1994 · dificuldade 1/5) `jp2-limiar`
@@ -1401,15 +1439,20 @@ Virtudes, lei natural, justiça, autoridade, direito, mente, linguagem, estétic
 600. **Levantai-vos! Vamos!; Memória e Identidade** — João Paulo II (2004; 2005 · dificuldade 2/5) `jp2-memoria-identidade`
    - Por que aqui: Na ordem de estudo da obra do autor, vem depois de Tríptico Romano (poemas), cujo vocabulário e problemas retoma. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 601. **Lei Natural e Direitos Naturais** — John Finnis (1980 · dificuldade 4/5) `finnis-lei-natural`
-   - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Suma Teológica, I–II (felicidade, atos humanos, lei: seleções) (Releitura analítica da lei natural de Tomás (I–II, q. 94).)
+   - Por que aqui: Vem depois de Suma Teológica, I–II (felicidade, atos humanos, lei: seleções), que fornece os conceitos que esta obra pressupõe. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 602. **Direito Natural e História** — Leo Strauss (1953 · dificuldade 4/5) `strauss-direito-natural`
-   - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Política (Contrapõe o direito natural clássico ao moderno; a Política é a referência do clássico.); Dois Tratados sobre o Governo (Locke é um dos autores modernos analisados.)
+   - Por que aqui: Vem depois de Política, Dois Tratados sobre o Governo, que fornecem os conceitos que esta obra pressupõe. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 603. **Uma Teoria da Justiça** — John Rawls (1971 · dificuldade 5/5) `rawls-justica`
-   - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Do Contrato Social (Declara retomar a tradição do contrato social de Locke, Rousseau e Kant.); Fundamentação da Metafísica dos Costumes (Propõe uma interpretação kantiana da justiça como equidade.)
+   - Por que aqui: Vem depois de Do Contrato Social, Fundamentação da Metafísica dos Costumes, que fornecem os conceitos que esta obra pressupõe. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 604. **A Condição Humana** — Hannah Arendt (1958 · dificuldade 4/5) `arendt-condicao`
-   - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Política (A distinção entre vida ativa e vida na pólis parte de Aristóteles.); O Capital, livro I (Discute longamente a teoria do trabalho de Marx.)
+   - Por que aqui: Vem depois de Política, O Capital, livro I, que fornecem os conceitos que esta obra pressupõe. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 605. **Reflexões sobre a Revolução na França** — Edmund Burke (1790 · dificuldade 4/5) `burke-reflexoes`
-   - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
+   - Pré-requisitos: Do Contrato Social (Responde aos princípios abstratos de direito que inspiraram a Revolução.)
+   - Por que aqui: Vem depois de Do Contrato Social, que fornece os conceitos que esta obra pressupõe. A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 606. **A Democracia na América** — Alexis de Tocqueville (1835–1840 · dificuldade 4/5) `tocqueville-democracia`
    - Por que aqui: A aula m14-1 prepara o vocabulário e o contexto antes desta leitura.
 
