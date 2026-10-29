@@ -45,7 +45,7 @@ export function conexoesAula(estado, id) {
   const depois = unicos(conceitos.flatMap((c) => c.aulas)).filter((x) => ordemAula[x] > ordemAula[id]);
   const provas = AVALIACOES.filter((v) => v.modulo === m.id);
   return secao('Conexões desta aula', [
-    bloco('parte', [link(`mod-${m.id}`, `Módulo ${m.n}: ${esc(m.titulo)}`), link('escada', `Degrau ${a.degrau}: ${esc(DEGRAUS[a.degrau].nome)}`), linkArea(noDaAula(id))].filter(Boolean)),
+    bloco('parte', [link(`mod-${m.id}`, `Módulo ${m.n}: ${esc(m.titulo)}`), a.degrau === null ? link(`disciplina-${m.disciplina}`, 'Percurso da disciplina') : link('escada', `Degrau ${a.degrau}: ${esc(DEGRAUS[a.degrau].nome)}`), linkArea(noDaAula(id))].filter(Boolean)),
     bloco('exige', anteriores.map(linkAula)),
     bloco('explica', conceitos.map(linkConceito)),
     bloco('fonte', livros.map(linkLivro)),

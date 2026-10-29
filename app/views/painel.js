@@ -19,11 +19,12 @@ function saudacao() {
 export function painel({ estado, status }) {
   const curso = progressoCurso(MODULOS, estado);
   const degrauAtual = DEGRAUS.find((d) => !estado.degraus[d.n]?.concluido) || DEGRAUS[DEGRAUS.length - 1];
-  const livre = (a) => aulaPorId[a.id] && !aulaConcluida(estado, a.id);
+  // "continuar" segue a escada; as aulas das disciplinas da fase 2 entram pela grade do Plano
+  const livre = (a) => a.degrau !== null && aulaPorId[a.id] && !aulaConcluida(estado, a.id);
   const proximaDisponivel = todasAulas.find((a) => a.degrau === degrauAtual.n && livre(a)) || todasAulas.find(livre);
   const continuar = estado.atual.aula && !aulaConcluida(estado, estado.atual.aula) && aulaPorId[estado.atual.aula] ? estado.atual.aula : proximaDisponivel?.id;
   const aulaCont = continuar && todasAulas.find((a) => a.id === continuar);
-  const proximas = todasAulas.filter((a) => aulaPorId[a.id] && !aulaConcluida(estado, a.id) && a.id !== continuar).slice(0, 4);
+  const proximas = todasAulas.filter((a) => livre(a) && a.id !== continuar).slice(0, 4);
   const pend = revisoesPendentes(estado.revisoes);
   const semana = minutosSemana(estado.sessoes);
   const meta = estado.plano.horasSemana * 60;

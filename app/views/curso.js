@@ -7,6 +7,13 @@ import { progressoModulo, aulaConcluivel, aulaConcluida, melhorNota, novoCartao,
 import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula } from './conexoes.js';
+import { disciplinaPorId } from '../data/disciplinas.js';
+import { INICIO_MULTIDISCIPLINAR } from '../core.js';
+
+/** Onde o módulo está: um degrau da escada ou uma disciplina da fase 2. */
+const ondeEsta = (m) => (m.degrau === null ? `Fase 2 · ${disciplinaPorId[m.disciplina]?.nome || m.disciplina}` : `Degrau ${m.degrau}`);
+// módulos de disciplina não têm degrau, mas pertencem à fase 2: o bloqueio usa o início dela
+const degrauDoBloqueio = (m) => m.degrau ?? INICIO_MULTIDISCIPLINAR;
 
 const statusAula = (estado, a) => {
   if (aulaConcluida(estado, a.id)) return '<span class="chip ok">Concluída</span>';
@@ -24,7 +31,7 @@ export function curso({ estado }) {
       return `<li class="cartao-mod"><a href="#mod-${m.id}">
         <span class="num">Módulo ${m.n}</span><h2>${esc(m.titulo)}</h2>
         <p>${esc(m.descricao)}</p>
-        <div class="linha-meta"><span>Degrau ${m.degrau}</span><span>${m.aulas.length} aulas · ${prontas} com conteúdo</span><span>${m.semanas} semanas</span></div>
+        <div class="linha-meta"><span>${esc(ondeEsta(m))}</span><span>${m.aulas.length} aulas · ${prontas} com conteúdo</span><span>${m.semanas} semanas</span></div>
         ${barra(p.pct, `Progresso do módulo ${m.n}`)}<span class="meta">${p.feitas}/${p.total} concluídas</span></a></li>`;
     }).join('')}</ol>`;
 }
@@ -36,7 +43,7 @@ export function modulo({ estado }, id) {
   const livros = LIVROS.filter((l) => l.modulo === m.id).sort((a, b) => a.degrau - b.degrau || a.ordem - b.ordem);
   const avals = AVALIACOES.filter((a) => a.modulo === m.id);
   return `<nav class="migalha">${link('curso', 'Curso')} / Módulo ${m.n}</nav>
-  <header class="cab"><span class="num">Módulo ${m.n} · Degrau ${m.degrau} · ${m.semanas} semanas</span><h1>${esc(m.titulo)}</h1><p class="sub">${esc(m.descricao)}</p>
+  <header class="cab"><span class="num">Módulo ${m.n} · ${esc(ondeEsta(m))} · ${m.semanas} semanas</span><h1>${esc(m.titulo)}</h1><p class="sub">${esc(m.descricao)}</p>
     ${barra(p.pct)}<span class="meta">${p.feitas}/${p.total} aulas concluídas</span>
     ${m.prereq.length ? `<p class="meta">Pré-requisitos: ${m.prereq.map((x) => link(`mod-${x}`, `Módulo ${moduloPorId[x].n}`)).join(', ')}</p>` : ''}</header>
   <div class="grade-2">
@@ -81,7 +88,7 @@ function blocoConclusao(estado, m, meta, a, conc) {
 /** Aula de avaliação do módulo: orientação de estudo e a prova gerada a partir das aulas. */
 function aulaAvaliacao(estado, m, meta, a) {
   const prova = avaliacaoPorId[a.prova];
-  const conc = aulaConcluivel(a, estado, m.aulas[meta.n - 2]?.id, prova, m.degrau);
+  const conc = aulaConcluivel(a, estado, m.aulas[meta.n - 2]?.id, prova, degrauDoBloqueio(m));
   return `<nav class="migalha">${link('curso', 'Curso')} / ${link(`mod-${m.id}`, `Módulo ${m.n}`)} / Aula ${meta.n}</nav>
   <article class="aula">
   <header class="cab"><span class="num">Módulo ${m.n}: ${esc(m.titulo)} · ${esc(a.duracao)}</span><h1>${esc(a.titulo)}</h1>
@@ -103,7 +110,7 @@ export function aula({ estado }, id) {
   if (!a) return aulaEmPreparacao(m, meta);
   if (a.tipo === 'avaliacao') return aulaAvaliacao(estado, m, meta, a);
   const anterior = m.aulas[meta.n - 2]?.id;
-  const conc = aulaConcluivel(a, estado, anterior, null, m.degrau);
+  const conc = aulaConcluivel(a, estado, anterior, null, degrauDoBloqueio(m));
   const st = estado.aulas[id] || {};
   const nota = melhorNota(estado, `quiz-${id}`);
   const proxima = m.aulas[meta.n];

@@ -20,6 +20,13 @@ function proximo(estado, d) {
 }
 const atividade = ({ aula, livro }) => [aula && link(`aula-${aula.id}`, `Aula ${aula.id}: ${esc(aula.titulo)}`), livro && link(`livro-${livro}`, `Leitura: ${esc(livroPorId[livro].titulo)}`)].filter(Boolean).join('<br>') || '<span class="meta">nada pendente</span>';
 
+/** Próxima atividade da etapa: a primeira aula publicada não concluída, senão o exercício da etapa. */
+function proximaDaEtapa(estado, d, etapa) {
+  if (!etapa) return '<span class="meta">nada pendente</span>';
+  const aula = (d.aulas?.[etapa.etapa] || []).find((a) => aulaPorId[a] && !aulaConcluida(estado, a));
+  return aula ? link(`aula-${aula}`, `Aula ${aula}: ${esc(aulaPorId[aula].titulo)}`) : esc(etapa.exercicio);
+}
+
 /** Pré-requisitos de uma disciplina (ramos da árvore) ainda não cumpridos: os degraus ligados ao ramo. */
 const prereqPendentes = (estado, d) => d.prereq.filter((p) => (noPorId[p].degraus || []).some((n) => !estado.degraus[n]?.concluido));
 
@@ -42,7 +49,7 @@ export function linhasGrade(estado) {
     { disciplina: 'Filosofia (escada)', href: 'escada', etapa: fil ? `Degrau ${fil.n}: ${fil.nome}` : 'concluída', proximo: atividade(proximo(estado, fil)), minutos: Math.round(ativas.length ? total * PARTE_FILOSOFIA : total), bloqueio: [] },
     ...disc.map((x) => ({
       disciplina: x.d.nome, href: `disciplina-${x.d.id}`, etapa: x.etapa ? rotuloEtapa(x.etapa) : 'percurso concluído',
-      proximo: x.etapa ? esc(x.etapa.exercicio) : '<span class="meta">nada pendente</span>',
+      proximo: proximaDaEtapa(estado, x.d, x.etapa),
       minutos: ativas.includes(x) ? Math.round(parteDisc) : 0, bloqueio: x.bloqueio,
     })),
   ];

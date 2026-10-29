@@ -22,6 +22,8 @@ export const TIPOS_REFERENCIA = { primaria: 'Fonte primária', estudo: 'Estudo c
 export const DISCIPLINAS = [
   {
     id: 'historia', no: 'historia', nome: 'História', aulasPublicadas: false,
+    // aulas completas já publicadas, por etapa (módulo H1); as demais etapas seguem em preparação
+    aulas: { fundamentos: ['h1-1'], vocabulario: ['h1-2'], metodos: ['h1-3', 'h1-4', 'h1-5'] },
     metodo: 'Crítica de fontes: autenticidade, autoria, data, intenção e confronto entre testemunhos. A narrativa histórica é uma interpretação fundamentada em documentos, não uma opinião.',
     prereq: ['logica', 'intro-filosofia'],
     etapas: [

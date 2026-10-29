@@ -159,6 +159,12 @@ export const MODULOS = [
     objetivos: ['Formular uma pergunta filosófica', 'Reconstruir três argumentos de fontes primárias', 'Concluir com justificação'],
     aulas: A(['Escolher a pergunta', 'Definir conceitos e contexto', 'Fontes primárias', 'Reconstruir argumentos', 'Objeções e comparação', 'Redação do ensaio', 'Avaliação final', 'Plano de estudos avançados']),
     criterios: ['Projeto final completo conforme a rubrica'] },
+  // ---------- Módulos das disciplinas da fase 2: não pertencem à escada (degrau: null), mas à disciplina ----------
+  { id: 'h1', n: 'H1', titulo: 'História I: fundamentos e método histórico', semanas: '4–6', degrau: null, disciplina: 'historia', prereq: ['m3', 'm4'],
+    descricao: 'O que é a história, o tempo histórico (cronologia, calendários, periodização) e a crítica das fontes, aplicada à Carta de Pero Vaz de Caminha. Corresponde às etapas 1 a 3 do percurso de História.',
+    objetivos: ['Distinguir passado, conhecimento histórico e historiografia', 'Datar e periodizar com consciência das convenções', 'Aplicar crítica externa e interna a um documento', 'Confrontar testemunhos independentes'],
+    aulas: A(['O que é a história: passado, fonte e testemunho', 'O tempo histórico: cronologia, calendários e periodização', 'Crítica das fontes: autenticidade, autoria e credibilidade', 'Prática de crítica documental: a Carta de Pero Vaz de Caminha', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Ficha crítica da Carta de Caminha', 'Prova do módulo (80%) e discursivas'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

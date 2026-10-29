@@ -76,8 +76,11 @@ test('escada: 14 degraus encadeados; preparação → teologia → patrística �
 
 test('aulas: cada uma em um único degrau, sem repetição, e a aula anterior do módulo nunca vem depois', () => {
   const vistas = DEGRAUS.flatMap((d) => d.aulas.map((a) => a.id));
-  assert.equal(vistas.length, todasAulas.length);
-  assert.equal(new Set(vistas).size, todasAulas.length, 'aula repetida em dois degraus');
+  // aulas das disciplinas da fase 2 (degrau null) não entram na escada; as demais, uma vez cada
+  const daEscada = todasAulas.filter((a) => a.degrau !== null);
+  assert.equal(vistas.length, daEscada.length);
+  assert.equal(new Set(vistas).size, daEscada.length, 'aula repetida em dois degraus');
+  for (const m of MODULOS.filter((x) => x.degrau === null)) assert.ok(m.disciplina && DISCIPLINAS.some((d) => d.id === m.disciplina), `${m.id}: módulo fora da escada sem disciplina`);
   for (const m of MODULOS) {
     const aulas = todasAulas.filter((a) => a.modulo === m.id);
     aulas.forEach((a, i) => { if (i) assert.ok(aulas[i - 1].degrau <= a.degrau, `${a.id} exige ${aulas[i - 1].id}, de degrau posterior`); });
@@ -336,7 +339,7 @@ test('sequência do Mapa: livros antes das aulas, salvo introdutórias; toda aul
     const ultimoLivro = seq.map((i) => i.tipo).lastIndexOf('livro');
     seq.slice(0, Math.max(0, ultimoLivro)).forEach((i) => assert.ok(i.tipo === 'livro' || intro.includes(i.id), `degrau ${d.n}: ${i.id} antes dos livros`));
   }
-  assert.deepEqual([...vistas].sort(), todasAulas.map((a) => a.id).sort());
+  assert.deepEqual([...vistas].sort(), todasAulas.filter((a) => a.degrau !== null).map((a) => a.id).sort());
 });
 
 test('leitor de PDF: página, conclusão e sessão de tempo', () => {
@@ -387,7 +390,7 @@ test('integridade: referências entre dados existem', () => {
     d.modulos.forEach((m) => assert.ok(modIds.has(m)));
     (d.retomar || []).forEach((l) => assert.ok(livroPorId[l], `degrau ${d.n}: ${l}`));
   }
-  assert.equal(MODULOS.length, 18);
+  assert.equal(MODULOS.filter((m) => m.degrau !== null).length, 18, 'módulos da escada');
   assert.equal(DEGRAUS.length, 14);
   assert.equal(new Set(AULAS_COMPLETAS.map((a) => a.id)).size, AULAS_COMPLETAS.length, 'ids de aula únicos');
   assert.ok(!JSON.stringify(AULAS_COMPLETAS).includes('${'), 'nenhuma interpolação não processada (aspas simples no lugar de crase)');
@@ -590,4 +593,26 @@ test('identidade: cruz gótica vetorial ao lado do nome', () => {
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   assert.ok(/<span id="emblema"[^>]*><\/span><span>Academia da Verdade/.test(html), 'emblema imediatamente antes do nome');
   assert.ok(html.includes('rel="icon"'), 'favicon com a cruz');
+});
+
+test('História I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase 2 e ligação ao percurso', () => {
+  const h = DISCIPLINAS.find((d) => d.id === 'historia');
+  const ids = Object.values(h.aulas).flat();
+  assert.deepEqual(Object.keys(h.aulas), ['fundamentos', 'vocabulario', 'metodos'], 'etapas 1 a 3');
+  const campos = ['aprendera', 'prereq', 'explicacao', 'vocabulario', 'exemplos', 'contexto', 'argumento', 'objecoes', 'aplicacao', 'fonte', 'perguntas', 'exercicios', 'resumo', 'referencias', 'criterios', 'revisao'];
+  for (const id of ids) {
+    const a = AULAS_COMPLETAS.find((x) => x.id === id);
+    assert.ok(a, `aula ${id} publicada`);
+    assert.equal(todasAulas.find((x) => x.id === id).modulo, 'h1');
+    if (a.tipo === 'avaliacao') continue;
+    for (const c of campos) assert.ok(a[c] && (typeof a[c] !== 'object' || Object.keys(a[c]).length), `${id}: seção ${c}`);
+    assert.ok(a.exercicios.filter((e) => e.tipo === 'mc').length >= 5 && a.exercicios.some((e) => e.tipo === 'disc'), `${id}: exercícios`);
+    assert.ok(a.contexto.includes('Brasil') || a.explicacao.includes('Brasil'), `${id}: contexto brasileiro`);
+    assert.ok(a.referencias.length >= 3, `${id}: referências`);
+    // concluir exige a fase teológica
+    assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE));
+  }
+  const prova = avaliacaoPorId['prova-h1'];
+  assert.ok(prova && prova.itens.filter((i) => i.aula).length >= 8, 'prova do módulo com questões das aulas');
+  assert.ok(noPorId.historia.modulos.includes('h1'), 'a árvore conta o progresso das aulas de História');
 });
