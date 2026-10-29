@@ -35,11 +35,12 @@ import { AULAS as H4 } from './h4.js';
 import { AULAS as H5 } from './h5.js';
 import { AULAS as G1 } from './g1.js';
 import { AULAS as E1 } from './e1.js';
+import { AULAS as E2 } from './e2.js';
 
 // As aulas novas trazem o aprofundamento no próprio objeto; as antigas o recebem de avancado.js.
 export const AULAS_COMPLETAS = [
   ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
   ...M5A, ...M5B, ...M6, ...M7A, ...M7B, ...M8A, ...M8B, ...M9, ...M10A, ...M10B,
-  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...E1,
+  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...E1, ...E2,
 ].map((a) => ({ ...a, avancado: a.avancado || AVANCADO[a.id] || null }));
 export const aulaPorId = Object.fromEntries(AULAS_COMPLETAS.map((a) => [a.id, a]));

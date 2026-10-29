@@ -195,6 +195,11 @@ export const MODULOS = [
     objetivos: ['Usar os conceitos fundamentais da economia', 'Aplicar o modelo de oferta e demanda a casos reais', 'Interpretar indicadores oficiais brasileiros', 'Calcular variações e juros reais e distinguir correlação de causa'],
     aulas: A(['Escassez, escolha e custo de oportunidade', 'Mercados: oferta, demanda e preços', 'Medir a economia: PIB, inflação, juros e desemprego', 'Modelos, dados e causalidade: números-índice, juros reais e evidência', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Cálculos com dados oficiais (IPCA, Selic)', 'Prova do módulo (80%)'] },
+  { id: 'e2', n: 'E2', titulo: 'Economia II: formação do pensamento econômico e autores fundamentais', semanas: '5–6', degrau: null, disciplina: 'economia', prereq: ['e1', 'm7'],
+    descricao: 'De Aristóteles, da escolástica e de Salamanca ao mercantilismo e à fisiocracia; a escola clássica (Smith, Ricardo, Malthus, Say, Mill) e a crítica de Marx; a revolução marginalista e a Escola Austríaca; Keynes e Hayek, com a Doutrina Social e o Brasil em cada etapa. Corresponde às etapas 4 e 5 do percurso de Economia.',
+    objetivos: ['Situar autores e obras do pensamento econômico', 'Explicar as teorias do valor e sua evolução', 'Comparar Keynes e Hayek com argumentos', 'Relacionar o pensamento econômico ao Brasil e à Doutrina Social'],
+    aulas: A(['Antes de Smith: Aristóteles, escolástica, Salamanca, mercantilismo e fisiocracia', 'A economia clássica: Smith, Ricardo, Malthus, Say e Mill — e a crítica de Marx', 'A revolução marginalista, os neoclássicos e a Escola Austríaca', 'Keynes e Hayek: a Grande Depressão e o grande debate do século XX', 'Avaliação do módulo']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Discursivas comparando autores', 'Prova do módulo (80%)'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
