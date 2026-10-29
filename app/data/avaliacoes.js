@@ -96,6 +96,8 @@ const ESTATICAS = [
 ];
 
 const QUESTOES_POR_AULA = 2;
+/** Provas que encerram um percurso e cobrem também os módulos anteriores (módulo → módulos anteriores). */
+export const INTEGRADORAS = { h5: ['h1', 'h2', 'h3', 'h4'] };
 
 /**
  * Prova de cada módulo: duas questões objetivas de cada aula de conteúdo (as primeiras do questionário,
@@ -106,7 +108,9 @@ function provaDoModulo(m) {
   const av = aulaPorId[m.aulas[m.aulas.length - 1].id];
   if (av?.tipo !== 'avaliacao' || av.prova !== `prova-${m.id}`) return null;
   const extra = ESTATICAS.find((e) => e.id === av.prova);
-  const conteudo = m.aulas.map((a) => aulaPorId[a.id]).filter((a) => a && a.tipo !== 'avaliacao');
+  // prova integradora: reúne também as aulas dos módulos anteriores da mesma disciplina
+  const modulosCobertos = [...(INTEGRADORAS[m.id] || []).map((id) => MODULOS.find((x) => x.id === id)), m];
+  const conteudo = modulosCobertos.flatMap((x) => x.aulas).map((a) => aulaPorId[a.id]).filter((a) => a && a.tipo !== 'avaliacao');
   // cada questão guarda a aula de origem: um erro indica o que revisar
   const auto = conteudo.flatMap((a) => a.exercicios.filter((e) => e.tipo === 'mc').slice(0, QUESTOES_POR_AULA).map((e) => ({ ...e, aula: a.id })));
   return {

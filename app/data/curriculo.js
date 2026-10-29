@@ -180,6 +180,11 @@ export const MODULOS = [
     objetivos: ['Situar os grandes marcos de cada período com datas e fontes', 'Ler fontes antigas, medievais e modernas com crítica', 'Relacionar a história do Brasil aos processos mundiais', 'Distinguir fatos, estimativas e debates de cada período'],
     aulas: A(['Antiguidade: a pólis grega, Roma e a cristianização do Império', 'A Cristandade medieval: reinos, Igreja, cidades e universidades', 'Revoluções modernas: Reformas, ciência, política e indústria', 'A formação do Brasil: Colônia e Império (1500–1889)', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Linhas do tempo das aulas 3 e 4', 'Prova do módulo (80%)'] },
+  { id: 'h5', n: 'H5', titulo: 'História V: século XX, Brasil republicano, história pública e pesquisa', semanas: '8–12', degrau: null, disciplina: 'historia', prereq: ['h4'],
+    descricao: 'O século XX mundial e o Brasil republicano até 1988, a história no espaço público (patrimônio, arquivos, verificação de citações) e o projeto de pesquisa histórica. Termina com a avaliação integradora de todo o percurso e o trabalho final. Corresponde às etapas 9 a 11 do percurso de História.',
+    objetivos: ['Situar os grandes acontecimentos do século XX e do Brasil republicano', 'Aplicar o método histórico a temas recentes e ao debate público', 'Formular e executar um projeto de pesquisa com fontes primárias', 'Demonstrar domínio integrado do percurso de História'],
+    aulas: A(['O século XX: guerras mundiais, totalitarismos, Guerra Fria e descolonização', 'O Brasil republicano: da Primeira República à Constituição de 1988', 'História no espaço público: patrimônio, arquivos e uso do passado', 'Projeto de pesquisa histórica: do problema à redação', 'Avaliação integradora de História']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Avaliação integradora (80%) com questões de H1 a H5', 'Trabalho final de pesquisa segundo a rubrica'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));

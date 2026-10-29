@@ -77,7 +77,7 @@ export const NOS = [
 
   // ---------- Ciências Humanas e Sociais ----------
   N('humanas', 'Ciências Humanas e Sociais', 'filosofia', 'humanas', 'Estudam a ação humana, a sociedade e a história com métodos próprios: crítica de fontes, pesquisa empírica, modelos e dados.', {}),
-  P('historia', 'História', 'humanas', 'humanas', 'Fontes e crítica documental, historiografia e as grandes épocas, com a formação do Brasil no contexto mundial.', { modulos: ['h1', 'h2', 'h3', 'h4'], livros: ['tocqueville-democracia', 'hegel-historia', 'voegelin-ordem', 'agostinho-cidade', 'hume-historia', 'aristoteles-constituicao-atenas'], areas: ['História da cultura', 'Filosofia da história'] }),
+  N('historia', 'História', 'humanas', 'humanas', 'Fontes e crítica documental, historiografia e as grandes épocas, com a formação do Brasil no contexto mundial.', { modulos: ['h1', 'h2', 'h3', 'h4', 'h5'], livros: ['tocqueville-democracia', 'hegel-historia', 'voegelin-ordem', 'agostinho-cidade', 'hume-historia', 'aristoteles-constituicao-atenas'], areas: ['História da cultura', 'Filosofia da história'] }),
   P('geografia', 'Geografia', 'humanas', 'humanas', 'Pensamento geográfico, cartografia, geografia física e humana, território e regiões, do mundo ao Brasil.', {}),
   P('sociologia', 'Sociologia', 'humanas', 'humanas', 'Conceitos e teorias da vida social (Marx, Durkheim, Weber), métodos e a formação social brasileira.', { livros: ['mfs-sociologia-etica', 'mfs-temas-sociais'] }),
   P('economia', 'Economia', 'humanas', 'humanas', 'Escassez, mercados, moeda, crescimento e história do pensamento econômico, com dados e modelos.', { livros: ['marx-capital-i', 'marx-grundrisse', 'mfs-economia', 'locke-outros', 'tomas-compra-venda', 'jp2-centesimus'] }),

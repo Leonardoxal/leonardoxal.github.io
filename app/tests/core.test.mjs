@@ -18,7 +18,7 @@ import { notasDe, conexoesAula, conexoesLivro } from '../views/conexoes.js';
 import { SIMBOLOS, TIPOS_SENTIDO, TRADICOES } from '../data/simbolos.js';
 import { linhasGrade } from '../views/grade.js';
 import { cruz } from '../ornamentos.js';
-import { AREAS_CONJUNTAS } from '../data/avaliacoes.js';
+import { AREAS_CONJUNTAS, INTEGRADORAS } from '../data/avaliacoes.js';
 import { SANTOS, SANTOS_DAS_ABAS, SANTOS_DAS_AREAS, NATUREZAS } from '../data/santos.js';
 import { DISCIPLINAS, DISCIPLINAS_PENDENTES, ETAPAS, TIPOS_REFERENCIA } from '../data/disciplinas.js';
 import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
@@ -506,8 +506,9 @@ test('disciplinas: História, Geografia, Sociologia e Economia com as onze etapa
       if (b.livro) assert.ok(livroPorId[b.livro], `${d.id}: livro ${b.livro}`);
       if (b.url) assert.ok(b.url.startsWith('http'), `${d.id}: url`);
     }
-    // a disciplina não é declarada concluída enquanto as aulas não existirem
-    assert.equal(d.aulasPublicadas, false);
+    // só se declara o percurso completo quando todas as etapas têm aulas publicadas
+    const completa = d.etapas.every((e) => (d.aulas?.[e.etapa] || []).some((a) => AULAS_COMPLETAS.some((x) => x.id === a)));
+    assert.equal(d.aulasPublicadas, completa, `${d.id}: aulasPublicadas deve refletir as aulas reais`);
   }
   // todo ramo sem percurso próprio está listado como pendente: nada é apresentado como pronto sem estar
   const semPercurso = NOS.filter((n) => !n.percurso).map((n) => n.id);
@@ -523,7 +524,8 @@ test('integração: questões de prova indicam a aula a revisar', () => {
   for (const p of provas) {
     const objetivas = p.itens.filter((i) => i.aula);
     assert.ok(objetivas.length, `${p.id}: questões com aula de origem`);
-    objetivas.forEach((i) => assert.ok(ids.has(i.aula) && todasAulas.find((a) => a.id === i.aula).modulo === p.modulo, `${p.id}: aula ${i.aula} do mesmo módulo`));
+    const cobertos = [p.modulo, ...(INTEGRADORAS[p.modulo] || [])];
+    objetivas.forEach((i) => assert.ok(ids.has(i.aula) && cobertos.includes(todasAulas.find((a) => a.id === i.aula).modulo), `${p.id}: aula ${i.aula} fora dos módulos cobertos`));
   }
 });
 test('integração: nota aparece em todos os conteúdos vinculados; conexões usam os dados reais', () => {
@@ -599,9 +601,13 @@ test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio d
   const h = DISCIPLINAS.find((d) => d.id === 'historia');
   const ids = Object.values(h.aulas).flat();
   // as etapas com aulas são as primeiras do percurso, em ordem, sem pular nenhuma
-  assert.deepEqual(Object.keys(h.aulas), Object.keys(ETAPAS).slice(0, 8), 'etapas 1 a 8');
+  assert.deepEqual(Object.keys(h.aulas), Object.keys(ETAPAS), 'as onze etapas');
   const modulos = [...new Set(ids.map((id) => todasAulas.find((x) => x.id === id)?.modulo))];
-  assert.deepEqual(modulos, ['h1', 'h2', 'h3', 'h4']);
+  assert.deepEqual(modulos.sort(), ['h1', 'h2', 'h3', 'h4', 'h5']);
+  assert.ok(h.aulasPublicadas && noPorId.historia.percurso, 'História declarada completa no percurso e na árvore');
+  // a avaliação integradora cobre todos os módulos de História
+  const integ = avaliacaoPorId['prova-h5'];
+  assert.deepEqual([...new Set(integ.itens.filter((i) => i.aula).map((i) => todasAulas.find((a) => a.id === i.aula).modulo))].sort(), ['h1', 'h2', 'h3', 'h4', 'h5']);
   assert.ok(moduloPorId.h4.prereq.includes('h3'), 'H4 depois de H3');
   assert.ok(moduloPorId.h3.prereq.includes('h2'), 'H3 depois de H2');
   for (const m of modulos) assert.ok(avaliacaoPorId[`prova-${m}`]?.itens.filter((i) => i.aula).length >= 8, `prova-${m}`);
@@ -619,5 +625,5 @@ test('História I e II: aulas completas das etapas 1 a 5, com provas, bloqueio d
     // concluir exige a fase teológica
     assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE));
   }
-  assert.deepEqual(noPorId.historia.modulos, modulos, 'a árvore conta o progresso das aulas de História');
+  assert.deepEqual([...noPorId.historia.modulos].sort(), modulos, 'a árvore conta o progresso das aulas de História');
 });
