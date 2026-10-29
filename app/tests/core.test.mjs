@@ -31,7 +31,7 @@ test('títulos: os 607 originais existem, são únicos, obrigatórios e têm pos
 });
 
 test('documento da ordem de leitura: idêntico ao gerado dos dados e com os 607 títulos', () => {
-  const doc = readFileSync(ARQUIVO, 'utf8');
+  const doc = readFileSync(ARQUIVO, 'utf8').replace(/\r\n/g, '\n'); // o Git no Windows pode converter para CRLF
   assert.equal(doc, gerar(), 'leituras-em-ordem.md desatualizado: rode node scripts/leituras-em-ordem.mjs');
   assert.equal((doc.match(/^\d+\. \*\*/gm) || []).length, 607);
   for (const id of IDS_ORIGINAIS) assert.ok(doc.includes(`\`${id}\``), `${id} fora do documento`);
