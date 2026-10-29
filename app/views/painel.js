@@ -6,6 +6,7 @@ import { conceitoPorId } from '../data/conceitos.js';
 import { progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas } from '../core.js';
 import { esc, barra, link, fmtData, fmtMin } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
+import { fachada } from '../ornamentos.js';
 
 const disponiveis = new Set(Object.keys(aulaPorId));
 
@@ -42,25 +43,25 @@ export function painel({ estado, status }) {
     return esc(k);
   };
 
-  return `<header class="cab painel-cab">
+  return `<header class="cab painel-cab"><div>
     <p class="num">${saudacao()}${estado.perfil.nome ? `, ${esc(estado.perfil.nome)}` : ''}</p>
     <h1>Degrau ${degrauAtual.n}: ${esc(degrauAtual.nome)}</h1>
     <p class="sub">${esc(degrauAtual.objetivo)}</p>
     ${aulaCont ? `<a class="btn primario grande" href="#aula-${aulaCont.id}">Continuar estudando — ${esc(aulaCont.titulo)}</a>
       <p class="meta">Módulo ${moduloPorId[aulaCont.modulo].n}: ${esc(moduloPorId[aulaCont.modulo].titulo)}</p>` : '<p>Todas as aulas disponíveis foram concluídas. Novas aulas serão publicadas em lotes.</p>'}
-  </header>
+  </div>${fachada()}</header>
   ${novo ? `<div class="boas-vindas"><h2>Por onde começar</h2><ol>
       <li>Faça a aula ${link('aula-m3-1', 'Como ler textos filosóficos')} (Degrau 0) — ela ensina o método usado no curso todo.</li>
       <li>Siga para o ${link('mod-m1', 'Módulo 1: Fundamentos da teologia católica')}.</li>
       <li>Ajuste suas horas semanais no ${link('plano', 'Plano de estudos')} (padrão: 6 h).</li>
-      <li>Veja a jornada completa no ${link('mapa', 'Mapa da formação')}.</li></ol>
+      <li>Veja a jornada completa na ${link('escada', 'escada da formação')} e as áreas do saber no ${link('mapa', 'mapa do conhecimento')}.</li></ol>
       <label class="campo"><span>Nome para a saudação (opcional)</span><input id="nome" value="${esc(estado.perfil.nome)}" maxlength="40"></label></div>` : ''}
 
   <div class="indicadores">
     <div class="ind"><span class="ind-rot">Progresso total do curso</span><span class="ind-val">${curso.pct}%</span>${barra(curso.pct)}<span class="meta">${curso.feitas} de ${curso.total} aulas</span></div>
     <div class="ind"><span class="ind-rot">Meta semanal</span><span class="ind-val">${fmtMin(semana)}</span>${barra(Math.round((semana / meta) * 100))}<span class="meta">de ${fmtMin(meta)} · total ${fmtMin(minutosTotal(estado.sessoes))}</span></div>
     <div class="ind"><span class="ind-rot">Revisões pendentes</span><span class="ind-val">${pend.length}</span>${pend.length ? link('revisar', 'Revisar agora') : '<span class="meta">nada para hoje</span>'}</div>
-    <div class="ind"><span class="ind-rot">Degrau ${degrauAtual.n}</span><span class="ind-val">${progressoDegrau(degrauAtual, MODULOS, disponiveis, estado)}%</span>${barra(progressoDegrau(degrauAtual, MODULOS, disponiveis, estado))}${link('mapa', 'Ver mapa')}</div>
+    <div class="ind"><span class="ind-rot">Degrau ${degrauAtual.n}</span><span class="ind-val">${progressoDegrau(degrauAtual, MODULOS, disponiveis, estado)}%</span>${barra(progressoDegrau(degrauAtual, MODULOS, disponiveis, estado))}${link('escada', 'Ver na escada')}</div>
   </div>
 
   <div class="grade-2">

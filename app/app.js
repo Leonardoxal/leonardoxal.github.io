@@ -8,7 +8,9 @@ import { aulaPorId } from './data/aulas/index.js';
 import { CONCEITOS } from './data/conceitos.js';
 import { AUTORES } from './data/autores.js';
 import { painel } from './views/painel.js';
-import { mapa } from './views/mapa.js';
+import { escada } from './views/mapa.js';
+import { arvore } from './views/arvore.js';
+import { rosacea } from './ornamentos.js';
 import { curso, modulo, aula } from './views/curso.js';
 import { biblioteca, livro } from './views/biblioteca.js';
 import { caderno, nota, criarNota } from './views/caderno.js';
@@ -43,10 +45,10 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
+const ROTAS = { painel, mapa: arvore, escada, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, busca, entrar };
 const PREFIXOS = { 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', escada: 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -160,6 +162,24 @@ function atualizarCronometro() {
 barraCrono.querySelector('[data-crono="parar"]').addEventListener('click', () => pararCronometro(true));
 barraCrono.querySelector('[data-crono="descartar"]').addEventListener('click', () => pararCronometro(false));
 document.getElementById('crono-livre').addEventListener('click', () => iniciarCronometro(null));
+
+// ---------- Identidade visual: emblema e tema (preferência local; automático segue o sistema) ----------
+document.getElementById('emblema').innerHTML = rosacea(34);
+const CHAVE_TEMA = 'academia-verdade-tema';
+const TEMAS = { auto: 'automático', light: 'claro', dark: 'escuro' };
+const botaoTema = document.getElementById('tema');
+function aplicarTema(t) {
+  if (t === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+  botaoTema.textContent = `Tema: ${TEMAS[t]}`;
+}
+let tema = (() => { try { return TEMAS[localStorage.getItem(CHAVE_TEMA)] ? localStorage.getItem(CHAVE_TEMA) : 'auto'; } catch { return 'auto'; } })();
+aplicarTema(tema);
+botaoTema.addEventListener('click', () => {
+  const ordem = Object.keys(TEMAS);
+  tema = ordem[(ordem.indexOf(tema) + 1) % ordem.length];
+  aplicarTema(tema);
+  try { localStorage.setItem(CHAVE_TEMA, tema); } catch { /* sem armazenamento: vale só nesta aba */ }
+});
 
 mostrarStatus(store.status);
 render();

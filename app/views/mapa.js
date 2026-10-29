@@ -1,9 +1,10 @@
-// Mapa da formação: escada ascendente de degraus com pré-requisitos, leituras e competências.
+// Escada da formação (#escada): degraus ascendentes de degraus com pré-requisitos, leituras e competências.
 import { DEGRAUS, MODULOS, moduloPorId, todasAulas, sequenciaDegrau } from '../data/curriculo.js';
 import { livroPorId } from '../data/livros.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { progressoDegrau, degrauConcluivel, livroConcluido, aulaConcluida, notaMinima } from '../core.js';
 import { esc, barra, link, fmtData, toast } from '../ui.js';
+import { abasMapa } from './arvore.js';
 
 const disponiveis = new Set(Object.keys(aulaPorId));
 let abertos = null; // degraus expandidos antes de um re-render, para não fechá-los
@@ -19,11 +20,12 @@ const listaSequencia = (d, estado) => sequenciaDegrau(d).map((it) => (it.tipo ==
   ? listaLivros([it.id], estado)
   : `<li class="${aulaConcluida(estado, it.id) ? 'feito' : ''}"><span class="chip">Aula</span> ${link(`aula-${it.id}`, `${it.id} — ${esc(tituloAula[it.id])}`)}</li>`)).join('');
 
-export function mapa({ estado }) {
+export function escada({ estado }) {
   const atual = DEGRAUS.find((d) => !estado.degraus[d.n]?.concluido)?.n ?? DEGRAUS[DEGRAUS.length - 1].n;
-  return `<header class="cab"><h1>Mapa da formação</h1>
+  return `<header class="cab"><h1>Escada da formação</h1>
     <p class="sub">A escada vai da teologia católica elementar à síntese filosófica. Você pode consultar todos os degraus e leituras desde já; apenas a <em>conclusão</em> de um degrau depende dos pré-requisitos.</p>
     <p class="meta">Uma só trilha, completa: cada degrau exige todas as leituras, aulas, aprofundamentos e competências, com nota mínima de ${notaMinima()}%.</p></header>
+  ${abasMapa('escada')}
   <ol class="escada" reversed>${DEGRAUS.slice().reverse().map((d) => {
     const pct = progressoDegrau(d, MODULOS, disponiveis, estado);
     const conc = degrauConcluivel(d, MODULOS, disponiveis, estado, livroPorId);
@@ -37,7 +39,7 @@ export function mapa({ estado }) {
           <p><strong>Objetivo:</strong> ${esc(d.objetivo)}</p>
           ${d.nota ? `<p class="aviso">${esc(d.nota)}</p>` : ''}
           <p><strong>Módulos:</strong> ${d.modulos.map((m) => link(`mod-${m}`, `${moduloPorId[m].n}. ${esc(moduloPorId[m].titulo)}`)).join(' · ')}</p>
-          <p><strong>Pré-requisitos:</strong> ${d.prereq.length ? d.prereq.map((p) => `<a href="#mapa" data-degrau="${p}">degrau ${p}</a>`).join(', ') : 'nenhum'}</p>
+          <p><strong>Pré-requisitos:</strong> ${d.prereq.length ? d.prereq.map((p) => `<a href="#escada" data-degrau="${p}">degrau ${p}</a>`).join(', ') : 'nenhum'}</p>
           <div class="grade-2">
             <div><h3>Sequência de estudo</h3><p class="meta">Primeiro os livros; uma aula vem antes só quando introduz a obra seguinte.</p><ol class="leituras">${listaSequencia(d, estado)}</ol>
               ${d.retomar ? `<h3>Retomar</h3><ul class="leituras">${listaLivros(d.retomar, estado)}</ul>` : ''}
@@ -57,7 +59,7 @@ export function mapa({ estado }) {
   }).join('')}</ol>`;
 }
 
-mapa.ligar = (root, ctx) => {
+escada.ligar = (root, ctx) => {
   abertos = null;
   root.addEventListener('change', (ev) => {
     const cb = ev.target.closest('[data-comp]');

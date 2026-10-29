@@ -2,33 +2,41 @@
 <html lang="pt-BR">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#fbf8f2" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#201d1a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#551222">
 <title>Academia da Verdade</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: coluna editorial central (~72ch) com barra de navegação fixa no topo; páginas de UI usam grades que viram uma coluna no celular. */
+/* Identidade gótica católica. Claro: página de pergaminho e marfim; escuro: nave em carvão. Bordô identifica,
+   dourado envelhecido orna (nunca texto pequeno: para isso há --ouro-texto), azul profundo serve aos diagramas,
+   cinza-pedra divide. Layout: coluna editorial (~72ch); grades viram uma coluna no celular. */
 :root {
-  --papel: #f5f0e6; --papel-2: #ece5d6; --superficie: #fbf8f2;
-  --tinta: #2a2622; --tinta-2: #5d564d; --linha: #d6ccb9;
-  --vinho: #6d1f2c; --vinho-suave: #f0dfe0; --azul: #1f3a5f; --azul-suave: #dde5ef; --ouro: #9a7a2b;
+  --papel: #f2e9d6; --papel-2: #e7dbc0; --superficie: #fbf6ea;
+  --tinta: #1f1a17; --tinta-2: #544a41; --linha: #c9bc9e; --pedra: #8a8378;
+  --vinho: #6b1426; --vinho-suave: #f1dfdf; --bordo: #3b0c18; --bordo-2: #551222;
+  --azul: #1b3459; --azul-suave: #dce3ee; --ouro: #a07b2c; --ouro-texto: #7a5a18; --ouro-claro: #d8b86a;
   --ok: #2f6b3f; --ok-suave: #dcebdc; --alerta: #8a5a00; --alerta-suave: #f6ead0; --erro: #9b2c2c; --erro-suave: #f6dcdc;
+  --sombra: 0 1px 0 rgb(60 40 20 / .06), 0 6px 18px -10px rgb(60 30 10 / .35);
+  --f-capital: "Cinzel", "Trajan Pro", "Cormorant Garamond", serif;
   --f-titulo: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
   --f-texto: "Source Serif 4", Georgia, "Times New Roman", serif;
   --f-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --raio: 6px;
+  --raio: 4px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --papel: #1a1816; --papel-2: #24211d; --superficie: #201d1a; --tinta: #ece5d8; --tinta-2: #b3a99a; --linha: #3d3730;
-  --vinho: #e08d99; --vinho-suave: #3a2225; --azul: #9bb8e0; --azul-suave: #1f2a3a; --ouro: #d4b467;
-  --ok: #8fcf9c; --ok-suave: #1d2e22; --alerta: #e8c06a; --alerta-suave: #33291a; --erro: #f09a9a; --erro-suave: #3a1f1f; color-scheme: dark; } }
+  --papel: #121011; --papel-2: #1d1819; --superficie: #191415; --tinta: #ece3d0; --tinta-2: #b9ac96; --linha: #3b3331; --pedra: #7d756c;
+  --vinho: #e3a0ab; --vinho-suave: #3a1c22; --bordo: #240710; --bordo-2: #3b0c18;
+  --azul: #a3bde3; --azul-suave: #1b2638; --ouro: #c9a55a; --ouro-texto: #d6b46a; --ouro-claro: #e2c47e;
+  --ok: #8fcf9c; --ok-suave: #1d2e22; --alerta: #e8c06a; --alerta-suave: #33291a; --erro: #f09a9a; --erro-suave: #3a1f1f;
+  --sombra: 0 1px 0 rgb(0 0 0 / .4), 0 10px 24px -12px rgb(0 0 0 / .8); color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --papel: #1a1816; --papel-2: #24211d; --superficie: #201d1a; --tinta: #ece5d8; --tinta-2: #b3a99a; --linha: #3d3730;
-  --vinho: #e08d99; --vinho-suave: #3a2225; --azul: #9bb8e0; --azul-suave: #1f2a3a; --ouro: #d4b467;
-  --ok: #8fcf9c; --ok-suave: #1d2e22; --alerta: #e8c06a; --alerta-suave: #33291a; --erro: #f09a9a; --erro-suave: #3a1f1f; color-scheme: dark; }
+  --papel: #121011; --papel-2: #1d1819; --superficie: #191415; --tinta: #ece3d0; --tinta-2: #b9ac96; --linha: #3b3331; --pedra: #7d756c;
+  --vinho: #e3a0ab; --vinho-suave: #3a1c22; --bordo: #240710; --bordo-2: #3b0c18;
+  --azul: #a3bde3; --azul-suave: #1b2638; --ouro: #c9a55a; --ouro-texto: #d6b46a; --ouro-claro: #e2c47e;
+  --ok: #8fcf9c; --ok-suave: #1d2e22; --alerta: #e8c06a; --alerta-suave: #33291a; --erro: #f09a9a; --erro-suave: #3a1f1f;
+  --sombra: 0 1px 0 rgb(0 0 0 / .4), 0 10px 24px -12px rgb(0 0 0 / .8); color-scheme: dark; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -352,13 +360,191 @@ tr.sel td { background: var(--papel-2); }
 #toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); background: var(--tinta); color: var(--papel); font: .92rem var(--f-ui); padding: 10px 16px; border-radius: var(--raio); z-index: 20; max-width: calc(100vw - 32px); }
 .aviso-escopo { font: .8rem/1.5 var(--f-ui); color: var(--tinta-2); max-width: 1120px; margin: 0 auto; padding-block: 0 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+
+/* ==========================================================================================
+   Sistema visual gótico católico — aplicado a todas as telas pelos componentes compartilhados.
+   Ornamentos com função: a arcada marca o início de cada página; a moldura dupla separa unidades
+   de estudo; a capitular abre a explicação das aulas; o fio dourado hierarquiza. Nada disso reduz
+   o corpo do texto (17px), a entrelinha (1.6) ou o contraste.
+   ========================================================================================== */
+body {
+  background-color: var(--papel);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .24 0 0 0 0 .1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 50% 0%, transparent 55%, rgb(90 60 20 / .09) 100%);
+  background-attachment: fixed;
+}
+::selection { background: color-mix(in srgb, var(--ouro) 35%, transparent); }
+
+/* Topo: faixa bordô como a de um códice, com fio dourado duplo */
+.topo { background: linear-gradient(180deg, var(--bordo-2), var(--bordo)); border-bottom: 1px solid var(--ouro); box-shadow: 0 2px 0 -1px var(--bordo), 0 3px 0 -1px var(--ouro); }
+body::before { background: var(--bordo-2); }
+.marca { display: flex; align-items: center; gap: 10px; color: #f3e6c8; font: 600 1.18rem/1.05 var(--f-capital); letter-spacing: .08em; text-transform: uppercase; }
+.marca:hover { color: #fff3d6; }
+.marca small { font: italic 500 .9rem/1 var(--f-titulo); letter-spacing: .04em; text-transform: none; color: var(--ouro-claro); margin-top: 3px; }
+.marca .rosacea { color: var(--ouro-claro); flex: none; }
+.nav a { font: 500 .74rem/1.2 var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: rgb(243 230 200 / .82); border-radius: 0; border-bottom: 2px solid transparent; padding: 8px 9px 6px; }
+.nav a:hover { background: rgb(255 255 255 / .06); color: #fff3d6; }
+.nav a[aria-current="page"] { color: var(--ouro-claro); background: transparent; border-bottom-color: var(--ouro-claro); }
+.topo .btn { background: transparent; color: #f3e6c8; border-color: rgb(216 184 106 / .55); }
+.topo .btn:hover { color: var(--ouro-claro); border-color: var(--ouro-claro); }
+.status { font-style: italic; }
+
+/* Cabeçalho de página: arcada ogival sobre o título e florão sob ele */
+.cab { position: relative; padding-top: 30px; }
+.cab::before { content: ""; position: absolute; inset: 0 0 auto; height: 22px; opacity: .55; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='22' viewBox='0 0 64 22' fill='none' stroke='%23a07b2c' stroke-width='1.2'%3E%3Cpath d='M2 22V12C2 7 18 2 32 .8 46 2 62 7 62 12v10'/%3E%3Cpath d='M8 22v-8c0-4 12-8 24-9 12 1 24 5 24 9v8'/%3E%3Cpath d='M32 4v18'/%3E%3C/svg%3E") repeat-x left top / 64px 22px; }
+.cab h1 { font-family: var(--f-titulo); font-weight: 600; letter-spacing: .005em; }
+.cab h1::after { content: ""; display: block; width: 170px; height: 12px; margin-top: .3em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='12' viewBox='0 0 170 12' fill='none' stroke='%23a07b2c'%3E%3Cpath d='M0 6h70M100 6h70'/%3E%3Cpath d='M85 1l5 5-5 5-5-5z' fill='%23a07b2c'/%3E%3Ccircle cx='74' cy='6' r='1.6' fill='%23a07b2c'/%3E%3Ccircle cx='96' cy='6' r='1.6' fill='%23a07b2c'/%3E%3C/svg%3E") no-repeat left center; }
+.num, .ind-rot, .gb-rot { font-family: var(--f-capital); letter-spacing: .12em; color: var(--ouro-texto); }
+h2 { color: var(--tinta); }
+h2::before { content: ""; display: inline-block; width: .42em; height: .42em; margin: 0 .45em .12em 0; background: var(--ouro); transform: rotate(45deg); vertical-align: middle; }
+.cartao-mod h2::before, .gen-detalhe h2::before, .cartao-revisao h2::before { display: none; }
+h3 { color: var(--vinho); }
+.sub { font-family: var(--f-titulo); font-size: 1.22rem; line-height: 1.45; font-style: italic; }
+
+/* Moldura dupla de manuscrito: unidades de estudo (cartões, indicadores, blocos da aula) */
+.cartao-mod a, .cartao-livro a, .lista-notas a, .lista-aval a, .grade-conceitos a, .ind, .agenda > li, .boas-vindas,
+.transicao, .comprovar, .fonte, .argumento, .item, .cartao-revisao, .avancado-sec, .degrau, .painel-revisao, .gen-wrap, .leitor-fim {
+  border: 1px solid var(--linha); border-radius: var(--raio); background: var(--superficie);
+  box-shadow: var(--sombra), inset 0 0 0 3px var(--superficie), inset 0 0 0 4px color-mix(in srgb, var(--ouro) 28%, transparent);
+}
+.cartao-mod a, .cartao-livro a, .ind, .boas-vindas { position: relative; overflow: hidden; }
+/* arco ogival no alto dos cartões, como o tímpano de um portal */
+.cartao-mod a::before, .cartao-livro a::before, .ind::before, .boas-vindas::before { content: ""; position: absolute; left: 10%; right: 10%; top: 0; height: 14px; pointer-events: none; opacity: .7;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none' fill='none' stroke='%23a07b2c' stroke-width='1.2'%3E%3Cpath d='M0 14C40 12 80 6 100 .8 120 6 160 12 200 14'/%3E%3C/svg%3E") no-repeat center top / 100% 100%; }
+.cartao-mod a:hover, .cartao-livro a:hover, .lista-notas a:hover, .lista-aval a:hover, .grade-conceitos a:hover {
+  border-color: var(--ouro); box-shadow: var(--sombra), inset 0 0 0 3px var(--superficie), inset 0 0 0 4px var(--ouro); }
+.cartao-mod a, .cartao-livro a { padding-top: 22px; }
+.ind { padding-top: 20px; }
+.ind-val { color: var(--vinho); }
+.boas-vindas { border-color: var(--ouro); }
+.degrau { border-left: 3px solid var(--pedra); }
+.degrau.atual { border-left-color: var(--vinho); }
+.degrau.concluido { border-left-color: var(--ok); }
+.dn { font-family: var(--f-capital); color: var(--ouro-texto); }
+
+/* Capitular iluminada na abertura da explicação de cada aula */
+.aula #s2 > p:first-of-type::first-letter, .capitular::first-letter {
+  float: left; font: 600 3.5em/0.82 var(--f-titulo); color: var(--vinho); margin: .08em .12em 0 0; padding: .1em .14em .04em;
+  background: color-mix(in srgb, var(--vinho) 9%, transparent); border: 1px solid color-mix(in srgb, var(--ouro) 55%, transparent); }
+.texto { font-size: 1.04rem; }
+.aula .texto p, .aula .texto li { line-height: 1.68; }
+
+/* Botões, etiquetas e formulários */
+.btn { font: 600 .74rem/1.2 var(--f-capital); letter-spacing: .1em; text-transform: uppercase; padding: 10px 15px; border-radius: 2px; border-color: color-mix(in srgb, var(--pedra) 70%, transparent); background: var(--superficie); }
+.btn:hover { border-color: var(--ouro); color: var(--vinho); }
+.btn.primario { background: linear-gradient(180deg, var(--bordo-2), var(--bordo)); border-color: var(--bordo); color: #f6ead0; box-shadow: inset 0 0 0 1px rgb(216 184 106 / .45); }
+.btn.primario:hover { color: #fff3d6; filter: none; box-shadow: inset 0 0 0 1px var(--ouro-claro); }
+.btn.pequeno { padding: 6px 9px; font-size: .66rem; }
+.btn.perigo { background: transparent; }
+.chip { font-family: var(--f-ui); letter-spacing: .02em; border-radius: 2px; }
+input, select, textarea { border-color: var(--linha); border-radius: 2px; background: var(--superficie); }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--ouro); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ouro) 22%, transparent); }
+.campo > span { font-family: var(--f-capital); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); }
+fieldset legend, .dias legend { font-family: var(--f-capital); letter-spacing: .08em; }
+th { font: 600 .7rem/1.4 var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--ouro-texto); border-bottom: 1px solid var(--ouro); }
+.barra { height: 5px; background: color-mix(in srgb, var(--pedra) 25%, transparent); border-radius: 0; }
+.barra span { background: linear-gradient(90deg, var(--bordo-2), var(--vinho)); }
+.aviso { border-left-color: var(--ouro); }
+.sumario { background: var(--superficie); border: 1px solid var(--linha); }
+details > summary { cursor: pointer; }
+.migalha { font-family: var(--f-capital); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+#toast { background: var(--bordo); color: #f6ead0; border: 1px solid var(--ouro); font-family: var(--f-ui); }
+
+/* Rodapé: rosácea e advertência de escopo */
+.aviso-escopo { text-align: center; border-top: 1px solid var(--linha); padding-top: 22px; margin-top: 24px; }
+.aviso-escopo::before { content: ""; display: block; width: 34px; height: 34px; margin: 0 auto 10px; opacity: .6;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23a07b2c' stroke-width='2.5'%3E%3Ccircle cx='50' cy='50' r='46'/%3E%3Ccircle cx='50' cy='50' r='12'/%3E%3Cg%3E%3Ccircle cx='50' cy='24' r='12'/%3E%3Ccircle cx='76' cy='50' r='12'/%3E%3Ccircle cx='50' cy='76' r='12'/%3E%3Ccircle cx='24' cy='50' r='12'/%3E%3Ccircle cx='68' cy='32' r='12'/%3E%3Ccircle cx='68' cy='68' r='12'/%3E%3Ccircle cx='32' cy='68' r='12'/%3E%3Ccircle cx='32' cy='32' r='12'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; }
+
+/* Ilustração do painel (fachada de catedral, em ornamentos.js) */
+.painel-cab { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 24px; align-items: end; }
+.painel-cab .fachada { width: 210px; height: auto; color: var(--ouro); opacity: .75; }
+@media (max-width: 640px) { .painel-cab { grid-template-columns: minmax(0, 1fr); } .painel-cab .fachada { width: 150px; justify-self: center; order: -1; } }
+
+/* Seletor de tema no topo */
+#tema { margin-left: 4px; }
+@media (max-width: 560px) { .marca { font-size: 1rem; } .marca .rosacea { width: 26px; height: 26px; } .nav a { padding: 8px 7px 6px; } }
+#emblema { display: inline-flex; color: var(--ouro-claro); margin-right: 8px; vertical-align: middle; }
+
+/* ---------- Mapa do conhecimento (árvore) e abas árvore/escada ---------- */
+:root { --g-teologia: var(--vinho); --g-filosofia: var(--ouro-texto); --g-humanas: var(--azul); --g-formais: #2f6152; --g-artes: #5b3a70; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --g-formais: #8fc4ae; --g-artes: #c6a8da; } }
+:root[data-theme="dark"] { --g-formais: #8fc4ae; --g-artes: #c6a8da; }
+.abas-mapa { display: flex; gap: 0; margin: 0 0 14px; border-bottom: 1px solid var(--linha); }
+.abas-mapa a { font: 600 .78rem/1 var(--f-capital); letter-spacing: .1em; text-transform: uppercase; padding: 10px 14px; color: var(--tinta-2); text-decoration: none; border: 1px solid transparent; border-bottom: 0; border-radius: 10px 10px 0 0; margin-bottom: -1px; }
+.abas-mapa a[aria-current="page"] { color: var(--vinho); background: var(--superficie); border-color: var(--linha); box-shadow: inset 0 2px 0 var(--ouro); }
+.nota-arvore { border-left: 2px solid var(--ouro); padding-left: 10px; }
+.arvore-ferr { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
+.arvore-ferr .campo { flex: 1 1 260px; }
+.grupo-btn { display: flex; flex-wrap: wrap; gap: 6px; }
+.grupo-btn [aria-pressed="true"] { background: var(--vinho); color: var(--superficie); border-color: var(--vinho); }
+.filtro-grupos, .legenda-arvore { border: 1px solid var(--linha); border-radius: var(--raio); padding: 8px 12px 10px; margin: 10px 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font: .82rem var(--f-ui); color: var(--tinta-2); background: var(--superficie); }
+.filtro-grupos legend, .legenda-arvore legend { font: 600 .7rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; padding: 0 6px; color: var(--tinta-2); }
+.chip-filtro { display: inline-flex; align-items: center; gap: 6px; border-left: 4px solid var(--g); padding: 2px 8px; }
+.leg { display: inline-flex; align-items: center; gap: 6px; }
+.amostra-preparo { width: 30px; height: 14px; border: 1.5px dashed var(--pedra); border-radius: 6px 6px 0 0; }
+.g-teologia { --g: var(--g-teologia); } .g-filosofia { --g: var(--g-filosofia); } .g-humanas { --g: var(--g-humanas); } .g-formais { --g: var(--g-formais); } .g-artes { --g: var(--g-artes); }
+.arvore-corpo { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 14px; align-items: start; }
+.arvore-tela { position: relative; border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); overflow: hidden; height: min(72vh, 680px);
+  background: radial-gradient(ellipse at 18% 40%, color-mix(in srgb, var(--ouro) 10%, transparent), transparent 60%), var(--superficie);
+  box-shadow: inset 0 0 0 4px var(--superficie), inset 0 0 0 5px color-mix(in srgb, var(--ouro) 45%, transparent); }
+#arvore-svg { width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; user-select: none; }
+#arvore-svg.arrastando { cursor: grabbing; }
+.arvore-painel { border: 1px solid var(--linha); border-radius: 14px 14px var(--raio) var(--raio); background: var(--superficie); padding: 14px 16px; max-height: min(72vh, 680px); overflow: auto; font-size: .95rem; }
+.arvore-painel h2 { font-size: 1.45rem; margin-top: 2px; }
+.arvore-painel h3 { font: 600 .72rem var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-2); margin: 14px 0 4px; }
+.arvore-painel .feito > a::after, .arvore-lista .feito > a::after { content: " ✓"; color: var(--ok); }
+.link-no { background: none; border: 0; padding: 0; font: inherit; color: var(--azul); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left; }
+.link-no:focus-visible { outline: 2px solid var(--ouro); outline-offset: 2px; }
+.arvore-lista { margin: 10px 0; } .arvore-lista ul { margin: 4px 0; padding-left: 1.2em; }
+.chip.rel-prerequisito { border-left: 3px solid var(--vinho); } .chip.rel-historica { border-left: 3px solid var(--ouro); }
+.chip.rel-conceitual { border-left: 3px solid var(--azul); } .chip.rel-interdisciplinar { border-left: 3px solid var(--g-formais); }
+/* Ligações: cada tipo tem cor e traço próprios (não depende só da cor). */
+.lig { fill: none; stroke-width: 1.6; }
+.lig-hierarquia { stroke: var(--pedra); stroke-width: 1.8; opacity: .8; }
+.lig-prerequisito { stroke: var(--vinho); stroke-dasharray: 7 4; }
+.lig-historica { stroke: var(--ouro); stroke-dasharray: 1.5 4; stroke-linecap: round; stroke-width: 2.2; }
+.lig-conceitual { stroke: var(--azul); stroke-dasharray: 10 4 2 4; }
+.lig-interdisciplinar { stroke: var(--g-formais); stroke-dasharray: 14 6; }
+.lig.destaque { stroke: var(--vinho); stroke-width: 3.2; stroke-dasharray: none; opacity: 1; }
+.lig title { pointer-events: none; }
+#cena .lig:not(.lig-hierarquia) { opacity: .75; } #cena .lig:hover { opacity: 1; stroke-width: 3; }
+.seta path { fill: var(--vinho); }
+/* Nós: arco de topo arredondado, friso interno (moldura de manuscrito) e faixa da área. */
+.no { cursor: pointer; outline: none; }
+.no-fundo { fill: var(--superficie); stroke: var(--g); stroke-width: 1.4; }
+.no-friso { fill: none; stroke: color-mix(in srgb, var(--g) 35%, transparent); stroke-width: .8; }
+.no-faixa { fill: var(--g); }
+.no-nome { font: 600 13px var(--f-texto); fill: var(--tinta); }
+.no-pct { font: 10px var(--f-ui); fill: var(--tinta-2); }
+.no-trilho { fill: var(--papel-2); } .no-prog { fill: var(--g); }
+.no-rosa { color: var(--ouro); }
+.no-botao circle { fill: var(--g); stroke: var(--superficie); stroke-width: 2; } .no-botao text { font: 700 11px var(--f-ui); fill: var(--superficie); }
+.no.raiz .no-fundo { fill: var(--bordo-2); stroke: var(--ouro); stroke-width: 2; } .no.raiz .no-nome { fill: #f3e7c9; font: 700 13px var(--f-capital); letter-spacing: .04em; }
+.no.raiz .no-friso { stroke: var(--ouro-claro); } .no.raiz .no-rosa { color: var(--ouro-claro); } .no.raiz .no-pct { fill: #e9dcc0; } .no.raiz .no-trilho { fill: rgb(255 255 255 / .2); } .no.raiz .no-prog { fill: var(--ouro-claro); }
+.no.preparo .no-fundo { stroke-dasharray: 5 3; fill: color-mix(in srgb, var(--superficie) 70%, var(--papel-2)); }
+.no.preparo .no-nome { fill: var(--tinta-2); font-style: italic; }
+.no:hover .no-fundo { stroke-width: 2.4; }
+.no.sel .no-fundo, .no:focus-visible .no-fundo { stroke: var(--ouro); stroke-width: 3; filter: drop-shadow(0 0 4px color-mix(in srgb, var(--ouro) 60%, transparent)); }
+.no:focus-visible .no-friso { stroke: var(--ouro); stroke-width: 1.4; }
+.no.trilha .no-fundo { stroke: var(--vinho); stroke-width: 3; }
+.no.apagado { opacity: .22; }
+@media (max-width: 860px) {
+  .arvore-corpo { grid-template-columns: minmax(0, 1fr); }
+  .arvore-tela { height: 62vh; }
+  .arvore-painel { max-height: none; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
 
 <header class="topo">
   <div class="topo-int">
-    <a class="marca" href="#painel">Academia da Verdade<small>Teologia e Filosofia</small></a>
+    <a class="marca" href="#painel"><span id="emblema" aria-hidden="true"></span><span>Academia da Verdade<small>Teologia, Filosofia e Ciências</small></span></a>
     <nav class="nav" aria-label="Principal"><ul></ul></nav>
     <button class="btn pequeno" id="crono-livre" type="button">Cronômetro</button>
+    <button class="btn pequeno" id="tema" type="button" title="Alternar entre tema automático, claro e escuro">Tema: automático</button>
   </div>
 </header>
 <div class="cronometro" id="cronometro" hidden><div><span>Estudando:</span><span class="crono-tempo">00:00:00</span>

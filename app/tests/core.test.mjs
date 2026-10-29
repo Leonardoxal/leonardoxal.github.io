@@ -14,6 +14,7 @@ import { POSICOES, ESPECTRO, espectroDe, quadrante } from '../data/espectro.js';
 import { TRILHA, fichaDe, posicaoNaTrilha } from '../data/fichas.js';
 import { PREREQUISITOS } from '../data/prerequisitos.js';
 import { QUESTIONARIOS } from '../data/questionarios.js';
+import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 
@@ -374,4 +375,37 @@ test('integridade: genealogia das ideias', () => {
     }
   }
   for (let i = 1; i < EVENTOS.length; i++) assert.ok(EVENTOS[i - 1].ano <= EVENTOS[i].ano, 'eventos em ordem');
+});
+
+test('integridade: árvore do conhecimento', () => {
+  assert.equal(Object.keys(noPorId).length, NOS.length, 'ids únicos');
+  const raizes = NOS.filter((n) => !n.pai);
+  assert.deepEqual(raizes.map((n) => n.id), ['teologia'], 'uma só raiz: Teologia Católica');
+  assert.equal(noPorId.filosofia.pai, 'teologia');
+  const areas = new Set(LIVROS.map((l) => l.area));
+  const aulas = new Set(todasAulas.map((a) => a.id));
+  const modulos = new Set(MODULOS.map((m) => m.id));
+  const degraus = new Set(DEGRAUS.map((d) => d.n));
+  for (const n of NOS) {
+    assert.ok(GRUPOS_ARVORE[n.grupo], `${n.id}: grupo`);
+    assert.ok(n.nome && n.desc, `${n.id}: nome e descrição`);
+    if (n.pai) assert.ok(noPorId[n.pai], `${n.id}: pai ${n.pai}`);
+    // Sem ciclos: subir pelos pais termina na raiz.
+    const vistos = new Set();
+    for (let p = n; p; p = noPorId[p.pai]) { assert.ok(!vistos.has(p.id), `${n.id}: ciclo`); vistos.add(p.id); }
+    n.livros.forEach((x) => assert.ok(livroPorId[x], `${n.id}: livro ${x}`));
+    n.areas.forEach((x) => assert.ok(areas.has(x), `${n.id}: área ${x}`));
+    n.autores.forEach((x) => assert.ok(ORDEM_AUTOR[x], `${n.id}: autor ${x}`));
+    n.aulas.forEach((x) => assert.ok(aulas.has(x), `${n.id}: aula ${x}`));
+    n.modulos.forEach((x) => assert.ok(modulos.has(x), `${n.id}: módulo ${x}`));
+    n.degraus.forEach((x) => assert.ok(degraus.has(x), `${n.id}: degrau ${x}`));
+  }
+  for (const r of RELACOES) {
+    assert.ok(noPorId[r.de] && noPorId[r.para] && r.de !== r.para, `relação ${r.de}→${r.para}`);
+    assert.ok(TIPOS_RELACAO[r.tipo] && r.tipo !== 'hierarquia', `relação ${r.de}→${r.para}: tipo`);
+    assert.ok(r.porque?.length > 20, `relação ${r.de}→${r.para}: justificativa`);
+  }
+  // A trilha da árvore percorre os 14 degraus na ordem da escada.
+  assert.equal(TRILHA_ARVORE.length, DEGRAUS.length);
+  TRILHA_ARVORE.forEach((id, i) => assert.ok(noPorId[id].degraus.includes(i), `trilha: ${id} é o degrau ${i}`));
 });
