@@ -210,6 +210,11 @@ export const MODULOS = [
     objetivos: ['Resolver problemas de custo e de estrutura de mercado', 'Explicar o crescimento de longo prazo pela produtividade', 'Ler o balanço de pagamentos e os efeitos do câmbio', 'Interpretar a história econômica brasileira com dados e autores'],
     aulas: A(['Microeconomia: custos, firmas, estruturas de mercado e teoria dos jogos', 'Macroeconomia: moeda, bancos, ciclos e crescimento econômico', 'Economia internacional: comércio, câmbio e balanço de pagamentos', 'Formação econômica do Brasil: dos ciclos coloniais ao Plano Real', 'Avaliação do módulo']),
     criterios: ['Aulas concluídas com 80% nos questionários', 'Cálculos e leitura de dados resolvidos', 'Prova do módulo (80%)'] },
+  { id: 'e5', n: 'E5', titulo: 'Economia V: economia brasileira recente, aplicações, debate público e pesquisa', semanas: '11–14', degrau: null, disciplina: 'economia', prereq: ['e4'],
+    descricao: 'A economia brasileira do Plano Real às reformas recentes, finanças pessoais e avaliação de políticas, a verificação de números no debate público e o projeto de pesquisa econômica. Termina com a avaliação integradora de todo o percurso e o trabalho final. Corresponde às etapas 9 a 11 do percurso de Economia.',
+    objetivos: ['Avaliar a política econômica brasileira recente com dados', 'Aplicar a economia a decisões pessoais e à avaliação de políticas', 'Verificar números econômicos na fonte primária', 'Formular e executar um projeto de pesquisa econômica', 'Demonstrar domínio integrado do percurso de Economia'],
+    aulas: A(['A economia brasileira contemporânea: do Plano Real às reformas recentes', 'Economia aplicada: finanças pessoais e avaliação de políticas públicas', 'Economia no debate público: verificar números, gráficos e promessas', 'Projeto de pesquisa econômica: pergunta, dados, método e redação', 'Avaliação integradora de Economia']),
+    criterios: ['Aulas concluídas com 80% nos questionários', 'Avaliação integradora (80%) com questões de E1 a E5', 'Trabalho final de pesquisa segundo a rubrica'] },
 ].map((m) => ({ ...m, aulas: m.aulas.map((a) => ({ ...a, id: a.id || `${m.id}-${a.n}` })) }));
 
 export const moduloPorId = Object.fromEntries(MODULOS.map((m) => [m.id, m]));
