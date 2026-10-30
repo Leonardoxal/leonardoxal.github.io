@@ -97,7 +97,7 @@ export const NOS = [
   N('naturais', 'Ciências Naturais', 'filosofia', 'naturais', 'Física, química, biologia, astronomia e ciências da Terra: conhecimento por observação, experimento e medida. A filosofia da natureza não substitui seus métodos.', {}),
   P('fisica', 'Física', 'naturais', 'naturais', 'Mecânica, termodinâmica, eletromagnetismo e física moderna, com método experimental.', { livros: ['descartes-ensaios', 'aristoteles-ceu', 'kant-historia-ceu', 'kant-principios-metafisicos'] }),
   P('quimica', 'Química', 'naturais', 'naturais', 'Estrutura da matéria, ligações e reações.', {}),
-  P('biologia', 'Biologia', 'naturais', 'naturais', 'Células, genética, evolução, fisiologia e ecologia.', { modulos: ['bi1', 'bi2', 'bi3'], livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
+  P('biologia', 'Biologia', 'naturais', 'naturais', 'Células, genética, evolução, fisiologia e ecologia.', { modulos: ['bi1', 'bi2', 'bi3', 'bi4'], livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
   N('astronomia', 'Astronomia', 'naturais', 'naturais', 'O sistema solar e o universo.', { modulos: ['as1', 'as2', 'as3', 'as4', 'as5'], livros: ['aristoteles-ceu'] }),
   P('ciencias-terra', 'Ciências da Terra', 'naturais', 'naturais', 'Geologia, clima e processos terrestres.', { livros: ['aristoteles-meteorologicos'] }),
   P('ciencias-ambientais', 'Ciências ambientais', 'naturais', 'naturais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', {}),
