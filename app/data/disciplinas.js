@@ -505,6 +505,50 @@ export const DISCIPLINAS = [
       B('Supremo Tribunal Federal', 'Pesquisa de jurisprudência', '—', 'dados', 'metodos', { brasil: true, url: 'https://portal.stf.jus.br' }),
     ],
   },
+  {
+    id: 'educacao', no: 'educacao', nome: 'Educação', aulasPublicadas: false,
+    aulas: { fundamentos: ['ed1-1'], vocabulario: ['ed1-2'], metodos: ['ed1-3', 'ed1-4', 'ed1-5'] },
+    metodo: 'Estudo da educação como formação da pessoa inteira — inteligência, vontade, caráter e fé —, unindo três olhares: a filosofia da educação (qual é o fim de educar), a história das instituições e das ideias pedagógicas, e a pesquisa empírica sobre aprendizagem e escolas. Distingue o que os dados mostram, o que cada teoria propõe e o que a doutrina da Igreja ensina sobre o direito dos pais e o fim da educação.',
+    prereq: ['intro-filosofia', 'etica', 'psicologia'],
+    etapas: [
+      E('fundamentos', 'Entender o que é educar.', ['Educação, instrução e formação', 'O fim da educação: verdade, virtude e liberdade', 'A família como primeira educadora; a escola e o Estado como subsidiários'], 'Redigir uma definição de educação e confrontá-la com três definições de autores diferentes.', 'Definição precisa e comparação fiel aos autores.', 'A Constituição de 1988 afirma que a educação é direito de todos e dever do Estado e da família (art. 205).'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Ensino, aprendizagem, didática e pedagogia', 'Currículo, avaliação e competência', 'Níveis e etapas da educação brasileira'], 'Glossário de 20 termos educacionais com a definição e, quando houver, o artigo da LDB correspondente.', 'Definições corretas e fontes citadas.', 'A Lei de Diretrizes e Bases da Educação Nacional é a Lei nº 9.394/1996.'),
+      E('metodos', 'Conhecer como se estuda a educação.', ['Filosofia e história da educação', 'Pesquisa empírica: observação, levantamento e experimento', 'Avaliações em larga escala e seus limites', 'Leitura crítica de indicadores'], 'Ler os indicadores de uma escola ou município (IDEB e taxa de aprovação) e explicar o que medem e o que não medem.', 'Leitura correta e limites reconhecidos.', 'O INEP divulga o Censo Escolar, o SAEB e o IDEB.'),
+      E('formacao', 'Conhecer a formação histórica da educação ocidental.', ['A paideia grega e a educação romana', 'Escolas monásticas, catedralícias e universidades medievais', 'Humanismo, Reforma e Ratio Studiorum', 'A escola moderna e a escolarização em massa'], 'Linha do tempo da educação ocidental com uma instituição ou obra por marco, incluindo marcos brasileiros.', 'Cada marco com data, instituição ou obra e ideia central.', 'Os jesuítas fundaram os primeiros colégios do Brasil no século XVI.'),
+      E('autores', 'Ler os grandes autores da educação.', ['Platão, Aristóteles e Quintiliano', 'Agostinho e Tomás: o mestre e o aluno', 'Comenius, Locke e Rousseau', 'Newman, Montessori, Dewey e Maritain'], 'Ficha de leitura de O Mestre, de Santo Agostinho.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes correntes pedagógicas.', ['Educação clássica e liberal', 'Escola Nova e progressivismo', 'Comportamentalismo e tecnicismo', 'Construtivismo e pedagogia crítica'], 'Quadro comparativo: como cada corrente entende o aluno, o professor, o conteúdo e o fim da educação.', 'Atribui corretamente autores e teses.', 'O Manifesto dos Pioneiros da Educação Nova (1932) e Paulo Freire marcaram o debate brasileiro.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Direito dos pais, liberdade de ensino e educação domiciliar', 'Métodos de alfabetização', 'Educação moral e religiosa na escola', 'Telas e tecnologia na aprendizagem'], 'Ensaio: a quem cabe primeiro educar? Responder com a Constituição, a doutrina da Igreja e um autor contrário.', 'Distingue norma jurídica, dado empírico e doutrina.'),
+      E('avancado', 'Aprofundar a ciência e a arte de ensinar.', ['Memória e aprendizagem: recuperação, espaçamento e prática', 'Didática: explicação, exemplo, exercício e correção', 'Avaliação formativa e somativa', 'Políticas educacionais brasileiras: LDB, BNCC e financiamento'], 'Planejar uma sequência de três aulas aplicando princípios da ciência da aprendizagem.', 'Objetivos claros, estratégias justificadas e avaliação coerente.'),
+      E('aplicacoes', 'Usar o conhecimento em situações concretas.', ['Ensinar em casa e na catequese', 'Alfabetização e leitura em família', 'Escolher e avaliar uma escola'], 'Elaborar um plano de estudo semanal para uma criança ou adolescente, com objetivos, rotina e avaliação.', 'Plano realista, justificado e avaliável.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre conceitos, história, autores e correntes', 'Análise de um plano de aula e de um indicador'], 'Prova: analisar um plano de aula e interpretar um indicador educacional.', 'Rubrica: fidelidade às fontes, uso dos conceitos, distinção entre dado, teoria e doutrina.'),
+      E('pesquisa', 'Fazer uma pequena investigação educacional.', ['Pergunta e recorte', 'Coleta de dados públicos ou observação', 'Análise e relatório'], 'Investigação de quatro semanas sobre uma escola ou rede (indicadores públicos, observação autorizada ou revisão de literatura), com relatório.', 'Pergunta clara, dados adequados, conclusão proporcional e ética respeitada.'),
+    ],
+    bibliografia: [
+      B('Platão', 'A República', 'c. 375 a.C.', 'primaria', 'autores', { livro: 'platao-republica' }),
+      B('Platão', 'Mênon', 'c. 385 a.C.', 'primaria', 'fundamentos', { livro: 'platao-menon' }),
+      B('Aristóteles', 'Política, livros VII e VIII', 'século IV a.C.', 'primaria', 'autores', { livro: 'aristoteles-politica' }),
+      B('Quintiliano', 'Instituição oratória', 'c. 95', 'primaria', 'formacao'),
+      B('Santo Agostinho', 'O Mestre', '389', 'primaria', 'autores', { livro: 'agostinho-mestre' }),
+      B('Hugo de São Vítor', 'Didascálicon', 'c. 1127', 'primaria', 'formacao'),
+      B('Santo Tomás de Aquino', 'Questões disputadas sobre a verdade, q. 11 (Sobre o mestre)', 'c. 1256–1259', 'primaria', 'autores', { livro: 'tomas-verdade' }),
+      B('Companhia de Jesus', 'Ratio Studiorum', '1599', 'primaria', 'formacao'),
+      B('João Amós Comênio', 'Didática magna', '1657', 'primaria', 'autores'),
+      B('John Locke', 'Alguns pensamentos sobre a educação', '1693', 'primaria', 'autores', { livro: 'locke-educacao' }),
+      B('Jean-Jacques Rousseau', 'Emílio ou Da educação', '1762', 'primaria', 'autores', { livro: 'rousseau-emilio' }),
+      B('John Henry Newman', 'A ideia de uma universidade', '1852', 'primaria', 'autores'),
+      B('John Dewey', 'Democracia e educação', '1916', 'primaria', 'escolas'),
+      B('Pio XI', 'Divini illius Magistri', '1929', 'doutrina', 'fundamentos'),
+      B('Jacques Maritain', 'Rumos da educação', '1943', 'estudo', 'autores', { livro: 'maritain-educacao' }),
+      B('Dorothy L. Sayers', 'As ferramentas perdidas do aprendizado', '1947', 'estudo', 'escolas'),
+      B('Concílio Vaticano II', 'Gravissimum educationis', '1965', 'doutrina', 'debates'),
+      B('João Paulo II', 'Familiaris consortio', '1981', 'doutrina', 'debates', { livro: 'jp2-familiaris' }),
+      B('Daniel T. Willingham', 'Por que os alunos não gostam da escola?', '2009', 'estudo', 'avancado'),
+      B('Fernando de Azevedo e outros', 'Manifesto dos Pioneiros da Educação Nova', '1932', 'primaria', 'escolas', { brasil: true }),
+      B('Paulo Freire', 'Pedagogia do oprimido', '1970', 'primaria', 'escolas', { brasil: true }),
+      B('Congresso Nacional', 'Lei de Diretrizes e Bases da Educação Nacional (Lei nº 9.394/1996)', '1996', 'primaria', 'vocabulario', { brasil: true }),
+      B('INEP', 'Censo Escolar, SAEB e IDEB', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.gov.br/inep' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -552,4 +596,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
