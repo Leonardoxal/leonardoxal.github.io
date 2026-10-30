@@ -173,8 +173,8 @@ export const DISCIPLINAS = [
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
 const M = (n, titulo, objetivo, conteudos, exercicio, criterio, brasil = null) => ({ ...E(`m${n}`, objetivo, conteudos, exercicio, criterio, brasil), titulo });
 DISCIPLINAS.push({
-  id: 'simbologia', no: 'simbologia', nome: 'Simbologia, Semiótica e Simbolismo', aulasPublicadas: false, trilhaPropria: true,
-  aulas: { m1: ['sb1-1'], m2: ['sb1-2'], m3: ['sb1-3'], m4: ['sb1-4', 'sb1-5'], m5: ['sb2-1'], m6: ['sb2-2'], m7: ['sb2-3'], m8: ['sb2-4', 'sb2-5'] },
+  id: 'simbologia', no: 'simbologia', nome: 'Simbologia, Semiótica e Simbolismo', aulasPublicadas: true, trilhaPropria: true,
+  aulas: { m1: ['sb1-1'], m2: ['sb1-2'], m3: ['sb1-3'], m4: ['sb1-4', 'sb1-5'], m5: ['sb2-1'], m6: ['sb2-2'], m7: ['sb2-3'], m8: ['sb2-4', 'sb2-5'], m9: ['sb3-1'], m10: ['sb3-2'], m11: ['sb3-3'], m12: ['sb3-4', 'sb3-5'] },
   metodo: 'Distinguir semiótica (teoria dos signos e da interpretação), simbologia (símbolos em seus contextos históricos e religiosos), simbolismo (uso expressivo dos símbolos e os movimentos com esse nome), iconografia (identificar o que a imagem mostra) e iconologia (interpretar seu sentido com fontes). Nenhum significado é atribuído sem documento.',
   prereq: ['logica', 'intro-filosofia', 'filo-linguagem'],
   etapas: [

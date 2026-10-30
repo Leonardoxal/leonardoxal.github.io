@@ -103,7 +103,7 @@ export const NOS = [
   P('ciencias-ambientais', 'Ciências ambientais', 'naturais', 'naturais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', {}),
 
   // ---------- Artes e Humanidades ----------
-  P('simbologia', 'Simbologia, Semiótica e Simbolismo', 'filosofia', 'simbolos', 'Signos e significação (semiótica), símbolos em seus contextos (simbologia), seu uso na expressão (simbolismo), e a análise de imagens (iconografia e iconologia). Ver também o Laboratório de Signos e Símbolos.', { modulos: ['sb1', 'sb2'], livros: ['mfs-simbolica', 'agostinho-doutrina-crista'] }),
+  N('simbologia', 'Simbologia, Semiótica e Simbolismo', 'filosofia', 'simbolos', 'Signos e significação (semiótica), símbolos em seus contextos (simbologia), seu uso na expressão (simbolismo), e a análise de imagens (iconografia e iconologia). Ver também o Laboratório de Signos e Símbolos.', { modulos: ['sb1', 'sb2', 'sb3'], livros: ['mfs-simbolica', 'agostinho-doutrina-crista'] }),
   N('artes', 'Artes e Humanidades', 'filosofia', 'artes', 'Linguagem, literatura, artes e cultura, com métodos de análise e interpretação próprios.', {}),
   P('linguistica', 'Linguística', 'artes', 'artes', 'Estrutura e história das línguas.', { livros: ['gilson-linguistica', 'rousseau-linguas'], areas: ['Línguas'] }),
   P('literatura', 'Literatura', 'artes', 'artes', 'Obras literárias, gêneros e crítica.', { areas: ['Literatura'], livros: ['sartre-literatura'] }),
