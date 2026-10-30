@@ -278,7 +278,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'ciencia-politica', no: 'ciencia-politica', nome: 'Ciência Política', aulasPublicadas: false,
-    aulas: { fundamentos: ['cp1-1'], vocabulario: ['cp1-2'], metodos: ['cp1-3', 'cp1-4', 'cp1-5'], formacao: ['cp2-1', 'cp2-2'], autores: ['cp2-3', 'cp2-4', 'cp2-5'], escolas: ['cp3-1', 'cp3-2'], debates: ['cp3-3', 'cp3-4', 'cp3-5'] },
+    aulas: { fundamentos: ['cp1-1'], vocabulario: ['cp1-2'], metodos: ['cp1-3', 'cp1-4', 'cp1-5'], formacao: ['cp2-1', 'cp2-2'], autores: ['cp2-3', 'cp2-4', 'cp2-5'], escolas: ['cp3-1', 'cp3-2'], debates: ['cp3-3', 'cp3-4', 'cp3-5'], avancado: ['cp4-1', 'cp4-2', 'cp4-3', 'cp4-4', 'cp4-5'] },
     metodo: 'Descrição e comparação de Estados, regimes, instituições e comportamento político, com estudos de caso, dados eleitorais e de opinião, e modelos testados por evidência. Distingue o que é (ciência política empírica) do que deve ser (filosofia política e doutrina social da Igreja), e não confunde descrição com avaliação nem dado com preferência partidária.',
     prereq: ['logica', 'filo-politica', 'historia'],
     etapas: [
