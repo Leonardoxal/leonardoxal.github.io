@@ -688,6 +688,29 @@ const bancoEmMemoria = () => {
 async function noAparelho(ls, fn) { globalThis.localStorage = ls; return fn(); }
 const concluir = (id) => (e) => ({ ...e, aulas: { ...e.aulas, [id]: { status: 'concluida' } } });
 
+test('estado vindo de backup ou da conta: ids e números com HTML são descartados', () => {
+  const ataque = '"><img src=x onerror=alert(1)>';
+  const e = C.normalizarEstado({
+    v: C.VERSAO_ESTADO,
+    sessoes: [{ id: ataque, inicio: 1, minutos: 5 }, { id: 's1', inicio: 1, minutos: '<b>', alvo: { tipo: 'aula', id: ataque } }],
+    revisoes: [{ id: 'r1', nivel: ataque, proxima: 0, historico: [] }],
+    notas: [{ id: 'n1', titulo: 'ok', vinculo: { tipo: 'livro', id: ataque } }, { id: ataque }],
+    aulas: { [ataque]: { status: 'concluida' }, 'm1-1': { status: 'concluida' } },
+    tentativas: { 'quiz-m1-1': [{ acertos: ataque, total: 5, pct: 80, data: 1 }] },
+    favoritos: ['livro:x', ataque],
+  });
+  assert.deepEqual(e.sessoes.map((s) => s.id), ['s1']);
+  assert.equal(e.sessoes[0].minutos, 0);
+  assert.equal(e.sessoes[0].alvo, null);
+  assert.equal(e.revisoes[0].nivel, 0);
+  assert.deepEqual(e.notas.map((n) => [n.id, n.vinculo]), [['n1', null]]);
+  assert.deepEqual(Object.keys(e.aulas), ['m1-1']);
+  assert.equal(e.tentativas['quiz-m1-1'][0].acertos, 0);
+  assert.deepEqual(e.favoritos, ['livro:x']);
+  // ids reais do app continuam válidos
+  assert.ok(C.idSeguro('quiz-av-m1-1') && C.idSeguro('livro:tomas-compra-venda') && C.idSeguro('prova-g5-0'));
+});
+
 test('store: backup exportado na versão atual é aceito na importação', async () => {
   const { criarStore } = await import('../store.js');
   globalThis.localStorage = memoria();

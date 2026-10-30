@@ -95,7 +95,32 @@ export function normalizarEstado(salvo, agora = Date.now()) {
   if (!(salvo.v >= 2)) out.degraus = migrarDegraus(out.degraus); // estado salvo na escada de 13 degraus
   if (!(salvo.v >= 3)) out.degraus = migrarParaFaseTeologica(out.degraus);
   out.v = VERSAO_ESTADO;
-  return out;
+  return sanearEstado(out);
+}
+
+// Ids e números do estado entram em atributos e no HTML sem escape (href, data-*, contagens). Como o estado
+// pode vir de um backup importado ou da conta, o que não tiver a forma esperada é descartado aqui, na entrada.
+const ID_SEGURO = /^[\w:.-]{1,160}$/;
+export const idSeguro = (s) => typeof s === 'string' && ID_SEGURO.test(s);
+const num = (n) => (Number.isFinite(Number(n)) ? Number(n) : 0);
+const alvoSeguro = (a) => (a && idSeguro(a.tipo) && idSeguro(a.id) ? { tipo: a.tipo, id: a.id } : null);
+const chavesSeguras = (obj) => Object.fromEntries(Object.entries(obj).filter(([k]) => idSeguro(k)));
+
+function sanearEstado(e) {
+  const itens = (lista) => lista.filter((x) => x && typeof x === 'object' && idSeguro(x.id));
+  return {
+    ...e,
+    editado: num(e.editado),
+    aulas: chavesSeguras(e.aulas), livros: chavesSeguras(e.livros), discursivas: chavesSeguras(e.discursivas),
+    degraus: chavesSeguras(e.degraus), disciplinas: chavesSeguras(e.disciplinas),
+    tentativas: Object.fromEntries(Object.entries(chavesSeguras(e.tentativas)).map(([k, ts]) => [k, (Array.isArray(ts) ? ts : [])
+      .map((t) => ({ ...t, acertos: num(t?.acertos), total: num(t?.total), pct: num(t?.pct), data: num(t?.data) }))])),
+    favoritos: e.favoritos.filter(idSeguro),
+    notas: itens(e.notas).map((n) => (n.vinculo ? { ...n, vinculo: alvoSeguro(n.vinculo) } : n)),
+    sessoes: itens(e.sessoes).map((s) => ({ ...s, minutos: num(s.minutos), inicio: num(s.inicio), ...(s.alvo ? { alvo: alvoSeguro(s.alvo) } : {}) })),
+    revisoes: itens(e.revisoes).map((r) => ({ ...r, nivel: num(r.nivel), proxima: num(r.proxima), historico: Array.isArray(r.historico) ? r.historico : [] })),
+    atual: { aula: idSeguro(e.atual.aula) ? e.atual.aula : null, livro: idSeguro(e.atual.livro) ? e.atual.livro : null },
+  };
 }
 
 export const normalizar = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
