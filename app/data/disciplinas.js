@@ -171,7 +171,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'antropologia', no: 'antropologia', nome: 'Antropologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['an1-1'], vocabulario: ['an1-2'], metodos: ['an1-3', 'an1-4', 'an1-5'] },
+    aulas: { fundamentos: ['an1-1'], vocabulario: ['an1-2'], metodos: ['an1-3', 'an1-4', 'an1-5'], formacao: ['an2-1', 'an2-2'], autores: ['an2-3', 'an2-4', 'an2-5'] },
     metodo: 'Etnografia: convívio prolongado, observação participante, diário de campo e entrevista, para compreender a cultura do ponto de vista de quem a vive, comparando sociedades sem tomar a própria como medida. Distingue a descrição de uma prática do juízo moral sobre ela.',
     prereq: ['logica', 'sociologia'],
     etapas: [
