@@ -320,7 +320,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'ciencias-ambientais', no: 'ciencias-ambientais', nome: 'Ciências Ambientais', aulasPublicadas: false,
-    aulas: { fundamentos: ['ca1-1'], vocabulario: ['ca1-2'], metodos: ['ca1-3', 'ca1-4', 'ca1-5'] },
+    aulas: { fundamentos: ['ca1-1'], vocabulario: ['ca1-2'], metodos: ['ca1-3', 'ca1-4', 'ca1-5'], formacao: ['ca2-1', 'ca2-2'], autores: ['ca2-3', 'ca2-4', 'ca2-5'] },
     metodo: 'Integração de biologia, química, geociências e geografia para estudar o ambiente como sistema: medidas de campo e de laboratório, séries históricas, sensoriamento remoto e modelos. Distingue medição, projeção por modelo e cenário, e separa a descrição científica dos problemas ambientais dos juízos éticos e políticos sobre o que fazer.',
     prereq: ['biologia', 'quimica', 'geografia'],
     etapas: [
