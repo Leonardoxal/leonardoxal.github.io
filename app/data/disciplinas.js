@@ -319,8 +319,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'ciencias-ambientais', no: 'ciencias-ambientais', nome: 'Ciências Ambientais', aulasPublicadas: false,
-    aulas: { fundamentos: ['ca1-1'], vocabulario: ['ca1-2'], metodos: ['ca1-3', 'ca1-4', 'ca1-5'], formacao: ['ca2-1', 'ca2-2'], autores: ['ca2-3', 'ca2-4', 'ca2-5'], escolas: ['ca3-1', 'ca3-2'], debates: ['ca3-3', 'ca3-4', 'ca3-5'], avancado: ['ca4-1', 'ca4-2', 'ca4-3', 'ca4-4', 'ca4-5'] },
+    id: 'ciencias-ambientais', no: 'ciencias-ambientais', nome: 'Ciências Ambientais', aulasPublicadas: true,
+    aulas: { fundamentos: ['ca1-1'], vocabulario: ['ca1-2'], metodos: ['ca1-3', 'ca1-4', 'ca1-5'], formacao: ['ca2-1', 'ca2-2'], autores: ['ca2-3', 'ca2-4', 'ca2-5'], escolas: ['ca3-1', 'ca3-2'], debates: ['ca3-3', 'ca3-4', 'ca3-5'], avancado: ['ca4-1', 'ca4-2', 'ca4-3', 'ca4-4', 'ca4-5'], aplicacoes: ['ca5-1', 'ca5-2', 'ca5-3'], avaliacao: ['ca5-5'], pesquisa: ['ca5-4'] },
     metodo: 'Integração de biologia, química, geociências e geografia para estudar o ambiente como sistema: medidas de campo e de laboratório, séries históricas, sensoriamento remoto e modelos. Distingue medição, projeção por modelo e cenário, e separa a descrição científica dos problemas ambientais dos juízos éticos e políticos sobre o que fazer.',
     prereq: ['biologia', 'quimica', 'geografia'],
     etapas: [
