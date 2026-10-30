@@ -85,7 +85,7 @@ export const NOS = [
   P('direito', 'Direito', 'humanas', 'humanas', 'Direito positivo, constitucionalismo e o sistema jurídico brasileiro, com fontes oficiais atualizadas.', { livros: ['kant-metafisica-costumes', 'hegel-direito'] }),
   N('antropologia', 'Antropologia', 'humanas', 'humanas', 'Cultura, parentesco, religião e método etnográfico.', { modulos: ['an1', 'an2', 'an3', 'an4', 'an5'] }),
   P('psicologia', 'Psicologia', 'humanas', 'humanas', 'Processos mentais, comportamento e desenvolvimento, com método científico.', { livros: ['mfs-psicologia', 'descartes-paixoes', 'sartre-emocoes', 'wittgenstein-psicologia'] }),
-  P('demografia', 'Demografia', 'humanas', 'humanas', 'População, natalidade, mortalidade e migrações.', { modulos: ['dm1'] }),
+  P('demografia', 'Demografia', 'humanas', 'humanas', 'População, natalidade, mortalidade e migrações.', { modulos: ['dm1', 'dm2'] }),
   P('relacoes-internacionais', 'Relações Internacionais', 'humanas', 'humanas', 'Política internacional, geopolítica e a posição do Brasil no mundo.', { livros: ['kant-paz', 'olavo-dugin'] }),
   P('educacao', 'Educação', 'humanas', 'humanas', 'Teorias e história da educação.', { livros: ['rousseau-emilio', 'locke-educacao', 'maritain-educacao', 'agostinho-mestre'] }),
 
