@@ -432,6 +432,39 @@ export const DISCIPLINAS = [
       B('IPHAN', 'Bens tombados e registrados', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/iphan' }),
     ],
   },
+  {
+    id: 'demografia', no: 'demografia', nome: 'Demografia', aulasPublicadas: false,
+    aulas: { fundamentos: ['dm1-1'], vocabulario: ['dm1-2'], metodos: ['dm1-3', 'dm1-4', 'dm1-5'] },
+    metodo: 'Medição da população e de seus componentes — nascimentos, mortes e migrações — com censos, registros civis e pesquisas amostrais, indicadores padronizados, tábuas de vida e projeções. Distingue dado, estimativa, projeção e juízo sobre políticas, e lê os números à luz da dignidade da pessoa e da família.',
+    prereq: ['geografia', 'sociologia', 'estatistica'],
+    etapas: [
+      E('fundamentos', 'Entender o que estuda a demografia.', ['População: tamanho, composição e distribuição', 'Componentes da dinâmica: nascimentos, mortes e migrações', 'A equação compensadora'], 'Calcular o crescimento de um município entre dois censos e decompô-lo em saldo natural e saldo migratório.', 'Cálculos corretos e decomposição explicada.'),
+      E('vocabulario', 'Dominar os indicadores básicos.', ['Taxas brutas e específicas', 'Taxa de fecundidade total e nível de reposição', 'Esperança de vida, razão de dependência e pirâmide etária'], 'Glossário de 20 indicadores com o valor brasileiro mais recente e a fonte.', 'Definições corretas, valores com fonte.', 'O IBGE realiza os censos demográficos brasileiros; o primeiro recenseamento geral do país foi feito em 1872.'),
+      E('metodos', 'Conhecer as fontes e os métodos.', ['Censo e registro civil', 'Pesquisas amostrais', 'Tábua de vida', 'Projeções e seus pressupostos'], 'Construir e interpretar a pirâmide etária de um município com dados do Censo 2022.', 'Pirâmide correta e interpretação proporcional.', 'O Censo Demográfico de 2022 contou cerca de 203 milhões de habitantes no Brasil.'),
+      E('formacao', 'Conhecer a formação da demografia.', ['Graunt e as listas de óbitos', 'Malthus e o princípio da população', 'Quetelet e a estatística social', 'A teoria da transição demográfica'], 'Linha do tempo da demografia com uma obra por marco.', 'Cada marco com autor, obra e ideia central.'),
+      E('autores', 'Ler os autores fundamentais.', ['Graunt: Observações sobre as listas de mortalidade', 'Malthus: Ensaio sobre o princípio da população', 'Notestein e a transição demográfica', 'Boserup e Simon: população e inovação'], 'Ficha de leitura dos dois primeiros capítulos do Ensaio de Malthus.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes interpretações.', ['Malthusianismo e neomalthusianismo', 'Teoria da transição demográfica', 'Segunda transição demográfica', 'Visões otimistas da população'], 'Quadro comparativo: como cada interpretação relaciona população, recursos e bem-estar.', 'Atribui corretamente autores e teses e distingue dado de previsão.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Controle populacional e direitos da pessoa', 'Baixa fecundidade e envelhecimento', 'Família, vida e doutrina da Igreja'], 'Ensaio: a queda da fecundidade é um problema? Para quem e por quê?', 'Distingue dado demográfico, juízo de valor e doutrina.', 'A taxa de fecundidade total do Brasil caiu de cerca de 6 filhos por mulher por volta de 1960 para abaixo do nível de reposição no século XXI.'),
+      E('avancado', 'Estudar os grandes componentes da dinâmica.', ['Mortalidade e saúde', 'Fecundidade e família', 'Migrações internas e internacionais', 'A população brasileira'], 'Explicar a transição demográfica brasileira com dados de fecundidade, mortalidade e estrutura etária.', 'Dados com fonte e sequência bem explicada.'),
+      E('aplicacoes', 'Usar a demografia em problemas concretos.', ['Previdência e envelhecimento', 'Planejamento urbano e escolar', 'Políticas para a família'], 'Calcular a razão de dependência do seu município e discutir as implicações para escolas, saúde e previdência.', 'Cálculo correto e implicações proporcionais.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre indicadores, teorias e população brasileira', 'Interpretação de pirâmides e séries'], 'Prova: interpretar uma pirâmide etária e uma série de fecundidade.', 'Rubrica: leitura dos dados, mecanismos, distinção entre dado e juízo.'),
+      E('pesquisa', 'Fazer uma pequena investigação com dados públicos.', ['Pergunta e hipótese', 'Coleta em censos e registros', 'Análise e relatório'], 'Investigação de quatro semanas sobre a dinâmica demográfica de um município (Censo, registros de nascimentos e óbitos) ou uma genealogia familiar comparada às tendências nacionais.', 'Dados com fonte, análise correta, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('John Graunt', 'Natural and Political Observations Made upon the Bills of Mortality', '1662', 'primaria', 'formacao'),
+      B('Thomas Malthus', 'Ensaio sobre o princípio da população', '1798', 'primaria', 'autores'),
+      B('Adolphe Quetelet', 'Sobre o homem e o desenvolvimento de suas faculdades', '1835', 'primaria', 'formacao'),
+      B('Frank Notestein', '"Population: The Long View" (artigo)', '1945', 'primaria', 'autores'),
+      B('Ester Boserup', 'The Conditions of Agricultural Growth', '1965', 'estudo', 'autores'),
+      B('Paul Ehrlich', 'The Population Bomb', '1968', 'estudo', 'escolas'),
+      B('Julian Simon', 'The Ultimate Resource', '1981', 'estudo', 'escolas'),
+      B('São Paulo VI', 'Humanae vitae', '1968', 'doutrina', 'debates'),
+      B('São João Paulo II', 'Familiaris consortio', '1981', 'doutrina', 'debates', { livro: 'jp2-familiaris' }),
+      B('IBGE', 'Censo Demográfico 2022', '2022–2025', 'dados', 'metodos', { brasil: true, url: 'https://www.ibge.gov.br' }),
+      B('IBGE', 'Projeções da população do Brasil e das unidades da federação', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.ibge.gov.br' }),
+      B('Ministério da Saúde', 'Sistemas de informações sobre mortalidade e nascidos vivos (DATASUS)', '—', 'dados', 'metodos', { brasil: true, url: 'https://datasus.saude.gov.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -479,4 +512,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
