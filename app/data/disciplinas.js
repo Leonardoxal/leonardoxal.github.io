@@ -466,8 +466,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'direito', no: 'direito', nome: 'Direito', aulasPublicadas: false,
-    aulas: { fundamentos: ['dr1-1'], vocabulario: ['dr1-2'], metodos: ['dr1-3', 'dr1-4', 'dr1-5'], formacao: ['dr2-1', 'dr2-2'], autores: ['dr2-3', 'dr2-4', 'dr2-5'], escolas: ['dr3-1', 'dr3-2'], debates: ['dr3-3', 'dr3-4', 'dr3-5'], avancado: ['dr4-1', 'dr4-2', 'dr4-3', 'dr4-4', 'dr4-5'] },
+    id: 'direito', no: 'direito', nome: 'Direito', aulasPublicadas: true,
+    aulas: { fundamentos: ['dr1-1'], vocabulario: ['dr1-2'], metodos: ['dr1-3', 'dr1-4', 'dr1-5'], formacao: ['dr2-1', 'dr2-2'], autores: ['dr2-3', 'dr2-4', 'dr2-5'], escolas: ['dr3-1', 'dr3-2'], debates: ['dr3-3', 'dr3-4', 'dr3-5'], avancado: ['dr4-1', 'dr4-2', 'dr4-3', 'dr4-4', 'dr4-5'], aplicacoes: ['dr5-1', 'dr5-2', 'dr5-3'], avaliacao: ['dr5-5'], pesquisa: ['dr5-4'] },
     metodo: 'Estudo das normas jurídicas e de suas fontes — constituição, leis, costumes, jurisprudência e doutrina —, de sua interpretação e de sua aplicação a casos, com leitura dos textos oficiais atualizados. Distingue o direito vigente (o que a norma diz), sua interpretação (o que tribunais e juristas entendem) e sua avaliação moral (se é justo), à luz do direito natural.',
     prereq: ['filo-direito', 'ciencia-politica', 'etica'],
     etapas: [
