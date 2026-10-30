@@ -207,7 +207,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'astronomia', no: 'astronomia', nome: 'Astronomia', aulasPublicadas: false,
-    aulas: { fundamentos: ['as1-1'], vocabulario: ['as1-2'], metodos: ['as1-3', 'as1-4', 'as1-5'], formacao: ['as2-1', 'as2-2'], autores: ['as2-3', 'as2-4', 'as2-5'], escolas: ['as3-1', 'as3-2'], debates: ['as3-3', 'as3-4', 'as3-5'] },
+    aulas: { fundamentos: ['as1-1'], vocabulario: ['as1-2'], metodos: ['as1-3', 'as1-4', 'as1-5'], formacao: ['as2-1', 'as2-2'], autores: ['as2-3', 'as2-4', 'as2-5'], escolas: ['as3-1', 'as3-2'], debates: ['as3-3', 'as3-4', 'as3-5'], avancado: ['as4-1', 'as4-2', 'as4-3', 'as4-4', 'as4-5'] },
     metodo: 'Observação sistemática do céu, medida de posições, brilhos e espectros, e modelos matemáticos testados por previsões. Distingue o que se observa, o que se infere por modelo e o que permanece hipótese, e separa a cosmologia científica da questão filosófica e teológica da criação.',
     prereq: ['logica', 'matematica'],
     etapas: [
