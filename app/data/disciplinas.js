@@ -169,6 +169,42 @@ export const DISCIPLINAS = [
       B('Ipea', 'IPEADATA', '—', 'dados', 'pesquisa', { brasil: true, url: 'http://www.ipeadata.gov.br' }),
     ],
   },
+  {
+    id: 'antropologia', no: 'antropologia', nome: 'Antropologia', aulasPublicadas: false,
+    aulas: { fundamentos: ['an1-1'], vocabulario: ['an1-2'], metodos: ['an1-3', 'an1-4', 'an1-5'] },
+    metodo: 'Etnografia: convívio prolongado, observação participante, diário de campo e entrevista, para compreender a cultura do ponto de vista de quem a vive, comparando sociedades sem tomar a própria como medida. Distingue a descrição de uma prática do juízo moral sobre ela.',
+    prereq: ['logica', 'sociologia'],
+    etapas: [
+      E('fundamentos', 'Entender o objeto da antropologia: o ser humano em sua diversidade cultural.', ['Natureza e cultura', 'Alteridade e estranhamento', 'Unidade do gênero humano e diversidade das culturas'], 'Descrever um costume da própria família "de fora", como o faria um visitante estrangeiro.', 'Separa descrição e juízo e torna estranho o familiar.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Cultura, etnocentrismo, relativismo cultural', 'Parentesco, aliança e descendência', 'Rito, mito, tabu', 'Reciprocidade e dádiva'], 'Glossário de 15 conceitos com o autor que os formulou.', 'Atribuição correta de autor e sentido.'),
+      E('metodos', 'Conhecer e praticar a etnografia.', ['Observação participante', 'Diário de campo', 'Entrevista e genealogia', 'Ética da pesquisa com pessoas e povos'], 'Diário de campo de três observações de uma situação social (feira, missa, festa), com registro descritivo e reflexivo separados.', 'Registro denso, datado, sem juízos misturados à descrição.', 'A ética da pesquisa segue a Resolução CNS nº 510/2016 e o código de ética da Associação Brasileira de Antropologia.'),
+      E('formacao', 'Conhecer a origem da disciplina.', ['Evolucionismo: Tylor e Morgan', 'Frazer e o comparativismo amplo', 'Boas e a crítica ao evolucionismo'], 'Comparar a definição de cultura de Tylor (1871) com a crítica de Boas ao método comparativo.', 'Expõe as duas posições e a razão da crítica.'),
+      E('autores', 'Ler os clássicos.', ['Malinowski: Argonautas do Pacífico Ocidental', 'Mauss: Ensaio sobre a dádiva', 'Evans-Pritchard: Os Nuer', 'Lévi-Strauss: As estruturas elementares do parentesco'], 'Ficha de leitura do Ensaio sobre a dádiva: as três obrigações e um exemplo atual.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as correntes teóricas.', ['Funcionalismo britânico', 'Cultura e personalidade (Benedict, Mead)', 'Estruturalismo (Lévi-Strauss)', 'Antropologia interpretativa (Geertz)'], 'Quadro comparativo das quatro correntes: objeto, método, autor e conceito central.', 'Atribui corretamente método e autor.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Relativismo cultural, direitos humanos e lei natural', 'Natureza humana e construção cultural', 'Antropologia, missão e inculturação'], 'Ensaio: o relativismo cultural é compatível com a afirmação de uma dignidade humana universal?', 'Distingue relativismo metodológico e relativismo moral.'),
+      E('avancado', 'Estudar a antropologia no e do Brasil.', ['Povos indígenas: Nimuendajú, Darcy Ribeiro, etnologia contemporânea', 'Estudos afro-brasileiros: Nina Rodrigues, Arthur Ramos, Bastide', 'Antropologia urbana e da sociedade brasileira (Gilberto Velho, DaMatta)'], 'Comparar duas etnografias brasileiras sobre povos ou grupos diferentes, com o método de cada uma.', 'Expõe o método e os resultados de cada estudo.', 'Os povos indígenas e as tradições afro-brasileiras são estudados pelas etnografias de cada povo e grupo, não por generalização.'),
+      E('aplicacoes', 'Usar a antropologia em problemas concretos.', ['Patrimônio cultural imaterial', 'Saúde, doença e cultura', 'Territórios indígenas e quilombolas'], 'Analisar um bem registrado como patrimônio imaterial pelo Iphan: o que é, quem o pratica e o que o registro protege.', 'Dados e documentos citados com fonte.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre os clássicos e as correntes', 'Análise de um trecho etnográfico'], 'Prova: interpretar um trecho de etnografia, identificando método, conceitos e limites.', 'Rubrica: método identificado, conceitos corretos, conclusão proporcional.'),
+      E('pesquisa', 'Fazer uma pequena etnografia.', ['Escolha do grupo ou situação', 'Trabalho de campo com consentimento', 'Redação etnográfica'], 'Etnografia breve (8 a 12 páginas) de um grupo, rito ou espaço, com diário de campo e entrevistas.', 'Ética respeitada, descrição densa, interpretação proporcional.'),
+    ],
+    bibliografia: [
+      B('Edward B. Tylor', 'A cultura primitiva', '1871', 'primaria', 'formacao'),
+      B('Franz Boas', '"As limitações do método comparativo da antropologia" (artigo)', '1896', 'primaria', 'formacao'),
+      B('Bronisław Malinowski', 'Argonautas do Pacífico Ocidental', '1922', 'primaria', 'autores'),
+      B('Marcel Mauss', 'Ensaio sobre a dádiva', '1925', 'primaria', 'autores'),
+      B('E. E. Evans-Pritchard', 'Os Nuer', '1940', 'primaria', 'autores'),
+      B('Claude Lévi-Strauss', 'As estruturas elementares do parentesco', '1949', 'primaria', 'autores'),
+      B('Ruth Benedict', 'Padrões de cultura', '1934', 'estudo', 'escolas'),
+      B('Clifford Geertz', 'A interpretação das culturas', '1973', 'estudo', 'escolas'),
+      B('Victor Turner', 'O processo ritual', '1969', 'estudo', 'vocabulario'),
+      B('João Paulo II', 'Redemptoris Missio', '1990', 'doutrina', 'debates'),
+      B('Roberto Cardoso de Oliveira', 'O trabalho do antropólogo', '1998', 'estudo', 'metodos', { brasil: true }),
+      B('Curt Nimuendajú', 'Mapa etno-histórico do Brasil e regiões adjacentes', '1944', 'primaria', 'avancado', { brasil: true }),
+      B('Darcy Ribeiro', 'O povo brasileiro', '1995', 'estudo', 'avancado', { brasil: true }),
+      B('Eduardo Viveiros de Castro', 'A inconstância da alma selvagem', '2002', 'estudo', 'debates', { brasil: true }),
+      B('IBGE', 'Censo Demográfico: povos indígenas e quilombolas', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.ibge.gov.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -216,4 +252,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'antropologia', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'astronomia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'astronomia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];

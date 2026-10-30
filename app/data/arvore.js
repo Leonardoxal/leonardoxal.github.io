@@ -83,7 +83,7 @@ export const NOS = [
   N('economia', 'Economia', 'humanas', 'humanas', 'Escassez, mercados, moeda, crescimento e história do pensamento econômico, com dados e modelos.', { modulos: ['e1', 'e2', 'e3', 'e4', 'e5'], livros: ['marx-capital-i', 'marx-grundrisse', 'mfs-economia', 'locke-outros', 'tomas-compra-venda', 'jp2-centesimus'] }),
   P('ciencia-politica', 'Ciência Política', 'humanas', 'humanas', 'Estado, poder, instituições e formas de governo, estudados empírica e comparativamente.', { livros: ['aristoteles-politica', 'tocqueville-democracia', 'arendt-condicao', 'burke-reflexoes', 'maritain-homem-estado'] }),
   P('direito', 'Direito', 'humanas', 'humanas', 'Direito positivo, constitucionalismo e o sistema jurídico brasileiro, com fontes oficiais atualizadas.', { livros: ['kant-metafisica-costumes', 'hegel-direito'] }),
-  P('antropologia', 'Antropologia', 'humanas', 'humanas', 'Cultura, parentesco, religião e método etnográfico.', {}),
+  P('antropologia', 'Antropologia', 'humanas', 'humanas', 'Cultura, parentesco, religião e método etnográfico.', { modulos: ['an1'] }),
   P('psicologia', 'Psicologia', 'humanas', 'humanas', 'Processos mentais, comportamento e desenvolvimento, com método científico.', { livros: ['mfs-psicologia', 'descartes-paixoes', 'sartre-emocoes', 'wittgenstein-psicologia'] }),
   P('demografia', 'Demografia', 'humanas', 'humanas', 'População, natalidade, mortalidade e migrações.', {}),
   P('relacoes-internacionais', 'Relações Internacionais', 'humanas', 'humanas', 'Política internacional, geopolítica e a posição do Brasil no mundo.', { livros: ['kant-paz', 'olavo-dugin'] }),
