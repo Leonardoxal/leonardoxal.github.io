@@ -242,7 +242,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'biologia', no: 'biologia', nome: 'Biologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['bi1-1'], vocabulario: ['bi1-2'], metodos: ['bi1-3', 'bi1-4', 'bi1-5'] },
+    aulas: { fundamentos: ['bi1-1'], vocabulario: ['bi1-2'], metodos: ['bi1-3', 'bi1-4', 'bi1-5'], formacao: ['bi2-1', 'bi2-2'], autores: ['bi2-3', 'bi2-4', 'bi2-5'] },
     metodo: 'Observação, classificação, experimento controlado e comparação, com modelos testados por previsões, do nível molecular ao ecossistema. Distingue o que se observa, o que se infere e o que é hipótese, e separa a explicação científica dos seres vivos das questões filosóficas e teológicas sobre a vida e o homem.',
     prereq: ['logica', 'quimica'],
     etapas: [
