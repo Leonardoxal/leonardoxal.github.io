@@ -393,8 +393,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'cultura', no: 'cultura', nome: 'Cultura', aulasPublicadas: false,
-    aulas: { fundamentos: ['cu1-1'], vocabulario: ['cu1-2'], metodos: ['cu1-3', 'cu1-4', 'cu1-5'], formacao: ['cu2-1', 'cu2-2'], autores: ['cu2-3', 'cu2-4', 'cu2-5'], escolas: ['cu3-1', 'cu3-2'], debates: ['cu3-3', 'cu3-4', 'cu3-5'], avancado: ['cu4-1', 'cu4-2', 'cu4-3', 'cu4-4', 'cu4-5'] },
+    id: 'cultura', no: 'cultura', nome: 'Cultura', aulasPublicadas: true,
+    aulas: { fundamentos: ['cu1-1'], vocabulario: ['cu1-2'], metodos: ['cu1-3', 'cu1-4', 'cu1-5'], formacao: ['cu2-1', 'cu2-2'], autores: ['cu2-3', 'cu2-4', 'cu2-5'], escolas: ['cu3-1', 'cu3-2'], debates: ['cu3-3', 'cu3-4', 'cu3-5'], avancado: ['cu4-1', 'cu4-2', 'cu4-3', 'cu4-4', 'cu4-5'], aplicacoes: ['cu5-1', 'cu5-2', 'cu5-3'], avaliacao: ['cu5-5'], pesquisa: ['cu5-4'] },
     metodo: 'Estudo das obras, instituições, costumes e crenças de um povo como expressão do espírito humano, por leitura das fontes, análise histórica, comparação entre civilizações e trabalho de campo. Distingue o conceito clássico de cultura (cultivo do espírito) do antropológico (modo de vida), separa descrição de juízo de valor e situa a cultura em sua relação com o culto e com a fé.',
     prereq: ['historia', 'antropologia', 'intro-filosofia'],
     etapas: [
