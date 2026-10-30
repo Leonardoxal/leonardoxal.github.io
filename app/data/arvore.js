@@ -109,7 +109,7 @@ export const NOS = [
   P('literatura', 'Literatura', 'artes', 'artes', 'Obras literárias, gêneros e crítica.', { areas: ['Literatura'], livros: ['sartre-literatura'] }),
   P('historia-arte', 'História da Arte', 'artes', 'artes', 'Arquitetura, pintura e escultura na história.', { livros: ['gilson-pintura', 'maritain-arte', 'hegel-estetica'] }),
   P('musica', 'Música', 'artes', 'artes', 'Teoria e história da música.', { livros: ['agostinho-musica', 'rousseau-musica'] }),
-  P('cultura', 'Cultura', 'artes', 'artes', 'Filosofia e história da cultura.', { modulos: ['cu1'], livros: ['mfs-cultura', 'olavo-filosofia-cultura'] }),
+  P('cultura', 'Cultura', 'artes', 'artes', 'Filosofia e história da cultura.', { modulos: ['cu1', 'cu2'], livros: ['mfs-cultura', 'olavo-filosofia-cultura'] }),
   N('retorica', 'Retórica', 'artes', 'artes', 'A arte do discurso persuasivo e suas relações com a dialética.', { livros: ['aristoteles-retorica', 'mfs-oratoria', 'olavo-como-vencer'], aulas: ['m4-11'] }),
   N('historia-intelectual', 'História intelectual', 'artes', 'artes', 'Como as ideias nascem, se transmitem e se transformam (ver a aba Ideias).', { areas: ['Crítica da modernidade'] }),
 ];

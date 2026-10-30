@@ -394,7 +394,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'cultura', no: 'cultura', nome: 'Cultura', aulasPublicadas: false,
-    aulas: { fundamentos: ['cu1-1'], vocabulario: ['cu1-2'], metodos: ['cu1-3', 'cu1-4', 'cu1-5'] },
+    aulas: { fundamentos: ['cu1-1'], vocabulario: ['cu1-2'], metodos: ['cu1-3', 'cu1-4', 'cu1-5'], formacao: ['cu2-1', 'cu2-2'], autores: ['cu2-3', 'cu2-4', 'cu2-5'] },
     metodo: 'Estudo das obras, instituições, costumes e crenças de um povo como expressão do espírito humano, por leitura das fontes, análise histórica, comparação entre civilizações e trabalho de campo. Distingue o conceito clássico de cultura (cultivo do espírito) do antropológico (modo de vida), separa descrição de juízo de valor e situa a cultura em sua relação com o culto e com a fé.',
     prereq: ['historia', 'antropologia', 'intro-filosofia'],
     etapas: [
