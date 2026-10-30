@@ -276,6 +276,48 @@ export const DISCIPLINAS = [
       B('Fiocruz', 'Pesquisa em saúde pública', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://portal.fiocruz.br' }),
     ],
   },
+  {
+    id: 'ciencia-politica', no: 'ciencia-politica', nome: 'Ciência Política', aulasPublicadas: false,
+    aulas: { fundamentos: ['cp1-1'], vocabulario: ['cp1-2'], metodos: ['cp1-3', 'cp1-4', 'cp1-5'] },
+    metodo: 'Descrição e comparação de Estados, regimes, instituições e comportamento político, com estudos de caso, dados eleitorais e de opinião, e modelos testados por evidência. Distingue o que é (ciência política empírica) do que deve ser (filosofia política e doutrina social da Igreja), e não confunde descrição com avaliação nem dado com preferência partidária.',
+    prereq: ['logica', 'filo-politica', 'historia'],
+    etapas: [
+      E('fundamentos', 'Entender o objeto da ciência política.', ['Poder, autoridade e legitimidade', 'O homem como animal político (Aristóteles)', 'Política como ciência prática e como ciência empírica'], 'Separar, em três notícias políticas, o que é descrição de fato, o que é avaliação e o que é proposta.', 'Classifica cada afirmação e justifica.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Estado, nação, governo e regime', 'Soberania, constituição e separação de poderes', 'Partidos, sistemas eleitorais e federalismo'], 'Glossário de 20 termos com exemplo das instituições brasileiras.', 'Definições corretas e exemplos pertinentes.', 'Os exemplos usam a Constituição de 1988: presidencialismo, federação de União, estados e municípios, eleições majoritárias e proporcionais.'),
+      E('metodos', 'Conhecer os métodos da ciência política.', ['Método comparativo e estudo de caso', 'Dados eleitorais e pesquisas de opinião', 'Medidas de democracia e seus limites', 'Viés e neutralidade do pesquisador'], 'Comparar o resultado de duas eleições municipais com dados do TSE e propor duas hipóteses para a diferença.', 'Dados com fonte, comparação correta e hipóteses testáveis.', 'O Tribunal Superior Eleitoral publica resultados e estatísticas eleitorais abertos.'),
+      E('formacao', 'Conhecer a formação do pensamento político.', ['Platão e Aristóteles: as formas de governo', 'Santo Agostinho e Santo Tomás: bem comum, lei e tirania', 'Maquiavel e Hobbes: o poder e o Estado moderno'], 'Quadro das seis formas de governo de Aristóteles com um exemplo histórico de cada.', 'Classificação correta e exemplos justificados.'),
+      E('autores', 'Ler os fundadores da ciência política moderna.', ['Locke: Dois tratados sobre o governo', 'Montesquieu: O espírito das leis', 'O Federalista', 'Tocqueville e Weber'], 'Ficha de leitura do Federalista nº 51 (freios e contrapesos).', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes abordagens.', ['Institucionalismo clássico', 'Comportamentalismo', 'Escolha racional', 'Neoinstitucionalismo'], 'Quadro comparativo: o que cada abordagem explica bem e o que deixa de fora, com um exemplo cada.', 'Atribui corretamente autores e conceitos.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Democracia procedimental e substantiva', 'Presidencialismo e parlamentarismo', 'Estado, sociedade e subsidiariedade na doutrina social da Igreja'], 'Ensaio: presidencialismo ou parlamentarismo para o Brasil? Apresentar os dois lados com dados e argumentos.', 'Distingue evidência empírica, juízo de valor e doutrina.', 'O plebiscito de 1993 manteve a república presidencialista.'),
+      E('avancado', 'Estudar as grandes áreas da ciência política.', ['Política comparada', 'Sistemas partidários e eleitorais', 'Opinião pública e comunicação política', 'O sistema político brasileiro'], 'Explicar o "presidencialismo de coalizão" com um exemplo de formação de governo.', 'Conceito correto e exemplo documentado.', 'Victor Nunes Leal (Coronelismo, enxada e voto, 1949) e Raymundo Faoro (Os donos do poder, 1958) são clássicos da análise do poder no Brasil.'),
+      E('aplicacoes', 'Usar a ciência política em problemas concretos.', ['Políticas públicas: ciclo e avaliação', 'Participação, conselhos e sociedade civil', 'Corrupção, controle e transparência'], 'Analisar uma política pública brasileira pelo ciclo: agenda, formulação, implementação e avaliação.', 'Etapas corretas, dados com fonte e avaliação proporcional.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre conceitos, autores e instituições', 'Interpretação de dados políticos'], 'Prova: interpretar um quadro de resultados eleitorais e um texto clássico.', 'Rubrica: conceitos, leitura dos dados, distinção entre fato e valor.'),
+      E('pesquisa', 'Fazer uma pequena investigação com dados públicos.', ['Pergunta e hipótese', 'Coleta de dados (resultados eleitorais, votações, legislação)', 'Análise e relatório'], 'Investigação de quatro semanas (por exemplo, as votações de uma câmara municipal ou o perfil das candidaturas de um município), com dados públicos e relatório.', 'Pergunta clara, dados com fonte, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Platão', 'A República', 'século IV a.C.', 'primaria', 'formacao', { livro: 'platao-republica' }),
+      B('Aristóteles', 'Política', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-politica' }),
+      B('Santo Tomás de Aquino', 'O Reino (Do governo dos príncipes)', 'c. 1267', 'primaria', 'formacao', { livro: 'tomas-reino' }),
+      B('Nicolau Maquiavel', 'O Príncipe', '1532', 'primaria', 'formacao'),
+      B('Thomas Hobbes', 'Leviatã', '1651', 'primaria', 'formacao'),
+      B('John Locke', 'Dois tratados sobre o governo', '1689', 'primaria', 'autores', { livro: 'locke-dois-tratados' }),
+      B('Montesquieu', 'O espírito das leis', '1748', 'primaria', 'autores'),
+      B('Alexander Hamilton, James Madison e John Jay', 'O Federalista', '1787–1788', 'primaria', 'autores'),
+      B('Alexis de Tocqueville', 'A democracia na América', '1835–1840', 'primaria', 'autores', { livro: 'tocqueville-democracia' }),
+      B('Max Weber', 'A política como vocação', '1919', 'primaria', 'autores'),
+      B('Robert Dahl', 'Poliarquia', '1971', 'estudo', 'escolas'),
+      B('Edmund Burke', 'Reflexões sobre a revolução na França', '1790', 'primaria', 'debates', { livro: 'burke-reflexoes' }),
+      B('Jacques Maritain', 'O homem e o Estado', '1951', 'estudo', 'debates', { livro: 'maritain-homem-estado' }),
+      B('São João Paulo II', 'Centesimus annus', '1991', 'doutrina', 'debates', { livro: 'jp2-centesimus' }),
+      B('Pontifício Conselho Justiça e Paz', 'Compêndio da Doutrina Social da Igreja', '2004', 'doutrina', 'debates'),
+      B('Arend Lijphart', 'Modelos de democracia', '1999', 'estudo', 'avancado'),
+      B('Victor Nunes Leal', 'Coronelismo, enxada e voto', '1949', 'estudo', 'avancado', { brasil: true }),
+      B('Raymundo Faoro', 'Os donos do poder', '1958', 'estudo', 'avancado', { brasil: true }),
+      B('Sérgio Abranches', '"Presidencialismo de coalizão: o dilema institucional brasileiro" (artigo)', '1988', 'estudo', 'avancado', { brasil: true }),
+      B('Assembleia Nacional Constituinte', 'Constituição da República Federativa do Brasil', '1988', 'primaria', 'vocabulario', { brasil: true }),
+      B('Tribunal Superior Eleitoral', 'Estatísticas e resultados eleitorais', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.tse.jus.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -323,4 +365,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
