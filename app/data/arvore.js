@@ -100,7 +100,7 @@ export const NOS = [
   N('biologia', 'Biologia', 'naturais', 'naturais', 'Células, genética, evolução, fisiologia e ecologia.', { modulos: ['bi1', 'bi2', 'bi3', 'bi4', 'bi5'], livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
   N('astronomia', 'Astronomia', 'naturais', 'naturais', 'O sistema solar e o universo.', { modulos: ['as1', 'as2', 'as3', 'as4', 'as5'], livros: ['aristoteles-ceu'] }),
   P('ciencias-terra', 'Ciências da Terra', 'naturais', 'naturais', 'Geologia, clima e processos terrestres.', { livros: ['aristoteles-meteorologicos'] }),
-  P('ciencias-ambientais', 'Ciências ambientais', 'naturais', 'naturais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', { modulos: ['ca1', 'ca2', 'ca3'] }),
+  P('ciencias-ambientais', 'Ciências ambientais', 'naturais', 'naturais', 'Ecossistemas, biomas e problemas ambientais, inclusive brasileiros.', { modulos: ['ca1', 'ca2', 'ca3', 'ca4'] }),
 
   // ---------- Artes e Humanidades ----------
   N('simbologia', 'Simbologia, Semiótica e Simbolismo', 'filosofia', 'simbolos', 'Signos e significação (semiótica), símbolos em seus contextos (simbologia), seu uso na expressão (simbolismo), e a análise de imagens (iconografia e iconologia). Ver também o Laboratório de Signos e Símbolos.', { modulos: ['sb1', 'sb2', 'sb3'], livros: ['mfs-simbolica', 'agostinho-doutrina-crista'] }),
