@@ -41,6 +41,7 @@ import { AULAS as G5 } from './g5.js';
 import { AULAS as SB1 } from './sb1.js';
 import { AULAS as SB2 } from './sb2.js';
 import { AULAS as SB3 } from './sb3.js';
+import { AULAS as SO1 } from './so1.js';
 import { AULAS as E1 } from './e1.js';
 import { AULAS as E2 } from './e2.js';
 import { AULAS as E3 } from './e3.js';
@@ -51,6 +52,6 @@ import { AULAS as E5 } from './e5.js';
 export const AULAS_COMPLETAS = [
   ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
   ...M5A, ...M5B, ...M6, ...M7A, ...M7B, ...M8A, ...M8B, ...M9, ...M10A, ...M10B,
-  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...E1, ...E2, ...E3, ...E4, ...E5,
+  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...SO1, ...E1, ...E2, ...E3, ...E4, ...E5,
 ].map((a) => ({ ...a, avancado: a.avancado || AVANCADO[a.id] || null }));
 export const aulaPorId = Object.fromEntries(AULAS_COMPLETAS.map((a) => [a.id, a]));

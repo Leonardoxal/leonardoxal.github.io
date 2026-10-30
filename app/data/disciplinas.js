@@ -96,6 +96,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'sociologia', no: 'sociologia', nome: 'Sociologia', aulasPublicadas: false,
+    aulas: { fundamentos: ['so1-1'], vocabulario: ['so1-2'], metodos: ['so1-3', 'so1-4', 'so1-5'] },
     metodo: 'Investigação empírica da vida social (observação, estatística, entrevista, comparação) e interpretação de seus significados. Distingue a descrição dos fatos sociais do juízo moral sobre eles.',
     prereq: ['logica', 'filo-antiga'],
     etapas: [
