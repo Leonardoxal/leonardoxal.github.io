@@ -318,6 +318,44 @@ export const DISCIPLINAS = [
       B('Tribunal Superior Eleitoral', 'Estatísticas e resultados eleitorais', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.tse.jus.br' }),
     ],
   },
+  {
+    id: 'ciencias-ambientais', no: 'ciencias-ambientais', nome: 'Ciências Ambientais', aulasPublicadas: false,
+    aulas: { fundamentos: ['ca1-1'], vocabulario: ['ca1-2'], metodos: ['ca1-3', 'ca1-4', 'ca1-5'] },
+    metodo: 'Integração de biologia, química, geociências e geografia para estudar o ambiente como sistema: medidas de campo e de laboratório, séries históricas, sensoriamento remoto e modelos. Distingue medição, projeção por modelo e cenário, e separa a descrição científica dos problemas ambientais dos juízos éticos e políticos sobre o que fazer.',
+    prereq: ['biologia', 'quimica', 'geografia'],
+    etapas: [
+      E('fundamentos', 'Entender o ambiente como sistema.', ['As quatro esferas: atmosfera, hidrosfera, litosfera e biosfera', 'Fluxo de energia e ciclos da matéria', 'Retroalimentação e limites dos sistemas'], 'Descrever um ambiente do seu entorno (rio, praça, lavoura) mostrando as quatro esferas e um fluxo entre elas.', 'Usa corretamente esferas, fluxos e ciclos.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Ecossistema, bioma e serviços ecossistêmicos', 'Poluição, impacto e risco ambiental', 'Sustentabilidade e capacidade de suporte'], 'Glossário de 20 termos com um exemplo brasileiro para cada.', 'Definições corretas e exemplos pertinentes.', 'A Lei nº 6.938/1981 (Política Nacional do Meio Ambiente) define legalmente meio ambiente, degradação e poluição.'),
+      E('metodos', 'Conhecer os métodos das ciências ambientais.', ['Medidas de campo e de laboratório', 'Séries históricas e sensoriamento remoto', 'Modelos, cenários e incerteza', 'Princípio da precaução e ética ambiental'], 'Medir e registrar três parâmetros simples de um corpo d\'água ou do ar local durante uma semana, com método descrito.', 'Método reprodutível, registros completos, limites reconhecidos.', 'O INPE monitora o desmatamento da Amazônia por satélite desde 1988 (PRODES).'),
+      E('formacao', 'Conhecer a formação do pensamento ambiental.', ['Aristóteles e a meteorologia antiga', 'Humboldt e a natureza como conjunto', 'Marsh e os efeitos da ação humana', 'Haeckel, Tansley e a fundação da ecologia'], 'Linha do tempo do pensamento ambiental com uma obra por marco, incluindo um marco brasileiro.', 'Cada marco com autor, obra e ideia central.', 'José Bonifácio escreveu em 1815 sobre a necessidade de plantar novos bosques; o reflorestamento da Floresta da Tijuca começou em 1861.'),
+      E('autores', 'Ler os autores que formaram o debate ambiental moderno.', ['Rachel Carson: Primavera silenciosa', 'Hardin e Ostrom: os bens comuns', 'Os limites do crescimento e o Relatório Brundtland'], 'Ficha de leitura de um capítulo de Primavera silenciosa.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as correntes do pensamento ambiental.', ['Conservacionismo e preservacionismo', 'Ecologia profunda', 'Economia ambiental e economia ecológica', 'Ecologia integral na doutrina da Igreja'], 'Quadro comparativo: como cada corrente justifica a proteção da natureza e que lugar dá ao ser humano.', 'Atribui corretamente autores e teses e distingue doutrina de opinião.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Mudança climática: medição, atribuição e projeção', 'Desenvolvimento e conservação no Brasil', 'Justiça entre gerações'], 'Ensaio: o que a ciência do clima afirma com alta confiança e o que pertence ao debate político sobre respostas?', 'Distingue medição, projeção, valor e doutrina.', 'O Código Florestal (Lei nº 12.651/2012) define reserva legal e áreas de preservação permanente.'),
+      E('avancado', 'Estudar os grandes sistemas e problemas ambientais.', ['Clima, efeito estufa e ciclo do carbono', 'Água e solos', 'Poluição e resíduos', 'Biomas brasileiros e monitoramento'], 'Explicar o efeito estufa com o balanço de energia da Terra e uma série histórica de CO2.', 'Mecanismo correto e dados com fonte.', 'O Brasil tem seis biomas continentais segundo o IBGE: Amazônia, Cerrado, Mata Atlântica, Caatinga, Pampa e Pantanal.'),
+      E('aplicacoes', 'Usar as ciências ambientais em problemas concretos.', ['Avaliação de impacto e licenciamento', 'Energia e clima', 'Saneamento e cidades'], 'Analisar um estudo de impacto ambiental (EIA/RIMA) brasileiro: impactos previstos, medidas propostas e lacunas.', 'Leitura correta do documento e avaliação proporcional.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre sistemas, ciclos, poluição e políticas', 'Interpretação de séries e gráficos'], 'Prova: interpretar uma série histórica ambiental e um texto clássico.', 'Rubrica: leitura dos dados, mecanismo, distinção entre fato e valor.'),
+      E('pesquisa', 'Fazer uma pequena investigação ambiental.', ['Pergunta e hipótese', 'Monitoramento ou análise de dados públicos', 'Análise e relatório'], 'Investigação de quatro semanas (qualidade da água de um córrego, resíduos de uma escola ou série de desmatamento de um município), com registros e relatório.', 'Desenho correto, registros completos, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Meteorológicos', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-meteorologicos' }),
+      B('Alexander von Humboldt', 'Cosmos', '1845–1862', 'primaria', 'formacao'),
+      B('George Perkins Marsh', 'Man and Nature', '1864', 'primaria', 'formacao'),
+      B('José Bonifácio de Andrada e Silva', 'Memória sobre a necessidade e utilidade do plantio de novos bosques em Portugal', '1815', 'primaria', 'formacao', { brasil: true }),
+      B('Arthur Tansley', '"The Use and Abuse of Vegetational Concepts and Terms" (artigo)', '1935', 'primaria', 'formacao'),
+      B('Rachel Carson', 'Primavera silenciosa', '1962', 'primaria', 'autores'),
+      B('Garrett Hardin', '"A tragédia dos comuns" (artigo)', '1968', 'primaria', 'autores'),
+      B('Elinor Ostrom', 'Governando os comuns', '1990', 'estudo', 'autores'),
+      B('Donella Meadows e outros', 'Os limites do crescimento', '1972', 'estudo', 'autores'),
+      B('Comissão Mundial sobre Meio Ambiente e Desenvolvimento', 'Nosso futuro comum (Relatório Brundtland)', '1987', 'primaria', 'autores'),
+      B('Herman Daly', 'Beyond Growth', '1996', 'estudo', 'escolas'),
+      B('Papa Francisco', "Laudato si'", '2015', 'doutrina', 'escolas', { url: 'https://www.vatican.va/content/francesco/pt/encyclicals/documents/papa-francesco_20150524_enciclica-laudato-si.html' }),
+      B('Painel Intergovernamental sobre Mudanças Climáticas (IPCC)', 'Sexto Relatório de Avaliação', '2021–2023', 'dados', 'debates', { url: 'https://www.ipcc.ch' }),
+      B('Congresso Nacional', 'Lei nº 6.938/1981 (Política Nacional do Meio Ambiente)', '1981', 'primaria', 'vocabulario', { brasil: true }),
+      B('Congresso Nacional', 'Lei nº 12.651/2012 (Código Florestal)', '2012', 'primaria', 'debates', { brasil: true }),
+      B('INPE', 'PRODES e DETER: monitoramento do desmatamento', '—', 'dados', 'avancado', { brasil: true, url: 'https://www.gov.br/inpe' }),
+      B('MapBiomas', 'Coleções anuais de cobertura e uso da terra', '—', 'dados', 'avancado', { brasil: true, url: 'https://mapbiomas.org' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -365,4 +403,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
