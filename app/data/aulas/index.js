@@ -72,6 +72,7 @@ import { AULAS as CA3 } from './ca3.js';
 import { AULAS as CA4 } from './ca4.js';
 import { AULAS as CA5 } from './ca5.js';
 import { AULAS as CT1 } from './ct1.js';
+import { AULAS as CT2 } from './ct2.js';
 import { AULAS as E1 } from './e1.js';
 import { AULAS as E2 } from './e2.js';
 import { AULAS as E3 } from './e3.js';
@@ -82,6 +83,6 @@ import { AULAS as E5 } from './e5.js';
 export const AULAS_COMPLETAS = [
   ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
   ...M5A, ...M5B, ...M6, ...M7A, ...M7B, ...M8A, ...M8B, ...M9, ...M10A, ...M10B,
-  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...SO1, ...SO2, ...SO3, ...SO4, ...SO5, ...AN1, ...AN2, ...AN3, ...AN4, ...AN5, ...AS1, ...AS2, ...AS3, ...AS4, ...AS5, ...BI1, ...BI2, ...BI3, ...BI4, ...BI5, ...CP1, ...CP2, ...CP3, ...CP4, ...CP5, ...CA1, ...CA2, ...CA3, ...CA4, ...CA5, ...CT1, ...E1, ...E2, ...E3, ...E4, ...E5,
+  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...SO1, ...SO2, ...SO3, ...SO4, ...SO5, ...AN1, ...AN2, ...AN3, ...AN4, ...AN5, ...AS1, ...AS2, ...AS3, ...AS4, ...AS5, ...BI1, ...BI2, ...BI3, ...BI4, ...BI5, ...CP1, ...CP2, ...CP3, ...CP4, ...CP5, ...CA1, ...CA2, ...CA3, ...CA4, ...CA5, ...CT1, ...CT2, ...E1, ...E2, ...E3, ...E4, ...E5,
 ].map((a) => ({ ...a, avancado: a.avancado || AVANCADO[a.id] || null }));
 export const aulaPorId = Object.fromEntries(AULAS_COMPLETAS.map((a) => [a.id, a]));

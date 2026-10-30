@@ -358,7 +358,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'ciencias-terra', no: 'ciencias-terra', nome: 'Ciências da Terra', aulasPublicadas: false,
-    aulas: { fundamentos: ['ct1-1'], vocabulario: ['ct1-2'], metodos: ['ct1-3', 'ct1-4', 'ct1-5'] },
+    aulas: { fundamentos: ['ct1-1'], vocabulario: ['ct1-2'], metodos: ['ct1-3', 'ct1-4', 'ct1-5'], formacao: ['ct2-1', 'ct2-2'], autores: ['ct2-3', 'ct2-4', 'ct2-5'] },
     metodo: 'Observação de campo, mapeamento geológico, análise de rochas e minerais, datação relativa e radiométrica, sismologia, meteorologia, sensoriamento remoto e modelos físicos. Usa o atualismo com cautela, distingue idade medida, inferência e hipótese, e separa a história natural da Terra da questão filosófica e teológica da criação.',
     prereq: ['quimica', 'fisica', 'geografia'],
     etapas: [
