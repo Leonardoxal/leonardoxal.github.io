@@ -31,7 +31,7 @@ export function disciplina(ctx, id) {
   <header class="cab"><span class="num">${esc(noPorId[noPorId[d.no].pai].nome)}</span><h1>${esc(d.nome)}</h1>
     <p class="sub">${esc(noPorId[d.no].desc)}</p></header>
   ${santo ? `<div class="santos-aba">${santoHTML(santo)}</div>` : ''}
-  ${publicadas.length ? `<p class="meta"><strong>${publicadas.length} aula(s) publicada(s)</strong> (${publicadas.map((a) => link(`aula-${a}`, a)).join(', ')}); as demais etapas seguem em preparação.</p>` : ''}
+  ${publicadas.length ? `<p class="meta"><strong>${publicadas.length} aula(s) publicada(s)</strong> (${publicadas.map((a) => link(`aula-${a}`, a)).join(', ')})${d.aulasPublicadas ? '' : '; as demais etapas seguem em preparação'}.</p>` : ''}
   ${d.aulasPublicadas ? '' : '<div class="aviso"><strong>Percurso definido; aulas em preparação.</strong> As etapas, os exercícios, os critérios e a bibliografia abaixo já orientam o estudo. As aulas completas e as avaliações objetivas desta disciplina ainda não foram publicadas e, por isso, ela ainda não conta no progresso.</div>'}
   <section><h2>Método próprio</h2><p>${esc(d.metodo)}</p>
     <p class="meta">Antes de começar: ${d.prereq.map((p) => link(`area-${p}`, esc(noPorId[p].nome))).join(', ')}.</p></section>
