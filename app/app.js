@@ -200,3 +200,5 @@ botaoTema.addEventListener('click', () => {
 mostrarStatus(store.status);
 render();
 store.conectar();
+// "hidden" é o último evento confiável ao fechar a aba no celular; "visible" traz o que outro aparelho salvou
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') store.enviarAgora(); else store.sincronizar(); });

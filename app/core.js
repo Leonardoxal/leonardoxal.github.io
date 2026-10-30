@@ -63,6 +63,7 @@ export function migrarDegraus(degrausV1 = {}) {
 export function estadoInicial(agora = Date.now()) {
   return {
     v: VERSAO_ESTADO, criado: agora,
+    editado: 0,       // momento da última alteração; decide qual cópia (aparelho ou conta) é a mais nova
     perfil: { nome: '' },
     aulas: {},        // id -> { status: 'andamento'|'concluida', inicio, fim, fonteLida, acesso }
     tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]

@@ -671,3 +671,62 @@ test('disciplinas com aulas: cada aula completa, no módulo certo, com prova e b
     assert.deepEqual([...noPorId[d.no].modulos].sort(), [...modulos].sort(), `${d.id}: a árvore conta todos os módulos`);
   }
 });
+
+// ---------- Salvamento e sincronização (store.js com armazenamento e banco em memória) ----------
+
+const memoria = () => { const m = new Map(); return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
+/** Banco compartilhado entre "aparelhos", no formato get() → { exists, data() } e set(corpo). */
+const bancoEmMemoria = () => {
+  const docs = new Map();
+  const refs = Object.fromEntries(['nucleo', 'notas', 'sessoes', 'revisoes', 'respostas'].map((p) => [p, {
+    get: async () => ({ exists: docs.has(p), data: () => structuredClone(docs.get(p)) }),
+    set: async (corpo) => { docs.set(p, structuredClone(corpo)); },
+  }]));
+  return { refs, docs };
+};
+/** Cada aparelho tem seu próprio localStorage; trocamos o global antes de cada passo. */
+async function noAparelho(ls, fn) { globalThis.localStorage = ls; return fn(); }
+const concluir = (id) => (e) => ({ ...e, aulas: { ...e.aulas, [id]: { status: 'concluida' } } });
+
+test('store: backup exportado na versão atual é aceito na importação', async () => {
+  const { criarStore } = await import('../store.js');
+  globalThis.localStorage = memoria();
+  const a = criarStore(() => {}, () => {}, async () => null);
+  a.set(concluir('m1-1'));
+  const json = a.exportarJSON();
+  assert.equal(JSON.parse(json).v, C.VERSAO_ESTADO);
+  globalThis.localStorage = memoria();
+  const b = criarStore(() => {}, () => {}, async () => null);
+  b.importarJSON(json);
+  assert.equal(b.estado.aulas['m1-1'].status, 'concluida');
+  assert.throws(() => b.importarJSON(JSON.stringify({ v: C.VERSAO_ESTADO + 1 })), /não reconhecido/);
+});
+
+test('store: alteração ainda não enviada à conta sobrevive ao reabrir o app', async () => {
+  const { criarStore } = await import('../store.js');
+  const banco = bancoEmMemoria();
+  const ls = memoria();
+  const s1 = await noAparelho(ls, () => criarStore(() => {}, () => {}, async () => banco.refs));
+  await noAparelho(ls, async () => { await s1.conectar(); s1.set(concluir('m1-1')); await s1.enviarAgora(); });
+  // nova alteração, e a aba fecha antes do envio agendado
+  await noAparelho(ls, () => s1.set(concluir('m1-2')));
+  const s2 = await noAparelho(ls, () => criarStore(() => {}, () => {}, async () => banco.refs));
+  await noAparelho(ls, async () => { await s2.conectar(); await s2.enviarAgora(); });
+  assert.equal(s2.estado.aulas['m1-2']?.status, 'concluida', 'a cópia local mais nova não foi apagada');
+  assert.ok(banco.docs.get('nucleo').aulas['m1-2'], 'e foi enviada à conta');
+});
+
+test('store: aparelho desatualizado não sobrescreve o progresso salvo por outro', async () => {
+  const { criarStore } = await import('../store.js');
+  const banco = bancoEmMemoria();
+  const pc = memoria(), celular = memoria();
+  const sPc = await noAparelho(pc, () => criarStore(() => {}, () => {}, async () => banco.refs));
+  const sCel = await noAparelho(celular, () => criarStore(() => {}, () => {}, async () => banco.refs));
+  await noAparelho(pc, async () => { await sPc.conectar(); sPc.set(concluir('m1-1')); await sPc.enviarAgora(); });
+  await noAparelho(celular, () => sCel.conectar());
+  // o PC avança; o celular, aberto antes disso, faz uma alteração sobre a versão antiga
+  await noAparelho(pc, async () => { sPc.set(concluir('m1-2')); await sPc.enviarAgora(); });
+  await noAparelho(celular, async () => { sCel.set((e) => ({ ...e, favoritos: ['livro:x'] })); await sCel.enviarAgora(); });
+  assert.ok(banco.docs.get('nucleo').aulas['m1-2'], 'a conclusão feita no PC continua na conta');
+  assert.equal(sCel.estado.aulas['m1-2']?.status, 'concluida', 'o celular carregou a versão mais nova');
+});
