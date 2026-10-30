@@ -241,8 +241,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'biologia', no: 'biologia', nome: 'Biologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['bi1-1'], vocabulario: ['bi1-2'], metodos: ['bi1-3', 'bi1-4', 'bi1-5'], formacao: ['bi2-1', 'bi2-2'], autores: ['bi2-3', 'bi2-4', 'bi2-5'], escolas: ['bi3-1', 'bi3-2'], debates: ['bi3-3', 'bi3-4', 'bi3-5'], avancado: ['bi4-1', 'bi4-2', 'bi4-3', 'bi4-4', 'bi4-5'] },
+    id: 'biologia', no: 'biologia', nome: 'Biologia', aulasPublicadas: true,
+    aulas: { fundamentos: ['bi1-1'], vocabulario: ['bi1-2'], metodos: ['bi1-3', 'bi1-4', 'bi1-5'], formacao: ['bi2-1', 'bi2-2'], autores: ['bi2-3', 'bi2-4', 'bi2-5'], escolas: ['bi3-1', 'bi3-2'], debates: ['bi3-3', 'bi3-4', 'bi3-5'], avancado: ['bi4-1', 'bi4-2', 'bi4-3', 'bi4-4', 'bi4-5'], aplicacoes: ['bi5-1', 'bi5-2', 'bi5-3'], avaliacao: ['bi5-5'], pesquisa: ['bi5-4'] },
     metodo: 'Observação, classificação, experimento controlado e comparação, com modelos testados por previsões, do nível molecular ao ecossistema. Distingue o que se observa, o que se infere e o que é hipótese, e separa a explicação científica dos seres vivos das questões filosóficas e teológicas sobre a vida e o homem.',
     prereq: ['logica', 'quimica'],
     etapas: [
