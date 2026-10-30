@@ -97,7 +97,7 @@ const ESTATICAS = [
 
 const QUESTOES_POR_AULA = 2;
 /** Provas que encerram um percurso e cobrem também os módulos anteriores (módulo → módulos anteriores). */
-export const INTEGRADORAS = { h5: ['h1', 'h2', 'h3', 'h4'], e5: ['e1', 'e2', 'e3', 'e4'], g5: ['g1', 'g2', 'g3', 'g4'], sb3: ['sb1', 'sb2'] };
+export const INTEGRADORAS = { h5: ['h1', 'h2', 'h3', 'h4'], e5: ['e1', 'e2', 'e3', 'e4'], g5: ['g1', 'g2', 'g3', 'g4'], sb3: ['sb1', 'sb2'], so5: ['so1', 'so2', 'so3', 'so4'] };
 
 /**
  * Prova de cada módulo: duas questões objetivas de cada aula de conteúdo (as primeiras do questionário,

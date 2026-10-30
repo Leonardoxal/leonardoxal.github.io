@@ -95,8 +95,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'sociologia', no: 'sociologia', nome: 'Sociologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['so1-1'], vocabulario: ['so1-2'], metodos: ['so1-3', 'so1-4', 'so1-5'], formacao: ['so2-1', 'so2-2', 'so2-3'], autores: ['so2-4', 'so2-5'], escolas: ['so3-1', 'so3-2'], debates: ['so3-3', 'so3-4', 'so3-5'], avancado: ['so4-1', 'so4-2', 'so4-3', 'so4-4', 'so4-5'] },
+    id: 'sociologia', no: 'sociologia', nome: 'Sociologia', aulasPublicadas: true,
+    aulas: { fundamentos: ['so1-1'], vocabulario: ['so1-2'], metodos: ['so1-3', 'so1-4', 'so1-5'], formacao: ['so2-1', 'so2-2', 'so2-3'], autores: ['so2-4', 'so2-5'], escolas: ['so3-1', 'so3-2'], debates: ['so3-3', 'so3-4', 'so3-5'], avancado: ['so4-1', 'so4-2', 'so4-3', 'so4-4', 'so4-5'], aplicacoes: ['so5-1', 'so5-2', 'so5-3'], avaliacao: ['so5-5'], pesquisa: ['so5-4'] },
     metodo: 'Investigação empírica da vida social (observação, estatística, entrevista, comparação) e interpretação de seus significados. Distingue a descrição dos fatos sociais do juízo moral sobre eles.',
     prereq: ['logica', 'filo-antiga'],
     etapas: [
