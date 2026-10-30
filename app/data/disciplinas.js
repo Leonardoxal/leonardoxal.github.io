@@ -356,6 +356,42 @@ export const DISCIPLINAS = [
       B('MapBiomas', 'Coleções anuais de cobertura e uso da terra', '—', 'dados', 'avancado', { brasil: true, url: 'https://mapbiomas.org' }),
     ],
   },
+  {
+    id: 'ciencias-terra', no: 'ciencias-terra', nome: 'Ciências da Terra', aulasPublicadas: false,
+    aulas: { fundamentos: ['ct1-1'], vocabulario: ['ct1-2'], metodos: ['ct1-3', 'ct1-4', 'ct1-5'] },
+    metodo: 'Observação de campo, mapeamento geológico, análise de rochas e minerais, datação relativa e radiométrica, sismologia, meteorologia, sensoriamento remoto e modelos físicos. Usa o atualismo com cautela, distingue idade medida, inferência e hipótese, e separa a história natural da Terra da questão filosófica e teológica da criação.',
+    prereq: ['quimica', 'fisica', 'geografia'],
+    etapas: [
+      E('fundamentos', 'Entender a Terra como planeta dinâmico.', ['Estrutura interna: crosta, manto e núcleo', 'Energia interna e energia solar', 'O tempo geológico'], 'Desenhar em escala as camadas da Terra e indicar a evidência de cada uma.', 'Escala correta e evidências bem atribuídas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Mineral, rocha e solo', 'Rochas ígneas, sedimentares e metamórficas', 'Placa, falha, dobra e bacia sedimentar'], 'Glossário de 20 termos com um exemplo brasileiro (rocha, mineral ou paisagem) para cada.', 'Definições corretas e exemplos pertinentes.', 'Os exemplos usam rochas e paisagens brasileiras, como o gnaisse do Pão de Açúcar e os arenitos de Vila Velha (PR).'),
+      E('metodos', 'Conhecer os métodos das ciências da Terra.', ['Trabalho de campo e mapa geológico', 'Princípios de Steno', 'Datação relativa e radiométrica', 'Sismologia e meteorologia instrumental'], 'Descrever um afloramento ou corte de estrada: camadas, rochas e sequência de eventos.', 'Descrição fiel e sequência justificada pelos princípios.', 'O Serviço Geológico do Brasil (SGB) publica mapas geológicos do território nacional.'),
+      E('formacao', 'Conhecer a formação das ciências da Terra.', ['Aristóteles e Sêneca: meteoros e terremotos', 'Steno e os fósseis', 'Hutton e o tempo profundo', 'Lyell e o atualismo'], 'Linha do tempo da geologia com uma obra por marco.', 'Cada marco com autor, obra e ideia central.', 'José Bonifácio de Andrada e Silva foi mineralogista e descreveu minerais novos, como a petalita, por volta de 1800.'),
+      E('autores', 'Ler os autores da revolução geológica do século XX.', ['Wegener: a deriva continental', 'Holmes e Hess: convecção e expansão do fundo oceânico', 'Patterson e a idade da Terra', 'Alvarez e a extinção do fim do Cretáceo'], 'Ficha de leitura de um capítulo de A origem dos continentes e oceanos.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes controvérsias e sínteses.', ['Netunismo e plutonismo', 'Catastrofismo e uniformitarismo', 'Fixismo e mobilismo', 'Tectônica de placas como síntese'], 'Quadro comparativo: o que cada posição explicava e que evidência decidiu a controvérsia.', 'Atribui corretamente autores, teses e evidências.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['A idade da Terra e a leitura do Gênesis', 'Eventos raros e catástrofes na história da Terra', 'Recursos minerais e seus limites'], 'Ensaio: o que a geologia afirma sobre a idade da Terra e o que não afirma sobre a criação.', 'Distingue dado, inferência científica, filosofia e doutrina.', 'A mineração tem grande peso na economia brasileira, com províncias como o Quadrilátero Ferrífero e Carajás.'),
+      E('avancado', 'Estudar os grandes sistemas da Terra.', ['Tectônica de placas, sismos e vulcões', 'Atmosfera e oceanos: circulação e El Niño', 'Paleontologia e história da vida', 'Geologia do Brasil'], 'Explicar a abertura do Atlântico Sul com evidências de rochas e fósseis do Brasil e da África.', 'Evidências corretas e sequência bem explicada.', 'Fósseis como o Mesosaurus, encontrados no Brasil e na África, estão entre as evidências da antiga união dos continentes.'),
+      E('aplicacoes', 'Usar as ciências da Terra em problemas concretos.', ['Recursos minerais e energéticos', 'Riscos geológicos: deslizamentos e erosão', 'Água subterrânea'], 'Analisar uma área de risco geológico brasileira com mapas e dados públicos.', 'Leitura correta dos dados e avaliação proporcional.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre minerais, rochas, tempo geológico, tectônica e atmosfera', 'Interpretação de perfis e mapas'], 'Prova: interpretar um perfil geológico e um texto clássico.', 'Rubrica: sequência de eventos, mecanismos, distinção entre dado e hipótese.'),
+      E('pesquisa', 'Fazer uma pequena investigação de campo ou de dados.', ['Pergunta e hipótese', 'Coleta de campo ou registro instrumental', 'Análise e relatório'], 'Investigação de quatro semanas (coleção comentada de rochas locais, perfil de um afloramento ou registro meteorológico diário), com registros e relatório.', 'Desenho correto, registros completos, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Meteorológicos', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-meteorologicos' }),
+      B('Sêneca', 'Questões naturais', 'c. 62–64', 'primaria', 'formacao'),
+      B('Nicolau Steno', 'Prodromus (De solido intra solidum naturaliter contento)', '1669', 'primaria', 'formacao'),
+      B('James Hutton', 'Theory of the Earth', '1788–1795', 'primaria', 'formacao'),
+      B('Charles Lyell', 'Princípios de geologia', '1830–1833', 'primaria', 'formacao'),
+      B('Alfred Wegener', 'A origem dos continentes e oceanos', '1915', 'primaria', 'autores'),
+      B('Arthur Holmes', 'Principles of Physical Geology', '1944', 'estudo', 'autores'),
+      B('Harry Hess', '"History of Ocean Basins" (artigo)', '1962', 'primaria', 'autores'),
+      B('Clair Patterson', '"Age of Meteorites and the Earth" (artigo)', '1956', 'primaria', 'autores'),
+      B('Luis Alvarez, Walter Alvarez e outros', '"Extraterrestrial Cause for the Cretaceous-Tertiary Extinction" (artigo)', '1980', 'primaria', 'autores'),
+      B('Igreja Católica', 'Catecismo da Igreja Católica, §§ 282–289 e 337', '1992', 'doutrina', 'debates', { livro: 'cic' }),
+      B('Comissão Teológica Internacional', 'Comunhão e serviço: a pessoa humana criada à imagem de Deus', '2004', 'doutrina', 'debates'),
+      B('Fernando Flávio Marques de Almeida', '"O Cráton do São Francisco" (artigo)', '1977', 'estudo', 'avancado', { brasil: true }),
+      B('Serviço Geológico do Brasil (SGB)', 'Mapas geológicos e dados de geodiversidade', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.sgb.gov.br' }),
+      B('INPE', 'Previsão de tempo e clima (CPTEC)', '—', 'dados', 'avancado', { brasil: true, url: 'https://www.gov.br/inpe' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -403,4 +439,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
