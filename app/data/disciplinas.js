@@ -392,6 +392,46 @@ export const DISCIPLINAS = [
       B('INPE', 'Previsão de tempo e clima (CPTEC)', '—', 'dados', 'avancado', { brasil: true, url: 'https://www.gov.br/inpe' }),
     ],
   },
+  {
+    id: 'cultura', no: 'cultura', nome: 'Cultura', aulasPublicadas: false,
+    aulas: { fundamentos: ['cu1-1'], vocabulario: ['cu1-2'], metodos: ['cu1-3', 'cu1-4', 'cu1-5'] },
+    metodo: 'Estudo das obras, instituições, costumes e crenças de um povo como expressão do espírito humano, por leitura das fontes, análise histórica, comparação entre civilizações e trabalho de campo. Distingue o conceito clássico de cultura (cultivo do espírito) do antropológico (modo de vida), separa descrição de juízo de valor e situa a cultura em sua relação com o culto e com a fé.',
+    prereq: ['historia', 'antropologia', 'intro-filosofia'],
+    etapas: [
+      E('fundamentos', 'Entender o que é cultura.', ['Cultura como cultivo do espírito (Cícero)', 'Cultura como modo de vida (Tylor)', 'Cultura e culto'], 'Comparar as duas noções de cultura aplicadas a uma festa popular brasileira.', 'Distingue as noções e aplica as duas com precisão.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Civilização, tradição, costume e instituição', 'Cultura erudita, popular e de massa', 'Patrimônio material e imaterial'], 'Glossário de 20 termos com um exemplo brasileiro para cada.', 'Definições corretas e exemplos pertinentes.', 'A Constituição de 1988 (art. 216) define o patrimônio cultural brasileiro, material e imaterial.'),
+      E('metodos', 'Conhecer os métodos do estudo da cultura.', ['Leitura de obras e fontes', 'Comparação entre civilizações', 'Trabalho de campo e história oral', 'Descrição e juízo de valor'], 'Registrar e analisar uma manifestação de cultura popular local com fontes e entrevista.', 'Registro fiel, fontes citadas, descrição separada da avaliação.', 'O IPHAN, criado em 1937, tomba e registra bens do patrimônio cultural brasileiro.'),
+      E('formacao', 'Conhecer a formação da ideia de cultura.', ['Paideia grega e humanitas romana', 'Cristianismo e cultura medieval', 'Humanismo renascentista', 'Herder e a Kultur alemã'], 'Linha do tempo da ideia de cultura com uma obra por marco.', 'Cada marco com autor, obra e ideia central.'),
+      E('autores', 'Ler os grandes pensadores da cultura.', ['Arnold e Eliot: cultura e tradição', 'Dawson: religião e cultura', 'Spengler e Toynbee: o destino das civilizações', 'Huizinga e Pieper: jogo, ócio e culto'], 'Ficha de leitura de um capítulo de Notas para a definição de cultura, de T. S. Eliot.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes abordagens.', ['Cultura clássica e cultura antropológica', 'Escola de Frankfurt e indústria cultural', 'Estudos culturais', 'Personalismo cristão e cultura'], 'Quadro comparativo: o que cada abordagem entende por cultura e que critério de valor usa.', 'Atribui corretamente autores e teses.', 'Mário Ferreira dos Santos escreveu uma Filosofia e história da cultura em diálogo com Spengler e Toynbee.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Relativismo cultural e verdade', 'Fé e culturas: inculturação', 'Cultura de massa e crise da cultura'], 'Ensaio: todas as culturas se equivalem? Responder distinguindo descrição, juízo e doutrina.', 'Distingue relativismo metodológico e normativo e usa a doutrina com precisão.'),
+      E('avancado', 'Estudar a cultura brasileira e os desafios atuais.', ['Intérpretes da cultura brasileira', 'Cultura popular e folclore no Brasil', 'Religião e cultura no Brasil', 'Cultura digital'], 'Comparar duas interpretações da cultura brasileira com trechos das obras.', 'Teses expostas com fidelidade e comparação justa.', 'Gilberto Freyre (Casa-grande & senzala, 1933), Sérgio Buarque de Holanda (Raízes do Brasil, 1936) e Câmara Cascudo (Dicionário do folclore brasileiro, 1954) são intérpretes clássicos da cultura brasileira.'),
+      E('aplicacoes', 'Usar o estudo da cultura em problemas concretos.', ['Patrimônio cultural e sua proteção', 'Educação e transmissão da cultura', 'Políticas culturais'], 'Analisar um bem tombado ou registrado pelo IPHAN: história, valor e estado de proteção.', 'Fontes oficiais e avaliação proporcional.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre conceitos, autores e cultura brasileira', 'Interpretação de uma obra ou manifestação cultural'], 'Prova: interpretar uma manifestação cultural e um texto clássico.', 'Rubrica: conceitos, fontes, distinção entre descrição e juízo.'),
+      E('pesquisa', 'Fazer uma pequena investigação de campo.', ['Pergunta e escolha do objeto', 'Entrevistas, observação e registro', 'Análise e relatório'], 'Investigação de quatro semanas sobre uma manifestação cultural local (festa, ofício, culinária, arquitetura), com entrevistas, registro e relatório.', 'Registro fiel, fontes, conclusão proporcional e respeito aos entrevistados.'),
+    ],
+    bibliografia: [
+      B('Cícero', 'Disputas tusculanas', '45 a.C.', 'primaria', 'fundamentos'),
+      B('Edward B. Tylor', 'Primitive Culture', '1871', 'primaria', 'fundamentos'),
+      B('Werner Jaeger', 'Paideia: a formação do homem grego', '1933–1947', 'estudo', 'formacao'),
+      B('Johann Gottfried Herder', 'Ideias para a filosofia da história da humanidade', '1784–1791', 'primaria', 'formacao'),
+      B('Matthew Arnold', 'Culture and Anarchy', '1869', 'primaria', 'autores'),
+      B('T. S. Eliot', 'Notas para a definição de cultura', '1948', 'primaria', 'autores'),
+      B('Christopher Dawson', 'Religion and the Rise of Western Culture', '1950', 'estudo', 'autores'),
+      B('Oswald Spengler', 'A decadência do Ocidente', '1918–1922', 'primaria', 'autores'),
+      B('Arnold Toynbee', 'Um estudo da história', '1934–1961', 'primaria', 'autores'),
+      B('Johan Huizinga', 'Homo ludens', '1938', 'primaria', 'autores'),
+      B('Josef Pieper', 'Muße und Kult', '1948', 'primaria', 'autores'),
+      B('Theodor Adorno e Max Horkheimer', 'Dialética do esclarecimento', '1947', 'primaria', 'escolas'),
+      B('Mário Ferreira dos Santos', 'Filosofia e história da cultura', 'década de 1960', 'estudo', 'escolas', { livro: 'mfs-cultura', brasil: true }),
+      B('Concílio Vaticano II', 'Gaudium et spes, nn. 53–62', '1965', 'doutrina', 'debates'),
+      B('São João Paulo II', 'Discurso à UNESCO', '1980', 'doutrina', 'debates'),
+      B('Gilberto Freyre', 'Casa-grande & senzala', '1933', 'estudo', 'avancado', { brasil: true }),
+      B('Sérgio Buarque de Holanda', 'Raízes do Brasil', '1936', 'estudo', 'avancado', { brasil: true }),
+      B('Luís da Câmara Cascudo', 'Dicionário do folclore brasileiro', '1954', 'manual', 'avancado', { brasil: true }),
+      B('IPHAN', 'Bens tombados e registrados', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/iphan' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -439,4 +479,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];

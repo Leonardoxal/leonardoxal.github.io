@@ -490,7 +490,7 @@ test('santos de referência: cada aba tem um, com fonte, imagem e natureza decla
 });
 
 test('disciplinas: História, Geografia, Sociologia e Economia com as onze etapas e bibliografia mundial e brasileira', () => {
-  assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), ['antropologia', 'astronomia', 'biologia', 'ciencia-politica', 'ciencias-ambientais', 'ciencias-terra', 'economia', 'geografia', 'historia', 'simbologia', 'sociologia']);
+  assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), ['antropologia', 'astronomia', 'biologia', 'ciencia-politica', 'ciencias-ambientais', 'ciencias-terra', 'cultura', 'economia', 'geografia', 'historia', 'simbologia', 'sociologia']);
   for (const d of DISCIPLINAS) {
     assert.ok(noPorId[d.no] && d.metodo.length > 60, `${d.id}: nó e método`);
     const esperadas = d.trilhaPropria ? Array.from({ length: 12 }, (_, i) => `m${i + 1}`) : Object.keys(ETAPAS);
