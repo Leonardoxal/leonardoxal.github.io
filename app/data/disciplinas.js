@@ -63,8 +63,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'geografia', no: 'geografia', nome: 'Geografia', aulasPublicadas: false,
-    aulas: { fundamentos: ['g1-1'], vocabulario: ['g1-2'], metodos: ['g1-3', 'g1-4', 'g1-5'], formacao: ['g2-1', 'g2-2', 'g2-3'], autores: ['g2-4', 'g2-5'], escolas: ['g3-1', 'g3-2'], debates: ['g3-3', 'g3-4', 'g3-5'], avancado: ['g4-1', 'g4-2', 'g4-3', 'g4-4', 'g4-5'] },
+    id: 'geografia', no: 'geografia', nome: 'Geografia', aulasPublicadas: true,
+    aulas: { fundamentos: ['g1-1'], vocabulario: ['g1-2'], metodos: ['g1-3', 'g1-4', 'g1-5'], formacao: ['g2-1', 'g2-2', 'g2-3'], autores: ['g2-4', 'g2-5'], escolas: ['g3-1', 'g3-2'], debates: ['g3-3', 'g3-4', 'g3-5'], avancado: ['g4-1', 'g4-2', 'g4-3', 'g4-4', 'g4-5'], aplicacoes: ['g5-1', 'g5-2', 'g5-3'], avaliacao: ['g5-5'], pesquisa: ['g5-4'] },
     metodo: 'Interpretação espacial: localizar, representar (mapas, escalas, projeções) e explicar a distribuição dos fenômenos naturais e humanos e suas relações.',
     prereq: ['logica'],
     etapas: [

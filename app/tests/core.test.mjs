@@ -644,7 +644,7 @@ test('Geografia I: aulas completas das etapas 1 a 3, com prova, bloqueio da fase
     assert.ok(C.aulaConcluivel(a, C.estadoInicial(T0), null, null, C.INICIO_MULTIDISCIPLINAR).faltas.includes(C.MSG_FASE));
   }
   assert.ok(avaliacaoPorId['prova-g1']?.itens.filter((i) => i.aula).length >= 8, 'prova do módulo');
-  assert.ok(noPorId.geografia.modulos.includes('g1') && !g.aulasPublicadas, 'mapa conta o progresso; percurso ainda incompleto');
+  assert.ok(noPorId.geografia.modulos.includes('g1') && g.aulasPublicadas && noPorId.geografia.percurso, 'mapa conta o progresso; percurso de Geografia completo');
 });
 
 test('disciplinas com aulas: cada aula completa, no módulo certo, com prova e bloqueio da fase 2', () => {
