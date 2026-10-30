@@ -205,6 +205,41 @@ export const DISCIPLINAS = [
       B('IBGE', 'Censo Demográfico: povos indígenas e quilombolas', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.ibge.gov.br' }),
     ],
   },
+  {
+    id: 'astronomia', no: 'astronomia', nome: 'Astronomia', aulasPublicadas: false,
+    aulas: { fundamentos: ['as1-1'], vocabulario: ['as1-2'], metodos: ['as1-3', 'as1-4', 'as1-5'] },
+    metodo: 'Observação sistemática do céu, medida de posições, brilhos e espectros, e modelos matemáticos testados por previsões. Distingue o que se observa, o que se infere por modelo e o que permanece hipótese, e separa a cosmologia científica da questão filosófica e teológica da criação.',
+    prereq: ['logica', 'matematica'],
+    etapas: [
+      E('fundamentos', 'Entender o céu visto da Terra e o lugar da astronomia entre as ciências.', ['A esfera celeste e o movimento diurno', 'O Sol, a Lua e as estações', 'Planetas e estrelas a olho nu'], 'Observar o céu em três noites e registrar a posição da Lua e de uma estrela brilhante em relação ao horizonte.', 'Registros datados, com hora, direção e altura aproximada.'),
+      E('vocabulario', 'Dominar a linguagem técnica.', ['Coordenadas celestes (altura, azimute, ascensão reta, declinação)', 'Unidades: unidade astronômica, ano-luz, parsec', 'Magnitude e cor das estrelas'], 'Glossário de 20 termos com exemplo de um objeto real do céu.', 'Definições corretas e unidades bem usadas.', 'O céu do hemisfério sul (Cruzeiro do Sul, Nuvens de Magalhães) é usado nos exemplos.'),
+      E('metodos', 'Conhecer os métodos de observação e medida.', ['Telescópio e lunetas', 'Paralaxe e medida de distâncias', 'Espectroscopia', 'Leis de Kepler como ferramenta de cálculo'], 'Calcular a distância de uma estrela a partir de sua paralaxe e o período de um planeta pela terceira lei de Kepler.', 'Cálculos corretos com unidades.'),
+      E('formacao', 'Conhecer a história da astronomia.', ['Babilônios e gregos', 'Aristóteles, Hiparco e Ptolomeu', 'A astronomia no mundo islâmico e na Idade Média latina'], 'Explicar como o modelo de Ptolomeu "salvava os fenômenos" com epiciclos.', 'Expõe o modelo e o que ele explicava.'),
+      E('autores', 'Ler os fundadores da astronomia moderna.', ['Copérnico: Das revoluções das esferas celestes', 'Kepler: as três leis', 'Galileu: O mensageiro das estrelas', 'Newton: os Principia'], 'Ficha de leitura das observações de O mensageiro das estrelas (1610).', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir os grandes modelos do cosmo.', ['Geocentrismo ptolomaico', 'Heliocentrismo copernicano', 'Sistema de Tycho Brahe', 'Gravitação newtoniana e relatividade'], 'Quadro comparativo dos modelos: o que cada um explicava, que dados usava e por que foi superado.', 'Compara com dados, sem anacronismo.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['O caso Galileu: história e mito', 'Big Bang, Lemaître e a criação', 'Vida fora da Terra e a fé'], 'Ensaio: o que a cosmologia do Big Bang pode e o que não pode dizer sobre a criação?', 'Distingue início físico do universo e criação como dependência no ser.'),
+      E('avancado', 'Estudar a astrofísica e a cosmologia.', ['Estrelas: nascimento, evolução e morte', 'Galáxias e a expansão do universo', 'Radiação cósmica de fundo', 'A astronomia no Brasil'], 'Explicar o diagrama de Hertzsprung-Russell e situar nele o Sol e três estrelas conhecidas.', 'Usa corretamente temperatura, luminosidade e evolução estelar.', 'O eclipse de Sobral (1919), que testou a relatividade geral, e o Observatório Nacional (1827) situam o Brasil na história da astronomia.'),
+      E('aplicacoes', 'Usar a astronomia em problemas concretos.', ['Calendários e o cálculo da Páscoa', 'Navegação e satélites', 'Poluição luminosa'], 'Calcular a data da Páscoa de um ano pelo método tradicional e explicar a reforma gregoriana de 1582.', 'Cálculo correto e explicação histórica.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de astronomia de posição e de astrofísica', 'Interpretação de dados de observação'], 'Prova: interpretar dados de um objeto celeste e situá-lo num modelo.', 'Rubrica: leitura correta dos dados, modelo adequado, conclusão proporcional.'),
+      E('pesquisa', 'Fazer uma pequena investigação observacional.', ['Pergunta observacional', 'Registro sistemático', 'Análise e relatório'], 'Projeto de observação de um mês (fases da Lua, movimento de um planeta ou latitude local), com registros e relatório.', 'Registros completos, método descrito, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Do céu', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-ceu' }),
+      B('Cláudio Ptolomeu', 'Almagesto', 'século II', 'primaria', 'formacao'),
+      B('Nicolau Copérnico', 'Das revoluções das esferas celestes', '1543', 'primaria', 'autores'),
+      B('Johannes Kepler', 'Astronomia nova', '1609', 'primaria', 'autores'),
+      B('Galileu Galilei', 'O mensageiro das estrelas', '1610', 'primaria', 'autores'),
+      B('Isaac Newton', 'Princípios matemáticos da filosofia natural', '1687', 'primaria', 'autores'),
+      B('Thomas Kuhn', 'A revolução copernicana', '1957', 'estudo', 'escolas'),
+      B('Pierre Duhem', 'Salvar os fenômenos', '1908', 'estudo', 'formacao'),
+      B('Georges Lemaître', '"The Beginning of the World from the Point of View of Quantum Theory" (artigo)', '1931', 'primaria', 'debates'),
+      B('Pio XII', 'Discurso à Pontifícia Academia das Ciências', '1951', 'doutrina', 'debates'),
+      B('São João Paulo II', 'Discurso à Pontifícia Academia das Ciências sobre o caso Galileu', '1992', 'doutrina', 'debates'),
+      B('Kepler de Souza Oliveira Filho e Maria de Fátima Saraiva', 'Astronomia e astrofísica', '—', 'manual', 'vocabulario', { brasil: true }),
+      B('Observatório Nacional', 'Anuário e efemérides', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/observatorio' }),
+      B('INPE', 'Programa de satélites e ciências espaciais', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/inpe' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -252,4 +287,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'astronomia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
