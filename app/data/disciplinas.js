@@ -465,6 +465,46 @@ export const DISCIPLINAS = [
       B('Ministério da Saúde', 'Sistemas de informações sobre mortalidade e nascidos vivos (DATASUS)', '—', 'dados', 'metodos', { brasil: true, url: 'https://datasus.saude.gov.br' }),
     ],
   },
+  {
+    id: 'direito', no: 'direito', nome: 'Direito', aulasPublicadas: false,
+    aulas: { fundamentos: ['dr1-1'], vocabulario: ['dr1-2'], metodos: ['dr1-3', 'dr1-4', 'dr1-5'] },
+    metodo: 'Estudo das normas jurídicas e de suas fontes — constituição, leis, costumes, jurisprudência e doutrina —, de sua interpretação e de sua aplicação a casos, com leitura dos textos oficiais atualizados. Distingue o direito vigente (o que a norma diz), sua interpretação (o que tribunais e juristas entendem) e sua avaliação moral (se é justo), à luz do direito natural.',
+    prereq: ['filo-direito', 'ciencia-politica', 'etica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é o direito.', ['Direito, moral e justiça', 'Norma jurídica e sanção', 'Direito natural e direito positivo'], 'Distinguir, em três situações cotidianas, o que é dever moral, dever jurídico ou ambos.', 'Distinções corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Fontes do direito', 'Direito público e privado e seus ramos', 'Pessoa, capacidade, direito subjetivo, dever e ato jurídico'], 'Glossário de 20 termos jurídicos com o artigo correspondente da Constituição ou do Código Civil.', 'Definições corretas e artigos citados.', 'O Código Civil vigente é a Lei nº 10.406/2002; a Constituição vigente é de 1988.'),
+      E('metodos', 'Conhecer os métodos do estudo do direito.', ['Hierarquia das normas', 'Interpretação: literal, sistemática, histórica e teleológica', 'Jurisprudência e precedentes', 'Pesquisa em fontes oficiais'], 'Localizar um artigo da Constituição, a lei que o regulamenta e uma decisão de tribunal superior sobre o tema, e interpretá-los.', 'Fontes oficiais corretas e interpretação fundamentada.', 'O Portal da Legislação do Planalto e os sites do STF e do STJ publicam textos e decisões oficiais.'),
+      E('formacao', 'Conhecer a formação do direito ocidental.', ['Direito romano', 'Direito canônico e escolástica', 'Escola de Salamanca e direito das gentes', 'Codificação e constitucionalismo'], 'Linha do tempo do direito ocidental com uma obra ou código por marco, incluindo marcos brasileiros.', 'Cada marco com data, obra e ideia central.', 'O Código Civil de 1916, projetado por Clóvis Beviláqua, vigorou até 2002.'),
+      E('autores', 'Ler os grandes autores do direito.', ['Gaio e Justiniano', 'Tomás de Aquino: o tratado da lei', 'Vitória, Suárez e Grócio', 'Montesquieu e Beccaria'], 'Ficha de leitura de capítulos de Dos delitos e das penas, de Beccaria.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes escolas.', ['Jusnaturalismo clássico', 'Positivismo jurídico (Kelsen, Hart)', 'Realismo e sociologia do direito', 'Pós-positivismo e princípios (Dworkin, Alexy)'], 'Quadro comparativo: como cada escola define o direito e responde à pergunta sobre a lei injusta.', 'Atribui corretamente autores e teses.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Lei injusta e objeção de consciência', 'Ativismo judicial e separação dos Poderes', 'Fundamento e extensão dos direitos humanos'], 'Ensaio: uma lei injusta obriga? Responder com Tomás, um positivista e a doutrina da Igreja.', 'Distingue validade jurídica, juízo moral e doutrina.'),
+      E('avancado', 'Estudar os grandes ramos do direito brasileiro.', ['Direito constitucional e direitos fundamentais', 'Direito civil: pessoa, família, contratos e propriedade', 'Direito penal e processo', 'Direito administrativo e tributário'], 'Analisar um caso hipotético aplicando normas de dois ramos do direito brasileiro.', 'Normas corretas e raciocínio jurídico claro.', 'Rui Barbosa, Clóvis Beviláqua e Pontes de Miranda estão entre os grandes juristas brasileiros.'),
+      E('aplicacoes', 'Usar o direito em problemas concretos.', ['Direitos do consumidor', 'Família e sucessões na prática', 'Acesso à justiça e meios consensuais'], 'Analisar um caso de consumo com o Código de Defesa do Consumidor e indicar os caminhos de solução.', 'Normas corretas e caminhos viáveis.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre conceitos, fontes, escolas e direito brasileiro', 'Interpretação de um dispositivo e de uma decisão'], 'Prova: interpretar um dispositivo constitucional e uma decisão judicial.', 'Rubrica: fontes, interpretação, distinção entre direito e moral.'),
+      E('pesquisa', 'Fazer uma pequena pesquisa jurisprudencial.', ['Pergunta e recorte', 'Coleta e fichamento de decisões', 'Análise e relatório'], 'Investigação de quatro semanas sobre a jurisprudência de um tema num tribunal (por exemplo, um direito fundamental), com fichamento de decisões e relatório.', 'Recorte claro, decisões fichadas, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Gaio', 'Institutas', 'século II', 'primaria', 'formacao'),
+      B('Justiniano', 'Corpus Iuris Civilis', '529–534', 'primaria', 'formacao'),
+      B('Santo Tomás de Aquino', 'Suma Teológica I-II, qq. 90–97 (tratado da lei)', 'c. 1270', 'primaria', 'autores'),
+      B('Francisco de Vitória', 'Relectio de Indis', '1539', 'primaria', 'autores'),
+      B('Hugo Grócio', 'O direito da guerra e da paz', '1625', 'primaria', 'autores'),
+      B('Montesquieu', 'O espírito das leis', '1748', 'primaria', 'autores'),
+      B('Cesare Beccaria', 'Dos delitos e das penas', '1764', 'primaria', 'autores'),
+      B('Immanuel Kant', 'Metafísica dos costumes', '1797', 'primaria', 'escolas', { livro: 'kant-metafisica-costumes' }),
+      B('G. W. F. Hegel', 'Princípios da filosofia do direito', '1820', 'primaria', 'escolas', { livro: 'hegel-direito' }),
+      B('Hans Kelsen', 'Teoria pura do direito', '1934', 'primaria', 'escolas'),
+      B('H. L. A. Hart', 'O conceito de direito', '1961', 'primaria', 'escolas'),
+      B('Ronald Dworkin', 'Levando os direitos a sério', '1977', 'estudo', 'escolas'),
+      B('Leo Strauss', 'Direito natural e história', '1953', 'estudo', 'debates', { livro: 'strauss-direito-natural' }),
+      B('John Finnis', 'Lei natural e direitos naturais', '1980', 'estudo', 'debates', { livro: 'finnis-lei-natural' }),
+      B('Rui Barbosa', 'Oração aos moços', '1921', 'primaria', 'avancado', { brasil: true }),
+      B('Congresso Nacional', 'Código Civil (Lei nº 3.071/1916), projeto de Clóvis Beviláqua', '1916', 'primaria', 'formacao', { brasil: true }),
+      B('Assembleia Nacional Constituinte', 'Constituição da República Federativa do Brasil', '1988', 'primaria', 'vocabulario', { brasil: true }),
+      B('Congresso Nacional', 'Código Civil (Lei nº 10.406/2002)', '2002', 'primaria', 'avancado', { brasil: true }),
+      B('Supremo Tribunal Federal', 'Pesquisa de jurisprudência', '—', 'dados', 'metodos', { brasil: true, url: 'https://portal.stf.jus.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -512,4 +552,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['direito', 'psicologia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
