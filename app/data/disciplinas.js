@@ -240,6 +240,42 @@ export const DISCIPLINAS = [
       B('INPE', 'Programa de satélites e ciências espaciais', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.gov.br/inpe' }),
     ],
   },
+  {
+    id: 'biologia', no: 'biologia', nome: 'Biologia', aulasPublicadas: false,
+    aulas: { fundamentos: ['bi1-1'], vocabulario: ['bi1-2'], metodos: ['bi1-3', 'bi1-4', 'bi1-5'] },
+    metodo: 'Observação, classificação, experimento controlado e comparação, com modelos testados por previsões, do nível molecular ao ecossistema. Distingue o que se observa, o que se infere e o que é hipótese, e separa a explicação científica dos seres vivos das questões filosóficas e teológicas sobre a vida e o homem.',
+    prereq: ['logica', 'quimica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a vida e como a biologia a estuda.', ['Características dos seres vivos', 'Níveis de organização', 'Biogênese: Redi e Pasteur'], 'Descrever três seres vivos do seu entorno e mostrar como apresentam as características da vida.', 'Usa corretamente as características e os níveis.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Célula, tecido, órgão, sistema', 'Gene, genoma, espécie, população', 'Metabolismo, homeostase, ecossistema'], 'Glossário de 20 termos com exemplo de um ser vivo brasileiro.', 'Definições corretas e exemplos pertinentes.', 'Os exemplos usam a biodiversidade brasileira.'),
+      E('metodos', 'Conhecer os métodos da biologia.', ['Microscopia', 'Experimento controlado', 'Classificação e nomenclatura (Lineu)', 'Ética no uso de animais em pesquisa'], 'Planejar um experimento de germinação de sementes com variável controlada e grupo de controle.', 'Variável, controle e medida bem definidos.', 'O uso de animais em pesquisa no Brasil é regulado pela Lei nº 11.794/2008.'),
+      E('formacao', 'Conhecer a história da biologia.', ['Aristóteles biólogo', 'Galeno e Vesálio', 'Harvey e a circulação', 'Hooke, Leeuwenhoek e os microscópios'], 'Explicar como Harvey demonstrou a circulação do sangue (1628) com medidas e raciocínio.', 'Expõe o argumento quantitativo de Harvey.'),
+      E('autores', 'Ler os fundadores da biologia moderna.', ['Lineu: Systema Naturae', 'Darwin: A origem das espécies', 'Mendel: os híbridos de ervilhas', 'Watson e Crick: a estrutura do DNA'], 'Ficha de leitura do capítulo IV de A origem das espécies (seleção natural).', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes sínteses e correntes.', ['Teoria celular', 'Mecanicismo e vitalismo', 'Síntese moderna da evolução', 'Biologia molecular'], 'Quadro comparativo: o que cada síntese explicou e que problema deixou aberto.', 'Atribui corretamente autores e conceitos.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Evolução e criação', 'A singularidade do ser humano', 'Bioética: embriões, edição genética e fim da vida'], 'Ensaio: o que a teoria da evolução pode e o que não pode afirmar sobre a origem do homem?', 'Distingue explicação biológica, filosofia da natureza e doutrina.'),
+      E('avancado', 'Estudar as grandes áreas da biologia.', ['Genética e biologia molecular', 'Fisiologia humana', 'Ecologia e biodiversidade', 'A biologia no Brasil'], 'Explicar o funcionamento de um gene, da transcrição à proteína, com um exemplo de doença genética.', 'Etapas corretas e exemplo bem explicado.', 'A descoberta da doença de Chagas por Carlos Chagas (1909) e os estudos de Fritz Müller em Santa Catarina situam o Brasil na história da biologia.'),
+      E('aplicacoes', 'Usar a biologia em problemas concretos.', ['Saúde pública e vacinas', 'Biotecnologia e agricultura', 'Conservação da biodiversidade'], 'Analisar uma campanha de vacinação brasileira com dados, explicando o mecanismo imunológico.', 'Dados com fonte e mecanismo correto.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões sobre células, genética, evolução e ecologia', 'Interpretação de experimentos'], 'Prova: interpretar um experimento biológico e avaliar seu desenho.', 'Rubrica: variável, controle, conclusão proporcional.'),
+      E('pesquisa', 'Fazer uma pequena investigação experimental ou de campo.', ['Pergunta e hipótese', 'Experimento ou levantamento de campo', 'Análise e relatório'], 'Investigação de quatro semanas (germinação, crescimento de plantas ou levantamento de espécies num local), com registros e relatório.', 'Desenho correto, registros completos, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'História dos animais', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-historia-animais' }),
+      B('William Harvey', 'Do movimento do coração e do sangue nos animais', '1628', 'primaria', 'formacao'),
+      B('Robert Hooke', 'Micrographia', '1665', 'primaria', 'formacao'),
+      B('Carlos Lineu', 'Systema Naturae', '1735', 'primaria', 'autores'),
+      B('Charles Darwin', 'A origem das espécies', '1859', 'primaria', 'autores'),
+      B('Gregor Mendel', 'Experimentos sobre híbridos de plantas', '1866', 'primaria', 'autores'),
+      B('James Watson e Francis Crick', '"Molecular Structure of Nucleic Acids" (artigo)', '1953', 'primaria', 'autores'),
+      B('Ernst Mayr', 'O desenvolvimento do pensamento biológico', '1982', 'estudo', 'escolas'),
+      B('Étienne Gilson', 'De Aristóteles a Darwin (e volta)', '1971', 'estudo', 'debates', { livro: 'gilson-darwin' }),
+      B('Pio XII', 'Humani Generis', '1950', 'doutrina', 'debates'),
+      B('São João Paulo II', 'Mensagem à Pontifícia Academia das Ciências sobre a evolução', '1996', 'doutrina', 'debates'),
+      B('Carlos Chagas', 'Descrição da tripanossomíase americana', '1909', 'primaria', 'avancado', { brasil: true }),
+      B('Fritz Müller', 'Para Darwin (Für Darwin)', '1864', 'primaria', 'avancado', { brasil: true }),
+      B('Embrapa', 'Pesquisa agropecuária e biodiversidade', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://www.embrapa.br' }),
+      B('Fiocruz', 'Pesquisa em saúde pública', '—', 'dados', 'aplicacoes', { brasil: true, url: 'https://portal.fiocruz.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -287,4 +323,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'biologia', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
+export const DISCIPLINAS_PENDENTES = ['ciencia-politica', 'direito', 'psicologia', 'demografia', 'relacoes-internacionais', 'educacao', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'ciencias-terra', 'ciencias-ambientais', 'linguistica', 'literatura', 'historia-arte', 'musica', 'cultura'];
