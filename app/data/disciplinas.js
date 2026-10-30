@@ -433,8 +433,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'demografia', no: 'demografia', nome: 'Demografia', aulasPublicadas: false,
-    aulas: { fundamentos: ['dm1-1'], vocabulario: ['dm1-2'], metodos: ['dm1-3', 'dm1-4', 'dm1-5'], formacao: ['dm2-1', 'dm2-2'], autores: ['dm2-3', 'dm2-4', 'dm2-5'], escolas: ['dm3-1', 'dm3-2'], debates: ['dm3-3', 'dm3-4', 'dm3-5'], avancado: ['dm4-1', 'dm4-2', 'dm4-3', 'dm4-4', 'dm4-5'] },
+    id: 'demografia', no: 'demografia', nome: 'Demografia', aulasPublicadas: true,
+    aulas: { fundamentos: ['dm1-1'], vocabulario: ['dm1-2'], metodos: ['dm1-3', 'dm1-4', 'dm1-5'], formacao: ['dm2-1', 'dm2-2'], autores: ['dm2-3', 'dm2-4', 'dm2-5'], escolas: ['dm3-1', 'dm3-2'], debates: ['dm3-3', 'dm3-4', 'dm3-5'], avancado: ['dm4-1', 'dm4-2', 'dm4-3', 'dm4-4', 'dm4-5'], aplicacoes: ['dm5-1', 'dm5-2', 'dm5-3'], avaliacao: ['dm5-5'], pesquisa: ['dm5-4'] },
     metodo: 'Medição da população e de seus componentes — nascimentos, mortes e migrações — com censos, registros civis e pesquisas amostrais, indicadores padronizados, tábuas de vida e projeções. Distingue dado, estimativa, projeção e juízo sobre políticas, e lê os números à luz da dignidade da pessoa e da família.',
     prereq: ['geografia', 'sociologia', 'estatistica'],
     etapas: [
