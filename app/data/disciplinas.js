@@ -812,7 +812,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'musica', no: 'musica', nome: 'Música', aulasPublicadas: false,
-    aulas: { fundamentos: ['mu1-1'], vocabulario: ['mu1-2'], metodos: ['mu1-3', 'mu1-4', 'mu1-5'], formacao: ['mu2-1', 'mu2-2'], autores: ['mu2-3', 'mu2-4', 'mu2-5'], escolas: ['mu3-1', 'mu3-2'], debates: ['mu3-3', 'mu3-4', 'mu3-5'] },
+    aulas: { fundamentos: ['mu1-1'], vocabulario: ['mu1-2'], metodos: ['mu1-3', 'mu1-4', 'mu1-5'], formacao: ['mu2-1', 'mu2-2'], autores: ['mu2-3', 'mu2-4', 'mu2-5'], escolas: ['mu3-1', 'mu3-2'], debates: ['mu3-3', 'mu3-4', 'mu3-5'], avancado: ['mu4-1', 'mu4-2', 'mu4-3', 'mu4-4', 'mu4-5'] },
     metodo: 'Estudo da música como arte e como ciência: ouvir com atenção, ler e escrever a notação, analisar formas e conhecer a teoria, a história e as obras. Cada conceito é ligado a peças concretas que o estudante escuta, e distingue-se o que é fato acústico ou histórico, o que é doutrina da Igreja sobre a música sacra e o que é juízo estético discutível.',
     prereq: ['matematica', 'historia-arte'],
     etapas: [
