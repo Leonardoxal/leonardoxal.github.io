@@ -700,6 +700,43 @@ export const DISCIPLINAS = [
       B('Marcos Bagno', 'Preconceito linguístico', '1999', 'estudo', 'debates', { brasil: true }),
     ],
   },
+  {
+    id: 'literatura', no: 'literatura', nome: 'Literatura', aulasPublicadas: false,
+    aulas: { fundamentos: ['lt1-1'], vocabulario: ['lt1-2'], metodos: ['lt1-3', 'lt1-4', 'lt1-5'] },
+    metodo: 'Leitura atenta das grandes obras, no texto integral sempre que possível, com análise da forma (gênero, verso, narrador, linguagem), do contexto histórico e do sentido humano, moral e espiritual. Distingue o que o texto diz (com citação), o que a crítica interpreta e o juízo do leitor, e lê a literatura brasileira e de língua portuguesa ao lado dos clássicos universais.',
+    prereq: ['estetica', 'linguistica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é literatura e para que serve.', ['Mimese e ficção', 'Deleitar e instruir', 'Literatura, verdade e formação'], 'Explicar com exemplos a frase de Aristóteles de que a poesia é mais filosófica que a história.', 'Explicação fiel ao texto e exemplos pertinentes.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Gêneros: épico, lírico e dramático', 'Versificação: métrica, rima e formas fixas', 'Figuras de linguagem', 'Narrador, personagem, tempo e espaço'], 'Escandir três poemas e identificar figuras de linguagem e foco narrativo em dois contos.', 'Escansão correta e identificação precisa.'),
+      E('metodos', 'Conhecer os métodos de leitura e análise.', ['Leitura atenta e anotação', 'Análise de poema e de narrativa', 'Contexto, edição e fontes'], 'Analisar um poema e um conto com o roteiro do curso, citando o texto.', 'Análise apoiada em citações e distinção entre texto e interpretação.'),
+      E('formacao', 'Conhecer a formação histórica da literatura.', ['Antiguidade: Homero e a tragédia', 'Idade Média: Agostinho e Dante', 'Renascimento e Barroco: Camões, Cervantes, Shakespeare, Vieira', 'Do Romantismo ao Modernismo, no mundo e no Brasil'], 'Linha do tempo da literatura com uma obra por período, incluindo obras brasileiras.', 'Cada obra com data, autor e característica do período.', 'A literatura brasileira vai de Gregório de Matos e Vieira ao Modernismo e a Guimarães Rosa.'),
+      E('autores', 'Ler os grandes autores.', ['Aristóteles e a Poética', 'Dante e a Divina Comédia', 'Cervantes e Shakespeare', 'Machado de Assis'], 'Ficha de leitura de um canto do Inferno ou de capítulos de Dom Casmurro.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes correntes críticas.', ['Crítica histórica e biográfica', 'Formalismo e Nova Crítica', 'Crítica sociológica', 'Crítica católica e humanista'], 'Ler um mesmo poema segundo duas correntes críticas e comparar os resultados.', 'Aplicação correta e comparação justa.', 'Antonio Candido e Alceu Amoroso Lima marcaram a crítica brasileira.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['O cânone literário', 'Literatura e moral', 'Autor, obra e leitor'], 'Ensaio: a literatura deve ser julgada também por critérios morais? Responder com Platão, Aristóteles e um crítico moderno.', 'Distingue juízo estético, moral e gosto pessoal.'),
+      E('avancado', 'Aprofundar os grandes gêneros.', ['Poesia lírica', 'Romance e conto', 'Teatro', 'Literatura e fé'], 'Estudo comparado de duas obras de gêneros diferentes com o mesmo tema.', 'Análise precisa e contextualizada.'),
+      E('aplicacoes', 'Usar a literatura em situações concretas.', ['Leitura em voz alta e memorização de poemas', 'Clubes de leitura', 'Formação literária de crianças e jovens'], 'Organizar e conduzir um encontro de clube de leitura, com roteiro de perguntas.', 'Roteiro fundamentado e condução respeitosa.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de análise e história literária', 'Análise de um texto não estudado'], 'Prova: analisar um poema e um trecho narrativo e situar ambos no período.', 'Rubrica: citação, análise formal, contexto, interpretação.'),
+      E('pesquisa', 'Fazer uma pequena investigação literária.', ['Escolha de obra ou autor', 'Leitura e fortuna crítica', 'Ensaio'], 'Investigação de quatro semanas sobre uma obra ou autor (de preferência regional), com leitura integral, fortuna crítica e ensaio.', 'Leitura integral, fontes citadas, interpretação fundamentada.'),
+    ],
+    bibliografia: [
+      B('Homero', 'Ilíada e Odisseia', 'século VIII a.C.', 'primaria', 'formacao'),
+      B('Platão', 'A República, livros II, III e X', 'c. 375 a.C.', 'primaria', 'debates', { livro: 'platao-republica' }),
+      B('Aristóteles', 'Poética', 'século IV a.C.', 'primaria', 'autores', { livro: 'aristoteles-poetica' }),
+      B('Horácio', 'Arte poética', 'c. 19 a.C.', 'primaria', 'fundamentos'),
+      B('Santo Agostinho', 'Confissões', '397–400', 'primaria', 'formacao'),
+      B('Dante Alighieri', 'Divina Comédia', 'c. 1308–1321', 'primaria', 'autores'),
+      B('Luís de Camões', 'Os Lusíadas', '1572', 'primaria', 'formacao'),
+      B('Miguel de Cervantes', 'Dom Quixote', '1605–1615', 'primaria', 'autores'),
+      B('Machado de Assis', 'Dom Casmurro', '1899', 'primaria', 'autores', { brasil: true }),
+      B('Étienne Gilson', 'Dante e a filosofia', '1939', 'estudo', 'avancado', { livro: 'gilson-dante' }),
+      B('Erich Auerbach', 'Mimesis', '1946', 'estudo', 'escolas'),
+      B('Jean-Paul Sartre', 'Que é a literatura?', '1948', 'estudo', 'debates', { livro: 'sartre-literatura' }),
+      B('João Guimarães Rosa', 'Grande sertão: veredas', '1956', 'primaria', 'avancado', { brasil: true }),
+      B('Antonio Candido', 'Formação da literatura brasileira', '1959', 'estudo', 'escolas', { brasil: true }),
+      B('C. S. Lewis', 'Um experimento na crítica literária', '1961', 'estudo', 'debates'),
+      B('João Paulo II', 'Carta aos artistas', '1999', 'doutrina', 'fundamentos', { livro: 'jp2-artistas' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -747,4 +784,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'literatura', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'musica'];
