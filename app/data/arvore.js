@@ -38,7 +38,7 @@ export const NOS = [
   N('teol-fundamental', 'Teologia fundamental', 'teologia', 'teologia', 'O que é a teologia, a credibilidade da fé e o desenvolvimento da doutrina.', { livros: ['ratzinger-introducao', 'newman-desenvolvimento'], aulas: ['m1-1'] }),
   N('credo', 'Credo', 'teologia', 'teologia', 'Os artigos da fé professados pela Igreja.', { livros: ['compendio-cic', 'cic'], aulas: ['m1-4', 'm1-5'] }),
   N('teol-dogmatica', 'Teologia dogmática', 'teologia', 'teologia', 'O conjunto ordenado das verdades da fé e seus graus de autoridade.', { livros: ['denzinger', 'suma-i'], areas: ['Doutrina', 'Teologia'] }),
-  N('trindade', 'Santíssima Trindade', 'teol-dogmatica', 'teologia', 'Um só Deus em três Pessoas: a doutrina e sua elaboração pelos Padres e escolásticos.', { livros: ['agostinho-trindade', 'boecio-opuscula'] }),
+  N('trindade', 'Santíssima Trindade', 'teol-dogmatica', 'teologia', 'Um só Deus em três Pessoas: a doutrina e sua elaboração pelos Padres e escolásticos.', { livros: ['agostinho-trindade', 'boecio-opuscula'], modulos: ['tg1'] }),
   N('cristologia', 'Cristologia', 'teol-dogmatica', 'teologia', 'Jesus Cristo, verdadeiro Deus e verdadeiro homem, e a obra da redenção.', { livros: ['anselmo-cur-deus', 'suma-iii'], aulas: ['m1-7', 'm2-6'] }),
   N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'] }),
   N('sacramentos', 'Sacramentos', 'teol-dogmatica', 'teologia', 'Os sete sacramentos e a vida litúrgica.', { aulas: ['m1-9'] }),
