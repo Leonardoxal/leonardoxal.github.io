@@ -107,7 +107,7 @@ export const NOS = [
   N('artes', 'Artes e Humanidades', 'filosofia', 'artes', 'Linguagem, literatura, artes e cultura, com métodos de análise e interpretação próprios.', {}),
   P('linguistica', 'Linguística', 'artes', 'artes', 'Estrutura e história das línguas.', { livros: ['gilson-linguistica', 'rousseau-linguas'], areas: ['Línguas'] }),
   P('literatura', 'Literatura', 'artes', 'artes', 'Obras literárias, gêneros e crítica.', { areas: ['Literatura'], livros: ['sartre-literatura'] }),
-  P('historia-arte', 'História da Arte', 'artes', 'artes', 'Arquitetura, pintura e escultura na história, da Antiguidade ao barroco brasileiro, com análise formal e iconográfica.', { modulos: ['ha1', 'ha2'], livros: ['gilson-pintura', 'maritain-arte', 'hegel-estetica', 'jp2-artistas'] }),
+  P('historia-arte', 'História da Arte', 'artes', 'artes', 'Arquitetura, pintura e escultura na história, da Antiguidade ao barroco brasileiro, com análise formal e iconográfica.', { modulos: ['ha1', 'ha2', 'ha3'], livros: ['gilson-pintura', 'maritain-arte', 'hegel-estetica', 'jp2-artistas'] }),
   P('musica', 'Música', 'artes', 'artes', 'Teoria e história da música.', { livros: ['agostinho-musica', 'rousseau-musica'] }),
   N('cultura', 'Cultura', 'artes', 'artes', 'Filosofia e história da cultura.', { modulos: ['cu1', 'cu2', 'cu3', 'cu4', 'cu5'], livros: ['mfs-cultura', 'olavo-filosofia-cultura'] }),
   N('retorica', 'Retórica', 'artes', 'artes', 'A arte do discurso persuasivo e suas relações com a dialética.', { livros: ['aristoteles-retorica', 'mfs-oratoria', 'olavo-como-vencer'], aulas: ['m4-11'] }),
