@@ -61,7 +61,7 @@ test('escada: 14 degraus encadeados; preparação → teologia → patrística �
   for (const m of MODULOS) assert.deepEqual(degrauDe(m.id), [m.degrau], `módulo ${m.id} em um só degrau`);
   assert.equal(DEGRAUS.filter((d) => d.modulos.includes('m3')).length, 1);
   assert.deepEqual(DEGRAUS[0].modulos, ['m0']);
-  assert.deepEqual(DEGRAUS[2].modulos, ['m2b']);
+  assert.equal(DEGRAUS[2].modulos[0], 'm2b', 'a patrística abre o degrau 2; a escolástica teológica (tg6) vem depois');
   assert.deepEqual(DEGRAUS[5].modulos, ['m5']);
   // O degrau 0 não exige a Introdução à Filosofia antes da teologia.
   assert.ok(!moduloPorId.m1.prereq.includes('m3') && !moduloPorId.m0.prereq.length);
@@ -147,7 +147,7 @@ test('migração v2 → v3: cada registro acompanha seu conteúdo quando a patr�
 test('fases: teologia exclusiva primeiro; a fase 2 só conclui depois dela, mas pode ser consultada', () => {
   const vazio = C.estadoInicial(T0);
   assert.equal(C.faseFormacao(vazio), 'preparacao');
-  assert.deepEqual(DEGRAUS.filter((d) => C.FASE_TEOLOGICA.includes(d.n)).flatMap((d) => d.modulos), ['m0', 'm1', 'm2', 'tg1', 'tg2', 'tg3', 'tg4', 'tg5', 'm2b'], 'só teologia (e o método) na fase 1');
+  assert.deepEqual(DEGRAUS.filter((d) => C.FASE_TEOLOGICA.includes(d.n)).flatMap((d) => d.modulos), ['m0', 'm1', 'm2', 'tg1', 'tg2', 'tg3', 'tg4', 'tg5', 'm2b', 'tg6'], 'só teologia (e o método) na fase 1');
   // a fase 1 não contém nenhum livro ou aula de filosofia regular
   const fase1 = LIVROS.filter((l) => l.degrau <= 2);
   assert.ok(!fase1.some((l) => ['Introdução à filosofia', 'Lógica', 'Filosofia antiga'].includes(l.area)), 'filosofia regular na fase teológica');
@@ -399,7 +399,7 @@ test('integridade: referências entre dados existem', () => {
     d.modulos.forEach((m) => assert.ok(modIds.has(m)));
     (d.retomar || []).forEach((l) => assert.ok(livroPorId[l], `degrau ${d.n}: ${l}`));
   }
-  assert.equal(MODULOS.filter((m) => m.degrau !== null).length, 23, 'módulos da escada (18 originais + tg1 a tg5)');
+  assert.equal(MODULOS.filter((m) => m.degrau !== null).length, 24, 'módulos da escada (18 originais + tg1 a tg6)');
   assert.equal(DEGRAUS.length, 14);
   assert.equal(new Set(AULAS_COMPLETAS.map((a) => a.id)).size, AULAS_COMPLETAS.length, 'ids de aula únicos');
   assert.ok(!JSON.stringify(AULAS_COMPLETAS).includes('${'), 'nenhuma interpolação não processada (aspas simples no lugar de crase)');

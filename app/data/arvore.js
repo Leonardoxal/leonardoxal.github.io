@@ -37,7 +37,7 @@ export const NOS = [
   N('revelacao', 'Revelação', 'teologia', 'teologia', 'Como Deus se dá a conhecer, e como a Revelação se transmite pela Escritura e pela Tradição.', { livros: ['dei-verbum'], aulas: ['m1-2', 'm1-3'] }),
   N('teol-fundamental', 'Teologia fundamental', 'teologia', 'teologia', 'O que é a teologia, a credibilidade da fé e o desenvolvimento da doutrina.', { livros: ['ratzinger-introducao', 'newman-desenvolvimento'], aulas: ['m1-1'] }),
   N('credo', 'Credo', 'teologia', 'teologia', 'Os artigos da fé professados pela Igreja.', { livros: ['compendio-cic', 'cic'], aulas: ['m1-4', 'm1-5'] }),
-  N('teol-dogmatica', 'Teologia dogmática', 'teologia', 'teologia', 'O conjunto ordenado das verdades da fé e seus graus de autoridade.', { livros: ['denzinger', 'suma-i'], areas: ['Doutrina', 'Teologia'] }),
+  N('teol-dogmatica', 'Teologia dogmática', 'teologia', 'teologia', 'O conjunto ordenado das verdades da fé e seus graus de autoridade.', { livros: ['denzinger', 'suma-i'], areas: ['Doutrina', 'Teologia'], modulos: ['tg6'] }),
   N('trindade', 'Santíssima Trindade', 'teol-dogmatica', 'teologia', 'Um só Deus em três Pessoas: a doutrina e sua elaboração pelos Padres e escolásticos.', { livros: ['agostinho-trindade', 'boecio-opuscula'], modulos: ['tg1'] }),
   N('cristologia', 'Cristologia', 'teol-dogmatica', 'teologia', 'Jesus Cristo, verdadeiro Deus e verdadeiro homem, e a obra da redenção.', { livros: ['anselmo-cur-deus', 'suma-iii'], aulas: ['m1-7', 'm2-6'] }),
   N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'], modulos: ['tg3'] }),
