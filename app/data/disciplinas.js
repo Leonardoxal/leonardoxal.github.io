@@ -626,8 +626,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'historia-arte', no: 'historia-arte', nome: 'História da Arte', aulasPublicadas: false,
-    aulas: { fundamentos: ['ha1-1'], vocabulario: ['ha1-2'], metodos: ['ha1-3', 'ha1-4', 'ha1-5'], formacao: ['ha2-1', 'ha2-2'], autores: ['ha2-3', 'ha2-4', 'ha2-5'], escolas: ['ha3-1', 'ha3-2'], debates: ['ha3-3', 'ha3-4', 'ha3-5'], avancado: ['ha4-1', 'ha4-2', 'ha4-3', 'ha4-4', 'ha4-5'] },
+    id: 'historia-arte', no: 'historia-arte', nome: 'História da Arte', aulasPublicadas: true,
+    aulas: { fundamentos: ['ha1-1'], vocabulario: ['ha1-2'], metodos: ['ha1-3', 'ha1-4', 'ha1-5'], formacao: ['ha2-1', 'ha2-2'], autores: ['ha2-3', 'ha2-4', 'ha2-5'], escolas: ['ha3-1', 'ha3-2'], debates: ['ha3-3', 'ha3-4', 'ha3-5'], avancado: ['ha4-1', 'ha4-2', 'ha4-3', 'ha4-4', 'ha4-5'], aplicacoes: ['ha5-1', 'ha5-2', 'ha5-3'], avaliacao: ['ha5-5'], pesquisa: ['ha5-4'] },
     metodo: 'Estudo das obras de arquitetura, pintura, escultura e artes visuais em seu contexto histórico, a partir da observação direta e das fontes. Cada obra é lida em três níveis: o que se vê (forma e técnica), o que representa (iconografia, com textos de apoio) e o que significa em sua época (iconologia, com documentos). Distingue o fato documentado (data, autor, encomenda), a interpretação de historiadores e o juízo estético ou teológico.',
     prereq: ['estetica', 'historia', 'simbologia'],
     etapas: [
