@@ -920,7 +920,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'relacoes-internacionais', no: 'relacoes-internacionais', nome: 'Relações Internacionais', aulasPublicadas: false,
-    aulas: { fundamentos: ['ri1-1'], vocabulario: ['ri1-2'], metodos: ['ri1-3', 'ri1-4', 'ri1-5'] },
+    aulas: { fundamentos: ['ri1-1'], vocabulario: ['ri1-2'], metodos: ['ri1-3', 'ri1-4', 'ri1-5'], formacao: ['ri2-1', 'ri2-2'], autores: ['ri2-3', 'ri2-4', 'ri2-5'] },
     metodo: 'Estudo das relações entre Estados, povos e organizações pela leitura de fontes (tratados, discursos, documentos diplomáticos), pela história e pela comparação de casos. Distingue-se sempre o fato documentado, a interpretação de analistas, a teoria (realista, liberal, construtivista) e o juízo moral à luz da lei natural e da doutrina social da Igreja.',
     prereq: ['ciencia-politica', 'geografia'],
     etapas: [
