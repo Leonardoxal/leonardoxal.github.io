@@ -57,8 +57,12 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - reforçar o m0 (método: fichamento, resumo crítico, citação, fontes);
    - mostrar o degrau ao lado do número do módulo nas listas;
    - avaliar se a avaliação `sintese-teologica` (em `avaliacoes.js`, `MODULOS_TEOLOGICOS`) deve incluir questões dos módulos `tg`.
-2. Fase 3: semestres (`app/data/periodos.js`), com carga semanal, avaliação no meio do período, projeto interdisciplinar, prova final e recuperação, e uma visão de calendário que substitua a grade de 25 disciplinas.
-3. Fases 4 a 10: módulos integradores, mediateca, fontes externas, semiótica, busca global e testes.
+2. A fase 3 (semestres) está concluída.
+   - `app/data/periodos.js` monta 9 semestres automaticamente a partir dos pré-requisitos das disciplinas e calcula a carga com as estimativas declaradas em `CARGA`.
+   - `app/views/periodos.js` mostra `#periodos` e `#periodo-N`.
+   - Na fase 3, a grade mostra só o semestre atual.
+   - Se você criar ou mudar uma disciplina, a distribuição muda sozinha. O teste "períodos letivos" confere os pré-requisitos.
+3. Próxima: fase 4, módulos integradores (`app/data/integradores.js`). Depois, as fases 5 a 10: mediateca, fontes externas, semiótica, busca global e testes.
 
 Não crie disciplinas novas fora do plano.
 

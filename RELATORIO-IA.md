@@ -51,3 +51,25 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
   - prereq de RI = ciência política e geografia;
   - título da obra de Vitória registrado como "Relectiones sobre os índios e sobre o direito de guerra".
 - Pendente: nada no plano de disciplinas. Aguardar as novas fontes e datas do usuário.
+
+## 2026-10-31 — Claude (sessão original): fase 3, períodos letivos
+
+**Feito:**
+- `app/data/periodos.js`:
+  - distribui as 25 disciplinas em 9 semestres, respeitando os pré-requisitos (disciplinas e degraus de filosofia);
+  - a filosofia avança um degrau por semestre (do 5 ao 13);
+  - cada semestre tem 16 semanas de estudo e 2 de fechamento: intermediária na semana 8, projeto na 16, final na 17 e recuperação na 18;
+  - calcula a carga semana a semana;
+  - registra exceções;
+  - dá a situação de cada matéria (aprovada, em curso ou recuperação), sem compensação entre provas ou entre matérias.
+- `app/views/periodos.js`: lista de semestres e calendário semanal de cada um.
+- A grade da fase 3 passou a mostrar só o semestre atual, em vez das 25 disciplinas.
+- Quem já tinha marcado todas as etapas de uma disciplina, ou concluído o degrau de filosofia, continua com a matéria aprovada.
+
+**Erro encontrado pelo teste e corrigido:** o módulo m16 não tem `prova-m16`; a avaliação dele é a `final`. A prova de cada módulo agora é buscada em `AVALIACOES`.
+
+**Testes:** 46 de 46 passaram. As rotas `#periodos` e `#periodo-1`, `-5` e `-9` foram conferidas no navegador, sem erros no console e sem rolagem horizontal em 375 px. O deploy deu certo.
+
+**Estimativas declaradas, não medidas** (estão em `CARGA`): 15 min de revisão por aula, 90 min por prova, 2 h por semana de leitura do degrau de filosofia e 6 h de projeto.
+
+**Pendente:** as fases 4 a 10 do `PLANO_EXECUCAO.md`, e o resto da fase 2 (m0 e o degrau ao lado do número do módulo).
