@@ -550,8 +550,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'estatistica', no: 'estatistica', nome: 'Estatística', aulasPublicadas: false,
-    aulas: { fundamentos: ['es1-1'], vocabulario: ['es1-2'], metodos: ['es1-3', 'es1-4', 'es1-5'], formacao: ['es2-1', 'es2-2'], autores: ['es2-3', 'es2-4', 'es2-5'], escolas: ['es3-1', 'es3-2'], debates: ['es3-3', 'es3-4', 'es3-5'], avancado: ['es4-1', 'es4-2', 'es4-3', 'es4-4', 'es4-5'] },
+    id: 'estatistica', no: 'estatistica', nome: 'Estatística', aulasPublicadas: true,
+    aulas: { fundamentos: ['es1-1'], vocabulario: ['es1-2'], metodos: ['es1-3', 'es1-4', 'es1-5'], formacao: ['es2-1', 'es2-2'], autores: ['es2-3', 'es2-4', 'es2-5'], escolas: ['es3-1', 'es3-2'], debates: ['es3-3', 'es3-4', 'es3-5'], avancado: ['es4-1', 'es4-2', 'es4-3', 'es4-4', 'es4-5'], aplicacoes: ['es5-1', 'es5-2', 'es5-3'], avaliacao: ['es5-5'], pesquisa: ['es5-4'] },
     metodo: 'Estudo dos métodos para coletar, organizar, resumir e interpretar dados sob incerteza, e para tirar conclusões de amostras sobre populações. Cada cálculo é feito à mão em exemplos pequenos antes de qualquer fórmula geral, e cada conclusão distingue o que os dados mostram, o que se infere com certa confiança e o que permanece hipótese.',
     prereq: ['matematica', 'logica'],
     etapas: [
