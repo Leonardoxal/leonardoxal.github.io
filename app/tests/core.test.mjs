@@ -147,7 +147,7 @@ test('migração v2 → v3: cada registro acompanha seu conteúdo quando a patr�
 test('fases: teologia exclusiva primeiro; a fase 2 só conclui depois dela, mas pode ser consultada', () => {
   const vazio = C.estadoInicial(T0);
   assert.equal(C.faseFormacao(vazio), 'preparacao');
-  assert.deepEqual(DEGRAUS.filter((d) => C.FASE_TEOLOGICA.includes(d.n)).flatMap((d) => d.modulos), ['m0', 'm1', 'm2', 'tg1', 'm2b'], 'só teologia (e o método) na fase 1');
+  assert.deepEqual(DEGRAUS.filter((d) => C.FASE_TEOLOGICA.includes(d.n)).flatMap((d) => d.modulos), ['m0', 'm1', 'm2', 'tg1', 'tg2', 'm2b'], 'só teologia (e o método) na fase 1');
   // a fase 1 não contém nenhum livro ou aula de filosofia regular
   const fase1 = LIVROS.filter((l) => l.degrau <= 2);
   assert.ok(!fase1.some((l) => ['Introdução à filosofia', 'Lógica', 'Filosofia antiga'].includes(l.area)), 'filosofia regular na fase teológica');
@@ -399,7 +399,7 @@ test('integridade: referências entre dados existem', () => {
     d.modulos.forEach((m) => assert.ok(modIds.has(m)));
     (d.retomar || []).forEach((l) => assert.ok(livroPorId[l], `degrau ${d.n}: ${l}`));
   }
-  assert.equal(MODULOS.filter((m) => m.degrau !== null).length, 19, 'módulos da escada (18 originais + tg1)');
+  assert.equal(MODULOS.filter((m) => m.degrau !== null).length, 20, 'módulos da escada (18 originais + tg1, tg2)');
   assert.equal(DEGRAUS.length, 14);
   assert.equal(new Set(AULAS_COMPLETAS.map((a) => a.id)).size, AULAS_COMPLETAS.length, 'ids de aula únicos');
   assert.ok(!JSON.stringify(AULAS_COMPLETAS).includes('${'), 'nenhuma interpolação não processada (aspas simples no lugar de crase)');
