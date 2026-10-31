@@ -87,7 +87,7 @@ export const NOS = [
   P('psicologia', 'Psicologia', 'humanas', 'humanas', 'Processos mentais, comportamento e desenvolvimento, com método científico.', { livros: ['mfs-psicologia', 'descartes-paixoes', 'sartre-emocoes', 'wittgenstein-psicologia'] }),
   N('demografia', 'Demografia', 'humanas', 'humanas', 'População, natalidade, mortalidade e migrações.', { modulos: ['dm1', 'dm2', 'dm3', 'dm4', 'dm5'] }),
   P('relacoes-internacionais', 'Relações Internacionais', 'humanas', 'humanas', 'Política internacional, geopolítica e a posição do Brasil no mundo.', { livros: ['kant-paz', 'olavo-dugin'] }),
-  P('educacao', 'Educação', 'humanas', 'humanas', 'Filosofia, história e ciência da educação, com a família como primeira educadora e dados oficiais do ensino brasileiro.', { modulos: ['ed1', 'ed2', 'ed3', 'ed4'], livros: ['rousseau-emilio', 'locke-educacao', 'maritain-educacao', 'agostinho-mestre'] }),
+  N('educacao', 'Educação', 'humanas', 'humanas', 'Filosofia, história e ciência da educação, com a família como primeira educadora e dados oficiais do ensino brasileiro.', { modulos: ['ed1', 'ed2', 'ed3', 'ed4', 'ed5'], livros: ['rousseau-emilio', 'locke-educacao', 'maritain-educacao', 'agostinho-mestre'] }),
 
   // ---------- Ciências Formais e Naturais ----------
   N('formais', 'Ciências Formais', 'filosofia', 'formais', 'Matemática, lógica formal e estatística: conhecimento por demonstração e cálculo, a partir de definições e axiomas.', {}),
