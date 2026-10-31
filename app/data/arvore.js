@@ -42,7 +42,7 @@ export const NOS = [
   N('cristologia', 'Cristologia', 'teol-dogmatica', 'teologia', 'Jesus Cristo, verdadeiro Deus e verdadeiro homem, e a obra da redenção.', { livros: ['anselmo-cur-deus', 'suma-iii'], aulas: ['m1-7', 'm2-6'] }),
   N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'], modulos: ['tg3'] }),
   N('sacramentos', 'Sacramentos', 'teol-dogmatica', 'teologia', 'Os sete sacramentos e a vida litúrgica.', { aulas: ['m1-9'] }),
-  N('escatologia', 'Escatologia', 'teol-dogmatica', 'teologia', 'A vida eterna e o fim da história.', { aulas: ['m1-10'] }),
+  N('escatologia', 'Escatologia', 'teol-dogmatica', 'teologia', 'A vida eterna e o fim da história.', { aulas: ['m1-10'], modulos: ['tg5'] }),
   N('teol-moral', 'Teologia moral', 'teologia', 'teologia', 'A vida em Cristo: lei, graça, virtudes e consciência.', { livros: ['suma-ii-ii', 'jp2-veritatis'], areas: ['Doutrina / Ética', 'Ética / Teologia moral'], aulas: ['m1-8', 'm1-10'], modulos: ['tg2', 'tg4'] }),
   N('patristica', 'Patrística', 'teologia', 'teologia', 'Os Padres da Igreja e a formação do pensamento cristão, em diálogo com a filosofia grega.', { degraus: [2], modulos: ['m2b'], areas: ['Patrística'], autores: ['agostinho', 'boecio'] }),
   N('historia-igreja', 'História da Igreja', 'teologia', 'teologia', 'Da Igreja nascente aos concílios, com crítica das fontes históricas.', { aulas: ['m2-4', 'm2-5', 'm2-6'] }),
