@@ -43,7 +43,7 @@ export const NOS = [
   N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'], modulos: ['tg3'] }),
   N('sacramentos', 'Sacramentos', 'teol-dogmatica', 'teologia', 'Os sete sacramentos e a vida litúrgica.', { aulas: ['m1-9'] }),
   N('escatologia', 'Escatologia', 'teol-dogmatica', 'teologia', 'A vida eterna e o fim da história.', { aulas: ['m1-10'] }),
-  N('teol-moral', 'Teologia moral', 'teologia', 'teologia', 'A vida em Cristo: lei, graça, virtudes e consciência.', { livros: ['suma-ii-ii', 'jp2-veritatis'], areas: ['Doutrina / Ética', 'Ética / Teologia moral'], aulas: ['m1-8', 'm1-10'], modulos: ['tg2'] }),
+  N('teol-moral', 'Teologia moral', 'teologia', 'teologia', 'A vida em Cristo: lei, graça, virtudes e consciência.', { livros: ['suma-ii-ii', 'jp2-veritatis'], areas: ['Doutrina / Ética', 'Ética / Teologia moral'], aulas: ['m1-8', 'm1-10'], modulos: ['tg2', 'tg4'] }),
   N('patristica', 'Patrística', 'teologia', 'teologia', 'Os Padres da Igreja e a formação do pensamento cristão, em diálogo com a filosofia grega.', { degraus: [2], modulos: ['m2b'], areas: ['Patrística'], autores: ['agostinho', 'boecio'] }),
   N('historia-igreja', 'História da Igreja', 'teologia', 'teologia', 'Da Igreja nascente aos concílios, com crítica das fontes históricas.', { aulas: ['m2-4', 'm2-5', 'm2-6'] }),
   N('fe-razao', 'Fé e razão', 'teologia', 'teologia', 'A relação entre o que se crê e o que a razão pode alcançar.', { livros: ['fides-et-ratio'], areas: ['Doutrina / Fé e razão', 'Epistemologia da fé'], aulas: ['m1-2', 'm3-8'] }),
