@@ -139,12 +139,33 @@ No x5: x5-1 a x5-3 são aplicações; x5-4 é a pesquisa de quatro semanas; x5-5
    - O `prereq` não pode formar ciclo. Por exemplo, `logica-formal` depende de `matematica`, então `matematica` não pode depender de `logica-formal`.
 2. Remova o id de `DISCIPLINAS_PENDENTES`.
 3. Inclua o id, em ordem alfabética, na lista de `app/tests/core.test.mjs`: é o teste 'disciplinas: História, Geografia...', que contém `assert.deepEqual(DISCIPLINAS.map((d) => d.id).sort(), [...])`.
+4. Faça o percurso e o módulo x1 **no mesmo commit**. Se o mapa `aulas` ou o nó da árvore citarem `x1` antes de o arquivo existir, dois testes falham ("módulo x1" e "aula x1-1 publicada e no currículo").
+
+## Relatório de retorno (obrigatório)
+
+Outra IA, ou o Claude da sessão original, vai continuar depois de você e precisa saber exatamente o que você fez. Por isso:
+
+1. Mantenha o arquivo `RELATORIO-IA.md` na raiz do repositório. Se ele não existir, crie-o.
+2. **A cada módulo publicado**, acrescente ao fim do arquivo uma entrada. Não apague as entradas anteriores.
+3. Use este formato em cada entrada:
+   ```
+   ## <data> — <disciplina> <módulo> (ex.: Química QU2)
+   - Commit: <hash curto> — <mensagem>
+   - Deploy: <id da execução do GitHub Actions> — success/failure
+   - Testes: <n> pass / <n> fail
+   - Arquivos: <lista>
+   - Conferido no navegador: sim/não (páginas)
+   - Fatos que escrevi de memória e não verifiquei: <lista curta>
+   - Problemas ou decisões: <lista curta, ou "nenhum">
+   ```
+4. Faça commit do `RELATORIO-IA.md` junto com o módulo.
+5. Ao parar, por limite ou por ter terminado, escreva na sua **última mensagem ao usuário** um resumo do que fez, no mesmo formato. Assim o usuário pode copiar e colar o resumo para a próxima IA.
 
 ## Quando o seu limite de uso estiver acabando
 
 Antes de parar:
 1. Deixe o repositório **consistente**: testes passando e nenhuma referência a módulos que ainda não existem.
-2. Faça commit e push do que estiver pronto.
+2. Faça commit e push do que estiver pronto, incluindo o `RELATORIO-IA.md`.
 3. **Atualize este arquivo** (`PROMPT-CONTINUACAO.md`) com o novo estado: o que foi concluído, o que falta e qualquer mudança de convenção.
-4. Mantenha esta mesma instrução no arquivo, para que a próxima IA faça o mesmo quando o limite dela acabar.
-5. Diga ao usuário onde está o prompt atualizado.
+4. Mantenha nele esta instrução e a seção "Relatório de retorno", para que a próxima IA faça o mesmo quando o limite dela acabar.
+5. Diga ao usuário onde estão o prompt atualizado e o relatório, e cole o resumo do relatório na mensagem.
