@@ -17,3 +17,18 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
   - Os testes exigem que o percurso e o módulo x1 entrem juntos.
   - O prereq de Psicologia evita `educacao`, porque Educação já depende de Psicologia.
 - Pendentes: Química (prefixo `qu`) e Relações Internacionais (prefixo `ri`).
+
+## 2026-10-31 — Claude (sessão original): Química completa
+
+- Commits: percurso e QU1 a QU5, um commit por módulo, todos com deploy bem-sucedido.
+- Testes: 45 pass / 0 fail após cada módulo.
+- Arquivos: `app/data/aulas/qu1.js` a `qu5.js`; registros em `index.js`, `curriculo.js`, `arvore.js`, `disciplinas.js`, `avaliacoes.js` e `core.test.mjs`.
+- Conferido no navegador: sim, em todas as páginas dos cinco módulos e na página da disciplina, sem "em preparação".
+- Fatos escritos de memória e não verificados:
+  - números de leis (9.787/1999, 12.305/2010, 14.026/2020);
+  - o telefone do Disque-Intoxicação (0800 722 6001);
+  - datas de descobertas.
+- Decisões:
+  - prereq de Química = matemática e física, porque biologia, ciências ambientais e ciências da Terra dependem de Química;
+  - nó da árvore com os livros `aristoteles-geracao` e `tomas-opusculos-naturais`.
+- Pendente: Relações Internacionais (prefixo `ri`).
