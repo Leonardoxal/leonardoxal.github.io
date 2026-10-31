@@ -24,6 +24,7 @@ import { DISCIPLINAS, DISCIPLINAS_PENDENTES, ETAPAS, TIPOS_REFERENCIA } from '..
 import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
+import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
 const IDS_ORIGINAIS = JSON.parse(readFileSync(new URL('./ids-originais.json', import.meta.url), 'utf8'));
 
@@ -593,8 +594,10 @@ test('grade escolar: uma matéria na fase teológica; várias em paralelo depois
   assert.equal(g2.length, 1);
   assert.equal(g2[0].disciplina, 'Iniciação intelectual e filosófica');
   assert.ok(g2[0].etapa.startsWith('Degrau 3'));
-  const comLogica = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true }, 5: { concluido: true } } };
+  const comLogica = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true } } };
   const g3 = linhasGrade(comLogica);
+  // fase 3: as matérias do 1º semestre (filosofia e duas disciplinas), não as 25 disciplinas de uma vez
+  assert.deepEqual(g3.map((l) => l.href), PERIODOS[0].materias.map((m) => m.href));
   assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');
   assert.ok(Math.abs(g3.reduce((s, l) => s + l.minutos, 0) - comLogica.plano.horasSemana * 60) <= g3.length, 'horas somam a carga semanal');
 });
@@ -762,4 +765,42 @@ test('store: aparelho desatualizado não sobrescreve o progresso salvo por outro
   await noAparelho(celular, async () => { sCel.set((e) => ({ ...e, favoritos: ['livro:x'] })); await sCel.enviarAgora(); });
   assert.ok(banco.docs.get('nucleo').aulas['m1-2'], 'a conclusão feita no PC continua na conta');
   assert.equal(sCel.estado.aulas['m1-2']?.status, 'concluida', 'o celular carregou a versão mais nova');
+});
+
+test('períodos letivos: semestres de 16+2 semanas, até 4 matérias, pré-requisitos respeitados, sem compensação', () => {
+  // todas as disciplinas aparecem exatamente uma vez
+  const ids = PERIODOS.flatMap((p) => p.materias.filter((m) => m.degrau === null).map((m) => m.id));
+  assert.deepEqual([...ids].sort(), DISCIPLINAS.map((d) => d.id).sort());
+  const semestreDe = Object.fromEntries(PERIODOS.flatMap((p) => p.materias.map((m) => [m.id, p.n])));
+  const discPorNo = Object.fromEntries(DISCIPLINAS.map((d) => [d.no, d.id]));
+  for (const p of PERIODOS) {
+    assert.ok(p.materias.length >= 3 && p.materias.length <= 4, `semestre ${p.n}: ${p.materias.length} matérias`);
+    assert.equal(p.semanas.length, SEMANAS_TOTAIS);
+    assert.equal(p.total, p.semanas.reduce((s, x) => s + x, 0));
+    assert.ok(p.semanas[SEMANA_INTERMEDIARIA - 1] > 0 && p.semanas[SEMANA_FINAL - 1] > 0, 'semanas de avaliação com carga');
+    for (const m of p.materias) {
+      // cada aula do semestre existe e cada prova de módulo é uma avaliação real
+      m.aulas.forEach((a) => assert.ok(todasAulas.some((x) => x.id === a.id), a.id));
+      m.provas.forEach((id) => assert.ok(avaliacaoPorId[id], `prova ${id}`));
+      assert.deepEqual([...m.intermediaria, ...m.final].sort(), [...m.provas].sort(), `${m.id}: toda prova cai na intermediária ou na final`);
+      if (m.degrau !== null) continue;
+      const d = DISCIPLINAS.find((x) => x.id === m.id);
+      for (const pre of d.prereq) {
+        if (discPorNo[pre]) assert.ok(semestreDe[discPorNo[pre]] < p.n, `${m.id} depois de ${discPorNo[pre]}`);
+        (noPorId[pre].degraus || []).forEach((g) => assert.ok(g < (p.degrau ?? 99), `${m.id}: degrau ${g} cursado antes`));
+      }
+    }
+  }
+  // situação por matéria: uma nota alta não compensa outra abaixo do mínimo
+  const vazio = C.estadoInicial(T0);
+  assert.equal(periodoAtual(vazio).n, 1);
+  const mat = PERIODOS[0].materias.find((m) => m.degrau === null);
+  const tent = (pct) => [{ pct, data: T0, acertos: 0, total: 1 }];
+  const quase = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id, i) => [id, tent(i ? 100 : 70)])) };
+  assert.equal(situacaoMateria(quase, mat), 'recuperacao');
+  const aprovada = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id) => [id, tent(C.NOTA_MINIMA)])) };
+  assert.equal(situacaoMateria(aprovada, mat), 'aprovada');
+  assert.equal(situacaoMateria(vazio, mat), 'em curso');
+  // ritmo: com menos horas por semana, o semestre se estende
+  assert.ok(semanasNoRitmo(PERIODOS[0], 6) > semanasNoRitmo(PERIODOS[0], 20));
 });
