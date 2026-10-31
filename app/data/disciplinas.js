@@ -664,8 +664,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'linguistica', no: 'linguistica', nome: 'Linguística', aulasPublicadas: false,
-    aulas: { fundamentos: ['li1-1'], vocabulario: ['li1-2'], metodos: ['li1-3', 'li1-4', 'li1-5'], formacao: ['li2-1', 'li2-2'], autores: ['li2-3', 'li2-4', 'li2-5'], escolas: ['li3-1', 'li3-2'], debates: ['li3-3', 'li3-4', 'li3-5'], avancado: ['li4-1', 'li4-2', 'li4-3', 'li4-4', 'li4-5'] },
+    id: 'linguistica', no: 'linguistica', nome: 'Linguística', aulasPublicadas: true,
+    aulas: { fundamentos: ['li1-1'], vocabulario: ['li1-2'], metodos: ['li1-3', 'li1-4', 'li1-5'], formacao: ['li2-1', 'li2-2'], autores: ['li2-3', 'li2-4', 'li2-5'], escolas: ['li3-1', 'li3-2'], debates: ['li3-3', 'li3-4', 'li3-5'], avancado: ['li4-1', 'li4-2', 'li4-3', 'li4-4', 'li4-5'], aplicacoes: ['li5-1', 'li5-2', 'li5-3'], avaliacao: ['li5-5'], pesquisa: ['li5-4'] },
     metodo: 'Estudo científico das línguas: descrever como as pessoas efetivamente falam e escrevem, nos níveis dos sons, das palavras, das frases, dos sentidos e do uso, a partir de dados coletados e analisados. Distingue a descrição (como a língua é), a norma (o que se recomenda em certos contextos) e a reflexão filosófica sobre a linguagem (o que é significar), e trata o português do Brasil com seus dados reais.',
     prereq: ['filo-linguagem', 'logica'],
     etapas: [
