@@ -92,7 +92,7 @@ export const NOS = [
   // ---------- Ciências Formais e Naturais ----------
   N('formais', 'Ciências Formais', 'filosofia', 'formais', 'Matemática, lógica formal e estatística: conhecimento por demonstração e cálculo, a partir de definições e axiomas.', {}),
   P('matematica', 'Matemática', 'formais', 'formais', 'Álgebra, geometria, funções, cálculo e probabilidade.', { livros: ['boecio-quadrivio', 'pascal-triangulo'] }),
-  P('logica-formal', 'Lógica formal', 'formais', 'formais', 'Lógica proposicional e de predicados, formalização e metalógica.', { livros: ['copi-logica', 'frege-sentido', 'wittgenstein-tractatus'], aulas: ['m4-8'] }),
+  P('logica-formal', 'Lógica formal', 'formais', 'formais', 'Lógica proposicional e de predicados, formalização e metalógica.', { modulos: ['lf1'], livros: ['copi-logica', 'frege-sentido', 'wittgenstein-tractatus', 'aristoteles-analiticos'], aulas: ['m4-8'] }),
   N('estatistica', 'Estatística', 'formais', 'formais', 'Estatística descritiva, inferência e métodos quantitativos, com dados públicos brasileiros.', { modulos: ['es1', 'es2', 'es3', 'es4', 'es5'], livros: ['pascal-triangulo'] }),
   N('naturais', 'Ciências Naturais', 'filosofia', 'naturais', 'Física, química, biologia, astronomia e ciências da Terra: conhecimento por observação, experimento e medida. A filosofia da natureza não substitui seus métodos.', {}),
   N('fisica', 'Física', 'naturais', 'naturais', 'Mecânica, termodinâmica, eletromagnetismo e física moderna, com método experimental.', { modulos: ['fi1', 'fi2', 'fi3', 'fi4', 'fi5'], livros: ['descartes-ensaios', 'aristoteles-ceu', 'kant-historia-ceu', 'kant-principios-metafisicos'] }),

@@ -737,6 +737,42 @@ export const DISCIPLINAS = [
       B('João Paulo II', 'Carta aos artistas', '1999', 'doutrina', 'fundamentos', { livro: 'jp2-artistas' }),
     ],
   },
+  {
+    id: 'logica-formal', no: 'logica-formal', nome: 'Lógica formal', aulasPublicadas: false,
+    aulas: { fundamentos: ['lf1-1'], vocabulario: ['lf1-2'], metodos: ['lf1-3', 'lf1-4', 'lf1-5'] },
+    metodo: 'Estudo das formas válidas de raciocínio por meio de linguagens simbólicas: formalizar enunciados, testar a validade com tabelas e árvores, e provar conclusões por regras explícitas. Cada técnica é praticada à mão em exemplos pequenos e ligada à lógica aristotélica e escolástica, distinguindo o que é resultado demonstrado, o que é escolha de sistema e o que é tese filosófica sobre a lógica.',
+    prereq: ['logica', 'matematica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é lógica formal.', ['Validade e verdade', 'Forma lógica', 'Dedução e indução'], 'Classificar dez argumentos quanto à validade e à verdade das premissas, justificando.', 'Classificações corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Proposição e conectivos', 'Fórmula, tautologia, contradição e contingência', 'Consistência e equivalência'], 'Formalizar vinte frases do português na linguagem proposicional.', 'Formalizações corretas e legenda clara.'),
+      E('metodos', 'Conhecer os métodos de prova e teste.', ['Tabelas-verdade', 'Dedução natural', 'Árvores de refutação'], 'Testar cinco argumentos por tabela-verdade e provar três por dedução natural.', 'Testes e provas corretos, passo a passo justificados.'),
+      E('formacao', 'Conhecer a formação histórica da lógica.', ['Aristóteles e os estoicos', 'Lógica medieval', 'De Leibniz a Boole', 'Frege, Russell e a lógica matemática'], 'Linha do tempo da lógica com uma obra por marco, incluindo um marco brasileiro.', 'Cada marco com data, autor e ideia central.', 'Newton da Costa, brasileiro, foi pioneiro da lógica paraconsistente.'),
+      E('autores', 'Ler os grandes autores.', ['Aristóteles: os Analíticos', 'Frege: conceitografia e sentido', 'Russell e Wittgenstein', 'Gödel e Tarski'], 'Ficha de leitura de "Sobre o sentido e a referência", de Frege, ou de capítulos dos Primeiros analíticos.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes concepções.', ['Lógica clássica e lógicas não clássicas', 'Logicismo, formalismo e intuicionismo', 'Lógica modal'], 'Quadro comparativo de três sistemas lógicos: o que aceitam, o que rejeitam e para que servem.', 'Distinções corretas e exemplos pertinentes.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Paradoxos e seus remédios', 'Os teoremas de Gödel e seus limites', 'Lógica, verdade e realidade'], 'Ensaio: o que os teoremas de Gödel provam e o que não provam sobre a mente humana.', 'Distingue resultado matemático e interpretação filosófica.'),
+      E('avancado', 'Aprofundar os sistemas.', ['Lógica de predicados e quantificadores', 'Dedução com quantificadores', 'Noções de teoria de conjuntos', 'Metalógica: correção, completude e decidibilidade'], 'Formalizar e provar argumentos com quantificadores, incluindo um silogismo aristotélico.', 'Formalização e prova corretas.'),
+      E('aplicacoes', 'Usar a lógica em situações concretas.', ['Argumentação e falácias formais', 'Lógica e computação', 'Lógica no direito e na leitura de textos'], 'Formalizar e avaliar um argumento de um debate público ou de um texto jurídico.', 'Formalização fiel e avaliação correta.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de formalização, teste e prova', 'Análise de um argumento real'], 'Prova: formalizar, testar por tabela e provar por dedução natural.', 'Rubrica: precisão, justificação dos passos, interpretação.'),
+      E('pesquisa', 'Fazer uma pequena investigação lógica.', ['Escolha de um texto argumentativo', 'Formalização e avaliação', 'Relatório'], 'Investigação de quatro semanas: formalizar os argumentos principais de um texto clássico ou de um debate público e avaliar sua validade.', 'Formalizações fiéis, avaliações corretas, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Primeiros analíticos', 'século IV a.C.', 'primaria', 'autores', { livro: 'aristoteles-analiticos' }),
+      B('Aristóteles', 'Tópicos', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-topicos' }),
+      B('Santo Tomás de Aquino', 'Comentário aos Analíticos posteriores', 'c. 1271–1272', 'primaria', 'fundamentos', { livro: 'tomas-com-analiticos' }),
+      B('Pedro Hispano', 'Tratados (Summulae logicales)', 'século XIII', 'primaria', 'formacao'),
+      B('George Boole', 'As leis do pensamento', '1854', 'primaria', 'formacao'),
+      B('Gottlob Frege', 'Conceitografia', '1879', 'primaria', 'autores'),
+      B('Gottlob Frege', 'Sobre o sentido e a referência', '1892', 'primaria', 'autores', { livro: 'frege-sentido' }),
+      B('Bertrand Russell e Alfred N. Whitehead', 'Principia Mathematica', '1910–1913', 'primaria', 'formacao'),
+      B('Ludwig Wittgenstein', 'Tractatus logico-philosophicus', '1921', 'primaria', 'autores', { livro: 'wittgenstein-tractatus' }),
+      B('Jacques Maritain', 'Lógica menor (Elementos de filosofia II)', '1923', 'manual', 'fundamentos'),
+      B('Kurt Gödel', 'Sobre proposições formalmente indecidíveis', '1931', 'primaria', 'debates'),
+      B('Alfred Tarski', 'O conceito de verdade nas linguagens formalizadas', '1933', 'primaria', 'debates'),
+      B('Irving Copi', 'Introdução à lógica', '1953', 'manual', 'metodos', { livro: 'copi-logica' }),
+      B('Newton da Costa', 'Sistemas formais inconsistentes', '1963', 'estudo', 'escolas', { brasil: true }),
+      B('Cezar A. Mortari', 'Introdução à lógica', '2001', 'manual', 'metodos', { brasil: true }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -784,4 +820,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'quimica', 'musica'];
