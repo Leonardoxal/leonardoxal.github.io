@@ -886,7 +886,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'quimica', no: 'quimica', nome: 'Química', aulasPublicadas: false,
-    aulas: { fundamentos: ['qu1-1'], vocabulario: ['qu1-2'], metodos: ['qu1-3', 'qu1-4', 'qu1-5'], formacao: ['qu2-1', 'qu2-2'], autores: ['qu2-3', 'qu2-4', 'qu2-5'], escolas: ['qu3-1', 'qu3-2'], debates: ['qu3-3', 'qu3-4', 'qu3-5'] },
+    aulas: { fundamentos: ['qu1-1'], vocabulario: ['qu1-2'], metodos: ['qu1-3', 'qu1-4', 'qu1-5'], formacao: ['qu2-1', 'qu2-2'], autores: ['qu2-3', 'qu2-4', 'qu2-5'], escolas: ['qu3-1', 'qu3-2'], debates: ['qu3-3', 'qu3-4', 'qu3-5'], avancado: ['qu4-1', 'qu4-2', 'qu4-3', 'qu4-4', 'qu4-5'] },
     metodo: 'Estudo da composição, da estrutura e das transformações da matéria pela observação, pela medida e pelo cálculo: cada conceito é ligado a fenômenos do cotidiano, a experimentos seguros e a problemas resolvidos à mão. Distingue-se o dado experimental, o modelo teórico (átomo, ligação, orbital), a lei e a tese filosófica sobre a natureza da matéria.',
     prereq: ['matematica', 'fisica'],
     etapas: [
