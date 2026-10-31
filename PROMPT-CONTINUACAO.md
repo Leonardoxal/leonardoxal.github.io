@@ -22,8 +22,8 @@ Terminar **todas as disciplinas pendentes**, uma por vez, em ordem alfabética.
 **Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, música, psicologia, química, simbologia e sociologia.
 
 **Em andamento:** Relações Internacionais (prefixo `ri`, id `relacoes-internacionais`).
-- O percurso e os módulos RI1 e RI2 já estão publicados.
-- Faltam RI3 a RI5, seguindo o mapa de etapas da tabela "Módulos e etapas" e as etapas do percurso no bloco `relacoes-internacionais` de `disciplinas.js`.
+- O percurso e os módulos RI1, RI2 e RI3 já estão publicados.
+- Faltam RI4 e RI5, seguindo o mapa de etapas da tabela "Módulos e etapas" e as etapas do percurso no bloco `relacoes-internacionais` de `disciplinas.js`.
 - No RI5, a disciplina é concluída: veja "Ao terminar uma disciplina".
 
 Depois do RI5, **todas as disciplinas estarão concluídas**. Nesse ponto, avise o usuário e aguarde as novas fontes e datas que ele mencionou.
