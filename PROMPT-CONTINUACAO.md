@@ -33,21 +33,32 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
 **Feito até agora:**
 - Fase 1: auditoria e os quatro documentos.
 - Fase 2 da formação (iniciação intelectual, degraus 3 e 4) entre a teologia e as disciplinas. Está em `core.js`: `FASE_INICIACAO`, `faseIniciacaoConcluida`, `pendenciaDisciplinas`, `numeroFase`.
-- Expansão da teologia em andamento. Módulos novos `tg1` (Trindade, Cristologia, Maria) e `tg2` (criação, ser humano, pecado original, graça), no degrau 1, depois de `m2` e antes de `m2b` em `curriculo.js`.
+- Expansão da teologia concluída. São 8 módulos novos com 4 aulas completas e uma avaliação cada:
+  - degrau 1, entre `m2` e `m2b` em `curriculo.js`:
+    - `tg1` Trindade, Cristologia, Maria;
+    - `tg2` criação e graça;
+    - `tg3` Igreja e sacramentos;
+    - `tg4` moral e espiritualidade;
+    - `tg5` escatologia e liturgia;
+  - degrau 2, depois de `m2b`:
+    - `tg6` escolástica;
+    - `tg7` Doutrina Social;
+    - `tg8` História da Igreja até o Vaticano II.
+
+  A fase teológica tem agora 12 módulos e 67 aulas completas.
+
+**Ao criar um módulo de escada (com `degrau`):**
+- acrescente o id na lista do teste "fases" (linha ~150 de `core.test.mjs`), na ordem de `MODULOS`;
+- aumente a contagem do teste "módulos da escada" (linha ~402);
+- ligue o módulo a um nó da árvore com `modulos: [...]`.
 
 **Próximo:**
-1. Escrever os módulos de teologia que faltam, no mesmo formato e com 4 aulas mais a avaliação cada:
-   - `tg3` Igreja e sacramentos (degrau 1, prereq `tg2`);
-   - `tg4` Moral e espiritualidade (degrau 1);
-   - `tg5` Escatologia e liturgia (degrau 1);
-   - `tg6` Escolástica teológica (degrau 2, antes de `m2b` na lista; prereq `tg5`);
-   - `tg7` Doutrina social (degrau 2);
-   - `tg8` História da Igreja medieval ao Vaticano II (degrau 2).
-2. A cada módulo novo:
-   - acrescente o id na lista do teste "fases" (linha ~150 de `core.test.mjs`), na ordem de `MODULOS`;
-   - aumente a contagem do teste "módulos da escada" (linha ~402);
-   - ligue o módulo a um nó da árvore com `modulos: [...]`.
-3. Depois siga para as fases 3 a 10 do plano: semestres, módulos integradores, mediateca, fontes externas, semiótica, busca global e testes.
+1. Fase 2 do plano, o que falta:
+   - reforçar o m0 (método: fichamento, resumo crítico, citação, fontes);
+   - mostrar o degrau ao lado do número do módulo nas listas;
+   - avaliar se a avaliação `sintese-teologica` (em `avaliacoes.js`, `MODULOS_TEOLOGICOS`) deve incluir questões dos módulos `tg`.
+2. Fase 3: semestres (`app/data/periodos.js`), com carga semanal, avaliação no meio do período, projeto interdisciplinar, prova final e recuperação, e uma visão de calendário que substitua a grade de 25 disciplinas.
+3. Fases 4 a 10: módulos integradores, mediateca, fontes externas, semiótica, busca global e testes.
 
 Não crie disciplinas novas fora do plano.
 
