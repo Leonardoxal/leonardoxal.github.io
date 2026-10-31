@@ -163,11 +163,20 @@ test('fases: teologia exclusiva primeiro; a fase 2 só conclui depois dela, mas 
   assert.ok(C.degrauConcluivel(DEGRAUS[2], MODULOS, new Set(), vazio).faltas.some((f) => f.includes('síntese')));
   const sintese = avaliacaoPorId['sintese-teologica'];
   assert.ok(sintese.itens.filter((i) => i.aula).length >= 15 && sintese.itens.every((i) => !i.aula || ['m1', 'm2', 'm2b'].includes(todasAulas.find((a) => a.id === i.aula).modulo)));
-  // fase concluída libera a 2
+  // teologia concluída abre a fase 2 (iniciação intelectual); as disciplinas ainda não contam
   const pronto = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true } } };
-  assert.equal(C.faseFormacao(pronto), 'liberada');
+  assert.equal(C.faseFormacao(pronto), 'iniciacao');
+  assert.equal(C.numeroFase(C.faseFormacao(pronto)), 2);
+  assert.equal(C.pendenciaDisciplinas(vazio), C.MSG_FASE);
+  assert.equal(C.pendenciaDisciplinas(pronto), C.MSG_INICIACAO);
   assert.ok(!C.aulaConcluivel(aulaF2, pronto, null, null, 3).faltas.includes(C.MSG_FASE));
-  assert.equal(C.faseFormacao({ ...pronto, degraus: { ...pronto.degraus, 3: { competencias: [true] } } }), 'multidisciplinar');
+  // introdução à filosofia e lógica concluídas liberam a fase 3 (multidisciplinar)
+  const iniciado = { ...pronto, degraus: { ...pronto.degraus, 3: { concluido: true }, 4: { concluido: true } } };
+  assert.equal(C.faseFormacao(iniciado), 'liberada');
+  assert.equal(C.pendenciaDisciplinas(iniciado), '');
+  assert.equal(C.numeroFase(C.faseFormacao(iniciado)), 3);
+  assert.equal(C.faseFormacao({ ...iniciado, degraus: { ...iniciado.degraus, 5: { competencias: [true] } } }), 'multidisciplinar');
+  assert.equal(C.faseFormacao({ ...iniciado, disciplinas: { historia: { fundamentos: T0 } } }), 'multidisciplinar');
 });
 
 test('comprovação de leitura: proporcional à dificuldade e exigida para concluir o degrau', () => {
@@ -580,9 +589,10 @@ test('grade escolar: uma matéria na fase teológica; várias em paralelo depois
   assert.equal(g1[0].minutos, vazio.plano.horasSemana * 60);
   const fase2 = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true } } };
   const g2 = linhasGrade(fase2);
-  assert.ok(g2.length >= 5 && g2[0].disciplina.startsWith('Filosofia'));
-  // sem lógica concluída, as disciplinas que a exigem aguardam e não recebem horas
-  for (const l of g2.slice(1)) assert.ok(l.bloqueio.length ? l.minutos === 0 : true, l.disciplina);
+  // fase 2: uma só matéria, a iniciação intelectual (introdução à filosofia e lógica)
+  assert.equal(g2.length, 1);
+  assert.equal(g2[0].disciplina, 'Iniciação intelectual e filosófica');
+  assert.ok(g2[0].etapa.startsWith('Degrau 3'));
   const comLogica = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true }, 5: { concluido: true } } };
   const g3 = linhasGrade(comLogica);
   assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');

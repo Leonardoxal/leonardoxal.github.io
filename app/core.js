@@ -31,16 +31,33 @@ export const faseTeologicaConcluida = (estado) => FASE_TEOLOGICA.every((n) => es
 export const bloqueadoPelaFase = (estado, degrau) => degrau >= INICIO_MULTIDISCIPLINAR && !faseTeologicaConcluida(estado);
 export const MSG_FASE = 'Concluir antes a fase teológica (degraus 0 a 2)';
 
+/**
+ * Fase 2: iniciação intelectual e filosófica (introdução à filosofia e lógica). As disciplinas regulares
+ * só registram progresso depois dela; a filosofia continua pela escada (degrau 5 em diante) em paralelo.
+ */
+export const FASE_INICIACAO = [3, 4];
+export const faseIniciacaoConcluida = (estado) => faseTeologicaConcluida(estado) && FASE_INICIACAO.every((n) => estado.degraus[n]?.concluido);
+export const MSG_INICIACAO = 'Concluir antes a iniciação intelectual (degraus 3 e 4: introdução à filosofia e lógica)';
+/** Mensagem do que falta para as disciplinas regulares contarem no progresso (vazia quando já contam). */
+export const pendenciaDisciplinas = (estado) => (!faseTeologicaConcluida(estado) ? MSG_FASE : faseIniciacaoConcluida(estado) ? '' : MSG_INICIACAO);
+
 export const FASES = {
-  preparacao: 'Preparação teológica', teologia: 'Teologia em andamento', liberada: 'Teologia concluída: formação multidisciplinar liberada',
+  preparacao: 'Preparação teológica', teologia: 'Teologia em andamento', iniciacao: 'Teologia concluída: iniciação intelectual e filosófica em andamento',
+  liberada: 'Iniciação concluída: formação multidisciplinar liberada',
   multidisciplinar: 'Formação multidisciplinar em andamento', concluida: 'Formação integral concluída',
 };
+/** Número da fase (1 teologia, 2 iniciação, 3 multidisciplinar) a partir da situação. */
+export const numeroFase = (situacao) => ({ preparacao: 1, teologia: 1, iniciacao: 2 }[situacao] || 3);
 /** @param {number} [totalDegraus] */
 export function faseFormacao(estado, totalDegraus = 14) {
   if (!estado.degraus[0]?.concluido) return 'preparacao';
   if (!faseTeologicaConcluida(estado)) return 'teologia';
+  if (!faseIniciacaoConcluida(estado)) return 'iniciacao';
   if (Array.from({ length: totalDegraus }, (_, n) => n).every((n) => estado.degraus[n]?.concluido)) return 'concluida';
-  return Object.keys(estado.degraus).some((n) => n >= INICIO_MULTIDISCIPLINAR && (estado.degraus[n].concluido || estado.degraus[n].competencias?.some(Boolean))) ? 'multidisciplinar' : 'liberada';
+  const depoisDaIniciacao = Math.max(...FASE_INICIACAO) + 1;
+  const avancou = Object.keys(estado.degraus).some((n) => n >= depoisDaIniciacao && (estado.degraus[n].concluido || estado.degraus[n].competencias?.some(Boolean)))
+    || Object.values(estado.disciplinas || {}).some((etapas) => Object.keys(etapas).length);
+  return avancou ? 'multidisciplinar' : 'liberada';
 }
 
 /**

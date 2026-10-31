@@ -6,7 +6,7 @@ import { livroPorId } from '../data/livros.js';
 import { SANTOS_DAS_AREAS } from '../data/santos.js';
 import { santoHTML } from './santo.js';
 import { esc, link } from '../ui.js';
-import { faseTeologicaConcluida, MSG_FASE, aulaConcluida } from '../core.js';
+import { pendenciaDisciplinas, aulaConcluida } from '../core.js';
 import { todasAulas } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
 
@@ -24,7 +24,8 @@ export function disciplina(ctx, id) {
   const santo = SANTOS_DAS_AREAS[d.no];
   const feitas = ctx.estado.disciplinas[id] || {};
   const publicadas = Object.values(d.aulas || {}).flat().filter((a) => aulaPorId[a]);
-  const liberada = faseTeologicaConcluida(ctx.estado);
+  const pendencia = pendenciaDisciplinas(ctx.estado);
+  const liberada = !pendencia;
   const ordemEtapa = d.etapas.map((e) => e.etapa);
   const bib = d.bibliografia.slice().sort((a, b) => ordemEtapa.indexOf(a.etapa) - ordemEtapa.indexOf(b.etapa));
   return `<nav class="migalha">${link('mapa', 'Mapa')} / ${link(`area-${d.no}`, esc(noPorId[d.no].nome))} / Percurso</nav>
@@ -43,7 +44,7 @@ export function disciplina(ctx, id) {
         ${e.brasil ? `<p class="brasil-nota"><strong>Brasil:</strong> ${esc(e.brasil)}</p>` : ''}
         <h3>Exercício</h3><p>${esc(e.exercicio)}</p>
         <h3>Critério para avançar</h3><p>${esc(e.criterio)}</p>
-        <label class="opcao"><input type="checkbox" data-etapa="${e.etapa}" ${feitas[e.etapa] ? 'checked' : ''} ${liberada ? '' : 'disabled'}> <span>Fiz o exercício e atendi ao critério${liberada ? '' : ` <span class="meta">(${esc(MSG_FASE)})</span>`}</span></label>
+        <label class="opcao"><input type="checkbox" data-etapa="${e.etapa}" ${feitas[e.etapa] ? 'checked' : ''} ${liberada ? '' : 'disabled'}> <span>Fiz o exercício e atendi ao critério${liberada ? '' : ` <span class="meta">(${esc(pendencia)})</span>`}</span></label>
         ${bib.some((b) => b.etapa === e.etapa) ? `<h3>Leituras desta etapa</h3><ul class="refs">${bib.filter((b) => b.etapa === e.etapa).map(referencia).join('')}</ul>` : ''}
       </div></details></li>`).join('')}</ol></section>
   <section><h2>Bibliografia progressiva (${bib.length})</h2>
@@ -55,7 +56,7 @@ disciplina.ligar = (root, ctx, id) => {
   root.addEventListener('change', (ev) => {
     const etapa = ev.target.dataset.etapa;
     // a marcação só vale na fase multidisciplinar; o input já vem desabilitado antes dela
-    if (!etapa || !faseTeologicaConcluida(ctx.estado)) return;
+    if (!etapa || pendenciaDisciplinas(ctx.estado)) return;
     const marcado = ev.target.checked;
     ctx.set((e) => {
       const atual = { ...(e.disciplinas[id] || {}) };

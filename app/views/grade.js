@@ -6,7 +6,7 @@ import { livroPorId } from '../data/livros.js';
 import { DISCIPLINAS, rotuloEtapa } from '../data/disciplinas.js';
 import { AVALIACOES } from '../data/avaliacoes.js';
 import { noPorId } from '../data/arvore.js';
-import { faseFormacao, FASES, faseTeologicaConcluida, aulaConcluida, livroConcluido, revisoesPendentes, melhorNota, NOTA_MINIMA, FASE_TEOLOGICA } from '../core.js';
+import { faseFormacao, FASES, numeroFase, faseTeologicaConcluida, faseIniciacaoConcluida, aulaConcluida, livroConcluido, revisoesPendentes, melhorNota, NOTA_MINIMA, FASE_TEOLOGICA, FASE_INICIACAO } from '../core.js';
 import { esc, link, fmtMin } from '../ui.js';
 
 /** Fração das horas semanais da filosofia (escada) na fase 2; o resto divide-se entre as disciplinas liberadas. */
@@ -37,6 +37,10 @@ export function linhasGrade(estado) {
     const d = degrauAtual(estado, DEGRAUS.filter((x) => FASE_TEOLOGICA.includes(x.n)));
     return [{ disciplina: 'Teologia Católica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(proximo(estado, d)), minutos: total, bloqueio: [] }];
   }
+  if (!faseIniciacaoConcluida(estado)) {
+    const d = degrauAtual(estado, DEGRAUS.filter((x) => FASE_INICIACAO.includes(x.n)));
+    return [{ disciplina: 'Iniciação intelectual e filosófica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(proximo(estado, d)), minutos: total, bloqueio: [] }];
+  }
   const fil = degrauAtual(estado, DEGRAUS);
   const disc = DISCIPLINAS.map((d) => {
     const feitas = estado.disciplinas[d.id] || {};
@@ -57,17 +61,18 @@ export function linhasGrade(estado) {
 
 export function faseHTML(estado) {
   const f = faseFormacao(estado, DEGRAUS.length);
-  return `<p class="fase fase-${f}"><span class="chip">${f === 'preparacao' || f === 'teologia' ? 'Fase 1' : 'Fase 2'}</span> ${esc(FASES[f])}</p>`;
+  return `<p class="fase fase-${f}"><span class="chip">Fase ${numeroFase(f)}</span> ${esc(FASES[f])}</p>`;
 }
 
 export function gradeHTML(estado) {
   const linhas = linhasGrade(estado);
   const pend = revisoesPendentes(estado.revisoes).length;
-  const avals = AVALIACOES.filter((a) => (a.requerFase2 ? faseTeologicaConcluida(estado) : true) && a.minimo && melhorNota(estado, a.id) < NOTA_MINIMA && (a.tipo === 'conjunta' || a.id === 'sintese-teologica'));
+  const avals = AVALIACOES.filter((a) => (a.requerFase2 ? faseIniciacaoConcluida(estado) : true) && a.minimo && melhorNota(estado, a.id) < NOTA_MINIMA && (a.tipo === 'conjunta' || a.id === 'sintese-teologica'));
   return `<section class="grade-escolar"><h2>Grade da semana</h2>
     ${faseHTML(estado)}
-    ${faseTeologicaConcluida(estado) ? '<p class="meta">Fase multidisciplinar: várias matérias em paralelo; cada uma respeita os próprios pré-requisitos. A filosofia segue a escada; as demais, os percursos das disciplinas.</p>'
-      : '<p class="meta">Fase teológica: a Teologia Católica é a única matéria regular. As demais disciplinas abrem quando os degraus 0 a 2 e a avaliação de síntese forem concluídos.</p>'}
+    ${faseIniciacaoConcluida(estado) ? '<p class="meta">Fase multidisciplinar: várias matérias em paralelo; cada uma respeita os próprios pré-requisitos. A filosofia segue a escada; as demais, os percursos das disciplinas.</p>'
+      : faseTeologicaConcluida(estado) ? '<p class="meta">Fase de iniciação intelectual: introdução à filosofia e lógica, as ferramentas que todas as disciplinas pressupõem. As disciplinas regulares abrem quando os degraus 3 e 4 forem concluídos; até lá podem ser consultadas.</p>'
+      : '<p class="meta">Fase teológica: a Teologia Católica é a única matéria regular. A fase seguinte (iniciação intelectual) abre quando os degraus 0 a 2 e a avaliação de síntese forem concluídos.</p>'}
     <div class="tabela-wrap"><table><thead><tr><th>Matéria</th><th>Etapa atual</th><th>Próxima atividade</th><th>Tempo na semana</th></tr></thead><tbody>
       ${linhas.map((l) => `<tr><td>${link(l.href, esc(l.disciplina))}</td><td>${esc(l.etapa)}</td><td>${l.bloqueio.length ? `<span class="meta">Aguarda: ${esc(l.bloqueio.join(', '))}</span>` : l.proximo}</td><td class="num-tab">${l.minutos ? fmtMin(l.minutos) : '—'}</td></tr>`).join('')}
     </tbody></table></div>
