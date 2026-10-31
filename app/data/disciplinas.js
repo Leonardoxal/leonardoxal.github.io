@@ -665,7 +665,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'linguistica', no: 'linguistica', nome: 'Linguística', aulasPublicadas: false,
-    aulas: { fundamentos: ['li1-1'], vocabulario: ['li1-2'], metodos: ['li1-3', 'li1-4', 'li1-5'] },
+    aulas: { fundamentos: ['li1-1'], vocabulario: ['li1-2'], metodos: ['li1-3', 'li1-4', 'li1-5'], formacao: ['li2-1', 'li2-2'], autores: ['li2-3', 'li2-4', 'li2-5'] },
     metodo: 'Estudo científico das línguas: descrever como as pessoas efetivamente falam e escrevem, nos níveis dos sons, das palavras, das frases, dos sentidos e do uso, a partir de dados coletados e analisados. Distingue a descrição (como a língua é), a norma (o que se recomenda em certos contextos) e a reflexão filosófica sobre a linguagem (o que é significar), e trata o português do Brasil com seus dados reais.',
     prereq: ['filo-linguagem', 'logica'],
     etapas: [
