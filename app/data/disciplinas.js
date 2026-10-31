@@ -847,6 +847,43 @@ export const DISCIPLINAS = [
       B('Joseph Ratzinger', 'Introdução ao espírito da liturgia', '2000', 'estudo', 'aplicacoes'),
     ],
   },
+  {
+    id: 'psicologia', no: 'psicologia', nome: 'Psicologia', aulasPublicadas: false,
+    aulas: { fundamentos: ['ps1-1'], vocabulario: ['ps1-2'], metodos: ['ps1-3', 'ps1-4', 'ps1-5'] },
+    metodo: 'Estudo da vida psíquica pela filosofia da pessoa e pela ciência empírica: conceitos clássicos (alma, potências, paixões, hábitos) dialogam com resultados de pesquisa obtidos por observação, experimento e estatística. Distingue-se sempre o dado empírico, a teoria psicológica, a tese filosófica e a doutrina da Igreja sobre a pessoa, e nenhum conteúdo substitui atendimento profissional.',
+    prereq: ['intro-filosofia', 'biologia'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a psicologia.', ['Psicologia filosófica e psicologia científica', 'Mente, comportamento e pessoa', 'Alma, corpo e unidade da pessoa'], 'Distinguir, em dez afirmações, o que é dado empírico, teoria psicológica e tese filosófica sobre a pessoa.', 'Distinções corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Percepção, atenção, memória e aprendizagem', 'Emoção, motivação e personalidade', 'Saúde mental e transtorno'], 'Glossário de vinte termos com definição e exemplo.', 'Definições precisas, sem jargão vago.'),
+      E('metodos', 'Conhecer os métodos da psicologia.', ['Observação e experimento', 'Questionários, escalas e estatística', 'Estudo de caso e ética da pesquisa'], 'Ler um estudo empírico e identificar hipótese, método, amostra, resultados e limites.', 'Leitura correta e crítica proporcional.'),
+      E('formacao', 'Conhecer a formação histórica da psicologia.', ['Da psyché grega à psicologia tomista', 'Descartes, os empiristas e a psicologia moderna', 'Wundt, James e o nascimento da psicologia científica', 'Escolas do século XX e neurociência'], 'Linha do tempo da psicologia com uma obra por marco, incluindo um marco brasileiro.', 'Cada marco com data, autor e ideia central.', 'Helena Antipoff e Nise da Silveira marcam a psicologia no Brasil; a profissão de psicólogo foi regulamentada pela Lei nº 4.119/1962.'),
+      E('autores', 'Ler os grandes autores.', ['Aristóteles e Santo Tomás', 'William James', 'Freud e Jung', 'Viktor Frankl'], 'Ficha de leitura de um capítulo de Em busca de sentido, de Frankl, ou da questão 1 das Questões disputadas sobre a alma, de Santo Tomás.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes escolas.', ['Behaviorismo', 'Psicanálise', 'Humanismo, cognitivismo e terapias baseadas em evidências'], 'Quadro comparativo de quatro escolas: objeto, método, visão da pessoa e limites.', 'Distinções corretas e exemplos pertinentes.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Mente e cérebro', 'Liberdade e determinismo', 'Psicologia, fé e moral'], 'Ensaio: a neurociência elimina a liberdade?', 'Distingue dado empírico, interpretação e tese filosófica.'),
+      E('avancado', 'Aprofundar áreas centrais.', ['Desenvolvimento humano', 'Psicologia social', 'Psicopatologia', 'Neuropsicologia'], 'Analisar um caso fictício à luz das quatro áreas, sem fazer diagnóstico.', 'Uso correto dos conceitos e respeito aos limites do não especialista.'),
+      E('aplicacoes', 'Usar a psicologia em situações concretas.', ['Educação e aprendizagem', 'Trabalho e organizações', 'Saúde mental e vida espiritual'], 'Planejar uma ação de prevenção em saúde mental numa escola ou paróquia, com base em evidências e encaminhamento profissional.', 'Ação realista, fundamentada e com encaminhamento.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de conceitos e métodos', 'Análise de um estudo e de um caso'], 'Prova: conceitos, métodos, escolas e análise de um estudo empírico.', 'Rubrica: precisão, leitura crítica, distinção entre níveis.'),
+      E('pesquisa', 'Fazer uma pequena investigação.', ['Escolha de um tema', 'Revisão de estudos', 'Relatório'], 'Investigação de quatro semanas: revisão de estudos empíricos sobre um tema (hábitos de estudo, uso de telas, resiliência, sono) com avaliação crítica.', 'Fontes confiáveis, leitura correta, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Sobre a alma', 'século IV a.C.', 'primaria', 'fundamentos', { livro: 'aristoteles-alma' }),
+      B('Santo Agostinho', 'A Trindade', 'c. 400–420', 'primaria', 'formacao', { livro: 'agostinho-trindade' }),
+      B('Santo Tomás de Aquino', 'Questões disputadas sobre a alma', '1265–1266', 'primaria', 'autores', { livro: 'tomas-alma' }),
+      B('René Descartes', 'As paixões da alma', '1649', 'primaria', 'formacao', { livro: 'descartes-paixoes' }),
+      B('William James', 'Princípios de psicologia', '1890', 'primaria', 'autores'),
+      B('Sigmund Freud', 'A interpretação dos sonhos', '1900', 'primaria', 'escolas'),
+      B('John B. Watson', 'A psicologia como o behaviorista a vê', '1913', 'primaria', 'escolas'),
+      B('Jean Piaget', 'O nascimento da inteligência na criança', '1936', 'primaria', 'avancado'),
+      B('Jean-Paul Sartre', 'Esboço para uma teoria das emoções', '1939', 'estudo', 'debates', { livro: 'sartre-emocoes' }),
+      B('Viktor Frankl', 'Em busca de sentido', '1946', 'primaria', 'autores'),
+      B('Ludwig Wittgenstein', 'Observações sobre a filosofia da psicologia', '1946–1949 (póstumas)', 'estudo', 'debates', { livro: 'wittgenstein-psicologia' }),
+      B('B. F. Skinner', 'Ciência e comportamento humano', '1953', 'primaria', 'escolas'),
+      B('Mário Ferreira dos Santos', 'Psicologia', 'década de 1950', 'estudo', 'fundamentos', { livro: 'mfs-psicologia', brasil: true }),
+      B('Carl Rogers', 'Tornar-se pessoa', '1961', 'primaria', 'escolas'),
+      B('Nise da Silveira', 'Imagens do inconsciente', '1981', 'estudo', 'aplicacoes', { brasil: true }),
+      B('American Psychiatric Association', 'Manual diagnóstico e estatístico de transtornos mentais (DSM-5)', '2013', 'manual', 'avancado'),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -894,4 +931,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'quimica'];
+export const DISCIPLINAS_PENDENTES = ['relacoes-internacionais', 'quimica'];
