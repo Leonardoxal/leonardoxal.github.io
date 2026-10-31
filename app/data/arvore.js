@@ -40,7 +40,7 @@ export const NOS = [
   N('teol-dogmatica', 'Teologia dogmática', 'teologia', 'teologia', 'O conjunto ordenado das verdades da fé e seus graus de autoridade.', { livros: ['denzinger', 'suma-i'], areas: ['Doutrina', 'Teologia'] }),
   N('trindade', 'Santíssima Trindade', 'teol-dogmatica', 'teologia', 'Um só Deus em três Pessoas: a doutrina e sua elaboração pelos Padres e escolásticos.', { livros: ['agostinho-trindade', 'boecio-opuscula'], modulos: ['tg1'] }),
   N('cristologia', 'Cristologia', 'teol-dogmatica', 'teologia', 'Jesus Cristo, verdadeiro Deus e verdadeiro homem, e a obra da redenção.', { livros: ['anselmo-cur-deus', 'suma-iii'], aulas: ['m1-7', 'm2-6'] }),
-  N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'] }),
+  N('eclesiologia', 'Eclesiologia', 'teol-dogmatica', 'teologia', 'A Igreja: natureza, missão e estrutura.', { aulas: ['m1-9'], modulos: ['tg3'] }),
   N('sacramentos', 'Sacramentos', 'teol-dogmatica', 'teologia', 'Os sete sacramentos e a vida litúrgica.', { aulas: ['m1-9'] }),
   N('escatologia', 'Escatologia', 'teol-dogmatica', 'teologia', 'A vida eterna e o fim da história.', { aulas: ['m1-10'] }),
   N('teol-moral', 'Teologia moral', 'teologia', 'teologia', 'A vida em Cristo: lei, graça, virtudes e consciência.', { livros: ['suma-ii-ii', 'jp2-veritatis'], areas: ['Doutrina / Ética', 'Ética / Teologia moral'], aulas: ['m1-8', 'm1-10'], modulos: ['tg2'] }),
