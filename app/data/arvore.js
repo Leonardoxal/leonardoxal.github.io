@@ -91,7 +91,7 @@ export const NOS = [
 
   // ---------- Ciências Formais e Naturais ----------
   N('formais', 'Ciências Formais', 'filosofia', 'formais', 'Matemática, lógica formal e estatística: conhecimento por demonstração e cálculo, a partir de definições e axiomas.', {}),
-  P('matematica', 'Matemática', 'formais', 'formais', 'Álgebra, geometria, funções, cálculo e probabilidade.', { modulos: ['ma1', 'ma2'], livros: ['boecio-quadrivio', 'pascal-triangulo'] }),
+  P('matematica', 'Matemática', 'formais', 'formais', 'Álgebra, geometria, funções, cálculo e probabilidade.', { modulos: ['ma1', 'ma2', 'ma3'], livros: ['boecio-quadrivio', 'pascal-triangulo'] }),
   N('logica-formal', 'Lógica formal', 'formais', 'formais', 'Lógica proposicional e de predicados, formalização e metalógica.', { modulos: ['lf1', 'lf2', 'lf3', 'lf4', 'lf5'], livros: ['copi-logica', 'frege-sentido', 'wittgenstein-tractatus', 'aristoteles-analiticos'], aulas: ['m4-8'] }),
   N('estatistica', 'Estatística', 'formais', 'formais', 'Estatística descritiva, inferência e métodos quantitativos, com dados públicos brasileiros.', { modulos: ['es1', 'es2', 'es3', 'es4', 'es5'], livros: ['pascal-triangulo'] }),
   N('naturais', 'Ciências Naturais', 'filosofia', 'naturais', 'Física, química, biologia, astronomia e ciências da Terra: conhecimento por observação, experimento e medida. A filosofia da natureza não substitui seus métodos.', {}),

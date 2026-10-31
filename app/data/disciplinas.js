@@ -775,7 +775,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'matematica', no: 'matematica', nome: 'Matemática', aulasPublicadas: false,
-    aulas: { fundamentos: ['ma1-1'], vocabulario: ['ma1-2'], metodos: ['ma1-3', 'ma1-4', 'ma1-5'], formacao: ['ma2-1', 'ma2-2'], autores: ['ma2-3', 'ma2-4', 'ma2-5'] },
+    aulas: { fundamentos: ['ma1-1'], vocabulario: ['ma1-2'], metodos: ['ma1-3', 'ma1-4', 'ma1-5'], formacao: ['ma2-1', 'ma2-2'], autores: ['ma2-3', 'ma2-4', 'ma2-5'], escolas: ['ma3-1', 'ma3-2'], debates: ['ma3-3', 'ma3-4', 'ma3-5'] },
     metodo: 'Estudo da quantidade e da forma por definições, axiomas e demonstrações: cada conceito é construído, exercitado à mão em problemas e demonstrado quando possível. Distingue-se sempre o que é resultado demonstrado, o que é conjectura, o que é convenção de notação e o que é tese filosófica sobre os objetos matemáticos.',
     prereq: ['logica'],
     etapas: [
