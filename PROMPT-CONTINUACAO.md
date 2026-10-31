@@ -19,11 +19,9 @@ Terminar **todas as disciplinas pendentes**, uma por vez, em ordem alfabética.
 
 ## Estado atual (31/10/2026)
 
-**Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, simbologia e sociologia.
+**Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, simbologia e sociologia.
 
-**Matemática:** o percurso já está publicado em `app/data/disciplinas.js`, com `aulasPublicadas: false` e sem o campo `aulas`. Faltam os módulos MA1 a MA5 (prefixo `ma`).
-
-**Faltam depois disso, nesta ordem, cada uma com percurso e 5 módulos:**
+**Faltam, nesta ordem, cada uma com percurso e 5 módulos:**
 
 | Disciplina | Prefixo |
 |---|---|
@@ -131,7 +129,7 @@ No x5: x5-1 a x5-3 são aplicações; x5-4 é a pesquisa de quatro semanas; x5-5
 
 - Em `disciplinas.js`, mude `aulasPublicadas` para `true`.
 - Em `arvore.js`, troque `P(` por `N(` no nó da disciplina.
-- Em `app/data/avaliacoes.js`, acrescente `ma5: ['ma1', 'ma2', 'ma3', 'ma4']` ao objeto `INTEGRADORAS`. Hoje ele termina em `lf5: [...] };`.
+- Em `app/data/avaliacoes.js`, acrescente `ma5: ['ma1', 'ma2', 'ma3', 'ma4']` ao objeto `INTEGRADORAS`. Hoje ele termina em `ma5: [...] };`.
 
 ## Ao começar uma disciplina nova
 

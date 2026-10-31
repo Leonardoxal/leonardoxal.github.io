@@ -774,8 +774,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'matematica', no: 'matematica', nome: 'Matemática', aulasPublicadas: false,
-    aulas: { fundamentos: ['ma1-1'], vocabulario: ['ma1-2'], metodos: ['ma1-3', 'ma1-4', 'ma1-5'], formacao: ['ma2-1', 'ma2-2'], autores: ['ma2-3', 'ma2-4', 'ma2-5'], escolas: ['ma3-1', 'ma3-2'], debates: ['ma3-3', 'ma3-4', 'ma3-5'], avancado: ['ma4-1', 'ma4-2', 'ma4-3', 'ma4-4', 'ma4-5'] },
+    id: 'matematica', no: 'matematica', nome: 'Matemática', aulasPublicadas: true,
+    aulas: { fundamentos: ['ma1-1'], vocabulario: ['ma1-2'], metodos: ['ma1-3', 'ma1-4', 'ma1-5'], formacao: ['ma2-1', 'ma2-2'], autores: ['ma2-3', 'ma2-4', 'ma2-5'], escolas: ['ma3-1', 'ma3-2'], debates: ['ma3-3', 'ma3-4', 'ma3-5'], avancado: ['ma4-1', 'ma4-2', 'ma4-3', 'ma4-4', 'ma4-5'], aplicacoes: ['ma5-1', 'ma5-2', 'ma5-3'], avaliacao: ['ma5-5'], pesquisa: ['ma5-4'] },
     metodo: 'Estudo da quantidade e da forma por definições, axiomas e demonstrações: cada conceito é construído, exercitado à mão em problemas e demonstrado quando possível. Distingue-se sempre o que é resultado demonstrado, o que é conjectura, o que é convenção de notação e o que é tese filosófica sobre os objetos matemáticos.',
     prereq: ['logica'],
     etapas: [
