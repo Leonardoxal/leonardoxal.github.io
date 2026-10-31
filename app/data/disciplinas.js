@@ -586,7 +586,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'fisica', no: 'fisica', nome: 'Física', aulasPublicadas: false,
-    aulas: { fundamentos: ['fi1-1'], vocabulario: ['fi1-2'], metodos: ['fi1-3', 'fi1-4', 'fi1-5'], formacao: ['fi2-1', 'fi2-2'], autores: ['fi2-3', 'fi2-4', 'fi2-5'], escolas: ['fi3-1', 'fi3-2'], debates: ['fi3-3', 'fi3-4', 'fi3-5'] },
+    aulas: { fundamentos: ['fi1-1'], vocabulario: ['fi1-2'], metodos: ['fi1-3', 'fi1-4', 'fi1-5'], formacao: ['fi2-1', 'fi2-2'], autores: ['fi2-3', 'fi2-4', 'fi2-5'], escolas: ['fi3-1', 'fi3-2'], debates: ['fi3-3', 'fi3-4', 'fi3-5'], avancado: ['fi4-1', 'fi4-2', 'fi4-3', 'fi4-4', 'fi4-5'] },
     metodo: 'Estudo da natureza material pela medida, pelo experimento e pela matemática: formular modelos, deduzir consequências e confrontá-las com observações. Cada lei é apresentada com o problema que resolveu, o experimento que a sustenta e seus limites de validade, distinguindo o que a física afirma, o que é interpretação filosófica de seus resultados e o que permanece hipótese.',
     prereq: ['filo-natureza', 'matematica'],
     etapas: [
