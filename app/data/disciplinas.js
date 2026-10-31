@@ -810,6 +810,43 @@ export const DISCIPLINAS = [
       B('Elon Lages Lima', 'Curso de análise', '1976', 'manual', 'avancado', { brasil: true }),
     ],
   },
+  {
+    id: 'musica', no: 'musica', nome: 'Música', aulasPublicadas: false,
+    aulas: { fundamentos: ['mu1-1'], vocabulario: ['mu1-2'], metodos: ['mu1-3', 'mu1-4', 'mu1-5'] },
+    metodo: 'Estudo da música como arte e como ciência: ouvir com atenção, ler e escrever a notação, analisar formas e conhecer a teoria, a história e as obras. Cada conceito é ligado a peças concretas que o estudante escuta, e distingue-se o que é fato acústico ou histórico, o que é doutrina da Igreja sobre a música sacra e o que é juízo estético discutível.',
+    prereq: ['matematica', 'historia-arte'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a música.', ['Som, ritmo, melodia e harmonia', 'Música como arte e como ciência', 'Música, palavra e liturgia'], 'Descrever três peças (uma sacra, uma erudita e uma popular brasileira) quanto a ritmo, melodia, harmonia e forma.', 'Descrições precisas, com o vocabulário próprio.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Altura, duração, intensidade e timbre', 'Intervalos, escalas e acordes', 'Notação musical'], 'Ler e escrever em pauta vinte elementos básicos (notas, figuras, compassos, intervalos e acordes).', 'Leitura e escrita corretas.'),
+      E('metodos', 'Conhecer os métodos de estudo da música.', ['Escuta ativa', 'Leitura e escrita musical', 'Análise de forma'], 'Analisar a forma de três peças com roteiro de escuta.', 'Seções identificadas corretamente, com minutagem.'),
+      E('formacao', 'Conhecer a formação histórica da música.', ['Grécia e o quadrívio', 'Canto gregoriano e polifonia medieval', 'Renascimento e Barroco', 'Classicismo, Romantismo e século XX'], 'Linha do tempo da música com uma obra por marco, incluindo um marco brasileiro.', 'Cada marco com data, compositor ou teórico e característica.', 'O padre José Maurício Nunes Garcia, Carlos Gomes e Heitor Villa-Lobos marcam a história da música no Brasil.'),
+      E('autores', 'Conhecer os grandes autores.', ['Agostinho e Boécio', 'Palestrina e Bach', 'Mozart e Beethoven', 'Villa-Lobos e a música brasileira'], 'Ficha de leitura do livro VI de A música, de Santo Agostinho, ou audição comentada de uma obra de Bach.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes concepções.', ['Teorias antigas: ethos e harmonia', 'Tonalidade e suas alternativas', 'Música sacra, erudita e popular'], 'Quadro comparativo de três concepções sobre o que a música é e para que serve.', 'Distinções corretas e exemplos pertinentes.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['A música expressa emoções?', 'Música e moral', 'Música na liturgia'], 'Ensaio: a música forma o caráter? (Platão, Aristóteles e um autor moderno).', 'Distingue fato, doutrina e juízo estético.'),
+      E('avancado', 'Aprofundar a técnica e a análise.', ['Harmonia e contraponto', 'Formas musicais', 'Acústica e afinação', 'Análise de uma obra'], 'Harmonizar uma melodia simples e analisar a forma e a harmonia de uma obra curta.', 'Harmonização correta e análise fundamentada.'),
+      E('aplicacoes', 'Usar a música em situações concretas.', ['Música na liturgia e na comunidade', 'Educação musical', 'Música, cultura e mercado'], 'Planejar o repertório musical de uma celebração ou de uma aula, justificando as escolhas.', 'Escolhas adequadas ao contexto e às normas da Igreja quando litúrgicas.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de teoria e história', 'Análise de uma peça'], 'Prova: teoria, percepção, história e análise de uma peça.', 'Rubrica: correção técnica, uso do vocabulário, fundamentação.'),
+      E('pesquisa', 'Fazer uma pequena investigação musical.', ['Escolha de uma obra, compositor ou tradição', 'Escuta, partitura e fontes', 'Relatório'], 'Investigação de quatro semanas sobre uma obra, compositor ou tradição musical, de preferência brasileira ou regional.', 'Fontes documentadas, análise musical correta, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Platão', 'A República, livro III', 'c. 375 a.C.', 'primaria', 'debates', { livro: 'platao-republica' }),
+      B('Aristóteles', 'Política, livro VIII', 'século IV a.C.', 'primaria', 'debates', { livro: 'aristoteles-politica' }),
+      B('Santo Agostinho', 'A música', '387–391', 'primaria', 'autores', { livro: 'agostinho-musica' }),
+      B('Boécio', 'A instituição musical', 'c. 500–510', 'primaria', 'formacao', { livro: 'boecio-quadrivio' }),
+      B('Guido d\'Arezzo', 'Micrologus', 'c. 1026', 'primaria', 'metodos'),
+      B('Gioseffo Zarlino', 'As instituições harmônicas', '1558', 'primaria', 'escolas'),
+      B('René Descartes', 'Compêndio de música', '1618', 'primaria', 'formacao', { livro: 'descartes-outros' }),
+      B('Jean-Philippe Rameau', 'Tratado de harmonia', '1722', 'primaria', 'avancado'),
+      B('Jean-Jacques Rousseau', 'Escritos sobre música', '1753; 1768', 'primaria', 'debates', { livro: 'rousseau-musica' }),
+      B('Eduard Hanslick', 'Do belo musical', '1854', 'estudo', 'debates'),
+      B('São Pio X', 'Tra le sollecitudini (motu proprio sobre a música sacra)', '1903', 'doutrina', 'aplicacoes'),
+      B('Arnold Schoenberg', 'Harmonia', '1911', 'primaria', 'escolas'),
+      B('Mário de Andrade', 'Ensaio sobre a música brasileira', '1928', 'estudo', 'formacao', { brasil: true }),
+      B('Donald J. Grout e Claude V. Palisca', 'História da música ocidental', '1960', 'manual', 'formacao'),
+      B('Concílio Vaticano II', 'Sacrosanctum Concilium, cap. VI', '1963', 'doutrina', 'aplicacoes'),
+      B('Joseph Ratzinger', 'Introdução ao espírito da liturgia', '2000', 'estudo', 'aplicacoes'),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -857,4 +894,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'quimica', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'quimica'];
