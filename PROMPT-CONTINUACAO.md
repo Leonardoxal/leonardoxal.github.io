@@ -19,14 +19,13 @@ Terminar **todas as disciplinas pendentes**, uma por vez, em ordem alfabética.
 
 ## Estado atual (31/10/2026)
 
-**Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, música, psicologia, química, simbologia e sociologia.
+**Todas as disciplinas estão concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, música, psicologia, química, relações internacionais, simbologia e sociologia.
+- Nenhum nó da árvore está pendente (`P(`).
+- Cada disciplina tem percurso e 5 módulos publicados.
 
-**Em andamento:** Relações Internacionais (prefixo `ri`, id `relacoes-internacionais`).
-- O percurso e os módulos RI1 a RI4 já estão publicados.
-- Falta só o RI5, seguindo o mapa de etapas da tabela "Módulos e etapas" e as etapas do percurso no bloco `relacoes-internacionais` de `disciplinas.js`.
-- No RI5, a disciplina é concluída: veja "Ao terminar uma disciplina".
+**Próximo passo:** o usuário vai mandar novas fontes e, provavelmente, mudar datas. Não crie disciplinas novas por conta própria. Peça ao usuário as fontes e siga as instruções dele.
 
-Depois do RI5, **todas as disciplinas estarão concluídas**. Nesse ponto, avise o usuário e aguarde as novas fontes e datas que ele mencionou.
+Se for preciso revisar conteúdo existente, comece pelos "fatos escritos de memória e não verificados" listados em `RELATORIO-IA.md`. Use fontes confiáveis e nunca invente nada.
 
 `DISCIPLINAS_PENDENTES` (no fim de disciplinas.js) hoje vale `[]`.
 

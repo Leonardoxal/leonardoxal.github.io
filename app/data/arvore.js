@@ -86,7 +86,7 @@ export const NOS = [
   N('antropologia', 'Antropologia', 'humanas', 'humanas', 'Cultura, parentesco, religião e método etnográfico.', { modulos: ['an1', 'an2', 'an3', 'an4', 'an5'] }),
   N('psicologia', 'Psicologia', 'humanas', 'humanas', 'Processos mentais, comportamento e desenvolvimento, com método científico.', { modulos: ['ps1', 'ps2', 'ps3', 'ps4', 'ps5'], livros: ['mfs-psicologia', 'descartes-paixoes', 'sartre-emocoes', 'wittgenstein-psicologia'] }),
   N('demografia', 'Demografia', 'humanas', 'humanas', 'População, natalidade, mortalidade e migrações.', { modulos: ['dm1', 'dm2', 'dm3', 'dm4', 'dm5'] }),
-  P('relacoes-internacionais', 'Relações Internacionais', 'humanas', 'humanas', 'Política internacional, geopolítica e a posição do Brasil no mundo.', { modulos: ['ri1', 'ri2', 'ri3', 'ri4'], livros: ['kant-paz', 'olavo-dugin'] }),
+  N('relacoes-internacionais', 'Relações Internacionais', 'humanas', 'humanas', 'Política internacional, geopolítica e a posição do Brasil no mundo.', { modulos: ['ri1', 'ri2', 'ri3', 'ri4', 'ri5'], livros: ['kant-paz', 'olavo-dugin'] }),
   N('educacao', 'Educação', 'humanas', 'humanas', 'Filosofia, história e ciência da educação, com a família como primeira educadora e dados oficiais do ensino brasileiro.', { modulos: ['ed1', 'ed2', 'ed3', 'ed4', 'ed5'], livros: ['rousseau-emilio', 'locke-educacao', 'maritain-educacao', 'agostinho-mestre'] }),
 
   // ---------- Ciências Formais e Naturais ----------

@@ -919,8 +919,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'relacoes-internacionais', no: 'relacoes-internacionais', nome: 'Relações Internacionais', aulasPublicadas: false,
-    aulas: { fundamentos: ['ri1-1'], vocabulario: ['ri1-2'], metodos: ['ri1-3', 'ri1-4', 'ri1-5'], formacao: ['ri2-1', 'ri2-2'], autores: ['ri2-3', 'ri2-4', 'ri2-5'], escolas: ['ri3-1', 'ri3-2'], debates: ['ri3-3', 'ri3-4', 'ri3-5'], avancado: ['ri4-1', 'ri4-2', 'ri4-3', 'ri4-4', 'ri4-5'] },
+    id: 'relacoes-internacionais', no: 'relacoes-internacionais', nome: 'Relações Internacionais', aulasPublicadas: true,
+    aulas: { fundamentos: ['ri1-1'], vocabulario: ['ri1-2'], metodos: ['ri1-3', 'ri1-4', 'ri1-5'], formacao: ['ri2-1', 'ri2-2'], autores: ['ri2-3', 'ri2-4', 'ri2-5'], escolas: ['ri3-1', 'ri3-2'], debates: ['ri3-3', 'ri3-4', 'ri3-5'], avancado: ['ri4-1', 'ri4-2', 'ri4-3', 'ri4-4', 'ri4-5'], aplicacoes: ['ri5-1', 'ri5-2', 'ri5-3'], avaliacao: ['ri5-5'], pesquisa: ['ri5-4'] },
     metodo: 'Estudo das relações entre Estados, povos e organizações pela leitura de fontes (tratados, discursos, documentos diplomáticos), pela história e pela comparação de casos. Distingue-se sempre o fato documentado, a interpretação de analistas, a teoria (realista, liberal, construtivista) e o juízo moral à luz da lei natural e da doutrina social da Igreja.',
     prereq: ['ciencia-politica', 'geografia'],
     etapas: [

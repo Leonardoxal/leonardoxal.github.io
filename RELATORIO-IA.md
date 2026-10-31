@@ -32,3 +32,22 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
   - prereq de Química = matemática e física, porque biologia, ciências ambientais e ciências da Terra dependem de Química;
   - nó da árvore com os livros `aristoteles-geracao` e `tomas-opusculos-naturais`.
 - Pendente: Relações Internacionais (prefixo `ri`).
+
+## 2026-10-31 — Claude (sessão original): Relações Internacionais completa; todas as disciplinas concluídas
+
+- Commits: percurso e RI1 a RI5, um commit por módulo, todos com deploy bem-sucedido.
+- Testes: 45 pass / 0 fail após cada módulo.
+- Arquivos:
+  - `app/data/aulas/ri1.js` a `ri5.js`;
+  - registros em `index.js`, `curriculo.js`, `arvore.js`, `disciplinas.js`, `avaliacoes.js` e `core.test.mjs`;
+  - `DISCIPLINAS_PENDENTES` agora vale `[]`.
+- Conferido no navegador: sim, nas páginas dos cinco módulos, na página da disciplina e na árvore, sem "em preparação" e sem recursos com erro. Nenhum nó `P(` restante em `arvore.js`.
+- Fatos escritos de memória e não verificados:
+  - números de leis (9.474/1997, 13.445/2017, 12.527/2011, EC 45/2004);
+  - artigos da Constituição (4º, 5º § 3º, 21 XXIII a, 49 I);
+  - datas de tratados e eventos (Petrópolis 1903, Beagle 1984, Acordo Brasil–Santa Sé 2008/2010, Minustah 2004–2017);
+  - números de parágrafos de documentos (CIC 2241 e 2309, FT 258, CV 67, PT 140–141).
+- Decisões:
+  - prereq de RI = ciência política e geografia;
+  - título da obra de Vitória registrado como "Relectiones sobre os índios e sobre o direito de guerra".
+- Pendente: nada no plano de disciplinas. Aguardar as novas fontes e datas do usuário.
