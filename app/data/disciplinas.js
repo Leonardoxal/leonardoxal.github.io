@@ -701,8 +701,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'literatura', no: 'literatura', nome: 'Literatura', aulasPublicadas: false,
-    aulas: { fundamentos: ['lt1-1'], vocabulario: ['lt1-2'], metodos: ['lt1-3', 'lt1-4', 'lt1-5'], formacao: ['lt2-1', 'lt2-2'], autores: ['lt2-3', 'lt2-4', 'lt2-5'], escolas: ['lt3-1', 'lt3-2'], debates: ['lt3-3', 'lt3-4', 'lt3-5'], avancado: ['lt4-1', 'lt4-2', 'lt4-3', 'lt4-4', 'lt4-5'] },
+    id: 'literatura', no: 'literatura', nome: 'Literatura', aulasPublicadas: true,
+    aulas: { fundamentos: ['lt1-1'], vocabulario: ['lt1-2'], metodos: ['lt1-3', 'lt1-4', 'lt1-5'], formacao: ['lt2-1', 'lt2-2'], autores: ['lt2-3', 'lt2-4', 'lt2-5'], escolas: ['lt3-1', 'lt3-2'], debates: ['lt3-3', 'lt3-4', 'lt3-5'], avancado: ['lt4-1', 'lt4-2', 'lt4-3', 'lt4-4', 'lt4-5'], aplicacoes: ['lt5-1', 'lt5-2', 'lt5-3'], avaliacao: ['lt5-5'], pesquisa: ['lt5-4'] },
     metodo: 'Leitura atenta das grandes obras, no texto integral sempre que possível, com análise da forma (gênero, verso, narrador, linguagem), do contexto histórico e do sentido humano, moral e espiritual. Distingue o que o texto diz (com citação), o que a crítica interpreta e o juízo do leitor, e lê a literatura brasileira e de língua portuguesa ao lado dos clássicos universais.',
     prereq: ['estetica', 'linguistica'],
     etapas: [

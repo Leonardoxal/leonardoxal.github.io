@@ -97,7 +97,7 @@ const ESTATICAS = [
 
 const QUESTOES_POR_AULA = 2;
 /** Provas que encerram um percurso e cobrem também os módulos anteriores (módulo → módulos anteriores). */
-export const INTEGRADORAS = { h5: ['h1', 'h2', 'h3', 'h4'], e5: ['e1', 'e2', 'e3', 'e4'], g5: ['g1', 'g2', 'g3', 'g4'], sb3: ['sb1', 'sb2'], so5: ['so1', 'so2', 'so3', 'so4'], an5: ['an1', 'an2', 'an3', 'an4'], as5: ['as1', 'as2', 'as3', 'as4'], bi5: ['bi1', 'bi2', 'bi3', 'bi4'], cp5: ['cp1', 'cp2', 'cp3', 'cp4'], ca5: ['ca1', 'ca2', 'ca3', 'ca4'], ct5: ['ct1', 'ct2', 'ct3', 'ct4'], cu5: ['cu1', 'cu2', 'cu3', 'cu4'], dm5: ['dm1', 'dm2', 'dm3', 'dm4'], dr5: ['dr1', 'dr2', 'dr3', 'dr4'], ed5: ['ed1', 'ed2', 'ed3', 'ed4'], es5: ['es1', 'es2', 'es3', 'es4'], fi5: ['fi1', 'fi2', 'fi3', 'fi4'], ha5: ['ha1', 'ha2', 'ha3', 'ha4'], li5: ['li1', 'li2', 'li3', 'li4'] };
+export const INTEGRADORAS = { h5: ['h1', 'h2', 'h3', 'h4'], e5: ['e1', 'e2', 'e3', 'e4'], g5: ['g1', 'g2', 'g3', 'g4'], sb3: ['sb1', 'sb2'], so5: ['so1', 'so2', 'so3', 'so4'], an5: ['an1', 'an2', 'an3', 'an4'], as5: ['as1', 'as2', 'as3', 'as4'], bi5: ['bi1', 'bi2', 'bi3', 'bi4'], cp5: ['cp1', 'cp2', 'cp3', 'cp4'], ca5: ['ca1', 'ca2', 'ca3', 'ca4'], ct5: ['ct1', 'ct2', 'ct3', 'ct4'], cu5: ['cu1', 'cu2', 'cu3', 'cu4'], dm5: ['dm1', 'dm2', 'dm3', 'dm4'], dr5: ['dr1', 'dr2', 'dr3', 'dr4'], ed5: ['ed1', 'ed2', 'ed3', 'ed4'], es5: ['es1', 'es2', 'es3', 'es4'], fi5: ['fi1', 'fi2', 'fi3', 'fi4'], ha5: ['ha1', 'ha2', 'ha3', 'ha4'], li5: ['li1', 'li2', 'li3', 'li4'], lt5: ['lt1', 'lt2', 'lt3', 'lt4'] };
 
 /**
  * Prova de cada módulo: duas questões objetivas de cada aula de conteúdo (as primeiras do questionário,
