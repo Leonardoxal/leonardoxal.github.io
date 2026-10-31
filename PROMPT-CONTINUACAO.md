@@ -23,7 +23,33 @@ Terminar **todas as disciplinas pendentes**, uma por vez, em ordem alfabética.
 - Nenhum nó da árvore está pendente (`P(`).
 - Cada disciplina tem percurso e 5 módulos publicados.
 
-**Próximo passo:** o usuário vai mandar novas fontes e, provavelmente, mudar datas. Não crie disciplinas novas por conta própria. Peça ao usuário as fontes e siga as instruções dele.
+**Trabalho atual: a "ORDEM GERAL DE EXECUÇÃO — reestruturação pedagógica".** O usuário mandou essa ordem depois que as disciplinas terminaram. Leia antes:
+- `PLANO_EXECUCAO.md`: as 10 fases de execução e as decisões já tomadas.
+- `STATUS_EXECUCAO.md`: o que está feito e o que falta.
+- `AUDITORIA_PEDAGOGICA.md`: os números reais (rode `node scripts/auditoria.mjs` para refazê-los).
+
+Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, operações destrutivas, ambiguidade grave ou dependência impossível. Princípio do usuário: o currículo deve formar alguém capaz de compreender, argumentar e julgar por conta própria. Ele combina três estruturas: vertical (sequência da disciplina), horizontal (semestres) e integradora (módulos por época, país, autor ou problema).
+
+**Feito até agora:**
+- Fase 1: auditoria e os quatro documentos.
+- Fase 2 da formação (iniciação intelectual, degraus 3 e 4) entre a teologia e as disciplinas. Está em `core.js`: `FASE_INICIACAO`, `faseIniciacaoConcluida`, `pendenciaDisciplinas`, `numeroFase`.
+- Expansão da teologia em andamento. Módulos novos `tg1` (Trindade, Cristologia, Maria) e `tg2` (criação, ser humano, pecado original, graça), no degrau 1, depois de `m2` e antes de `m2b` em `curriculo.js`.
+
+**Próximo:**
+1. Escrever os módulos de teologia que faltam, no mesmo formato e com 4 aulas mais a avaliação cada:
+   - `tg3` Igreja e sacramentos (degrau 1, prereq `tg2`);
+   - `tg4` Moral e espiritualidade (degrau 1);
+   - `tg5` Escatologia e liturgia (degrau 1);
+   - `tg6` Escolástica teológica (degrau 2, antes de `m2b` na lista; prereq `tg5`);
+   - `tg7` Doutrina social (degrau 2);
+   - `tg8` História da Igreja medieval ao Vaticano II (degrau 2).
+2. A cada módulo novo:
+   - acrescente o id na lista do teste "fases" (linha ~150 de `core.test.mjs`), na ordem de `MODULOS`;
+   - aumente a contagem do teste "módulos da escada" (linha ~402);
+   - ligue o módulo a um nó da árvore com `modulos: [...]`.
+3. Depois siga para as fases 3 a 10 do plano: semestres, módulos integradores, mediateca, fontes externas, semiótica, busca global e testes.
+
+Não crie disciplinas novas fora do plano.
 
 Se for preciso revisar conteúdo existente, comece pelos "fatos escritos de memória e não verificados" listados em `RELATORIO-IA.md`. Use fontes confiáveis e nunca invente nada.
 
