@@ -739,7 +739,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'logica-formal', no: 'logica-formal', nome: 'Lógica formal', aulasPublicadas: false,
-    aulas: { fundamentos: ['lf1-1'], vocabulario: ['lf1-2'], metodos: ['lf1-3', 'lf1-4', 'lf1-5'] },
+    aulas: { fundamentos: ['lf1-1'], vocabulario: ['lf1-2'], metodos: ['lf1-3', 'lf1-4', 'lf1-5'], formacao: ['lf2-1', 'lf2-2'], autores: ['lf2-3', 'lf2-4', 'lf2-5'] },
     metodo: 'Estudo das formas válidas de raciocínio por meio de linguagens simbólicas: formalizar enunciados, testar a validade com tabelas e árvores, e provar conclusões por regras explícitas. Cada técnica é praticada à mão em exemplos pequenos e ligada à lógica aristotélica e escolástica, distinguindo o que é resultado demonstrado, o que é escolha de sistema e o que é tese filosófica sobre a lógica.',
     prereq: ['logica', 'matematica'],
     etapas: [
