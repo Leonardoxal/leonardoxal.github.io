@@ -848,8 +848,8 @@ export const DISCIPLINAS = [
     ],
   },
   {
-    id: 'psicologia', no: 'psicologia', nome: 'Psicologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['ps1-1'], vocabulario: ['ps1-2'], metodos: ['ps1-3', 'ps1-4', 'ps1-5'], formacao: ['ps2-1', 'ps2-2'], autores: ['ps2-3', 'ps2-4', 'ps2-5'], escolas: ['ps3-1', 'ps3-2'], debates: ['ps3-3', 'ps3-4', 'ps3-5'], avancado: ['ps4-1', 'ps4-2', 'ps4-3', 'ps4-4', 'ps4-5'] },
+    id: 'psicologia', no: 'psicologia', nome: 'Psicologia', aulasPublicadas: true,
+    aulas: { fundamentos: ['ps1-1'], vocabulario: ['ps1-2'], metodos: ['ps1-3', 'ps1-4', 'ps1-5'], formacao: ['ps2-1', 'ps2-2'], autores: ['ps2-3', 'ps2-4', 'ps2-5'], escolas: ['ps3-1', 'ps3-2'], debates: ['ps3-3', 'ps3-4', 'ps3-5'], avancado: ['ps4-1', 'ps4-2', 'ps4-3', 'ps4-4', 'ps4-5'], aplicacoes: ['ps5-1', 'ps5-2', 'ps5-3'], avaliacao: ['ps5-5'], pesquisa: ['ps5-4'] },
     metodo: 'Estudo da vida psíquica pela filosofia da pessoa e pela ciência empírica: conceitos clássicos (alma, potências, paixões, hábitos) dialogam com resultados de pesquisa obtidos por observação, experimento e estatística. Distingue-se sempre o dado empírico, a teoria psicológica, a tese filosófica e a doutrina da Igreja sobre a pessoa, e nenhum conteúdo substitui atendimento profissional.',
     prereq: ['intro-filosofia', 'biologia'],
     etapas: [

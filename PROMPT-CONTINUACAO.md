@@ -19,17 +19,16 @@ Terminar **todas as disciplinas pendentes**, uma por vez, em ordem alfabética.
 
 ## Estado atual (31/10/2026)
 
-**Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, música, simbologia e sociologia.
+**Concluídas:** antropologia, astronomia, biologia, ciência política, ciências ambientais, ciências da Terra, cultura, demografia, direito, economia, educação, estatística, física, geografia, história, história da arte, linguística, literatura, lógica formal, matemática, música, psicologia, simbologia e sociologia.
 
 **Faltam, nesta ordem, cada uma com percurso e 5 módulos:**
 
 | Disciplina | Prefixo |
 |---|---|
-| Psicologia | `ps` |
 | Química | `qu` |
 | Relações Internacionais | `ri` |
 
-`DISCIPLINAS_PENDENTES` (no fim de disciplinas.js) hoje vale `['psicologia', 'relacoes-internacionais', 'quimica']`.
+`DISCIPLINAS_PENDENTES` (no fim de disciplinas.js) hoje vale `['relacoes-internacionais', 'quimica']`.
 
 Antes de usar um prefixo, confira que ele está livre: faça um Glob por `app/data/aulas/<prefixo>*.js`.
 
@@ -128,11 +127,11 @@ No x5: x5-1 a x5-3 são aplicações; x5-4 é a pesquisa de quatro semanas; x5-5
 
 - Em `disciplinas.js`, mude `aulasPublicadas` para `true`.
 - Em `arvore.js`, troque `P(` por `N(` no nó da disciplina.
-- Em `app/data/avaliacoes.js`, acrescente `ma5: ['ma1', 'ma2', 'ma3', 'ma4']` ao objeto `INTEGRADORAS`. Hoje ele termina em `mu5: [...] };`.
+- Em `app/data/avaliacoes.js`, acrescente `ma5: ['ma1', 'ma2', 'ma3', 'ma4']` ao objeto `INTEGRADORAS`. Hoje ele termina em `ps5: [...] };`.
 
 ## Ao começar uma disciplina nova
 
-1. Em `disciplinas.js`, insira o bloco do percurso antes do `];` que fecha `DISCIPLINAS`. Hoje ele vem depois do bloco de música.
+1. Em `disciplinas.js`, insira o bloco do percurso antes do `];` que fecha `DISCIPLINAS`. Hoje ele vem depois do bloco de psicologia.
    - Campos: `{ id, no, nome, aulasPublicadas: false, metodo, prereq, etapas: [11 × E(...)], bibliografia: [B(...)] }`.
    - As etapas, na ordem: fundamentos, vocabulario, metodos, formacao, autores, escolas, debates, avancado, aplicacoes, avaliacao, pesquisa.
    - Use os blocos de `logica-formal` e `matematica` como modelo.
