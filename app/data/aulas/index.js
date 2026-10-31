@@ -96,6 +96,7 @@ import { AULAS as ED2 } from './ed2.js';
 import { AULAS as ED3 } from './ed3.js';
 import { AULAS as ED4 } from './ed4.js';
 import { AULAS as ED5 } from './ed5.js';
+import { AULAS as ES1 } from './es1.js';
 import { AULAS as E1 } from './e1.js';
 import { AULAS as E2 } from './e2.js';
 import { AULAS as E3 } from './e3.js';
@@ -106,6 +107,6 @@ import { AULAS as E5 } from './e5.js';
 export const AULAS_COMPLETAS = [
   ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
   ...M5A, ...M5B, ...M6, ...M7A, ...M7B, ...M8A, ...M8B, ...M9, ...M10A, ...M10B,
-  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...SO1, ...SO2, ...SO3, ...SO4, ...SO5, ...AN1, ...AN2, ...AN3, ...AN4, ...AN5, ...AS1, ...AS2, ...AS3, ...AS4, ...AS5, ...BI1, ...BI2, ...BI3, ...BI4, ...BI5, ...CP1, ...CP2, ...CP3, ...CP4, ...CP5, ...CA1, ...CA2, ...CA3, ...CA4, ...CA5, ...CT1, ...CT2, ...CT3, ...CT4, ...CT5, ...CU1, ...CU2, ...CU3, ...CU4, ...CU5, ...DM1, ...DM2, ...DM3, ...DM4, ...DM5, ...DR1, ...DR2, ...DR3, ...DR4, ...DR5, ...ED1, ...ED2, ...ED3, ...ED4, ...ED5, ...E1, ...E2, ...E3, ...E4, ...E5,
+  ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB3, ...SO1, ...SO2, ...SO3, ...SO4, ...SO5, ...AN1, ...AN2, ...AN3, ...AN4, ...AN5, ...AS1, ...AS2, ...AS3, ...AS4, ...AS5, ...BI1, ...BI2, ...BI3, ...BI4, ...BI5, ...CP1, ...CP2, ...CP3, ...CP4, ...CP5, ...CA1, ...CA2, ...CA3, ...CA4, ...CA5, ...CT1, ...CT2, ...CT3, ...CT4, ...CT5, ...CU1, ...CU2, ...CU3, ...CU4, ...CU5, ...DM1, ...DM2, ...DM3, ...DM4, ...DM5, ...DR1, ...DR2, ...DR3, ...DR4, ...DR5, ...ED1, ...ED2, ...ED3, ...ED4, ...ED5, ...ES1, ...E1, ...E2, ...E3, ...E4, ...E5,
 ].map((a) => ({ ...a, avancado: a.avancado || AVANCADO[a.id] || null }));
 export const aulaPorId = Object.fromEntries(AULAS_COMPLETAS.map((a) => [a.id, a]));

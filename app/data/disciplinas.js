@@ -549,6 +549,41 @@ export const DISCIPLINAS = [
       B('INEP', 'Censo Escolar, SAEB e IDEB', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.gov.br/inep' }),
     ],
   },
+  {
+    id: 'estatistica', no: 'estatistica', nome: 'Estatística', aulasPublicadas: false,
+    aulas: { fundamentos: ['es1-1'], vocabulario: ['es1-2'], metodos: ['es1-3', 'es1-4', 'es1-5'] },
+    metodo: 'Estudo dos métodos para coletar, organizar, resumir e interpretar dados sob incerteza, e para tirar conclusões de amostras sobre populações. Cada cálculo é feito à mão em exemplos pequenos antes de qualquer fórmula geral, e cada conclusão distingue o que os dados mostram, o que se infere com certa confiança e o que permanece hipótese.',
+    prereq: ['matematica', 'logica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a estatística e para que serve.', ['Variabilidade e incerteza', 'População e amostra', 'Estatística descritiva e inferencial'], 'Identificar população, amostra e variável em cinco notícias com números.', 'Identificações corretas e justificadas.', 'O IBGE, criado em 1936, é o principal produtor de estatísticas oficiais do Brasil.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Tipos de variáveis', 'Tabelas de frequência', 'Média, mediana e moda', 'Amplitude, variância e desvio-padrão'], 'Calcular à mão as medidas de posição e de dispersão de um pequeno conjunto de dados e interpretá-las.', 'Cálculos corretos e interpretação adequada.'),
+      E('metodos', 'Conhecer como se obtêm e se apresentam os dados.', ['Amostragem e viés', 'Estudos observacionais e experimentos', 'Gráficos honestos e enganosos'], 'Avaliar uma pesquisa divulgada na imprensa: amostra, método, margem de erro e gráficos.', 'Avaliação fundamentada nos conceitos.', 'Pesquisas do IBGE como a PNAD Contínua descrevem publicamente sua metodologia amostral.'),
+      E('formacao', 'Conhecer a formação histórica da estatística.', ['Censos antigos e aritmética política', 'Nascimento do cálculo de probabilidades', 'Lei dos grandes números e curva normal', 'Regressão, correlação e testes no século XX'], 'Linha do tempo da estatística com uma obra ou instituição por marco, incluindo marcos brasileiros.', 'Cada marco com data, autor ou instituição e ideia central.', 'O primeiro recenseamento geral do Brasil foi realizado em 1872.'),
+      E('autores', 'Ler os grandes autores.', ['Graunt e Pascal', 'Jacob Bernoulli e Laplace', 'Galton e Pearson', 'Fisher, Neyman e Bayes'], 'Ficha de leitura de um capítulo do Ensaio filosófico sobre as probabilidades, de Laplace.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes interpretações.', ['Probabilidade clássica, frequentista e subjetiva', 'Inferência frequentista e bayesiana', 'Estatística e causalidade'], 'Resolver o mesmo problema simples de forma frequentista e bayesiana e comparar as interpretações.', 'Cálculos corretos e interpretações distintas sem confusão.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Valores-p e crise de replicação', 'Correlação, causalidade e confusão', 'Uso político e manipulação de estatísticas'], 'Ensaio: o que um valor-p significa e o que não significa, com um caso real de má interpretação.', 'Definição correta e análise justa do caso.'),
+      E('avancado', 'Aprofundar a inferência.', ['Probabilidade e distribuições', 'Estimação e intervalos de confiança', 'Testes de hipóteses', 'Regressão linear'], 'Analisar um conjunto de dados públicos com intervalo de confiança e uma regressão simples, interpretando os resultados.', 'Procedimentos corretos e interpretação cautelosa.'),
+      E('aplicacoes', 'Usar a estatística em problemas concretos.', ['Pesquisas eleitorais e de opinião', 'Saúde: ensaios clínicos e riscos', 'Indicadores econômicos e sociais'], 'Interpretar uma pesquisa eleitoral e um resultado de ensaio clínico, distinguindo risco relativo e absoluto.', 'Interpretações corretas e limites reconhecidos.', 'O IPCA, a PNAD Contínua e as pesquisas eleitorais registradas no TSE são fontes públicas brasileiras.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de cálculo e interpretação', 'Análise crítica de um estudo'], 'Prova: calcular medidas, interpretar um intervalo de confiança e criticar um gráfico ou estudo.', 'Rubrica: correção dos cálculos, interpretação, distinção entre dado e inferência.'),
+      E('pesquisa', 'Fazer uma pequena análise estatística.', ['Pergunta e dados', 'Análise descritiva e inferencial', 'Relatório com limites'], 'Investigação de quatro semanas com dados públicos (IBGE, DATASUS, INEP), com análise descritiva, uma inferência simples e relatório.', 'Pergunta clara, cálculos corretos, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('John Graunt', 'Observações naturais e políticas sobre os boletins de mortalidade', '1662', 'primaria', 'formacao'),
+      B('Blaise Pascal', 'Tratado do triângulo aritmético', '1665', 'primaria', 'autores', { livro: 'pascal-triangulo' }),
+      B('Jacob Bernoulli', 'Ars conjectandi', '1713', 'primaria', 'autores'),
+      B('Thomas Bayes', 'Ensaio para resolver um problema na doutrina das probabilidades', '1763', 'primaria', 'escolas'),
+      B('Pierre-Simon Laplace', 'Ensaio filosófico sobre as probabilidades', '1814', 'primaria', 'autores'),
+      B('Adolphe Quetelet', 'Sobre o homem e o desenvolvimento de suas faculdades', '1835', 'primaria', 'formacao'),
+      B('Ronald A. Fisher', 'Métodos estatísticos para pesquisadores', '1925', 'primaria', 'autores'),
+      B('Ronald A. Fisher', 'O planejamento de experimentos', '1935', 'primaria', 'metodos'),
+      B('Darrell Huff', 'Como mentir com estatística', '1954', 'estudo', 'debates'),
+      B('Ian Hacking', 'O surgimento da probabilidade', '1975', 'estudo', 'formacao'),
+      B('Stephen M. Stigler', 'The History of Statistics', '1986', 'estudo', 'formacao'),
+      B('Ronald L. Wasserstein e Nicole A. Lazar', 'The ASA Statement on p-Values', '2016', 'estudo', 'debates'),
+      B('Diretoria Geral de Estatística', 'Recenseamento Geral do Império do Brasil', '1872', 'dados', 'formacao', { brasil: true }),
+      B('IBGE', 'Censos, PNAD Contínua e demais pesquisas', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.ibge.gov.br' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -596,4 +631,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'estatistica', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
