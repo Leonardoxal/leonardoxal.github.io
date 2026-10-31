@@ -625,6 +625,44 @@ export const DISCIPLINAS = [
       B('INMETRO', 'O Sistema Internacional de Unidades (tradução oficial)', '—', 'dados', 'vocabulario', { brasil: true, url: 'https://www.gov.br/inmetro' }),
     ],
   },
+  {
+    id: 'historia-arte', no: 'historia-arte', nome: 'História da Arte', aulasPublicadas: false,
+    aulas: { fundamentos: ['ha1-1'], vocabulario: ['ha1-2'], metodos: ['ha1-3', 'ha1-4', 'ha1-5'] },
+    metodo: 'Estudo das obras de arquitetura, pintura, escultura e artes visuais em seu contexto histórico, a partir da observação direta e das fontes. Cada obra é lida em três níveis: o que se vê (forma e técnica), o que representa (iconografia, com textos de apoio) e o que significa em sua época (iconologia, com documentos). Distingue o fato documentado (data, autor, encomenda), a interpretação de historiadores e o juízo estético ou teológico.',
+    prereq: ['estetica', 'historia', 'simbologia'],
+    etapas: [
+      E('fundamentos', 'Entender o que é arte e o que estuda sua história.', ['Arte como fazer bem feito e o belo', 'Obra, artista, encomenda e contexto', 'Arte sacra e arte profana'], 'Descrever uma obra de arte de sua cidade identificando obra, autor, data, encomenda e função.', 'Dados corretos e distinção entre fato e opinião.'),
+      E('vocabulario', 'Dominar o vocabulário visual e técnico.', ['Linha, forma, cor, luz e composição', 'Perspectiva', 'Técnicas de pintura, escultura e arquitetura'], 'Glossário ilustrado de 20 termos de arte e arquitetura com um exemplo de cada.', 'Definições corretas e exemplos pertinentes.'),
+      E('metodos', 'Conhecer os métodos da história da arte.', ['Análise formal', 'Iconografia e iconologia', 'Atribuição, datação e fontes documentais'], 'Analisar uma obra em três níveis (formal, iconográfico, iconológico), com as fontes usadas.', 'Separa descrição e interpretação e cita as fontes.', 'O IPHAN mantém inventários e processos de tombamento com documentação de bens brasileiros.'),
+      E('formacao', 'Conhecer a formação histórica da arte ocidental.', ['Antiguidade: Egito, Grécia e Roma', 'Arte paleocristã, bizantina, românica e gótica', 'Renascimento e Barroco', 'Arte moderna e contemporânea'], 'Linha do tempo da arte ocidental com uma obra por período, incluindo obras brasileiras.', 'Cada obra com data, autor, local e característica do período.', 'O barroco mineiro, com o Aleijadinho e Mestre Ataíde, é um marco da arte brasileira.'),
+      E('autores', 'Ler os grandes autores sobre arte.', ['Vitrúvio e os tratadistas do Renascimento', 'Vasari e a história dos artistas', 'Wölfflin, Panofsky e Gombrich', 'Maritain e Gilson sobre arte e beleza'], 'Ficha de leitura de um capítulo de Arte e escolástica, de Maritain, ou de A história da arte, de Gombrich.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes abordagens.', ['Formalismo', 'Iconologia', 'História social da arte', 'Teologia da imagem'], 'Ler uma mesma obra segundo duas abordagens e comparar os resultados.', 'Aplicação correta e comparação justa.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Iconoclasmo e a defesa das imagens', 'Arte moderna, beleza e feiura', 'Arte sacra depois do Vaticano II', 'Patrimônio, restauro e restituição'], 'Ensaio: o que torna uma obra adequada ao culto? Responder com Niceia II, a Sacrosanctum Concilium e um exemplo concreto.', 'Distingue doutrina, critério estético e gosto pessoal.'),
+      E('avancado', 'Aprofundar os grandes campos.', ['Arquitetura sacra: da basílica à catedral', 'Pintura: de Giotto a Caravaggio', 'Escultura: de Fídias a Bernini', 'Arte no Brasil: do barroco ao modernismo'], 'Estudo comparado de duas obras de períodos diferentes com o mesmo tema.', 'Análise precisa e contextualização documentada.'),
+      E('aplicacoes', 'Usar a história da arte em situações concretas.', ['Ler uma igreja', 'Visitar um museu', 'Patrimônio cultural e tombamento'], 'Preparar e conduzir a visita a uma igreja ou museu, com roteiro escrito.', 'Roteiro correto, claro e fundamentado.', 'O tombamento federal é regulado pelo Decreto-Lei nº 25/1937.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Reconhecimento de períodos e obras', 'Análise de uma obra não estudada'], 'Prova: identificar período e características de obras e analisar uma obra em três níveis.', 'Rubrica: observação, vocabulário, contexto, fontes.'),
+      E('pesquisa', 'Fazer uma pequena investigação.', ['Escolha de uma obra ou edifício', 'Fontes e documentação', 'Relatório ilustrado'], 'Investigação de quatro semanas sobre uma obra ou edifício local, com documentos (IPHAN, arquivos paroquiais, jornais) e relatório.', 'Fontes identificadas, descrição precisa, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Vitrúvio', 'Dez livros de arquitetura', 'século I a.C.', 'primaria', 'autores'),
+      B('São João Damasceno', 'Discursos contra os que caluniam as santas imagens', 'c. 730', 'primaria', 'debates'),
+      B('II Concílio de Niceia', 'Definição sobre as imagens', '787', 'doutrina', 'debates'),
+      B('Cennino Cennini', 'O livro da arte', 'c. 1400', 'primaria', 'vocabulario'),
+      B('Leon Battista Alberti', 'Da pintura', '1435', 'primaria', 'autores'),
+      B('Giorgio Vasari', 'Vidas dos mais excelentes pintores, escultores e arquitetos', '1550', 'primaria', 'autores'),
+      B('G. W. F. Hegel', 'Cursos de estética', '1835–1838', 'primaria', 'escolas', { livro: 'hegel-estetica' }),
+      B('Heinrich Wölfflin', 'Conceitos fundamentais da história da arte', '1915', 'estudo', 'metodos'),
+      B('Jacques Maritain', 'Arte e escolástica', '1920', 'estudo', 'autores', { livro: 'maritain-arte' }),
+      B('Erwin Panofsky', 'Estudos de iconologia', '1939', 'estudo', 'metodos'),
+      B('Ernst H. Gombrich', 'A história da arte', '1950', 'manual', 'formacao'),
+      B('Étienne Gilson', 'Pintura e realidade', '1957', 'estudo', 'escolas', { livro: 'gilson-pintura' }),
+      B('Concílio Vaticano II', 'Sacrosanctum Concilium, cap. VII (arte sacra)', '1963', 'doutrina', 'debates'),
+      B('João Paulo II', 'Carta aos artistas', '1999', 'doutrina', 'fundamentos', { livro: 'jp2-artistas' }),
+      B('Germain Bazin', 'O Aleijadinho e a escultura barroca no Brasil', '1963', 'estudo', 'avancado', { brasil: true }),
+      B('Governo Federal', 'Decreto-Lei nº 25, de 30 de novembro de 1937 (patrimônio histórico e artístico nacional)', '1937', 'primaria', 'aplicacoes', { brasil: true }),
+      B('IPHAN', 'Bens tombados e inventários', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.gov.br/iphan' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -672,4 +710,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'linguistica', 'literatura', 'musica'];
