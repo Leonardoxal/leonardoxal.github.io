@@ -663,6 +663,43 @@ export const DISCIPLINAS = [
       B('IPHAN', 'Bens tombados e inventários', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.gov.br/iphan' }),
     ],
   },
+  {
+    id: 'linguistica', no: 'linguistica', nome: 'Linguística', aulasPublicadas: false,
+    aulas: { fundamentos: ['li1-1'], vocabulario: ['li1-2'], metodos: ['li1-3', 'li1-4', 'li1-5'] },
+    metodo: 'Estudo científico das línguas: descrever como as pessoas efetivamente falam e escrevem, nos níveis dos sons, das palavras, das frases, dos sentidos e do uso, a partir de dados coletados e analisados. Distingue a descrição (como a língua é), a norma (o que se recomenda em certos contextos) e a reflexão filosófica sobre a linguagem (o que é significar), e trata o português do Brasil com seus dados reais.',
+    prereq: ['filo-linguagem', 'logica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a linguagem e o que estuda a linguística.', ['Linguagem, língua e fala', 'Descrição e norma', 'O signo linguístico'], 'Classificar dez afirmações sobre a língua como descritivas ou normativas, justificando.', 'Classificações corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Fonética e fonologia', 'Morfologia e sintaxe', 'Semântica e pragmática', 'Variação linguística'], 'Glossário de 20 termos com um exemplo do português do Brasil para cada um.', 'Definições corretas e exemplos pertinentes.'),
+      E('metodos', 'Conhecer os métodos da linguística.', ['Transcrição fonética', 'Coleta de dados e corpus', 'Comparação entre línguas'], 'Gravar e transcrever um trecho curto de fala espontânea e identificar três fenômenos.', 'Transcrição fiel e fenômenos corretamente identificados.', 'O Atlas Linguístico do Brasil documenta a variação regional do português.'),
+      E('formacao', 'Conhecer a formação histórica da linguística.', ['Gramáticos antigos e medievais', 'Gramática de Port-Royal', 'Linguística histórico-comparativa', 'Estruturalismo e gerativismo'], 'Linha do tempo dos estudos da linguagem com uma obra por marco, incluindo marcos brasileiros.', 'Cada marco com data, autor e ideia central.', 'José de Anchieta publicou em 1595 uma gramática da língua tupi.'),
+      E('autores', 'Ler os grandes autores.', ['Platão e Aristóteles', 'Agostinho e os modistas', 'Saussure e Jakobson', 'Chomsky e Mattoso Câmara'], 'Ficha de leitura de capítulos do Curso de linguística geral, de Saussure.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes correntes.', ['Estruturalismo', 'Gerativismo', 'Funcionalismo', 'Sociolinguística'], 'Quadro comparativo: como cada corrente define a língua e o que considera dado relevante.', 'Atribui corretamente autores e teses.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Inatismo e aprendizagem da língua', 'Língua e pensamento: relatividade linguística', 'Norma culta e preconceito linguístico'], 'Ensaio: a língua determina o pensamento? Responder com dados, a hipótese de Sapir-Whorf e a tradição filosófica.', 'Distingue dado empírico, hipótese e tese filosófica.'),
+      E('avancado', 'Aprofundar os níveis de análise.', ['Fonologia do português', 'Morfologia e formação de palavras', 'Sintaxe da frase', 'Semântica, pragmática e atos de fala'], 'Analisar um texto curto em todos os níveis, com exemplos.', 'Análise correta e terminologia precisa.'),
+      E('aplicacoes', 'Usar a linguística em situações concretas.', ['Ensino de gramática e de escrita', 'Aprendizagem de línguas estrangeiras', 'Línguas indígenas e tradução'], 'Elaborar uma atividade de ensino de português baseada em dados de uso.', 'Atividade fundamentada e aplicável.', 'O Censo de 2010 registrou centenas de línguas indígenas faladas no Brasil.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de análise em vários níveis', 'Análise de um fenômeno de variação'], 'Prova: analisar frases e um fenômeno de variação do português.', 'Rubrica: precisão, terminologia, distinção entre descrição e norma.'),
+      E('pesquisa', 'Fazer uma pequena investigação linguística.', ['Pergunta e fenômeno', 'Coleta de dados com ética', 'Análise e relatório'], 'Investigação de quatro semanas sobre um fenômeno do português falado em sua comunidade, com gravações autorizadas e relatório.', 'Pergunta clara, dados adequados, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Platão', 'Crátilo', 'c. 360 a.C.', 'primaria', 'autores', { livro: 'platao-cratilo' }),
+      B('Aristóteles', 'Da interpretação', 'século IV a.C.', 'primaria', 'autores', { livro: 'aristoteles-interpretacao' }),
+      B('Dionísio Trácio', 'Arte da gramática', 'século II a.C.', 'primaria', 'formacao'),
+      B('Santo Agostinho', 'O Mestre', '389', 'primaria', 'autores', { livro: 'agostinho-mestre' }),
+      B('Prisciano', 'Instituições gramaticais', 'c. 500', 'primaria', 'formacao'),
+      B('Santo Tomás de Aquino', 'Comentário ao Da interpretação', 'c. 1270–1271', 'primaria', 'autores', { livro: 'tomas-com-interpretacao' }),
+      B('Antoine Arnauld e Claude Lancelot', 'Gramática geral e razoada (Port-Royal)', '1660', 'primaria', 'formacao'),
+      B('Jean-Jacques Rousseau', 'Ensaio sobre a origem das línguas', '1781', 'primaria', 'debates', { livro: 'rousseau-linguas' }),
+      B('Ferdinand de Saussure', 'Curso de linguística geral', '1916', 'primaria', 'autores'),
+      B('Edward Sapir', 'A linguagem', '1921', 'estudo', 'debates'),
+      B('Noam Chomsky', 'Estruturas sintáticas', '1957', 'primaria', 'escolas'),
+      B('J. L. Austin', 'Quando dizer é fazer', '1962', 'estudo', 'avancado'),
+      B('Étienne Gilson', 'Linguística e filosofia', '1969', 'estudo', 'debates', { livro: 'gilson-linguistica' }),
+      B('José de Anchieta', 'Arte de gramática da língua mais usada na costa do Brasil', '1595', 'primaria', 'formacao', { brasil: true }),
+      B('Joaquim Mattoso Câmara Jr.', 'Estrutura da língua portuguesa', '1970', 'estudo', 'avancado', { brasil: true }),
+      B('Marcos Bagno', 'Preconceito linguístico', '1999', 'estudo', 'debates', { brasil: true }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -710,4 +747,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'linguistica', 'literatura', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'literatura', 'musica'];
