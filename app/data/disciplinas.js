@@ -849,7 +849,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'psicologia', no: 'psicologia', nome: 'Psicologia', aulasPublicadas: false,
-    aulas: { fundamentos: ['ps1-1'], vocabulario: ['ps1-2'], metodos: ['ps1-3', 'ps1-4', 'ps1-5'] },
+    aulas: { fundamentos: ['ps1-1'], vocabulario: ['ps1-2'], metodos: ['ps1-3', 'ps1-4', 'ps1-5'], formacao: ['ps2-1', 'ps2-2'], autores: ['ps2-3', 'ps2-4', 'ps2-5'] },
     metodo: 'Estudo da vida psíquica pela filosofia da pessoa e pela ciência empírica: conceitos clássicos (alma, potências, paixões, hábitos) dialogam com resultados de pesquisa obtidos por observação, experimento e estatística. Distingue-se sempre o dado empírico, a teoria psicológica, a tese filosófica e a doutrina da Igreja sobre a pessoa, e nenhum conteúdo substitui atendimento profissional.',
     prereq: ['intro-filosofia', 'biologia'],
     etapas: [
