@@ -584,6 +584,47 @@ export const DISCIPLINAS = [
       B('IBGE', 'Censos, PNAD Contínua e demais pesquisas', '—', 'dados', 'metodos', { brasil: true, url: 'https://www.ibge.gov.br' }),
     ],
   },
+  {
+    id: 'fisica', no: 'fisica', nome: 'Física', aulasPublicadas: false,
+    aulas: { fundamentos: ['fi1-1'], vocabulario: ['fi1-2'], metodos: ['fi1-3', 'fi1-4', 'fi1-5'] },
+    metodo: 'Estudo da natureza material pela medida, pelo experimento e pela matemática: formular modelos, deduzir consequências e confrontá-las com observações. Cada lei é apresentada com o problema que resolveu, o experimento que a sustenta e seus limites de validade, distinguindo o que a física afirma, o que é interpretação filosófica de seus resultados e o que permanece hipótese.',
+    prereq: ['filo-natureza', 'matematica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a física e como ela conhece.', ['Objeto e método da física', 'Física e filosofia da natureza', 'Modelos e leis'], 'Distinguir, em cinco afirmações sobre a natureza, o que é lei física, o que é modelo e o que é tese filosófica.', 'Distinções corretas e justificadas.'),
+      E('vocabulario', 'Dominar grandezas e unidades.', ['Sistema Internacional de Unidades', 'Notação científica e ordens de grandeza', 'Grandezas escalares e vetoriais'], 'Converter unidades e estimar ordens de grandeza em dez situações cotidianas.', 'Conversões corretas e estimativas razoáveis.', 'O INMETRO é o órgão responsável pela metrologia no Brasil.'),
+      E('metodos', 'Conhecer os métodos experimentais e matemáticos.', ['Medida, erro e incerteza', 'Gráficos e proporcionalidade', 'Análise dimensional e estimativas'], 'Medir o período de um pêndulo com diferentes comprimentos, construir o gráfico e comparar com o modelo.', 'Medidas com incerteza, gráfico correto e comparação honesta.'),
+      E('formacao', 'Conhecer a formação histórica da física.', ['Física de Aristóteles', 'Física medieval: ímpeto e cinemática', 'Revolução científica: Copérnico, Kepler, Galileu e Newton', 'Física dos séculos XIX e XX'], 'Linha do tempo da física com uma obra ou experimento por marco, incluindo marcos brasileiros.', 'Cada marco com data, autor e ideia central.', 'O eclipse de 1919 observado em Sobral (CE) ajudou a testar a relatividade geral.'),
+      E('autores', 'Ler os grandes autores.', ['Aristóteles e Arquimedes', 'Galileu e Kepler', 'Newton e Pascal', 'Maxwell, Einstein, Planck e Lemaître'], 'Ficha de leitura da Primeira Jornada dos Diálogos sobre as duas novas ciências, de Galileu, ou de um trecho dos Principia, de Newton.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes interpretações.', ['Mecanicismo e filosofia natural aristotélica', 'Realismo e instrumentalismo na ciência', 'Interpretações da mecânica quântica'], 'Quadro comparativo de três interpretações da mecânica quântica, com o que afirmam e o que deixam em aberto.', 'Atribuições corretas e distinção entre física e filosofia.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['O caso Galileu', 'Determinismo, acaso e liberdade', 'Cosmologia, origem do universo e ajuste fino'], 'Ensaio sobre o caso Galileu com documentos da época e a avaliação de João Paulo II (1992).', 'Distingue fato histórico, mito e juízo teológico.'),
+      E('avancado', 'Estudar os grandes ramos da física.', ['Mecânica: movimento, forças e leis de Newton', 'Energia e conservação; termodinâmica', 'Eletricidade, magnetismo e ondas', 'Física moderna: relatividade e mecânica quântica'], 'Resolver problemas de mecânica e energia e explicar um fenômeno moderno (como o GPS) com conceitos da física.', 'Cálculos corretos e explicações conceituais precisas.'),
+      E('aplicacoes', 'Usar a física em problemas concretos.', ['Energia elétrica em casa e matriz brasileira', 'Segurança no trânsito', 'Física na tecnologia cotidiana'], 'Calcular o consumo de energia de uma casa e propor economias justificadas.', 'Cálculos corretos e propostas viáveis.', 'A matriz elétrica brasileira tem forte participação de fontes renováveis, sobretudo hidrelétrica.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões conceituais e de cálculo', 'Análise de um experimento'], 'Prova: resolver problemas de mecânica e energia e analisar um experimento com incerteza.', 'Rubrica: modelagem, cálculo, unidades, interpretação.'),
+      E('pesquisa', 'Fazer um pequeno projeto experimental.', ['Pergunta e hipótese', 'Montagem e medidas', 'Análise e relatório'], 'Projeto de quatro semanas com experimento caseiro (pêndulo, queda, resfriamento, plano inclinado), medidas repetidas e relatório.', 'Pergunta clara, medidas com incerteza, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Física', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-fisica' }),
+      B('Aristóteles', 'Do céu', 'século IV a.C.', 'primaria', 'formacao', { livro: 'aristoteles-ceu' }),
+      B('Santo Tomás de Aquino', 'Comentário à Física de Aristóteles', 'c. 1268–1269', 'primaria', 'fundamentos', { livro: 'tomas-com-fisica' }),
+      B('Nicolau Copérnico', 'Das revoluções das esferas celestes', '1543', 'primaria', 'formacao'),
+      B('Johannes Kepler', 'Astronomia nova', '1609', 'primaria', 'autores'),
+      B('Galileu Galilei', 'Diálogo sobre os dois máximos sistemas do mundo', '1632', 'primaria', 'debates'),
+      B('Galileu Galilei', 'Duas novas ciências', '1638', 'primaria', 'autores'),
+      B('René Descartes', 'Princípios da filosofia', '1644', 'primaria', 'escolas', { livro: 'descartes-principios' }),
+      B('Blaise Pascal', 'Tratados sobre o vácuo e o equilíbrio dos líquidos', '1647–1663', 'primaria', 'autores', { livro: 'pascal-vacuo' }),
+      B('Isaac Newton', 'Princípios matemáticos da filosofia natural', '1687', 'primaria', 'autores'),
+      B('Immanuel Kant', 'Primeiros princípios metafísicos da ciência da natureza', '1786', 'primaria', 'escolas', { livro: 'kant-principios-metafisicos' }),
+      B('James Clerk Maxwell', 'Tratado de eletricidade e magnetismo', '1873', 'primaria', 'avancado'),
+      B('Albert Einstein', 'Sobre a eletrodinâmica dos corpos em movimento', '1905', 'primaria', 'avancado'),
+      B('Pierre Duhem', 'A teoria física: seu objeto e sua estrutura', '1906', 'estudo', 'escolas'),
+      B('Werner Heisenberg', 'Física e filosofia', '1958', 'estudo', 'escolas'),
+      B('Richard Feynman', 'Lições de física', '1963', 'manual', 'avancado'),
+      B('Stanley L. Jaki', 'The Road of Science and the Ways to God', '1978', 'estudo', 'debates'),
+      B('João Paulo II', 'Discurso à Pontifícia Academia das Ciências sobre o caso Galileu', '1992', 'doutrina', 'debates'),
+      B('Moysés Nussenzveig', 'Curso de física básica', '1981', 'manual', 'avancado', { brasil: true }),
+      B('INMETRO', 'O Sistema Internacional de Unidades (tradução oficial)', '—', 'dados', 'vocabulario', { brasil: true, url: 'https://www.gov.br/inmetro' }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -631,4 +672,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'fisica', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'logica-formal', 'quimica', 'linguistica', 'literatura', 'historia-arte', 'musica'];
