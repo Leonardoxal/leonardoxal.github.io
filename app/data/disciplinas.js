@@ -884,6 +884,40 @@ export const DISCIPLINAS = [
       B('American Psychiatric Association', 'Manual diagnóstico e estatístico de transtornos mentais (DSM-5)', '2013', 'manual', 'avancado'),
     ],
   },
+  {
+    id: 'quimica', no: 'quimica', nome: 'Química', aulasPublicadas: false,
+    aulas: { fundamentos: ['qu1-1'], vocabulario: ['qu1-2'], metodos: ['qu1-3', 'qu1-4', 'qu1-5'] },
+    metodo: 'Estudo da composição, da estrutura e das transformações da matéria pela observação, pela medida e pelo cálculo: cada conceito é ligado a fenômenos do cotidiano, a experimentos seguros e a problemas resolvidos à mão. Distingue-se o dado experimental, o modelo teórico (átomo, ligação, orbital), a lei e a tese filosófica sobre a natureza da matéria.',
+    prereq: ['matematica', 'fisica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a química.', ['Matéria, substância e mistura', 'Transformações físicas e químicas', 'Química e filosofia da matéria'], 'Classificar vinte fenômenos do cotidiano como transformação física ou química, justificando pelas evidências.', 'Classificações corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Átomo, elemento, molécula e íon', 'Mol, massa molar e concentração', 'Tabela periódica'], 'Glossário de vinte termos e dez cálculos de quantidade de matéria.', 'Definições precisas e cálculos corretos.'),
+      E('metodos', 'Conhecer os métodos da química.', ['Segurança e experimento no laboratório', 'Medida, erro e algarismos significativos', 'Equações químicas e estequiometria'], 'Balancear dez equações e resolver cinco problemas de estequiometria.', 'Balanceamentos e cálculos corretos, com unidades.'),
+      E('formacao', 'Conhecer a formação histórica da química.', ['Elementos gregos e alquimia', 'Boyle e Lavoisier: a química moderna', 'Dalton, Mendeleiev e a teoria atômica', 'A química no século XX'], 'Linha do tempo da química com uma obra ou descoberta por marco, incluindo um marco brasileiro.', 'Cada marco com data, autor e ideia central.', 'José Bonifácio de Andrada e Silva também atuou como mineralogista; a Sociedade Brasileira de Química foi fundada em 1977.'),
+      E('autores', 'Conhecer os grandes autores.', ['Lavoisier', 'Dalton e Mendeleiev', 'Marie Curie', 'Linus Pauling'], 'Ficha de leitura do prefácio do Tratado elementar de química, de Lavoisier.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes concepções.', ['Atomismo e hilemorfismo', 'Reducionismo e emergência', 'Química verde e sustentabilidade'], 'Quadro comparativo de três concepções sobre o que é uma substância química.', 'Distinções corretas e exemplos pertinentes.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['A química se reduz à física?', 'Riscos e benefícios da química', 'Química e origem da vida'], 'Ensaio: a química é apenas física aplicada?', 'Distingue dado, modelo e tese filosófica.'),
+      E('avancado', 'Aprofundar a teoria.', ['Estrutura atômica e ligações', 'Termodinâmica e cinética', 'Equilíbrio, ácidos e bases', 'Química orgânica'], 'Lista de problemas dos quatro campos, com justificativa de cada passo.', 'Resoluções corretas e explicadas.'),
+      E('aplicacoes', 'Usar a química em situações concretas.', ['Química no cotidiano e na saúde', 'Indústria, agricultura e ambiente', 'Química e patrimônio cultural'], 'Analisar os rótulos de três produtos (alimento, limpeza, medicamento), identificando substâncias, funções e cuidados.', 'Leitura correta e orientações de segurança adequadas.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de cálculo e conceitos', 'Análise de um processo químico'], 'Prova: conceitos, estequiometria, ligações, equilíbrio e análise de um processo.', 'Rubrica: correção, unidades, justificação dos passos.'),
+      E('pesquisa', 'Fazer uma pequena investigação.', ['Escolha de um tema', 'Experimento seguro ou revisão', 'Relatório'], 'Investigação de quatro semanas: um experimento caseiro seguro ou um estudo sobre uma substância ou processo de importância regional (cana, minério, água).', 'Procedimento seguro, dados registrados, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Aristóteles', 'Da geração e da corrupção', 'c. 350–330 a.C.', 'primaria', 'formacao', { livro: 'aristoteles-geracao' }),
+      B('Santo Tomás de Aquino', 'A mistura dos elementos', 'c. 1269–1273', 'primaria', 'escolas', { livro: 'tomas-opusculos-naturais' }),
+      B('Robert Boyle', 'O químico cético', '1661', 'primaria', 'formacao'),
+      B('Antoine Lavoisier', 'Tratado elementar de química', '1789', 'primaria', 'autores'),
+      B('John Dalton', 'Novo sistema de filosofia química', '1808', 'primaria', 'autores'),
+      B('Dmitri Mendeleiev', 'Princípios de química', '1868–1870', 'primaria', 'autores'),
+      B('Pierre Duhem', 'Le mixte et la combinaison chimique', '1902', 'estudo', 'escolas'),
+      B('Marie Curie', 'Pesquisas sobre substâncias radioativas', '1903', 'primaria', 'autores'),
+      B('Linus Pauling', 'A natureza da ligação química', '1939', 'primaria', 'avancado'),
+      B('Primo Levi', 'A tabela periódica', '1975', 'estudo', 'aplicacoes'),
+      B('Theodore L. Brown e outros', 'Química: a ciência central', '1977', 'manual', 'vocabulario'),
+      B('Peter Atkins e Loretta Jones', 'Princípios de química', '1999', 'manual', 'metodos'),
+      B('Sociedade Brasileira de Química', 'Química Nova na Escola (revista)', 'desde 1995', 'estudo', 'aplicacoes', { brasil: true }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -931,4 +965,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['relacoes-internacionais', 'quimica'];
+export const DISCIPLINAS_PENDENTES = ['relacoes-internacionais'];

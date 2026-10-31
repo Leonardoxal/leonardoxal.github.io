@@ -96,7 +96,7 @@ export const NOS = [
   N('estatistica', 'Estatística', 'formais', 'formais', 'Estatística descritiva, inferência e métodos quantitativos, com dados públicos brasileiros.', { modulos: ['es1', 'es2', 'es3', 'es4', 'es5'], livros: ['pascal-triangulo'] }),
   N('naturais', 'Ciências Naturais', 'filosofia', 'naturais', 'Física, química, biologia, astronomia e ciências da Terra: conhecimento por observação, experimento e medida. A filosofia da natureza não substitui seus métodos.', {}),
   N('fisica', 'Física', 'naturais', 'naturais', 'Mecânica, termodinâmica, eletromagnetismo e física moderna, com método experimental.', { modulos: ['fi1', 'fi2', 'fi3', 'fi4', 'fi5'], livros: ['descartes-ensaios', 'aristoteles-ceu', 'kant-historia-ceu', 'kant-principios-metafisicos'] }),
-  P('quimica', 'Química', 'naturais', 'naturais', 'Estrutura da matéria, ligações e reações.', {}),
+  P('quimica', 'Química', 'naturais', 'naturais', 'Estrutura da matéria, ligações e reações.', { modulos: ['qu1'], livros: ['aristoteles-geracao', 'tomas-opusculos-naturais'] }),
   N('biologia', 'Biologia', 'naturais', 'naturais', 'Células, genética, evolução, fisiologia e ecologia.', { modulos: ['bi1', 'bi2', 'bi3', 'bi4', 'bi5'], livros: ['aristoteles-historia-animais', 'aristoteles-partes-animais', 'aristoteles-geracao-animais', 'gilson-darwin'] }),
   N('astronomia', 'Astronomia', 'naturais', 'naturais', 'O sistema solar e o universo.', { modulos: ['as1', 'as2', 'as3', 'as4', 'as5'], livros: ['aristoteles-ceu'] }),
   N('ciencias-terra', 'Ciências da Terra', 'naturais', 'naturais', 'Geologia, clima e processos terrestres.', { modulos: ['ct1', 'ct2', 'ct3', 'ct4', 'ct5'], livros: ['aristoteles-meteorologicos'] }),
