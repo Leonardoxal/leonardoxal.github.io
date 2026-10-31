@@ -773,6 +773,42 @@ export const DISCIPLINAS = [
       B('Cezar A. Mortari', 'Introdução à lógica', '2001', 'manual', 'metodos', { brasil: true }),
     ],
   },
+  {
+    id: 'matematica', no: 'matematica', nome: 'Matemática', aulasPublicadas: false,
+    metodo: 'Estudo da quantidade e da forma por definições, axiomas e demonstrações: cada conceito é construído, exercitado à mão em problemas e demonstrado quando possível. Distingue-se sempre o que é resultado demonstrado, o que é conjectura, o que é convenção de notação e o que é tese filosófica sobre os objetos matemáticos.',
+    prereq: ['logica'],
+    etapas: [
+      E('fundamentos', 'Entender o que é a matemática.', ['Quantidade discreta e contínua', 'Definição, axioma e teorema', 'Demonstração e cálculo'], 'Classificar dez enunciados como definição, axioma, teorema ou conjectura, justificando.', 'Classificações corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Números naturais, inteiros, racionais e reais', 'Variável, expressão, equação e função', 'Conjunto, relação e operação'], 'Glossário de vinte termos, cada um com definição e exemplo resolvido.', 'Definições precisas e exemplos corretos.'),
+      E('metodos', 'Conhecer os métodos de demonstração e de resolução de problemas.', ['Demonstração direta e por absurdo', 'Indução matemática', 'Resolução de problemas (Pólya)'], 'Demonstrar cinco proposições simples usando ao menos três métodos diferentes.', 'Demonstrações completas, passo a passo justificadas.'),
+      E('formacao', 'Conhecer a formação histórica da matemática.', ['Egito, Babilônia e Grécia: Pitágoras e Euclides', 'Idade Média: quadrívio, Índia e mundo islâmico', 'Revolução científica: Descartes, Fermat, Pascal, Newton e Leibniz', 'Rigor e abstração nos séculos XIX e XX'], 'Linha do tempo da matemática com uma obra ou resultado por marco, incluindo um marco brasileiro.', 'Cada marco com data, autor e ideia central.', 'O IMPA foi criado em 1952, e Artur Avila recebeu a Medalha Fields em 2014.'),
+      E('autores', 'Ler os grandes autores.', ['Euclides: os Elementos', 'Descartes e Pascal', 'Euler e Gauss', 'Cantor, Hilbert e Poincaré'], 'Ficha de leitura do livro I dos Elementos de Euclides (definições, postulados e primeiras proposições).', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes concepções da matemática.', ['Platonismo e aristotelismo matemáticos', 'Logicismo, formalismo e intuicionismo', 'Matemática pura e aplicada'], 'Quadro comparativo de três concepções sobre o que são os objetos matemáticos.', 'Distinções corretas e exemplos pertinentes.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Os objetos matemáticos existem?', 'O infinito', 'Por que a matemática se aplica ao mundo?'], 'Ensaio sobre a "eficácia irrazoável" da matemática nas ciências naturais (Wigner, 1960).', 'Distingue resultado matemático e interpretação filosófica.'),
+      E('avancado', 'Aprofundar os grandes campos.', ['Álgebra: equações e estruturas', 'Geometria euclidiana e não euclidianas', 'Funções, limites e cálculo', 'Probabilidade'], 'Lista de problemas dos quatro campos, com uma demonstração em cada um.', 'Resoluções corretas e demonstrações completas.'),
+      E('aplicacoes', 'Usar a matemática em situações concretas.', ['Matemática financeira e cotidiana', 'Modelagem nas ciências', 'Matemática, beleza e ordem'], 'Modelar matematicamente uma situação real (orçamento, crescimento, medida) e interpretar o resultado.', 'Modelo adequado, cálculos corretos, interpretação honesta dos limites.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de cálculo e demonstração', 'Resolução de problemas'], 'Prova: resolver problemas e demonstrar proposições dos campos estudados.', 'Rubrica: correção, justificação dos passos, clareza.'),
+      E('pesquisa', 'Fazer uma pequena investigação matemática.', ['Escolha de um problema ou teorema', 'Estudo histórico e demonstração', 'Relatório'], 'Investigação de quatro semanas: estudar a história e a demonstração de um teorema clássico e apresentá-las num relatório.', 'Demonstração correta, história documentada, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Platão', 'Mênon', 'c. 385 a.C.', 'primaria', 'fundamentos', { livro: 'platao-menon' }),
+      B('Euclides', 'Elementos', 'c. 300 a.C.', 'primaria', 'autores'),
+      B('Boécio', 'A instituição aritmética', 'c. 500–510', 'primaria', 'formacao', { livro: 'boecio-quadrivio' }),
+      B('René Descartes', 'A geometria (ensaio do Discurso do método)', '1637', 'primaria', 'autores', { livro: 'descartes-ensaios' }),
+      B('Blaise Pascal', 'Tratado do triângulo aritmético', '1654', 'primaria', 'autores', { livro: 'pascal-triangulo' }),
+      B('Blaise Pascal', 'Do espírito geométrico', 'c. 1657–1658', 'primaria', 'metodos', { livro: 'pascal-espirito-geometrico' }),
+      B('Isaac Newton', 'Princípios matemáticos da filosofia natural', '1687', 'primaria', 'formacao'),
+      B('Leonhard Euler', 'Introdução à análise dos infinitos', '1748', 'primaria', 'autores'),
+      B('Georg Cantor', 'Contribuições à fundamentação da teoria dos números transfinitos', '1895–1897', 'primaria', 'debates'),
+      B('David Hilbert', 'Fundamentos da geometria', '1899', 'primaria', 'avancado'),
+      B('Henri Poincaré', 'A ciência e a hipótese', '1902', 'estudo', 'escolas'),
+      B('Richard Courant e Herbert Robbins', 'O que é matemática?', '1941', 'manual', 'fundamentos'),
+      B('George Pólya', 'A arte de resolver problemas', '1945', 'manual', 'metodos'),
+      B('Eugene Wigner', 'A eficácia irrazoável da matemática nas ciências naturais', '1960', 'estudo', 'debates'),
+      B('Malba Tahan', 'O homem que calculava', '1938', 'estudo', 'aplicacoes', { brasil: true }),
+      B('Elon Lages Lima', 'Curso de análise', '1976', 'manual', 'avancado', { brasil: true }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -820,4 +856,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'matematica', 'quimica', 'musica'];
+export const DISCIPLINAS_PENDENTES = ['psicologia', 'relacoes-internacionais', 'quimica', 'musica'];
