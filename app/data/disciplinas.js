@@ -507,7 +507,7 @@ export const DISCIPLINAS = [
   },
   {
     id: 'educacao', no: 'educacao', nome: 'Educação', aulasPublicadas: false,
-    aulas: { fundamentos: ['ed1-1'], vocabulario: ['ed1-2'], metodos: ['ed1-3', 'ed1-4', 'ed1-5'], formacao: ['ed2-1', 'ed2-2'], autores: ['ed2-3', 'ed2-4', 'ed2-5'], escolas: ['ed3-1', 'ed3-2'], debates: ['ed3-3', 'ed3-4', 'ed3-5'] },
+    aulas: { fundamentos: ['ed1-1'], vocabulario: ['ed1-2'], metodos: ['ed1-3', 'ed1-4', 'ed1-5'], formacao: ['ed2-1', 'ed2-2'], autores: ['ed2-3', 'ed2-4', 'ed2-5'], escolas: ['ed3-1', 'ed3-2'], debates: ['ed3-3', 'ed3-4', 'ed3-5'], avancado: ['ed4-1', 'ed4-2', 'ed4-3', 'ed4-4', 'ed4-5'] },
     metodo: 'Estudo da educação como formação da pessoa inteira — inteligência, vontade, caráter e fé —, unindo três olhares: a filosofia da educação (qual é o fim de educar), a história das instituições e das ideias pedagógicas, e a pesquisa empírica sobre aprendizagem e escolas. Distingue o que os dados mostram, o que cada teoria propõe e o que a doutrina da Igreja ensina sobre o direito dos pais e o fim da educação.',
     prereq: ['intro-filosofia', 'etica', 'psicologia'],
     etapas: [
