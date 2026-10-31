@@ -918,6 +918,43 @@ export const DISCIPLINAS = [
       B('Sociedade Brasileira de Química', 'Química Nova na Escola (revista)', 'desde 1995', 'estudo', 'aplicacoes', { brasil: true }),
     ],
   },
+  {
+    id: 'relacoes-internacionais', no: 'relacoes-internacionais', nome: 'Relações Internacionais', aulasPublicadas: false,
+    aulas: { fundamentos: ['ri1-1'], vocabulario: ['ri1-2'], metodos: ['ri1-3', 'ri1-4', 'ri1-5'] },
+    metodo: 'Estudo das relações entre Estados, povos e organizações pela leitura de fontes (tratados, discursos, documentos diplomáticos), pela história e pela comparação de casos. Distingue-se sempre o fato documentado, a interpretação de analistas, a teoria (realista, liberal, construtivista) e o juízo moral à luz da lei natural e da doutrina social da Igreja.',
+    prereq: ['ciencia-politica', 'geografia'],
+    etapas: [
+      E('fundamentos', 'Entender o que são as relações internacionais.', ['Estado, soberania e sistema internacional', 'Guerra, paz e ordem', 'Bem comum universal'], 'Distinguir, em dez notícias internacionais, fatos, interpretações e posições normativas.', 'Distinções corretas e justificadas.'),
+      E('vocabulario', 'Dominar os conceitos básicos.', ['Soberania, poder e interesse nacional', 'Diplomacia, tratados e organizações internacionais', 'Geopolítica e segurança'], 'Glossário de vinte termos com exemplo atual de cada um.', 'Definições precisas e exemplos verificáveis.'),
+      E('metodos', 'Conhecer os métodos da área.', ['Leitura de fontes diplomáticas', 'Estudo de caso e comparação', 'Dados e indicadores internacionais'], 'Analisar um tratado ou discurso diplomático: autor, contexto, objetivos, argumentos e efeitos.', 'Análise fundamentada no texto e no contexto.'),
+      E('formacao', 'Conhecer a formação histórica do sistema internacional.', ['Tucídides e a guerra na Antiguidade', 'Cristandade, Vitória e o direito das gentes', 'Vestfália e o sistema de Estados', 'Século XX: guerras mundiais, ONU e Guerra Fria'], 'Linha do tempo das relações internacionais com um documento por marco, incluindo um marco brasileiro.', 'Cada marco com data, atores e significado.', 'O Barão do Rio Branco consolidou por negociação e arbitragem as fronteiras do Brasil.'),
+      E('autores', 'Ler os grandes autores.', ['Tucídides e Maquiavel', 'Grócio e Kant', 'Morgenthau e Aron', 'Rio Branco e a diplomacia brasileira'], 'Ficha de leitura de À paz perpétua, de Kant, ou do Diálogo dos mélios, de Tucídides.', 'Ficha completa conforme o método do Degrau 0.'),
+      E('escolas', 'Distinguir as grandes teorias.', ['Realismo', 'Liberalismo e institucionalismo', 'Construtivismo e outras abordagens'], 'Quadro comparativo de três teorias aplicadas a um mesmo conflito.', 'Distinções corretas e aplicação pertinente.'),
+      E('debates', 'Examinar debates com justiça às partes.', ['Guerra justa', 'Soberania e intervenção humanitária', 'Globalização e ordem mundial'], 'Ensaio: uma intervenção armada pode ser justa? (Agostinho, Tomás e um autor moderno).', 'Distingue fato, teoria e juízo moral.'),
+      E('avancado', 'Aprofundar áreas centrais.', ['Direito internacional', 'Economia política internacional', 'Segurança e conflitos', 'Política externa brasileira'], 'Estudo de um tema atual sob as quatro perspectivas.', 'Uso correto dos conceitos e das fontes.'),
+      E('aplicacoes', 'Usar as relações internacionais em situações concretas.', ['Análise de conjuntura', 'Migrações e refúgio', 'A Santa Sé e a diplomacia da paz'], 'Escrever uma análise de conjuntura de duas páginas sobre um tema internacional, com fontes.', 'Fatos verificados, interpretações identificadas, conclusão proporcional.'),
+      E('avaliacao', 'Demonstrar domínio.', ['Questões de conceitos, história e teoria', 'Análise de um caso'], 'Prova: conceitos, marcos históricos, teorias e análise de um caso.', 'Rubrica: precisão, uso de fontes, distinção entre níveis.'),
+      E('pesquisa', 'Fazer uma pequena investigação.', ['Escolha de um tema', 'Fontes primárias e secundárias', 'Relatório'], 'Investigação de quatro semanas sobre um episódio da política externa brasileira ou um tema internacional que afete sua região.', 'Fontes documentadas, análise equilibrada, conclusão proporcional.'),
+    ],
+    bibliografia: [
+      B('Tucídides', 'História da Guerra do Peloponeso', 'século V a.C.', 'primaria', 'formacao'),
+      B('Santo Agostinho', 'A Cidade de Deus, livro XIX', '413–426', 'primaria', 'debates', { livro: 'agostinho-cidade' }),
+      B('Santo Tomás de Aquino', 'Suma Teológica, II-II, q. 40 (a guerra)', 'c. 1271–1272', 'primaria', 'debates'),
+      B('Francisco de Vitória', 'Relectiones sobre os índios e sobre o direito de guerra', '1539', 'primaria', 'formacao'),
+      B('Nicolau Maquiavel', 'O príncipe', '1532', 'primaria', 'autores'),
+      B('Hugo Grócio', 'O direito da guerra e da paz', '1625', 'primaria', 'autores'),
+      B('Immanuel Kant', 'À paz perpétua', '1795', 'primaria', 'autores', { livro: 'kant-paz' }),
+      B('Carl von Clausewitz', 'Da guerra', '1832', 'primaria', 'escolas'),
+      B('Hans Morgenthau', 'A política entre as nações', '1948', 'primaria', 'escolas'),
+      B('Raymond Aron', 'Paz e guerra entre as nações', '1962', 'primaria', 'autores'),
+      B('São João XXIII', 'Pacem in terris', '1963', 'doutrina', 'debates'),
+      B('Kenneth Waltz', 'Teoria da política internacional', '1979', 'estudo', 'escolas'),
+      B('Alexander Wendt', 'Social Theory of International Politics', '1999', 'estudo', 'escolas'),
+      B('Amado Luiz Cervo e Clodoaldo Bueno', 'História da política exterior do Brasil', '1992', 'manual', 'formacao', { brasil: true }),
+      B('Olavo de Carvalho e Alexandr Dugin', 'Os EUA e a Nova Ordem Mundial', '2012', 'estudo', 'debates', { livro: 'olavo-dugin', brasil: true }),
+      B('Rubens Ricupero', 'A diplomacia na construção do Brasil (1750–2016)', '2017', 'estudo', 'avancado', { brasil: true }),
+    ],
+  },
 ];
 
 /** Simbologia tem trilha própria de doze módulos (não as onze etapas comuns): cada etapa traz `titulo`. */
@@ -965,4 +1002,4 @@ export const disciplinaPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, 
 /** Rótulo de uma etapa: título próprio (trilha de módulos) ou o nome da etapa comum. */
 export const rotuloEtapa = (e) => e.titulo || ETAPAS[e.etapa];
 /** Disciplinas cujo percurso ainda não foi escrito (ramos da árvore sem entrada aqui). */
-export const DISCIPLINAS_PENDENTES = ['relacoes-internacionais'];
+export const DISCIPLINAS_PENDENTES = [];
