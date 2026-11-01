@@ -25,6 +25,7 @@ import { avaliacoes, avaliacao, revisar, cartoes } from './views/avaliacoes.js';
 import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { periodos, periodo } from './views/periodos.js';
+import { integradores, integrador } from './views/integradores.js';
 import { genealogia } from './views/genealogia.js';
 import { entrar } from './views/entrar.js';
 import { leitor } from './views/leitor.js';
@@ -56,10 +57,10 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, busca, entrar };
-const PREFIXOS = { 'periodo-': periodo, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
+const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, busca, entrar };
+const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos'],['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };

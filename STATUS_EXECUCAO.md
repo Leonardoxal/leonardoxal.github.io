@@ -6,8 +6,8 @@ O plano está em `PLANO_EXECUCAO.md`. Atualize este arquivo ao fim de cada fase.
 |---|---|---|
 | 1. Auditoria e integridade | concluída | `scripts/auditoria.mjs`, `AUDITORIA_PEDAGOGICA.md`, 28 rotas conferidas no navegador |
 | 2. Correções pedagógicas | parcial: três fases de formação e teologia expandida; faltam o reforço do m0 (método) e a exibição do degrau ao lado do número do módulo | `core.js` (`FASE_INICIACAO`, `pendenciaDisciplinas`); módulos `tg1`–`tg8` com 32 aulas e 8 avaliações; 45/45 testes; páginas conferidas no navegador; deploys com sucesso |
-| 3. Períodos letivos | concluída | `app/data/periodos.js` e `app/views/periodos.js` (`#periodos`, `#periodo-N`); a grade da fase 3 mostra só o semestre atual; teste "períodos letivos" (46/46); conferido no navegador, inclusive em 375 px |
-| 4. Módulos integradores | pendente | — |
+| 3. Períodos letivos | estrutura feita, **em aberto**: o usuário a considera a parte mais fraca (ainda não há uma forma prática de estudar). Voltar a ela depois das fases 4 a 10 | `app/data/periodos.js` e `app/views/periodos.js` (`#periodos`, `#periodo-N`); a grade da fase 3 mostra só o semestre atual; teste "períodos letivos" (46/46); conferido no navegador, inclusive em 375 px |
+| 4. Módulos integradores | concluída | `app/data/integradores.js`: 27 módulos, 306 ligações a aulas e livros reais, classificadas como pré-requisito, contexto, paralelo ou aprofundamento. 5 deles estão marcados com cobertura limitada: Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa e Independências. Visões `#integradores` e `#integrador-<id>`; a página da aula mostra "Também em". Teste "módulos integradores" (47/47); conferido no navegador |
 | 5. Biblioteca e mediateca | pendente | — |
 | 6. Expansão bibliográfica | pendente | — |
 | 7. Simbologia e semiótica | pendente (a disciplina já existe; falta a revisão) | — |
@@ -31,4 +31,6 @@ O plano está em `PLANO_EXECUCAO.md`. Atualize este arquivo ao fim de cada fase.
   - Com o plano padrão de 6 h por semana, cada semestre se estende. A página mostra quantas semanas ele leva nesse ritmo.
   - Exceções registradas: nos degraus 5 e 7 a 12, a leitura integral dos livros não cabe em um semestre e continua no plano de leitura.
 - Registros de mídia (mediateca): 0.
-- Módulos integradores: 0.
+- Módulos integradores: 27, com 306 ligações.
+  - Os temas da ordem geral estão todos presentes, com Agostinho e Tomás como módulos de autor.
+  - 5 têm cobertura limitada porque faltam aulas próprias: Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa e Independências americanas.

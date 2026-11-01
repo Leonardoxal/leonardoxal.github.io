@@ -62,7 +62,12 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - `app/views/periodos.js` mostra `#periodos` e `#periodo-N`.
    - Na fase 3, a grade mostra só o semestre atual.
    - Se você criar ou mudar uma disciplina, a distribuição muda sozinha. O teste "períodos letivos" confere os pré-requisitos.
-3. Próxima: fase 4, módulos integradores (`app/data/integradores.js`). Depois, as fases 5 a 10: mediateca, fontes externas, semiótica, busca global e testes.
+   - **Os semestres ficam em aberto.** O usuário os considera a parte mais fraca do site, porque ainda não há uma forma prática de estudar. Termine as outras fases e volte a eles no fim.
+3. A fase 4 (módulos integradores) está concluída.
+   - `app/data/integradores.js` tem 27 módulos; as ligações usam só ids reais, e o teste confere.
+   - Para criar um módulo novo, use a função `I(...)` com `pre`, `ctx`, `par`, `apr` e `livros`.
+   - Cinco módulos têm cobertura limitada. Para melhorá-los, crie aulas próprias (Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa, Independências) e acrescente-as.
+4. Próxima: fase 5, a mediateca (`app/data/mediateca.js` e a visão `#mediateca`). Depois, as fases 6 a 10.
 
 Não crie disciplinas novas fora do plano.
 

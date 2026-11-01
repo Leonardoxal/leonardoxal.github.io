@@ -24,6 +24,8 @@ import { DISCIPLINAS, DISCIPLINAS_PENDENTES, ETAPAS, TIPOS_REFERENCIA } from '..
 import { NOS, RELACOES, TIPOS_RELACAO, GRUPOS as GRUPOS_ARVORE, TRILHA as TRILHA_ARVORE, noPorId } from '../data/arvore.js';
 import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
+import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
+import { aulaPorId } from '../data/aulas/index.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
 const IDS_ORIGINAIS = JSON.parse(readFileSync(new URL('./ids-originais.json', import.meta.url), 'utf8'));
@@ -803,4 +805,31 @@ test('períodos letivos: semestres de 16+2 semanas, até 4 matérias, pré-requi
   assert.equal(situacaoMateria(vazio, mat), 'em curso');
   // ritmo: com menos horas por semana, o semestre se estende
   assert.ok(semanasNoRitmo(PERIODOS[0], 6) > semanasNoRitmo(PERIODOS[0], 20));
+});
+
+test('módulos integradores: ligações reais e classificadas; só o pré-requisito bloqueia', () => {
+  assert.equal(new Set(INTEGRADORES.map((m) => m.id)).size, INTEGRADORES.length, 'ids únicos');
+  const moduloDe = Object.fromEntries(todasAulas.map((a) => [a.id, a.modulo]));
+  for (const m of INTEGRADORES) {
+    assert.ok(TIPOS_INTEGRADOR[m.tipo], `${m.id}: tipo ${m.tipo}`);
+    assert.ok(m.pergunta.endsWith('?') || m.pergunta.endsWith('.'), `${m.id}: pergunta de síntese`);
+    assert.ok(m.itens.some((i) => i.relacao === 'prerequisito'), `${m.id}: ao menos um pré-requisito`);
+    for (const i of m.itens) {
+      assert.ok(RELACOES_INTEGRADOR[i.relacao], `${m.id}: relação ${i.relacao}`);
+      if (i.aula) assert.ok(aulaPorId[i.aula], `${m.id}: aula ${i.aula} com conteúdo publicado`);
+      if (i.livro) assert.ok(livroPorId[i.livro], `${m.id}: livro ${i.livro}`);
+      assert.ok(i.aula || i.livro);
+    }
+    // integra de fato: aulas de pelo menos dois módulos diferentes
+    assert.ok(new Set(m.itens.filter((i) => i.aula).map((i) => moduloDe[i.aula])).size >= 2, `${m.id}: integra mais de um módulo`);
+  }
+  // os temas pedidos pela ordem geral estão presentes
+  for (const id of ['grecia', 'renascimento', 'egito-mesopotamia', 'roma', 'cristianismo-primitivo', 'europa-medieval', 'isla', 'portugal', 'brasil', 'revolucao-cientifica', 'iluminismo', 'revolucao-francesa', 'revolucao-industrial', 'independencias-americanas', 'estado-moderno', 'seculo-xx', 'contemporaneo', 'globalizacao', 'verdade', 'justica', 'liberdade', 'estado', 'conhecimento-cientifico', 'civilizacao', 'religioes']) {
+    assert.ok(INTEGRADORES.some((m) => m.id === id), `integrador ${id}`);
+  }
+  const grecia = INTEGRADORES.find((m) => m.id === 'grecia');
+  const pre = grecia.itens.filter((i) => i.relacao === 'prerequisito').map((i) => i.aula);
+  assert.equal(prereqsPendentes(grecia, () => false).length, pre.length);
+  assert.equal(prereqsPendentes(grecia, (a) => pre.includes(a)).length, 0, 'concluir só os pré-requisitos libera a síntese');
+  assert.ok(integradoresDaAula('h4-1').some((x) => x.modulo.id === 'grecia' && x.relacao === 'prerequisito'));
 });

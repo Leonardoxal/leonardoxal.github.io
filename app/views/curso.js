@@ -7,12 +7,13 @@ import { progressoModulo, aulaConcluivel, aulaConcluida, melhorNota, novoCartao,
 import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula } from './conexoes.js';
+import { integradoresDaAulaHTML } from './integradores.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { INICIO_MULTIDISCIPLINAR } from '../core.js';
 
-/** Onde o módulo está: um degrau da escada ou uma disciplina da fase 2. */
-const ondeEsta = (m) => (m.degrau === null ? `Fase 2 · ${disciplinaPorId[m.disciplina]?.nome || m.disciplina}` : `Degrau ${m.degrau}`);
-// módulos de disciplina não têm degrau, mas pertencem à fase 2: o bloqueio usa o início dela
+/** Onde o módulo está: um degrau da escada ou uma disciplina da fase multidisciplinar (fase 3). */
+const ondeEsta = (m) => (m.degrau === null ? `Fase 3 · ${disciplinaPorId[m.disciplina]?.nome || m.disciplina}` : `Degrau ${m.degrau}`);
+// módulos de disciplina não têm degrau, mas pertencem à fase multidisciplinar: o bloqueio usa o início dela
 const degrauDoBloqueio = (m) => m.degrau ?? INICIO_MULTIDISCIPLINAR;
 
 const statusAula = (estado, a) => {
@@ -24,7 +25,8 @@ const statusAula = (estado, a) => {
 
 export function curso({ estado }) {
   return `<header class="cab"><h1>Curso completo</h1>
-    <p class="sub">Dezesseis módulos em ordem de progressão. Aulas marcadas "em preparação" têm estrutura definida e conteúdo a ser publicado em lotes; não contam como concluídas.</p></header>
+    <p class="sub">${MODULOS.length} módulos em ordem de progressão: a escada (teologia, iniciação e filosofia) e as disciplinas. Aulas marcadas "em preparação" têm estrutura definida e conteúdo a ser publicado; não contam como concluídas.</p>
+    <p class="meta">Para estudar um mesmo objeto por várias disciplinas, veja os ${link('integradores', 'módulos integradores')}.</p></header>
     <ol class="lista-modulos">${MODULOS.map((m) => {
       const p = progressoModulo(m, estado);
       const prontas = m.aulas.filter((a) => aulaPorId[a.id]).length;
@@ -144,6 +146,7 @@ export function aula({ estado }, id) {
   <section id="s13"><h2>Referências verificáveis</h2><ul class="refs">${a.referencias.map((r) => `<li>${esc(r.texto)} ${linkExterno(r.link)}</li>`).join('')}</ul>
     <p class="meta">Etiquetas usadas no texto: ${['doutrina', 'fato', 'argumento', 'interpretacao', 'hipotese', 'debate'].map(etiqueta).join(' ')}</p></section>
   ${conexoesAula(estado, id)}
+  ${integradoresDaAulaHTML(id)}
   ${a.avancado ? `<section id="s15" class="avancado-sec texto"><h2>Aprofundamento</h2>
     <p class="dica">Parte obrigatória da aula: questionário com mínimo de ${notaMinima(estado)}% e questão discursiva.</p>
     ${a.avancado.texto}

@@ -73,3 +73,23 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 **Estimativas declaradas, não medidas** (estão em `CARGA`): 15 min de revisão por aula, 90 min por prova, 2 h por semana de leitura do degrau de filosofia e 6 h de projeto.
 
 **Pendente:** as fases 4 a 10 do `PLANO_EXECUCAO.md`, e o resto da fase 2 (m0 e o degrau ao lado do número do módulo).
+
+## 2026-10-31 — Claude (sessão original): fase 4, módulos integradores
+
+**Feito:**
+- `app/data/integradores.js` tem 27 módulos:
+  - épocas e civilizações;
+  - Portugal e Brasil;
+  - Agostinho e Tomás;
+  - temas: verdade, justiça, liberdade, Estado, conhecimento científico, civilização e religiões.
+- São 306 ligações a aulas e livros que já existiam, cada uma com um tipo: pré-requisito, contexto, paralelo ou aprofundamento. Só os pré-requisitos bloqueiam a síntese final, que pede juízo próprio e tem critérios comuns.
+- Visões novas: `#integradores` e `#integrador-<id>`.
+- A página de cada aula mostra os integradores em que ela aparece.
+- O cabeçalho do Curso foi atualizado (o número de módulos é calculado) e os módulos de disciplina aparecem como "Fase 3".
+- Os semestres (fase 3) ficaram em aberto, a pedido do usuário.
+
+**Sem invenção:** cinco temas com pouca aula no acervo foram marcados como "cobertura limitada", em vez de receberem ligações forçadas.
+
+**Testes:** 47 de 47 passaram. O teste novo confere que toda aula ligada existe e tem conteúdo, que todo livro existe, que cada relação é válida e que todo módulo integra pelo menos dois módulos. O navegador não mostrou erros nem rolagem horizontal em 375 px.
+
+**Pendente:** as fases 5 a 10, a revisão dos semestres e o resto da fase 2 (m0).
