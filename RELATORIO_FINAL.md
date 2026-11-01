@@ -46,13 +46,15 @@ Data: 01/11/2026. Os números vêm de `node scripts/auditoria.mjs`, do `STATUS_E
 ## 5. Pendências e decisões humanas
 
 1. **Obrigatoriedade total das obras**: decidida pelo usuário em 01/11/2026 ("Todas são obrigatórias"). Os semestres se alongam: `semanasNoRitmo` soma o tempo das obras ao do semestre, e a página de cada semestre informa as semanas reais no ritmo do aluno.
-2. **Semestres** continuam sendo a parte mais fraca na opinião do usuário: falta uma forma prática de estudar semana a semana.
+2. **Semestres e linha de estudo**: a nova aba **Estudar** mostra a fila de cada fase e, na fase 3, a semana do semestre com aulas, provas e obras. O usuário precisa avaliar se essa experiência é prática o bastante; o estudo semana a semana depende de uso real.
 3. Revisar por amostragem as ~413 atribuições provisórias de módulo e função.
 4. Conferir os fatos das aulas novas escritos de memória (listados em `RELATORIO-IA.md`): datas de obras de Eco e Cassirer, exemplo de Panofsky, relatos sobre Constantino, lei da bandeira do Reich de 1935, Código Penal alemão, Lei 7.716/1989.
 5. 293 títulos do COF permanecem com autor e título juntos, como na fonte.
 6. Acervos institucionais (bibliotecas, museus, cinematecas) não foram pesquisados; categorias sem fonte (pintura, escultura etc.) ficam vazias.
-7. Reforço do `m0` (fichamento, resumo crítico, citação) e exibição do degrau ao lado do número do módulo não foram feitos.
-8. Cinco integradores têm cobertura limitada por falta de aulas próprias (Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa, Independências).
+7. Fatos das aulas novas do `m0` escritos de memória e a conferir: números das normas ABNT NBR 6023 e NBR 10520 e o art. 46, III, da Lei 9.610/1998.
+8. **Defeito corrigido nesta rodada**: `curso.js` e `disciplina.js` tinham os acentos corrompidos (mojibake) e a página Curso mostrava "MÃ³dulo". Foram corrigidos e um teste novo impede a volta.
+9. **Abas reorganizadas**: Painel, Estudar, Curso, Mapa, Biblioteca, Avaliações, Caderno, Atlas, Plano e Busca. Ideias e Símbolos passaram a sub-abas do Atlas (Conceitos, Autores, Ideias, Símbolos).
+10. Cinco integradores têm cobertura limitada por falta de aulas próprias (Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa, Independências).
 
 ## 6. Não testado
 

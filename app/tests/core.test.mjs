@@ -57,7 +57,7 @@ test('escada: 14 degraus encadeados; preparação → teologia → patrística �
   assert.deepEqual(DEGRAUS.map((d) => d.n), [...Array(14).keys()]);
   DEGRAUS.forEach((d) => assert.deepEqual(d.prereq, d.n ? [d.n - 1] : []));
   const degrauDe = (mod) => [...new Set(todasAulas.filter((a) => a.modulo === mod).map((a) => a.degrau))];
-  assert.deepEqual(DEGRAUS[0].aulas.map((a) => a.id), ['m3-1'], 'o degrau 0 tem só o método de leitura, não a Introdução à Filosofia');
+  assert.deepEqual(DEGRAUS[0].aulas.map((a) => a.id), ['m3-1', 'm0-2', 'm0-3', 'm0-4'], 'o degrau 0 tem só o método de estudo (leitura, fichamento, fontes e prova), não a Introdução à Filosofia');
   assert.deepEqual(degrauDe('m1'), [1]);
   assert.deepEqual(degrauDe('m0'), [0]);
   assert.deepEqual(degrauDe('m3'), [3], 'Introdução à Filosofia só no degrau 3, primeiro da fase multidisciplinar');
@@ -604,6 +604,28 @@ test('grade escolar: uma matéria na fase teológica; várias em paralelo depois
   assert.deepEqual(g3.map((l) => l.href), PERIODOS[0].materias.map((m) => m.href));
   assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');
   assert.ok(Math.abs(g3.reduce((s, l) => s + l.minutos, 0) - comLogica.plano.horasSemana * 60) <= g3.length, 'horas somam a carga semanal');
+});
+
+test('codificação: nenhum arquivo do app tem acentos corrompidos (UTF-8 lido como Windows-1252)', async () => {
+  const { readdirSync, readFileSync, statSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const raiz = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+  const arquivos = (dir) => readdirSync(dir).flatMap((n) => { const p = join(dir, n); return statSync(p).isDirectory() ? (n === 'tests' ? [] : arquivos(p)) : /\.(js|html|css)$/.test(n) ? [p] : []; });
+  const ruins = arquivos(raiz).filter((p) => /Ã[¡-¿]|Â[ -¿]|â€/.test(readFileSync(p, 'utf8')));
+  assert.deepEqual(ruins, []);
+});
+
+test('linha de estudo: fila por fase, semana do semestre e sem valores inválidos', async () => {
+  const { estudar } = await import('../views/estudar.js');
+  const vazio = C.estadoInicial(T0);
+  const fase2 = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true } } };
+  const fase3 = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true } } };
+  for (const e of [vazio, fase2, fase3]) assert.ok(!/NaN|undefined|\[object/.test(estudar({ estado: e })));
+  assert.ok(estudar({ estado: vazio }).includes('Degrau 0'));
+  assert.ok(estudar({ estado: fase2 }).includes('Degrau 3'));
+  const h3 = estudar({ estado: fase3 });
+  assert.ok(h3.includes('1º semestre') && h3.includes('semana 1 de 16'));
+  assert.ok(PERIODOS[0].materias.every((m) => h3.includes(m.nome.replace(/&/g, '&amp;'))));
 });
 
 test('próxima atividade: respeita a fase, o semestre e inclui as obras obrigatórias', () => {

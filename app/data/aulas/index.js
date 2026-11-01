@@ -160,6 +160,7 @@ import { AULAS as TG5 } from './tg5.js';
 import { AULAS as TG6 } from './tg6.js';
 import { AULAS as TG7 } from './tg7.js';
 import { AULAS as TG8 } from './tg8.js';
+import { AULAS as M0 } from './m0.js';
 import { AULAS as E1 } from './e1.js';
 import { AULAS as E2 } from './e2.js';
 import { AULAS as E3 } from './e3.js';
@@ -168,7 +169,7 @@ import { AULAS as E5 } from './e5.js';
 
 // As aulas novas trazem o aprofundamento no próprio objeto; as antigas o recebem de avancado.js.
 export const AULAS_COMPLETAS = [
-  ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...TG1, ...TG2, ...TG3, ...TG4, ...TG5, ...TG6, ...TG7, ...TG8, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
+  ...AULAS_M1A, ...AULAS_M1B, ...M1C, ...M2A, ...M2B, ...TG1, ...TG2, ...TG3, ...TG4, ...TG5, ...TG6, ...TG7, ...TG8, ...M0, ...AULAS_M3, ...M3B, ...M3C, ...M4A, ...M4B,
   ...M5A, ...M5B, ...M6, ...M7A, ...M7B, ...M8A, ...M8B, ...M9, ...M10A, ...M10B,
   ...M11A, ...M11B, ...M12A, ...M12B, ...M13, ...M14, ...M15, ...M16, ...H1, ...H2, ...H3, ...H4, ...H5, ...G1, ...G2, ...G3, ...G4, ...G5, ...SB1, ...SB2, ...SB2B, ...SB3, ...SO1, ...SO2, ...SO3, ...SO4, ...SO5, ...AN1, ...AN2, ...AN3, ...AN4, ...AN5, ...AS1, ...AS2, ...AS3, ...AS4, ...AS5, ...BI1, ...BI2, ...BI3, ...BI4, ...BI5, ...CP1, ...CP2, ...CP3, ...CP4, ...CP5, ...CA1, ...CA2, ...CA3, ...CA4, ...CA5, ...CT1, ...CT2, ...CT3, ...CT4, ...CT5, ...CU1, ...CU2, ...CU3, ...CU4, ...CU5, ...DM1, ...DM2, ...DM3, ...DM4, ...DM5, ...DR1, ...DR2, ...DR3, ...DR4, ...DR5, ...ED1, ...ED2, ...ED3, ...ED4, ...ED5, ...ES1, ...ES2, ...ES3, ...ES4, ...ES5, ...FI1, ...FI2, ...FI3, ...FI4, ...FI5, ...HA1, ...HA2, ...HA3, ...HA4, ...HA5, ...LI1, ...LI2, ...LI3, ...LI4, ...LI5, ...LT1, ...LT2, ...LT3, ...LT4, ...LT5, ...LF1, ...LF2, ...LF3, ...LF4, ...LF5, ...MA1, ...MA2, ...MA3, ...MA4, ...MA5, ...MU1, ...MU2, ...MU3, ...MU4, ...MU5, ...PS1, ...PS2, ...PS3, ...PS4, ...PS5, ...QU1, ...QU2, ...QU3, ...QU4, ...QU5, ...RI1, ...RI2, ...RI3, ...RI4, ...RI5, ...E1, ...E2, ...E3, ...E4, ...E5,
 ].map((a) => ({ ...a, avancado: a.avancado || AVANCADO[a.id] || null }));

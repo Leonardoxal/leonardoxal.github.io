@@ -25,6 +25,7 @@ import { avaliacoes, avaliacao, revisar, cartoes } from './views/avaliacoes.js';
 import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { periodos, periodo } from './views/periodos.js';
+import { estudar } from './views/estudar.js';
 import { integradores, integrador } from './views/integradores.js';
 import { mediateca, obra } from './views/mediateca.js';
 import { OBRAS, CATEGORIAS } from './data/mediateca.js';
@@ -63,10 +64,14 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, busca, entrar };
+const ROTAS = { painel, estudar, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, busca, entrar };
 const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
-const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos'],['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
+// Ordem de uso: onde estou, o que estudar, o conteúdo, a prática e a consulta. Ideias e Símbolos moram no Atlas.
+const NAV = [['painel', 'Painel'], ['estudar', 'Estudar'], ['curso', 'Curso'], ['mapa', 'Mapa'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
+const SUBABAS = { atlas: [['atlas', 'Conceitos'], ['autores', 'Autores'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos']] };
+const subabasHTML = (token, secao) => (SUBABAS[secao] && SUBABAS[secao].some(([t]) => t === token)
+  ? `<nav class="abas-mapa" aria-label="Seções do Atlas">${SUBABAS[secao].map(([t, r]) => `<a href="#${t}" ${t === token ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>` : '');
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -114,7 +119,9 @@ function render(opts = {}) {
     // santo de referência só nas abas principais, logo depois do cabeçalho da página
     const santos = id === null ? santosDaAba(token, secao) : '';
     const fim = html.indexOf('</header>');
-    novo.innerHTML = santos && fim >= 0 ? `${html.slice(0, fim + 9)}<div class="santos-aba">${santos}</div>${html.slice(fim + 9)}` : html;
+    const subabas = id === null ? subabasHTML(token, secao) : '';
+    const extra = `${subabas}${santos ? `<div class="santos-aba">${santos}</div>` : ''}`;
+    novo.innerHTML = extra && fim >= 0 ? `${html.slice(0, fim + 9)}${extra}${html.slice(fim + 9)}` : html;
   } catch (e) {
     novo.innerHTML = `<div class="aviso"><strong>Não foi possível abrir esta página.</strong> ${esc(e.message)} ${link('painel', 'Voltar ao painel')}</div>`;
   }
