@@ -169,4 +169,4 @@ export function situacaoMateria(estado, m) {
 export const periodoAtual = (estado) => PERIODOS.find((p) => p.materias.some((m) => situacaoMateria(estado, m) !== 'aprovada')) || null;
 
 /** Semanas necessárias para cumprir um semestre no ritmo do plano (horas por semana do estudante). */
-export const semanasNoRitmo = (p, horasSemana) => Math.ceil(p.total / (Math.max(1, Number(horasSemana) || 1) * 60));
+export const semanasNoRitmo = (p, horasSemana) => Math.ceil((p.total + p.minutosObras) / (Math.max(1, Number(horasSemana) || 1) * 60));

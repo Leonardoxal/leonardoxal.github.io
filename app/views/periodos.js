@@ -12,7 +12,7 @@ const EVENTO = { [SEMANA_INTERMEDIARIA]: 'Avaliação intermediária', [SEMANA_P
 function ritmoHTML(p, horasSemana) {
   const semanas = semanasNoRitmo(p, horasSemana);
   return semanas > SEMANAS_TOTAIS
-    ? `<p class="meta">No seu ritmo (${horasSemana} h por semana), este semestre leva cerca de <strong>${semanas} semanas</strong> em vez de ${SEMANAS_TOTAIS}. Isso fica registrado como exceção de ritmo; para cumprir o calendário seriam necessárias ${Math.ceil(p.mediaSemanal / 60)} h por semana em média.</p>`
+    ? `<p class="meta">No seu ritmo (${horasSemana} h por semana), este semestre leva cerca de <strong>${semanas} semanas</strong> em vez de ${SEMANAS_TOTAIS}. Isso fica registrado como exceção de ritmo; para cumprir o calendário seriam necessárias ${Math.ceil((p.total + p.minutosObras) / SEMANAS_TOTAIS / 60)} h por semana em média, contando todas as obras obrigatórias.</p>`
     : `<p class="meta">No seu ritmo (${horasSemana} h por semana), o semestre cabe nas ${SEMANAS_TOTAIS} semanas.</p>`;
 }
 
@@ -46,7 +46,7 @@ export function periodo({ estado }, id) {
   <header class="cab"><span class="num">${p.degrau !== null ? `Filosofia: degrau ${p.degrau}` : 'Disciplinas'}</span><h1>${esc(p.titulo)}</h1>
     <p class="sub">${p.materias.length} matérias simultâneas · carga total ${fmtMin(p.total)} · média ${fmtMin(p.mediaSemanal)} por semana.</p></header>
   ${ritmoHTML(p, estado.plano.horasSemana)}
-  <p class="meta">Obras obrigatórias dos módulos: cerca de <strong>${fmtMin(p.minutosObras)}</strong> de leitura, audição e análise (estimativa por tipo de mídia, fora do calendário acima). No seu ritmo, isso soma cerca de ${Math.ceil(p.minutosObras / (Math.max(1, estado.plano.horasSemana) * 60))} semanas além das aulas e provas.</p>
+  <p class="meta">Todas as obras dos módulos são obrigatórias: cerca de <strong>${fmtMin(p.minutosObras)}</strong> de leitura, audição e análise (estimativa por tipo de mídia), já somadas ao tempo do semestre acima. O semestre se alonga até o cumprimento delas; não há dispensa.</p>
   ${p.excecoes.length ? `<div class="aviso"><strong>Exceções registradas.</strong><ul>${p.excecoes.map((e) => `<li>${esc(e)}</li>`).join('')}</ul></div>` : ''}
   <section><h2>Matérias</h2><ul class="lista-curta">${p.materias.map((m) => {
     const feitas = m.aulas.filter((a) => aulaConcluida(estado, a.id)).length;

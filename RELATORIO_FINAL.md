@@ -45,7 +45,7 @@ Data: 01/11/2026. Os números vêm de `node scripts/auditoria.mjs`, do `STATUS_E
 
 ## 5. Pendências e decisões humanas
 
-1. **Obrigatoriedade total das obras** é inviável no ritmo atual (item 4). Decidir se algumas passam a recomendadas, ou se os semestres se alongam.
+1. **Obrigatoriedade total das obras**: decidida pelo usuário em 01/11/2026 ("Todas são obrigatórias"). Os semestres se alongam: `semanasNoRitmo` soma o tempo das obras ao do semestre, e a página de cada semestre informa as semanas reais no ritmo do aluno.
 2. **Semestres** continuam sendo a parte mais fraca na opinião do usuário: falta uma forma prática de estudar semana a semana.
 3. Revisar por amostragem as ~413 atribuições provisórias de módulo e função.
 4. Conferir os fatos das aulas novas escritos de memória (listados em `RELATORIO-IA.md`): datas de obras de Eco e Cassirer, exemplo de Panofsky, relatos sobre Constantino, lei da bandeira do Reich de 1935, Código Penal alemão, Lei 7.716/1989.
