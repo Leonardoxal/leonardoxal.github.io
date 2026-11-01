@@ -78,7 +78,6 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - A ordem "Autor – Título" muda de lista para lista; está na tabela `ORIENTACAO`. Quando ela é ambígua, o item inteiro vira título e o autor fica vazio. Não invente autores.
    - Os sites bloqueiam o acesso pelo terminal (406). Não tente contornar; use o navegador do app.
 6. Próxima: fase 7 (revisão da disciplina de Simbologia e semiótica), depois as fases 8 a 10.
-   - Se uma fonte não estiver acessível, registrar isso no `STATUS_EXECUCAO.md`.
 
 Não crie disciplinas novas fora do plano.
 
