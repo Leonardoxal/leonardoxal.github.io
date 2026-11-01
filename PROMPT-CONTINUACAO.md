@@ -67,7 +67,16 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - `app/data/integradores.js` tem 27 módulos; as ligações usam só ids reais, e o teste confere.
    - Para criar um módulo novo, use a função `I(...)` com `pre`, `ctx`, `par`, `apr` e `livros`.
    - Cinco módulos têm cobertura limitada. Para melhorá-los, crie aulas próprias (Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa, Independências) e acrescente-as.
-4. Próxima: fase 5, a mediateca (`app/data/mediateca.js` e a visão `#mediateca`). Depois, as fases 6 a 10.
+4. A fase 5 (mediateca) está concluída.
+   - `app/data/mediateca.js` monta os registros a partir dos 607 livros e das bibliografias das disciplinas.
+   - A deduplicação usa `chaveObra`: autor sem honoríficos mais título, sem acentos.
+   - Registros novos entram em `EXTERNOS`, cada um com a fonte declarada (`fontes: [{ fonte, url, nota }]`), e são mesclados pela mesma chave quando já existirem.
+5. Próxima: fase 6, a expansão bibliográfica.
+   - Extrair https://contraosacademicos.com.br/lista/ (todas as listas e páginas) e https://olavodecarvalhofb.wordpress.com/2016/02/23/livros-mencionados-por-olavo-de-carvalho/.
+   - Registrar só o que estiver nas páginas, com a url da fonte em cada registro.
+   - Acrescentar `contraosacademicos` e `olavo-compilacao` em `FONTES`.
+   - Distinguir obra mencionada, recomendação e comentário do compilador.
+   - Se uma fonte não estiver acessível, registrar isso no `STATUS_EXECUCAO.md`.
 
 Não crie disciplinas novas fora do plano.
 

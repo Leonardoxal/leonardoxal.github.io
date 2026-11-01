@@ -93,3 +93,24 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 **Testes:** 47 de 47 passaram. O teste novo confere que toda aula ligada existe e tem conteúdo, que todo livro existe, que cada relação é válida e que todo módulo integra pelo menos dois módulos. O navegador não mostrou erros nem rolagem horizontal em 375 px.
 
 **Pendente:** as fases 5 a 10, a revisão dos semestres e o resto da fase 2 (m0).
+
+## 2026-11-01 — Claude (sessão original): fase 5, biblioteca e mediateca
+
+**Feito:**
+- `app/data/mediateca.js`:
+  - 27 categorias de mídia (as da ordem geral) e tipos de relação entre obras: gravação, adaptação, tradução, edição, volume, parte e estudo sobre;
+  - registro único com todos os campos pedidos;
+  - deduplicação por chave normalizada, que guarda todas as fontes. Partes ou volumes diferentes continuam como registros separados;
+  - aulas que citam cada livro.
+- Números: 919 registros. São os 607 livros (sem alteração), mais 312 obras vindas de 425 entradas de bibliografia; 93 registros têm várias fontes.
+- Visões novas: `#mediateca`, com filtros e paginação, e `#obra-<id>`. A Biblioteca tem um link para a mediateca.
+- A busca global passou a incluir as obras e os integradores.
+
+**Sem invenção:** campos desconhecidos aparecem como "não informado". As 23 categorias sem registros (cinema, música, artes etc.) aparecem vazias, com contagem 0, até a fase 6.
+
+**Testes:** 48 de 48 passaram. Os filtros, a busca e as páginas de obra foram conferidos no navegador, sem rolagem horizontal em 375 px.
+
+**Pendente:**
+- A fase 6 (extração das duas fontes externas), que preenche as outras mídias.
+- As anotações de análise de filmes e obras (fase 8).
+- As fases 7 a 10 e a revisão dos semestres.

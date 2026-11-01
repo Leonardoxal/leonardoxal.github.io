@@ -26,6 +26,7 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
+import { OBRAS, CATEGORIAS, FONTES, chaveObra } from '../data/mediateca.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
 const IDS_ORIGINAIS = JSON.parse(readFileSync(new URL('./ids-originais.json', import.meta.url), 'utf8'));
@@ -832,4 +833,28 @@ test('módulos integradores: ligações reais e classificadas; só o pré-requis
   assert.equal(prereqsPendentes(grecia, () => false).length, pre.length);
   assert.equal(prereqsPendentes(grecia, (a) => pre.includes(a)).length, 0, 'concluir só os pré-requisitos libera a síntese');
   assert.ok(integradoresDaAula('h4-1').some((x) => x.modulo.id === 'grecia' && x.relacao === 'prerequisito'));
+});
+
+test('mediateca: 27 categorias, os 607 livros preservados, um registro por obra com todas as fontes', () => {
+  assert.equal(Object.keys(CATEGORIAS).length, 27);
+  assert.equal(new Set(OBRAS.map((o) => o.id)).size, OBRAS.length, 'ids únicos');
+  // todos os livros do acervo têm registro próprio, ligado ao livro e com a fonte "acervo"
+  for (const l of LIVROS) {
+    const o = OBRAS.find((x) => x.livro === l.id);
+    assert.ok(o && o.titulo === l.titulo && o.fontes.some((f) => f.fonte === 'acervo'), `livro ${l.id}`);
+  }
+  for (const o of OBRAS) {
+    assert.ok(CATEGORIAS[o.categoria], `${o.id}: categoria ${o.categoria}`);
+    assert.ok(o.titulo && o.criador, `${o.id}: título e criador`);
+    assert.ok(o.fontes.length && o.fontes.every((f) => FONTES[f.fonte] || f.url), `${o.id}: fonte declarada`);
+    if (o.link) assert.ok(/^https?:\/\//.test(o.link.url), `${o.id}: link com url`);
+    o.aulas.forEach((a) => assert.ok(aulaPorId[a], `${o.id}: aula ${a}`));
+  }
+  // deduplicação: a mesma obra não aparece duas vezes na mesma categoria
+  const chaves = OBRAS.filter((o) => !o.livro).map((o) => `${o.categoria}|${chaveObra(o.criador, o.titulo)}`);
+  assert.equal(new Set(chaves).size, chaves.length, 'sem duplicatas');
+  const rerum = OBRAS.find((o) => /rerum novarum/i.test(o.titulo));
+  assert.ok(rerum.fontes.length >= 2 && rerum.disciplinas.length >= 2, 'obra citada em duas disciplinas: um registro, duas fontes');
+  assert.equal(chaveObra('São João Paulo II', 'Centesimus annus'), chaveObra('João Paulo II', 'Centesimus Annus'), 'honoríficos e maiúsculas não separam a mesma obra');
+  assert.notEqual(chaveObra('Platão', 'A República, livro III'), chaveObra('Platão', 'A República'), 'partes diferentes não se fundem');
 });

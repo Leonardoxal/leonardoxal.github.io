@@ -32,7 +32,8 @@ function filtrar(estado) {
 export function biblioteca({ estado }) {
   const lista = filtrar(estado);
   return `<header class="cab"><h1>Biblioteca</h1>
-    <p class="sub">${LIVROS.length} títulos numa única sequência de leitura: introduções, depois a obra completa de cada autor estudado, degrau por degrau. Links externos levam apenas a fontes oficiais verificadas; os demais livros têm busca em catálogo bibliográfico.</p></header>
+    <p class="sub">${LIVROS.length} títulos numa única sequência de leitura: introduções, depois a obra completa de cada autor estudado, degrau por degrau. Links externos levam apenas a fontes oficiais verificadas; os demais livros têm busca em catálogo bibliográfico.</p>
+    <p class="meta">Documentos, acervos e as demais obras de todos os tipos de mídia estão na ${link('mediateca', 'Biblioteca e mediateca')}.</p></header>
   <form class="filtros" id="filtros" role="search">
     <label class="campo largo"><span>Buscar</span><input type="search" id="f-q" name="q" value="${esc(filtros.q)}" placeholder="Título, autor ou assunto"></label>
     <label class="campo"><span>Autor</span><select id="f-autor" name="autor"><option value="">Todos</option>${opcoes(unicos((l) => l.autor).map((a) => [a, a]), filtros.autor)}</select></label>

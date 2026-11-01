@@ -1,0 +1,109 @@
+// Biblioteca e mediateca: registro único de obras de todos os tipos de mídia, com as fontes em que cada uma aparece.
+// Os 607 livros do acervo original entram sem alteração (o registro aponta para eles). As demais obras vêm das
+// bibliografias das disciplinas; registros de outras fontes (fase 6) entram em EXTERNOS com a fonte declarada.
+// Nada aqui é inventado: campos sem informação ficam vazios, e a interface mostra "não informado".
+import { LIVROS, livroPorId } from './livros.js';
+import { DISCIPLINAS } from './disciplinas.js';
+import { AULAS_COMPLETAS } from './aulas/index.js';
+import { normalizar } from '../core.js';
+
+export const CATEGORIAS = {
+  livros: 'Livros e tratados', artigos: 'Artigos e ensaios', 'documentos-historicos': 'Documentos históricos',
+  cartas: 'Cartas e manuscritos', cinema: 'Cinema', documentarios: 'Documentários', curtas: 'Curtas-metragens',
+  series: 'Séries educativas', musica: 'Música e composições', gravacoes: 'Álbuns e gravações',
+  concertos: 'Concertos e apresentações', compositores: 'Compositores', pintura: 'Pintura', escultura: 'Escultura',
+  fotografia: 'Fotografia', arquitetura: 'Arquitetura', teatro: 'Teatro', opera: 'Ópera', bale: 'Balé',
+  palestras: 'Palestras', conferencias: 'Conferências', cursos: 'Cursos e aulas', entrevistas: 'Entrevistas',
+  podcasts: 'Podcasts', discursos: 'Discursos históricos', mapas: 'Mapas e atlas', acervos: 'Acervos e exposições digitais',
+};
+
+/** Tipos de relação entre registros: uma composição e suas gravações, um livro e sua adaptação, etc. */
+export const RELACOES_OBRA = {
+  'gravacao-de': 'Gravação de', 'adaptacao-de': 'Adaptação de', 'traducao-de': 'Tradução de',
+  'edicao-de': 'Edição de', 'volume-de': 'Volume de', 'parte-de': 'Parte de', 'sobre': 'Estudo sobre',
+};
+
+/** Fontes de origem dos registros. */
+export const FONTES = {
+  acervo: 'Acervo original da Academia da Verdade (607 livros)',
+  bibliografia: 'Bibliografia progressiva de uma disciplina',
+};
+
+const HONORIFICOS = /^(sao|santo|santa|sto\.?|sta\.?|papa|beato|beata)\s+/;
+/** Chave de deduplicação: autor sem títulos honoríficos + título, sem acentos e sem pontuação. */
+export const chaveObra = (autor, titulo) => {
+  const n = (s) => normalizar(s).replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return `${n(autor).replace(HONORIFICOS, '')}|${n(titulo)}`;
+};
+const slug = (s) => normalizar(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+
+/** Categoria de uma entrada de bibliografia, pelo tipo declarado na própria disciplina. */
+function categoriaBibliografia(b) {
+  if (b.tipo === 'dados') return 'acervos';
+  if (b.tipo === 'doutrina') return /^discurso/i.test(b.titulo) ? 'discursos' : 'documentos-historicos';
+  return 'livros';
+}
+
+/** Aulas que citam cada livro do acervo nas referências ou nas leituras avançadas. */
+const aulasPorLivro = {};
+for (const a of AULAS_COMPLETAS) {
+  for (const r of [...(a.referencias || []), ...(a.avancado?.leituras || [])]) {
+    if (r.livro) (aulasPorLivro[r.livro] ||= new Set()).add(a.id);
+  }
+}
+
+/**
+ * Registros externos (fase 6): cada um precisa de titulo, criador, categoria e ao menos uma fonte com url.
+ * Formato: { id, titulo, criador, categoria, data, pais, disciplinas, temas, contexto, nivel, prereq,
+ * justificativa, fontes: [{ fonte, url, nota }], link, direitos, relacoes: [{ tipo, obra }] }.
+ */
+export const EXTERNOS = [];
+
+function montar() {
+  const registros = new Map();
+  // 1. Os 607 livros: um registro por livro, sem alterar o acervo.
+  for (const l of LIVROS) {
+    registros.set(`livro-${l.id}`, {
+      id: `livro-${l.id}`, livro: l.id, titulo: l.titulo, criador: l.autor, categoria: 'livros',
+      data: l.ano || '', pais: '', disciplinas: [], temas: [l.area].filter(Boolean), contexto: '',
+      nivel: l.nivel ?? null, prereq: l.prereq || [], justificativa: l.objetivo || '',
+      fontes: [{ fonte: 'acervo', nota: `Degrau ${l.degrau}` }], link: l.link || null, direitos: '',
+      aulas: [...(aulasPorLivro[l.id] || [])], relacoes: [],
+    });
+  }
+  const porChave = new Map(LIVROS.map((l) => [chaveObra(l.autor, l.titulo), `livro-${l.id}`]));
+  // 2. Bibliografias das disciplinas: a mesma obra em várias disciplinas vira um só registro com várias fontes.
+  for (const d of DISCIPLINAS) {
+    for (const b of d.bibliografia) {
+      const chave = chaveObra(b.autor, b.titulo);
+      const id = b.livro && livroPorId[b.livro] ? `livro-${b.livro}` : porChave.get(chave) || `obra-${slug(`${b.autor} ${b.titulo}`)}`;
+      porChave.set(chave, id);
+      const fonte = { fonte: 'bibliografia', disciplina: d.id, nota: `${d.nome}${b.brasil ? ' · Brasil' : ''}` };
+      const r = registros.get(id);
+      if (r) {
+        if (!r.disciplinas.includes(d.id)) r.disciplinas.push(d.id);
+        r.fontes.push(fonte);
+        if (!r.link && b.url) r.link = { url: b.url, rotulo: 'Acesso na fonte institucional' };
+        continue;
+      }
+      registros.set(id, {
+        id, livro: null, titulo: b.titulo, criador: b.autor, categoria: categoriaBibliografia(b),
+        data: b.ano && b.ano !== '—' ? b.ano : '', pais: b.brasil ? 'Brasil' : '', disciplinas: [d.id], temas: [],
+        contexto: '', nivel: null, prereq: [], justificativa: '', fontes: [fonte],
+        link: b.url ? { url: b.url, rotulo: 'Acesso na fonte institucional' } : null, direitos: '', aulas: [], relacoes: [],
+      });
+    }
+  }
+  // 3. Registros externos, mesclados pela mesma chave quando já existirem.
+  for (const e of EXTERNOS) {
+    const id = porChave.get(chaveObra(e.criador, e.titulo));
+    const r = id && registros.get(id);
+    if (r && r.categoria === e.categoria) { r.fontes.push(...e.fontes); continue; }
+    registros.set(e.id, { livro: null, disciplinas: [], temas: [], aulas: [], relacoes: [], prereq: [], ...e });
+  }
+  return [...registros.values()];
+}
+
+export const OBRAS = montar();
+export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
+export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));

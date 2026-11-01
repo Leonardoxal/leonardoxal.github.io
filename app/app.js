@@ -26,6 +26,9 @@ import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { periodos, periodo } from './views/periodos.js';
 import { integradores, integrador } from './views/integradores.js';
+import { mediateca, obra } from './views/mediateca.js';
+import { OBRAS, CATEGORIAS } from './data/mediateca.js';
+import { INTEGRADORES } from './data/integradores.js';
 import { genealogia } from './views/genealogia.js';
 import { entrar } from './views/entrar.js';
 import { leitor } from './views/leitor.js';
@@ -41,13 +44,16 @@ const INDICE = [
   ...NOS.map((n) => ({ tipo: 'Área', href: `area-${n.id}`, titulo: n.nome, texto: n.desc })),
   ...SIMBOLOS.map((s) => ({ tipo: 'Símbolo', href: `simbolo-${s.id}`, titulo: s.nome, texto: `${s.contexto} ${s.significados.map((g) => g.texto).join(' ')}` })),
   ...DISCIPLINAS.map((d) => ({ tipo: 'Disciplina', href: `disciplina-${d.id}`, titulo: `Percurso de ${d.nome}`, texto: d.metodo })),
+  // os livros do acervo já estão acima; aqui entram as demais obras da mediateca
+  ...OBRAS.filter((o) => !o.livro).map((o) => ({ tipo: CATEGORIAS[o.categoria], href: `obra-${o.id}`, titulo: `${o.titulo} — ${o.criador}`, texto: o.temas.join(' ') })),
+  ...INTEGRADORES.map((m) => ({ tipo: 'Integrador', href: `integrador-${m.id}`, titulo: m.titulo, texto: `${m.descricao} ${m.pergunta}` })),
 ];
 let consulta = '';
 
 function busca() {
   const r = buscar(INDICE, consulta);
   return `<header class="cab"><h1>Busca</h1></header>
-    <form class="filtros" id="f-busca" role="search"><label class="campo largo"><span>Buscar aulas, livros, conceitos e autores</span><input type="search" id="b-q" value="${esc(consulta)}" autofocus></label></form>
+    <form class="filtros" id="f-busca" role="search"><label class="campo largo"><span>Buscar aulas, livros, obras, conceitos, autores e integradores</span><input type="search" id="b-q" value="${esc(consulta)}" autofocus></label></form>
     ${consulta ? `<p class="meta">${r.length} resultado(s)</p><ul class="lista-busca">${r.map((x) => `<li><span class="chip">${x.tipo}</span> ${link(x.href, esc(x.titulo))}</li>`).join('')}</ul>` : '<p class="meta">Digite pelo menos uma palavra. Acentos são ignorados.</p>'}`;
 }
 busca.ligar = (root, ctx) => {
@@ -57,10 +63,10 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, busca, entrar };
-const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
+const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, busca, entrar };
+const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos'],['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
