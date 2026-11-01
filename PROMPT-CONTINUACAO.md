@@ -71,11 +71,13 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - `app/data/mediateca.js` monta os registros a partir dos 607 livros e das bibliografias das disciplinas.
    - A deduplicação usa `chaveObra`: autor sem honoríficos mais título, sem acentos.
    - Registros novos entram em `EXTERNOS`, cada um com a fonte declarada (`fontes: [{ fonte, url, nota }]`), e são mesclados pela mesma chave quando já existirem.
-5. Próxima: fase 6, a expansão bibliográfica.
-   - Extrair https://contraosacademicos.com.br/lista/ (todas as listas e páginas) e https://olavodecarvalhofb.wordpress.com/2016/02/23/livros-mencionados-por-olavo-de-carvalho/.
-   - Registrar só o que estiver nas páginas, com a url da fonte em cada registro.
-   - Acrescentar `contraosacademicos` e `olavo-compilacao` em `FONTES`.
-   - Distinguir obra mencionada, recomendação e comentário do compilador.
+5. A fase 6 (expansão bibliográfica) está concluída para as duas fontes.
+   - O usuário pediu só os títulos das obras das listas. Os da compilação do COF são livros que Olavo de Carvalho citava nas aulas.
+   - **As obras das listas devem estar incorporadas às aulas.** Cada lista tem um destino (disciplinas e/ou módulos) na tabela `DESTINO` de `scripts/importar-fontes.mjs`. As aulas, os módulos e as disciplinas mostram "Leituras recomendadas das listas de referência".
+   - Para refazer: `node scripts/importar-fontes.mjs`, que lê `dados-brutos/` e reescreve `app/data/externos.js`. Não edite `externos.js` à mão.
+   - A ordem "Autor – Título" muda de lista para lista; está na tabela `ORIENTACAO`. Quando ela é ambígua, o item inteiro vira título e o autor fica vazio. Não invente autores.
+   - Os sites bloqueiam o acesso pelo terminal (406). Não tente contornar; use o navegador do app.
+6. Próxima: fase 7 (revisão da disciplina de Simbologia e semiótica), depois as fases 8 a 10.
    - Se uma fonte não estiver acessível, registrar isso no `STATUS_EXECUCAO.md`.
 
 Não crie disciplinas novas fora do plano.
