@@ -39,9 +39,24 @@ Servidor local, navegador do app; o estado de teste fica só nesse navegador, n�
 | Nota | Criar nota pela aula `m0-3`, escrever, abrir o caderno | Nota criada, salva e listada |
 | Plano | Botões presentes | "Salvar e recalcular" e "Exportar backup (JSON)" (a importação não foi exercitada) |
 
+## 01/11/2026 — Varredura total e demais fluxos
+
+| Teste | Como | Resultado |
+|---|---|---|
+| Varredura de todas as páginas | Navegador local; 2.342 rotas: 155 módulos, 849 aulas, 159 avaliações, conceitos, disciplinas, integradores, semestres, os 607 livros, nós da árvore e 1 em cada 12 das demais obras | 0 problemas reais. 1 achado, falso positivo: `aula-dm1-3` contém o texto legítimo "pessoas não encontradas no censo" |
+| Integridade das questões | Script Node sobre todas as aulas e avaliações: 7.641 objetivas e 1.710 discursivas | 0 problemas (alternativa correta dentro do intervalo, sem opções repetidas, enunciado e explicação presentes, critérios nas discursivas) |
+| Geração de cartões | Botão "Gerar cartões de revisão" na aula `m0-3` | 6 cartões criados, com a primeira revisão marcada para o dia seguinte |
+| Cartão manual | Formulário de novo cartão | Criado e listado |
+| Revisão espaçada | Relógio da página adiantado 2 dias; "Mostrar resposta", "Lembrei", "Não lembrei" | A fila diminuiu a cada resposta (7, 6, 5 restantes); a resposta e o aviso de honestidade apareceram |
+| Cronômetro | Iniciar na aula, adiantar 5 min, parar pela barra | "5 min registrados"; a sessão apareceu no Plano |
+| Suíte automatizada | `node --test app/tests/core.test.mjs` | 54 pass / 0 fail |
+
 ## Não testado ainda
 
-- Importação de backup, entrada e saída da conta e demais botões destrutivos, excluídos de propósito.
-- Cronômetro e geração de cartões de revisão: os botões foram clicados na varredura sem erro, mas o resultado não foi conferido.
+- Importação de backup (coberta só pelo teste automatizado "store: backup exportado") e exportação pelo botão, que baixa um arquivo.
+- Entrada e saída da conta e sincronização (exigem credenciais reais).
+- Botões que apagam dados (excluir cartão, nota ou sessão e reiniciar progresso), excluídos de propósito.
+- Teclado e leitor de tela: só a ordem das abas e os rótulos foram vistos, sem teste assistivo.
+- Navegadores além do Chromium do app e aparelhos reais.
 - Os tempos por obra (`MINUTOS_OBRA`) são estimativas declaradas, não medições.
 - Sincronização com a conta (Supabase): exige credenciais de um usuário real, que não devem ser usadas.

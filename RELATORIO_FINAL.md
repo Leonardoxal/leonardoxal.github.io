@@ -31,11 +31,12 @@ Data: 01/11/2026. Os números vêm de `node scripts/auditoria.mjs`, do `STATUS_E
 | Registros que reúnem várias fontes | 178 externos; 93 entre acervo e bibliografias |
 | Registros da mediateca | 5.547 |
 | Obras do externo com atribuição provisória | cerca de 413 (sinalizadas na ficha) |
-| Aulas completas | 841 |
-| Módulos | 154 |
-| Avaliações | 149 |
-| Testes automatizados | 52 aprovados, 0 falhas |
-| Rotas conferidas em 375 px | 74, sem erro de JavaScript |
+| Aulas completas | 849 |
+| Módulos | 155 |
+| Avaliações | 159 |
+| Testes automatizados | 54 aprovados, 0 falhas |
+| Páginas percorridas no navegador | 2.342, sem problema real; 74 delas também em 375 px |
+| Questões verificadas | 7.641 objetivas e 1.710 discursivas, sem inconsistência |
 
 ## 4. Carga dos semestres
 
