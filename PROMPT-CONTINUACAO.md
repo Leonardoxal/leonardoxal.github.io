@@ -77,7 +77,18 @@ Execute as fases em ordem, sem pedir confirmação. Pare só para credenciais, o
    - Para refazer: `node scripts/importar-fontes.mjs`, que lê `dados-brutos/` e reescreve `app/data/externos.js`. Não edite `externos.js` à mão.
    - A ordem "Autor – Título" muda de lista para lista; está na tabela `ORIENTACAO`. Quando ela é ambígua, o item inteiro vira título e o autor fica vazio. Não invente autores.
    - Os sites bloqueiam o acesso pelo terminal (406). Não tente contornar; use o navegador do app.
-6. Próxima: fase 7 (revisão da disciplina de Simbologia e semiótica), depois as fases 8 a 10.
+6. **Obras unificadas e obrigatórias.** O usuário decidiu: todas as obras são obrigatórias, numa só biblioteca.
+   - `scripts/atribuir-obras.mjs` gera `app/data/atribuicoes.js`: para cada obra importada, um módulo, uma aula (quando o título ou o autor aparece na aula), a função e a confiança. As regras estão em `REGRAS` e `REGRAS_LISTA`.
+   - As obras das bibliografias das disciplinas vão para o módulo da etapa do percurso (`porEtapa` em `mediateca.js`).
+   - Depois de mudar aulas ou listas, rode `node scripts/atribuir-obras.mjs` e confira os números.
+   - Concluir degraus (`degrauConcluivel`, parâmetro `obras`) e matérias (`situacaoMateria`) exige todas as obras dos módulos; concluir uma obra exige análise escrita de 150 caracteres. Quem já concluiu mantém.
+   - Se o usuário mandar autores e obras, acrescente-os como registros, com a fonte "indicação do usuário", e rode a atribuição.
+7. A fase 7 (Simbologia) está concluída: módulo SB2B com Eco, Cassirer e Panofsky.
+8. Próxima: fase 8 (integração). Já existe a busca global (aulas, livros, obras, conceitos, autores, símbolos, disciplinas, integradores) e a ficha única de obra com análise.
+   - Falta: botão de "próxima atividade" que respeite o calendário e os pré-requisitos.
+   - Falta: ao concluir uma avaliação, indicar os conceitos a revisar.
+   - Falta: mostrar as obras relacionadas na página do conceito e do autor.
+   - Depois, as fases 9 e 10.
 
 Não crie disciplinas novas fora do plano.
 
