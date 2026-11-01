@@ -6,6 +6,8 @@ import { todasAulas } from '../data/curriculo.js';
 import { normalizar } from '../core.js';
 import { esc, link, botaoFav } from '../ui.js';
 import { conexoesConceito } from './conexoes.js';
+import { obrasDoConceito, obrasDoAutor } from '../data/mediateca.js';
+import { obrasRelacionadasHTML } from './mediateca.js';
 
 const aulaTitulo = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
 let busca = '';
@@ -39,6 +41,7 @@ export function conceito({ estado }, id) {
     <dt>Livros</dt><dd>${c.livros.map((l) => link(`livro-${l}`, esc(livroPorId[l].titulo))).join('<br>') || '—'}</dd>
     <dt>Conceitos relacionados</dt><dd>${c.relacionados.map((r) => link(`conceito-${r}`, esc(conceitoPorId[r].termo))).join(', ') || '—'}</dd>
   </dl>
+  ${obrasRelacionadasHTML(obrasDoConceito(c), estado)}
   ${conexoesConceito(estado, c)}
   <div class="acoes-aula"><button class="btn" data-acao="nota-conceito">Nova nota sobre este conceito</button></div>`;
 }
@@ -74,7 +77,7 @@ function mapaRelacoes(id) {
   </svg></div>`;
 }
 
-export function autores() {
+export function autores({ estado }) {
   const a = autorPorId[autorSel];
   const obras = LIVROS.filter((l) => normalizar(l.autor).includes(normalizar(a.nome.replace(/^(Santo|São) /, ''))));
   const porPeriodo = AUTORES.slice().sort((x, y) => x.ano - y.ano);
@@ -85,6 +88,7 @@ export function autores() {
     ${mapaRelacoes(autorSel)}
     <p><strong>${esc(a.nome)}</strong> (${esc(a.datas)}) — ${esc(a.resumo)}</p>
     ${obras.length ? `<p><strong>Obras na biblioteca:</strong> ${obras.map((l) => link(`livro-${l.id}`, esc(l.titulo))).join(' · ')}</p>` : ''}
+    ${obrasRelacionadasHTML(obrasDoAutor(a.nome), estado)}
     <button class="btn" data-acao="nota-autor">Nova nota sobre ${esc(a.nome)}</button></section>
   <section><h2>Linha do tempo</h2><ol class="linha-tempo">${porPeriodo.map((x) => `<li class="${x.id === autorSel ? 'sel' : ''}"><button class="lt-item" data-autor="${x.id}"><span class="lt-data">${esc(x.datas)}</span><strong>${esc(x.nome)}</strong><span class="meta">${esc(x.periodo)}</span></button></li>`).join('')}</ol></section>`;
 }

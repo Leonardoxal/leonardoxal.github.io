@@ -46,6 +46,7 @@ export function periodo({ estado }, id) {
   <header class="cab"><span class="num">${p.degrau !== null ? `Filosofia: degrau ${p.degrau}` : 'Disciplinas'}</span><h1>${esc(p.titulo)}</h1>
     <p class="sub">${p.materias.length} matérias simultâneas · carga total ${fmtMin(p.total)} · média ${fmtMin(p.mediaSemanal)} por semana.</p></header>
   ${ritmoHTML(p, estado.plano.horasSemana)}
+  <p class="meta">Obras obrigatórias dos módulos: cerca de <strong>${fmtMin(p.minutosObras)}</strong> de leitura, audição e análise (estimativa por tipo de mídia, fora do calendário acima). No seu ritmo, isso soma cerca de ${Math.ceil(p.minutosObras / (Math.max(1, estado.plano.horasSemana) * 60))} semanas além das aulas e provas.</p>
   ${p.excecoes.length ? `<div class="aviso"><strong>Exceções registradas.</strong><ul>${p.excecoes.map((e) => `<li>${esc(e)}</li>`).join('')}</ul></div>` : ''}
   <section><h2>Matérias</h2><ul class="lista-curta">${p.materias.map((m) => {
     const feitas = m.aulas.filter((a) => aulaConcluida(estado, a.id)).length;

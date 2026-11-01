@@ -7,7 +7,7 @@ import { noPorId } from './arvore.js';
 import { MODULOS, DEGRAUS } from './curriculo.js';
 import { aulaPorId } from './aulas/index.js';
 import { AVALIACOES } from './avaliacoes.js';
-import { obrasObrigatorias } from './mediateca.js';
+import { obrasObrigatorias, obraPorId } from './mediateca.js';
 import { melhorNota, livroConcluido, NOTA_MINIMA } from '../core.js';
 
 /** Avaliação objetiva que fecha um módulo: a prova do módulo ou, no último degrau, a avaliação final. */
@@ -38,6 +38,9 @@ export const CARGA = {
   projeto: 360, // projeto interdisciplinar da semana 16
 };
 
+/** Minutos estimados por obra obrigatória, por tipo de mídia (parâmetros declarados; o que não está aqui usa `padrao`). */
+export const MINUTOS_OBRA = { padrao: 120, livros: 360, artigos: 90, cinema: 120, musica: 30, compositores: 30, cartas: 45, 'documentos-historicos': 45, discursos: 20 };
+const minutosObras = (ids) => ids.reduce((s, id) => s + (MINUTOS_OBRA[obraPorId[id]?.categoria] ?? MINUTOS_OBRA.padrao), 0);
 const minutosAula = (id) => parseInt(aulaPorId[id]?.duracao, 10) || 0;
 const discPorNo = Object.fromEntries(DISCIPLINAS.map((d) => [d.no, d.id]));
 
@@ -142,6 +145,8 @@ export const PERIODOS = distribuirDisciplinas().map((ids, i) => {
   if (filo && filo.leituras > 20) excecoes.push(`O degrau ${degrau} tem ${filo.leituras} livros: a leitura integral continua nos semestres seguintes, no ritmo do plano de leitura; o semestre exige as aulas e a prova.`);
   return {
     n, titulo: `${n}º semestre`, degrau: filo ? degrau : null, materias, semanas, total, pico,
+    // as obras obrigatórias não entram no calendário de 18 semanas: somam à parte, e a página mostra quanto tempo pedem
+    minutosObras: minutosObras([...new Set(materias.flatMap((m) => m.obras))]),
     mediaSemanal: Math.round(total / SEMANAS_TOTAIS),
     projeto: `Projeto interdisciplinar: escolher um objeto (uma obra, um acontecimento, uma instituição ou um problema brasileiro) e analisá-lo com o método de cada matéria do semestre (${materias.map((m) => m.nome.split(' — ')[0]).join(', ')}), terminando com um juízo próprio fundamentado.`,
     excecoes,

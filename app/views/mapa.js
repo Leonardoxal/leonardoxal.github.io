@@ -2,7 +2,7 @@
 import { DEGRAUS, MODULOS, moduloPorId, todasAulas, sequenciaDegrau } from '../data/curriculo.js';
 import { livroPorId } from '../data/livros.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { obrasDoDegrau, obrasObrigatorias } from '../data/mediateca.js';
+import { obrasDoDegrau, obrasObrigatorias, contagemPorCategoria, CATEGORIAS } from '../data/mediateca.js';
 import { progressoDegrau, degrauConcluivel, livroConcluido, aulaConcluida, notaMinima, FASE_TEOLOGICA } from '../core.js';
 import { esc, barra, link, fmtData, toast } from '../ui.js';
 import { abasMapa } from './arvore.js';
@@ -27,6 +27,7 @@ export function escada({ estado }) {
     <p class="sub">A escada vai da teologia católica elementar à síntese filosófica. Você pode consultar todos os degraus e leituras desde já; apenas a <em>conclusão</em> de um degrau depende dos pré-requisitos.</p>
     <p class="meta">Uma só trilha, completa: cada degrau exige todas as leituras, aulas, aprofundamentos e competências, com nota mínima de ${notaMinima()}%.</p></header>
   ${abasMapa('escada')}
+  <p class="meta"><strong>Obras por tipo:</strong> ${Object.entries(contagemPorCategoria).filter(([, n]) => n).map(([c, n]) => link(`mediateca-t-${c}`, `${esc(CATEGORIAS[c])} (${n})`)).join(' · ')}</p>
   <ol class="escada" reversed>${DEGRAUS.slice().reverse().map((d) => {
     const obras = obrasDoDegrau(d);
     const pct = progressoDegrau(d, MODULOS, disponiveis, estado, obras);

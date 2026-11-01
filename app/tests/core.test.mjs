@@ -26,7 +26,7 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula, obrasDoDegrau } from '../data/mediateca.js';
+import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula, obrasDoDegrau, obrasDoConceito, obrasDoAutor } from '../data/mediateca.js';
 import { EXTERNOS, RESUMO_IMPORTACAO } from '../data/externos.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
@@ -940,4 +940,18 @@ test('fontes externas: registros importados com fonte, url e natureza declaradas
   // livros do acervo também têm módulo e função, como as demais obras
   assert.ok(OBRAS.filter((o) => o.livro).every((o) => o.funcao), 'livros do acervo com função');
   assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');
+});
+
+test('obras relacionadas: conceito, autor e carga das obras no semestre', async () => {
+  const { CONCEITOS } = await import('../data/conceitos.js');
+  const { AUTORES } = await import('../data/autores.js');
+  // todo conceito devolve só obras ligadas a uma de suas aulas
+  for (const c of CONCEITOS) assert.ok(obrasDoConceito(c).every((o) => c.aulas.includes(o.aula)), c.id);
+  assert.ok(CONCEITOS.some((c) => obrasDoConceito(c).length), 'algum conceito tem obras relacionadas');
+  // obras de um autor: nunca os livros do acervo, que já são listados à parte
+  for (const a of AUTORES) assert.ok(obrasDoAutor(a.nome).every((o) => !o.livro), a.id);
+  assert.ok(AUTORES.some((a) => obrasDoAutor(a.nome).length), 'algum autor tem obras relacionadas');
+  // as obras obrigatórias pesam na carga declarada de cada semestre
+  assert.ok(PERIODOS.every((p) => p.minutosObras >= 0));
+  assert.ok(PERIODOS.some((p) => p.minutosObras > 0));
 });

@@ -142,6 +142,13 @@ export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
 const ordem = (a, b) => (b.aula ? 1 : 0) - (a.aula ? 1 : 0);
 export const obrasDoModulo = (m) => OBRAS.filter((o) => o.modulos.includes(m)).sort(ordem);
 export const obrasDaAula = (aula) => OBRAS.filter((o) => o.aula === aula);
+/** Obras ligadas às aulas de um conceito do Atlas (sem repetir). */
+export const obrasDoConceito = (c) => [...new Set(c.aulas.flatMap((a) => obrasDaAula(a)))];
+/** Obras de um autor: o sobrenome do autor aparece no criador da obra (sem os livros do acervo, já listados à parte). */
+export const obrasDoAutor = (nome) => {
+  const chave = normalizar(nome.replace(/^(Santo|São) /, ''));
+  return OBRAS.filter((o) => !o.livro && o.criador && normalizar(o.criador).includes(chave));
+};
 /**
  * Ids das obras obrigatórias de um conjunto de módulos além dos livros do acervo (estes têm as leituras do degrau
  * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais.

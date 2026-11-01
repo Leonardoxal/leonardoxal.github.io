@@ -31,6 +31,12 @@ export function obrasDaAulaHTML(aulaId, estado = null) {
   return obras.length ? `<section class="leituras-recomendadas"><h2>Obras desta aula</h2><ul class="lista-curta">${obras.map((o) => itemObra(o, estado)).join('')}</ul></section>` : '';
 }
 
+/** Bloco "Obras relacionadas" das páginas de conceito e de autor. */
+export function obrasRelacionadasHTML(obras, estado = null, max = 10) {
+  if (!obras.length) return '';
+  return `<section class="leituras-recomendadas"><h2>Obras relacionadas</h2><ul class="lista-curta">${obras.slice(0, max).map((o) => itemObra(o, estado)).join('')}</ul>${obras.length > max ? `<p class="meta">e mais ${obras.length - max}: ${link('mediateca', 'ver na mediateca')}</p>` : ''}</section>`;
+}
+
 const NAO_INFORMADO = '<span class="meta">não informado</span>';
 const campo = (v) => (v && String(v).trim() ? esc(v) : NAO_INFORMADO);
 
@@ -45,7 +51,7 @@ function filtrar() {
 export function mediateca(_ctx, id = '') {
   // #mediateca-d-<disciplina> e #mediateca-m-<módulo> abrem a mediateca já filtrada (links das aulas)
   if ((id || '') !== filtro.preset) {
-    Object.assign(filtro, { preset: id || '', categoria: '', texto: '', limite: POR_PAGINA,
+    Object.assign(filtro, { preset: id || '', categoria: id?.startsWith('t-') && CATEGORIAS[id.slice(2)] ? id.slice(2) : '', texto: '', limite: POR_PAGINA,
       disciplina: id?.startsWith('d-') ? id.slice(2) : '', modulo: id?.startsWith('m-') ? id.slice(2) : '' });
   }
   const lista = filtrar();
