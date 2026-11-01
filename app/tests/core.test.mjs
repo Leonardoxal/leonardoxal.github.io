@@ -918,6 +918,10 @@ test('fontes externas: registros importados com fonte, url e natureza declaradas
   }
   assert.ok(OBRAS.filter((o) => o.confianca === 'provisória').length / EXTERNOS.length < 0.15, 'atribuições provisórias abaixo de 15%');
   assert.ok(obrasDaAula('m5-5').length, 'aula Fédon e a alma recebe obras');
+  // nenhuma obra fica sem módulo: as da bibliografia das disciplinas entram no módulo da etapa do percurso
+  const semModulo = OBRAS.filter((o) => !o.livro && o.modulos.length !== 1);
+  assert.equal(semModulo.length, 0, `obras sem módulo: ${semModulo.slice(0, 3).map((o) => o.id)}`);
+  assert.ok(OBRAS.filter((o) => o.confianca === 'etapa do percurso').every((o) => o.funcao), 'obras da bibliografia com função');
   // livros do acervo também têm módulo e função, como as demais obras
   assert.ok(OBRAS.filter((o) => o.livro).every((o) => o.funcao), 'livros do acervo com função');
   assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');

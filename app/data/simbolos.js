@@ -10,7 +10,7 @@ export const TIPOS_SENTIDO = {
   interpretacao: 'Interpretação de autor', hipotese: 'Hipótese (sem documento que a fixe)',
 };
 
-export const TRADICOES = { catolica: 'Tradição católica', brasileira: 'Símbolos nacionais do Brasil', arquitetura: 'Arquitetura sacra' };
+export const TRADICOES = { catolica: 'Tradição católica', brasileira: 'Símbolos nacionais do Brasil', arquitetura: 'Arquitetura sacra', politica: 'Símbolos políticos e históricos', cultural: 'Símbolos culturais e comparados' };
 
 const S = (id, nome, tradicao, periodo, contexto, significados, extra = {}) => ({ id, nome, tradicao, periodo, contexto, significados, livros: [], aulas: [], comparacao: '', ...extra });
 const G = (tipo, texto, fonte) => ({ tipo, texto, fonte });
@@ -87,6 +87,23 @@ export const SIMBOLOS = [
     G('historia', 'Forma, cores e apresentação dos símbolos nacionais são reguladas pela Lei nº 5.700, de 1º de setembro de 1971.', 'Lei nº 5.700/1971'),
     G('interpretacao', 'José Murilo de Carvalho analisa a disputa entre positivistas e outros republicanos em torno dos símbolos da República.', 'A formação das almas (1990)'),
   ], { comparacao: 'Compare com a bandeira do Império (1822): o que foi mantido (o retângulo verde e o losango amarelo) e o que mudou, segundo os documentos.' }),
+  // Símbolos de análise contextual (aula sb2b-4): a mesma forma com sentidos diferentes conforme o contexto e a fonte.
+  S('labaro', 'Lábaro de Constantino (Chi-Rô)', 'catolica', 'Século IV (batalha da Ponte Mílvia, 312)', 'Monograma formado pelas duas primeiras letras gregas de "Cristo", associado ao imperador Constantino.', [
+    G('historia', 'Constantino venceu Maxêncio na batalha da Ponte Mílvia, em 312.', 'Eusébio de Cesareia, Vida de Constantino I, 28–31'),
+    G('historia', 'Eusébio descreve uma visão no céu e o estandarte com as letras Chi e Rô, chamado lábaro.', 'Eusébio de Cesareia, Vida de Constantino I, 28–31'),
+    G('historia', 'Lactâncio, em outra fonte, descreve um sonho em que Constantino recebe a ordem de pôr o sinal de Cristo nos escudos.', 'Lactâncio, Sobre a morte dos perseguidores, 44'),
+    G('interpretacao', 'As duas fontes divergem em data, natureza e detalhes do sinal; quem as lê deve dizer qual usa e por quê.', 'Comparação das duas fontes'),
+  ], { aulas: ['sb2b-4'], comparacao: 'Compare os relatos de Eusébio e de Lactâncio: o que cada um afirma, quando escreveu e para quem.' }),
+  S('fasces', 'Fasces (feixe de varas com machado)', 'politica', 'Roma antiga; Estados Unidos; Itália fascista (1919)', 'Emblema de autoridade que muda de sentido conforme quem o usa.', [
+    G('historia', 'Os litores levavam os fasces diante dos magistrados romanos, como sinal de autoridade para punir.', 'Tito Lívio, Desde a fundação da cidade, I, 8'),
+    G('historia', 'O movimento fundado por Mussolini em 1919 tomou o nome (fascio) e o emblema dos fasces.', 'Fasci italiani di combattimento (1919)'),
+    G('historia', 'Nos Estados Unidos, os fasces aparecem em moedas e monumentos com sentido republicano de união e autoridade.', 'Moeda de dez centavos "Mercury" (1916–1945), verso; Memorial de Lincoln'),
+  ], { aulas: ['sb2b-4'], comparacao: 'Compare os três usos (romano, republicano americano e fascista): o que permaneceu da forma e o que mudou do sentido.' }),
+  S('suastica', 'Suástica (cruz gamada)', 'cultural', 'Antiguidade na Índia; Alemanha nazista (1920–1945)', 'A mesma forma, com sentidos opostos conforme a tradição e o contexto.', [
+    G('historia', 'O nome vem do sânscrito svastika, derivado de svasti, "bem-estar"; o símbolo é usado em tradições religiosas da Índia.', 'Monier-Williams, Sanskrit-English Dictionary, verbete svastika'),
+    G('historia', 'Hitler descreve a criação da bandeira com a suástica em 1920, e a bandeira nacional alemã passou a ser a do partido em 1935.', 'Hitler, Mein Kampf, vol. 2, cap. 7; Lei da Bandeira do Reich (15/09/1935)'),
+    G('historia', 'No Brasil, fabricar ou divulgar a cruz suástica para propaganda do nazismo é crime.', 'Lei nº 7.716/1989, art. 20, § 1º'),
+  ], { aulas: ['sb2b-4'], comparacao: 'Compare o uso religioso na Índia e o uso nazista: o que a forma tem em comum e por que o sentido dominante depende do contexto.' }),
 ];
 
 export const simboloPorId = Object.fromEntries(SIMBOLOS.map((s) => [s.id, s]));

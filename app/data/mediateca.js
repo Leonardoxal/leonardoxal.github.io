@@ -4,6 +4,7 @@
 // Nada aqui é inventado: campos sem informação ficam vazios, e a interface mostra "não informado".
 import { LIVROS, livroPorId } from './livros.js';
 import { DISCIPLINAS } from './disciplinas.js';
+import { MODULOS, todasAulas } from './curriculo.js';
 import { AULAS_COMPLETAS } from './aulas/index.js';
 import { normalizar } from '../core.js';
 // registros das fontes externas (fase 6), gerados por scripts/importar-fontes.mjs; cada um traz fontes: [{ fonte, url, nota, natureza }]
@@ -78,7 +79,7 @@ function montar() {
       const chave = chaveObra(b.autor, b.titulo);
       const id = b.livro && livroPorId[b.livro] ? `livro-${b.livro}` : porChave.get(chave) || `obra-${slug(`${b.autor} ${b.titulo}`)}`;
       porChave.set(chave, id);
-      const fonte = { fonte: 'bibliografia', disciplina: d.id, nota: `${d.nome}${b.brasil ? ' · Brasil' : ''}` };
+      const fonte = { fonte: 'bibliografia', disciplina: d.id, nota: `${d.nome}${b.brasil ? ' · Brasil' : ''}`, etapa: b.etapa, tipo: b.tipo };
       const r = registros.get(id);
       if (r) {
         if (!r.disciplinas.includes(d.id)) r.disciplinas.push(d.id);
@@ -111,6 +112,16 @@ function montar() {
 }
 
 const FUNCAO_LIVRO = { primaria: 'Obra do autor (fonte primária)', secundaria: 'Estudo e comentário', referencia: 'Obra de consulta (gramática, dicionário, referência)' };
+const FUNCAO_BIBLIOGRAFIA = { primaria: 'Obra do autor (fonte primária)', estudo: 'Estudo e comentário', manual: 'Introdução e manual de base', dados: 'Fonte de dados e consulta', doutrina: 'Documento da Igreja' };
+const discPorId = Object.fromEntries(DISCIPLINAS.map((d) => [d.id, d]));
+
+/** Módulo e aula de uma obra da bibliografia de uma disciplina: os da etapa do percurso em que ela é listada. */
+function porEtapa(fonte) {
+  const d = discPorId[fonte.disciplina];
+  const aulaId = d?.aulas?.[fonte.etapa]?.find((a) => todasAulas.some((x) => x.id === a));
+  const modulo = aulaId ? todasAulas.find((x) => x.id === aulaId).modulo : MODULOS.find((m) => m.disciplina === fonte.disciplina)?.id;
+  return modulo ? { modulo, aula: aulaId || '' } : null;
+}
 
 /** Cada obra tem módulo, aula (quando há base), função e a confiança da atribuição; ver scripts/atribuir-obras.mjs. */
 function atribuir(o) {
@@ -118,6 +129,9 @@ function atribuir(o) {
   if (a) return { ...o, modulos: [a[0]], aula: a[1] || '', funcao: FUNCOES[a[2]], confianca: CONFIANCA[a[3]] };
   const l = o.livro && livroPorId[o.livro];
   if (l) return { ...o, modulos: l.modulo ? [l.modulo] : [], aula: '', funcao: FUNCAO_LIVRO[l.tipo] || '', confianca: 'acervo original' };
+  const bib = o.fontes.find((f) => f.fonte === 'bibliografia');
+  const e = bib && porEtapa(bib);
+  if (e) return { ...o, modulos: [e.modulo], aula: '', funcao: FUNCAO_BIBLIOGRAFIA[bib.tipo] || '', confianca: 'etapa do percurso' };
   return { ...o, modulos: [], aula: '', funcao: '', confianca: '' };
 }
 

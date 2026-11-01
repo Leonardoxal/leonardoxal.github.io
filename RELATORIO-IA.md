@@ -190,3 +190,38 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 - A obrigatoriedade pode tornar degraus muito longos (Literatura 1.428 obras). O usuário aceitou isso.
 - O semestre de Literatura (8º) soma 1.428 obras ao que já era 16,8 h por semana: o cálculo de carga dos semestres NÃO inclui o tempo das obras. Os semestres seguem em aberto, a pedido do usuário.
 - As atribuições provisórias (418) contam como obrigatórias no módulo introdutório até serem revisadas.
+
+## 2026-11-01 — Claude (sessão original): fase 7, Simbologia e semiótica
+
+**Auditoria da disciplina frente à ordem original:**
+- **Já existia:** disciplina independente (Simbologia, Semiótica e Simbolismo), com 3 módulos (sb1 a sb3), percurso de 12 etapas, Peirce, Saussure e Barthes, liturgia e Escritura, Mário Ferreira dos Santos, Eliade, heráldica e o Laboratório de Signos (14 símbolos).
+- **Faltava:**
+  - Eco, Cassirer e Panofsky não tinham aula própria, só citações;
+  - iconografia e iconologia dividiam uma aula com literatura e arquitetura;
+  - não havia um método para analisar símbolos políticos, históricos e culturais com contexto e fonte;
+  - o Laboratório de Signos só tinha símbolos católicos, uma rosácea e a bandeira do Brasil.
+
+**Feito:**
+- Módulo novo **SB2B** (`app/data/aulas/sb2b.js`), entre SB2 e SB3, com 4 aulas e uma avaliação:
+  - sb2b-1: Eco (semiótica, obra aberta, limites da interpretação);
+  - sb2b-2: Cassirer (animal simbólico, formas simbólicas);
+  - sb2b-3: Panofsky (iconografia e iconologia, os três níveis e os controles);
+  - sb2b-4: método de cinco perguntas para símbolos religiosos, históricos, políticos e culturais, com os casos do lábaro de Constantino, dos fasces e da suástica.
+- Registro: currículo, índice de aulas, etapas do percurso (m4, m7, m8, m10), árvore, e a prova integradora de SB3 agora também cobre SB2B.
+- Bibliografia da disciplina: Eco (2 obras), Cassirer (2), Panofsky, Eusébio e Hobsbawm e Ranger.
+- Laboratório de Signos: 3 símbolos novos com tradições novas ("políticos e históricos" e "culturais e comparados"), cada um com a fonte de cada sentido.
+- **Lacuna da fase 5 corrigida:** as 319 obras que vinham das bibliografias das disciplinas não tinham módulo e portanto não eram obrigatórias. Agora entram no módulo da etapa do percurso em que a disciplina as lista, com função pelo tipo (primária, estudo, manual, dados, documento).
+
+**Fatos escritos de memória e não verificados (conferir):**
+- Eco: tese de 1956 sobre o problema estético em Tomás; capítulos e anos das obras citadas.
+- Cassirer: caps. 2 e 3 do Ensaio sobre o homem; o exemplo de Helen Keller; as edições da Martins Fontes.
+- Panofsky: o exemplo do chapéu; Melencolia I (1514) e o estudo de Panofsky e Saxl (1923).
+- Aleijadinho: profetas de Congonhas entre 1800 e 1805.
+- Constantino: Eusébio, I, 28–31, e Lactâncio, 44.
+- Fasces: Livro I, 8 de Tito Lívio; moeda "Mercury"; Memorial de Lincoln.
+- Suástica: Monier-Williams; Mein Kampf, vol. 2, cap. 7; Lei da Bandeira do Reich (15/09/1935).
+- Leis citadas: o § 86a do Código Penal alemão e a Lei nº 7.716/1989, art. 20, § 1º.
+
+**Testes:** 50 de 50. Módulo, aulas, símbolos, prova integradora e semestres conferidos no navegador, sem erros.
+
+**Pendente:** fases 8 a 10 e a revisão dos semestres.
