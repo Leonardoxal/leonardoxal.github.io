@@ -16,7 +16,7 @@ import { PREREQUISITOS } from '../data/prerequisitos.js';
 import { QUESTIONARIOS } from '../data/questionarios.js';
 import { notasDe, conexoesAula, conexoesLivro } from '../views/conexoes.js';
 import { SIMBOLOS, TIPOS_SENTIDO, TRADICOES } from '../data/simbolos.js';
-import { linhasGrade } from '../views/grade.js';
+import { linhasGrade, proximaAtividade } from '../views/grade.js';
 import { cruz } from '../ornamentos.js';
 import { AREAS_CONJUNTAS, INTEGRADORAS } from '../data/avaliacoes.js';
 import { SANTOS, SANTOS_DAS_ABAS, SANTOS_DAS_AREAS, NATUREZAS } from '../data/santos.js';
@@ -604,6 +604,21 @@ test('grade escolar: uma matéria na fase teológica; várias em paralelo depois
   assert.deepEqual(g3.map((l) => l.href), PERIODOS[0].materias.map((m) => m.href));
   assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');
   assert.ok(Math.abs(g3.reduce((s, l) => s + l.minutos, 0) - comLogica.plano.horasSemana * 60) <= g3.length, 'horas somam a carga semanal');
+});
+
+test('próxima atividade: respeita a fase, o semestre e inclui as obras obrigatórias', () => {
+  const vazio = C.estadoInicial(T0);
+  const a0 = proximaAtividade(vazio);
+  assert.ok(a0 && a0.href && a0.rotulo && a0.contexto.startsWith('Teologia'), 'fase teológica: a primeira atividade da teologia');
+  // concluídas as aulas e os livros do degrau 0, a próxima passa a ser uma obra do degrau
+  const d0 = DEGRAUS[0];
+  const tudo = { ...vazio, aulas: Object.fromEntries(d0.aulas.map((a) => [a.id, { status: 'concluida' }])), livros: Object.fromEntries(d0.leituras.map((id) => [id, { estado: 'concluido' }])) };
+  const a1 = proximaAtividade(tudo);
+  if (obrasDoDegrau(d0).length) assert.ok(a1.href.startsWith('obra-'), `obra obrigatória do degrau 0 (veio ${a1.href})`);
+  // fase 3: a atividade vem do semestre atual, nunca de matéria bloqueada
+  const fase3 = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true }, 3: { concluido: true }, 4: { concluido: true } } };
+  const a2 = proximaAtividade(fase3);
+  assert.ok(a2 && a2.contexto.includes('1º semestre'), a2?.contexto);
 });
 
 test('identidade: cruz gótica vetorial ao lado do nome', () => {

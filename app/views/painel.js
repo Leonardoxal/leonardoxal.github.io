@@ -3,11 +3,11 @@ import { MODULOS, DEGRAUS, moduloPorId, todasAulas } from '../data/curriculo.js'
 import { aulaPorId } from '../data/aulas/index.js';
 import { livroPorId } from '../data/livros.js';
 import { conceitoPorId } from '../data/conceitos.js';
-import { progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas } from '../core.js';
+import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas } from '../core.js';
 import { esc, barra, link, fmtData, fmtMin } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
 import { fachada } from '../ornamentos.js';
-import { faseHTML } from './grade.js';
+import { faseHTML, proximaAtividade } from './grade.js';
 
 const disponiveis = new Set(Object.keys(aulaPorId));
 
@@ -25,6 +25,7 @@ export function painel({ estado, status }) {
   const continuar = estado.atual.aula && !aulaConcluida(estado, estado.atual.aula) && aulaPorId[estado.atual.aula] ? estado.atual.aula : proximaDisponivel?.id;
   const aulaCont = continuar && todasAulas.find((a) => a.id === continuar);
   const proximas = todasAulas.filter((a) => livre(a) && a.id !== continuar).slice(0, 4);
+  const prox = proximaAtividade(estado);
   const pend = revisoesPendentes(estado.revisoes);
   const semana = minutosSemana(estado.sessoes);
   const meta = estado.plano.horasSemana * 60;
@@ -50,8 +51,10 @@ export function painel({ estado, status }) {
     <h1>Degrau ${degrauAtual.n}: ${esc(degrauAtual.nome)}</h1>
     ${faseHTML(estado)}
     <p class="sub">${esc(degrauAtual.objetivo)}</p>
-    ${aulaCont ? `<a class="btn primario grande" href="#aula-${aulaCont.id}">Continuar estudando — ${esc(aulaCont.titulo)}</a>
-      <p class="meta">Módulo ${moduloPorId[aulaCont.modulo].n}: ${esc(moduloPorId[aulaCont.modulo].titulo)}</p>` : '<p>Todas as aulas disponíveis foram concluídas. Novas aulas serão publicadas em lotes.</p>'}
+    ${faseIniciacaoConcluida(estado) || !aulaCont
+    ? (prox ? `<a class="btn primario grande" href="#${prox.href}">Próxima atividade — ${esc(prox.rotulo)}</a><p class="meta">${esc(prox.contexto)}</p>` : '<p>Nada pendente no momento: todas as aulas, provas e obras disponíveis foram concluídas.</p>')
+    : `<a class="btn primario grande" href="#aula-${aulaCont.id}">Continuar estudando — ${esc(aulaCont.titulo)}</a>
+      <p class="meta">Módulo ${moduloPorId[aulaCont.modulo].n}: ${esc(moduloPorId[aulaCont.modulo].titulo)}</p>`}
   </div>${fachada()}</header>
   ${novo ? `<div class="boas-vindas"><h2>Por onde começar</h2><ol>
       <li>Faça a aula ${link('aula-m3-1', 'Como ler textos filosóficos')} (Degrau 0) — ela ensina o método usado no curso todo.</li>

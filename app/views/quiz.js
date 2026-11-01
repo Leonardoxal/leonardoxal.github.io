@@ -3,6 +3,7 @@ import { corrigir, NOTA_MINIMA, resultadoPorArea } from '../core.js';
 import { AREAS_CONJUNTAS } from '../data/avaliacoes.js';
 import { esc, fmtData, toast, link } from '../ui.js';
 import { todasAulas } from '../data/curriculo.js';
+import { CONCEITOS } from '../data/conceitos.js';
 
 const tituloAula = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
 
@@ -124,6 +125,9 @@ export function ligarQuiz(root, itens, ctx, aoCorrigir) {
       form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<div class="tabela-wrap"><table class="por-area"><thead><tr><th>Área</th><th>Acertos</th><th>Nota</th><th>Situação</th></tr></thead><tbody>${linhas}</tbody></table></div><p class="meta">Resultado integrado: ${r.pct}%. A síntese discursiva é avaliada pela rubrica.</p>`);
     }
     if (revisar.length) form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<p class="revisar-aulas"><strong>Revise antes de tentar de novo:</strong> ${revisar.map((a) => link(`aula-${a}`, `${a} — ${esc(tituloAula[a] || '')}`)).join(' · ')}</p>`);
+    // os conceitos do Atlas ligados às aulas em que houve erro
+    const conceitos = CONCEITOS.filter((c) => c.aulas.some((a) => revisar.includes(a)));
+    if (conceitos.length) form.querySelector('.resultado').insertAdjacentHTML('beforeend', `<p class="revisar-aulas"><strong>Conceitos a revisar:</strong> ${conceitos.map((c) => link(`conceito-${c.id}`, esc(c.termo))).join(' · ')}</p>`);
     aoCorrigir?.(r);
   });
 }

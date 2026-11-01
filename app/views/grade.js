@@ -9,15 +9,20 @@ import { noPorId } from '../data/arvore.js';
 import { PERIODOS, SEMANAS_TOTAIS, periodoAtual, situacaoMateria } from '../data/periodos.js';
 import { proximaAulaDoPeriodo } from './periodos.js';
 import { faseFormacao, FASES, numeroFase, faseTeologicaConcluida, faseIniciacaoConcluida, aulaConcluida, livroConcluido, revisoesPendentes, melhorNota, NOTA_MINIMA, FASE_TEOLOGICA, FASE_INICIACAO } from '../core.js';
+import { obrasDoDegrau, obraPorId } from '../data/mediateca.js';
 import { esc, link, fmtMin } from '../ui.js';
 
 const degrauAtual = (estado, degraus) => degraus.find((d) => !estado.degraus[d.n]?.concluido);
 function proximo(estado, d) {
   const aula = d && todasAulas.find((a) => a.degrau === d.n && aulaPorId[a.id] && !aulaConcluida(estado, a.id));
   const livro = d && d.leituras.find((id) => !livroConcluido(estado, id));
-  return { aula, livro };
+  // todas as obras dos módulos do degrau também são obrigatórias: vêm depois das aulas e dos livros do degrau
+  const obra = d && !aula && !livro ? obrasDoDegrau(d).find((id) => !livroConcluido(estado, id)) : undefined;
+  return { aula, livro, obra };
 }
-const atividade = ({ aula, livro }) => [aula && link(`aula-${aula.id}`, `Aula ${aula.id}: ${esc(aula.titulo)}`), livro && link(`livro-${livro}`, `Leitura: ${esc(livroPorId[livro].titulo)}`)].filter(Boolean).join('<br>') || '<span class="meta">nada pendente</span>';
+const atividade = ({ aula, livro, obra }) => [aula && link(`aula-${aula.id}`, `Aula ${aula.id}: ${esc(aula.titulo)}`), livro && link(`livro-${livro}`, `Leitura: ${esc(livroPorId[livro].titulo)}`), obra && link(`obra-${obra}`, `Obra: ${esc(obraPorId[obra].titulo)}`)].filter(Boolean).join('<br>') || '<span class="meta">nada pendente</span>';
+/** Destino do botão "próxima atividade": a primeira aula, a primeira leitura ou a primeira obra pendente. */
+const acaoDe = ({ aula, livro, obra }) => (aula ? { href: `aula-${aula.id}`, rotulo: `Aula ${aula.id}: ${aula.titulo}` } : livro ? { href: `livro-${livro}`, rotulo: `Leitura: ${livroPorId[livro].titulo}` } : obra ? { href: `obra-${obra}`, rotulo: `Obra: ${obraPorId[obra].titulo}` } : null);
 
 /** Pré-requisitos de uma disciplina (ramos da árvore) ainda não cumpridos: os degraus ligados ao ramo. */
 const prereqPendentes = (estado, d) => d.prereq.filter((p) => (noPorId[p].degraus || []).some((n) => !estado.degraus[n]?.concluido));
@@ -27,11 +32,13 @@ export function linhasGrade(estado) {
   const total = estado.plano.horasSemana * 60;
   if (!faseTeologicaConcluida(estado)) {
     const d = degrauAtual(estado, DEGRAUS.filter((x) => FASE_TEOLOGICA.includes(x.n)));
-    return [{ disciplina: 'Teologia Católica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(proximo(estado, d)), minutos: total, bloqueio: [] }];
+    const prox = proximo(estado, d);
+    return [{ disciplina: 'Teologia Católica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(prox), acao: acaoDe(prox), minutos: total, bloqueio: [] }];
   }
   if (!faseIniciacaoConcluida(estado)) {
     const d = degrauAtual(estado, DEGRAUS.filter((x) => FASE_INICIACAO.includes(x.n)));
-    return [{ disciplina: 'Iniciação intelectual e filosófica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(proximo(estado, d)), minutos: total, bloqueio: [] }];
+    const prox = proximo(estado, d);
+    return [{ disciplina: 'Iniciação intelectual e filosófica', href: 'escada', etapa: d ? `Degrau ${d.n}: ${d.nome}` : '—', proximo: atividade(prox), acao: acaoDe(prox), minutos: total, bloqueio: [] }];
   }
   // fase 3: só as matérias do semestre atual, cada uma com sua parte das horas semanais
   const p = periodoAtual(estado);
@@ -41,11 +48,14 @@ export function linhasGrade(estado) {
     const situacao = situacaoMateria(estado, m);
     const aula = proximaAulaDoPeriodo(estado, m);
     const prova = m.provas.find((id) => melhorNota(estado, id) < NOTA_MINIMA);
+    // ordem da matéria: aulas do calendário, depois as provas, depois as obras obrigatórias dos módulos
+    const obra = m.obras.find((id) => !livroConcluido(estado, id));
+    const acao = situacao === 'aprovada' ? null : aula ? { href: `aula-${aula.id}`, rotulo: `Aula ${aula.id}: ${aulaPorId[aula.id].titulo}` }
+      : prova ? { href: `aval-${prova}`, rotulo: `${situacao === 'recuperacao' ? 'Recuperação' : 'Prova'}: ${avaliacaoPorId[prova].titulo}` }
+      : obra ? { href: `obra-${obra}`, rotulo: `Obra: ${obraPorId[obra].titulo}` } : null;
     return {
-      disciplina: m.nome, href: m.href, etapa: `${p.titulo} · ${situacao}`,
-      proximo: situacao === 'aprovada' ? '<span class="meta">matéria aprovada</span>'
-        : aula ? link(`aula-${aula.id}`, `Aula ${aula.id}: ${esc(aulaPorId[aula.id].titulo)}`)
-        : prova ? link(`aval-${prova}`, `${situacao === 'recuperacao' ? 'Recuperação' : 'Prova'}: ${esc(avaliacaoPorId[prova].titulo)}`) : '<span class="meta">nada pendente</span>',
+      disciplina: m.nome, href: m.href, etapa: `${p.titulo} · ${situacao}`, acao,
+      proximo: situacao === 'aprovada' ? '<span class="meta">matéria aprovada</span>' : acao ? link(acao.href, esc(acao.rotulo)) : '<span class="meta">nada pendente</span>',
       bloqueio: d ? prereqPendentes(estado, d).map((x) => noPorId[x].nome) : [],
       ativa: situacao !== 'aprovada',
     };
@@ -53,6 +63,15 @@ export function linhasGrade(estado) {
   const ativas = linhas.filter((l) => l.ativa && !l.bloqueio.length);
   const parte = ativas.length ? total / ativas.length : 0;
   return linhas.map(({ ativa, ...l }, i) => ({ ...l, minutos: ativas.includes(linhas[i]) ? Math.round(parte) : 0 }));
+}
+
+/**
+ * "Próxima atividade": respeita a fase, o semestre atual e os pré-requisitos (matérias bloqueadas ficam de fora).
+ * Devolve { href, rotulo, contexto } ou null quando não há nada pendente.
+ */
+export function proximaAtividade(estado) {
+  const linha = linhasGrade(estado).find((l) => l.acao && !l.bloqueio.length);
+  return linha ? { ...linha.acao, contexto: `${linha.disciplina} · ${linha.etapa}` } : null;
 }
 
 export function faseHTML(estado) {
