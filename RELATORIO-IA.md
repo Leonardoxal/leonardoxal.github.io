@@ -114,3 +114,32 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 - A fase 6 (extração das duas fontes externas), que preenche as outras mídias.
 - As anotações de análise de filmes e obras (fase 8).
 - As fases 7 a 10 e a revisão dos semestres.
+
+## 2026-11-01 — Claude (sessão original): fase 6, expansão bibliográfica
+
+**Feito:**
+- **Leitura das fontes:** as páginas foram lidas no navegador do app. O acesso pelo terminal foi recusado (406) e não houve contorno.
+  - Contra os Acadêmicos: 63 listas, 4.980 itens.
+  - Compilação do COF (fiatjaf): 397 livros.
+- **Instrução do usuário:** só os títulos das obras; os da compilação do COF são livros citados em aula; as obras das listas devem estar incorporadas às aulas.
+- **Tratamento:** `scripts/importar-fontes.mjs` gera `app/data/externos.js` a partir de `dados-brutos/`.
+  - A orientação "Autor – Título" de cada lista foi conferida em amostras.
+  - Os filmes foram separados com diretor e ano. Os compositores vêm com datas e a página do livro de Carpeaux.
+  - Notas, remissões a outras listas e tópicos de ementa foram descartados.
+  - A deduplicação funde com os 607 livros e com as bibliografias pela mesma chave.
+- **Números:** 4.733 registros externos (4.459 livros, 195 filmes, 74 compositores, 5 cursos); 178 têm várias fontes. A mediateca passou a 5.540 registros.
+- **Ligação ao curso:** cada lista tem destino (tabela `DESTINO`). As aulas, os módulos e as disciplinas mostram as leituras recomendadas, com link para `#mediateca-m-<módulo>` ou `#mediateca-d-<disciplina>`.
+
+**Erros encontrados e corrigidos:**
+- O filtro de "ementa" casava com "complementar" e descartava seções inteiras; Matemática caía de 79 para 1 obra.
+- O filtro de "Obs" descartava "Observations…".
+- Itens com várias obras separadas por ";" eram tomados por prosa.
+
+**Limitações:**
+- Na compilação do COF, 293 títulos ficaram com o autor junto do título, como estão na fonte.
+- Em listas com ordem ambígua, o autor ficou vazio.
+- Os comentários das fontes não foram copiados; ficaram só as referências às aulas (ex.: "COF 01 – Áudio 08").
+
+**Testes:** 49 de 49 passaram. As páginas de aula, módulo, disciplina e mediateca filtrada foram conferidas no navegador, inclusive em 375 px. O deploy deu certo.
+
+**Pendente:** acervos institucionais (bibliotecas, museus, cinematecas), as fases 7 a 10 e a revisão dos semestres.

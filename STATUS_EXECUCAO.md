@@ -9,7 +9,7 @@ O plano está em `PLANO_EXECUCAO.md`. Atualize este arquivo ao fim de cada fase.
 | 3. Períodos letivos | estrutura feita, **em aberto**: o usuário a considera a parte mais fraca (ainda não há uma forma prática de estudar). Voltar a ela depois das fases 4 a 10 | `app/data/periodos.js` e `app/views/periodos.js` (`#periodos`, `#periodo-N`); a grade da fase 3 mostra só o semestre atual; teste "períodos letivos" (46/46); conferido no navegador, inclusive em 375 px |
 | 4. Módulos integradores | concluída | `app/data/integradores.js`: 27 módulos, 306 ligações a aulas e livros reais, classificadas como pré-requisito, contexto, paralelo ou aprofundamento. 5 deles estão marcados com cobertura limitada: Egito e Mesopotâmia, Islã, Portugal, Revolução Francesa e Independências. Visões `#integradores` e `#integrador-<id>`; a página da aula mostra "Também em". Teste "módulos integradores" (47/47); conferido no navegador |
 | 5. Biblioteca e mediateca | concluída (estrutura e registros internos); as categorias não textuais dependem da fase 6 | `app/data/mediateca.js`: 27 categorias e 919 registros, entre eles os 607 livros sem alteração; 93 registros deduplicados reúnem mais de uma fonte. Visões `#mediateca` (filtros por mídia, disciplina e texto) e `#obra-<id>` (todos os campos, fontes, aulas que citam a obra e relações); a busca global inclui as obras e os integradores. Teste "mediateca" (48/48); conferido no navegador |
-| 6. Expansão bibliográfica | pendente | — |
+| 6. Expansão bibliográfica | concluída para as duas fontes indicadas; acervos institucionais ainda não pesquisados | O conteúdo das páginas foi lido no navegador do app; um acesso pelo terminal foi recusado (406), e não houve contorno. Dados brutos em `dados-brutos/`; o tratamento está em `scripts/importar-fontes.mjs`, que gera `app/data/externos.js`. São 4.733 registros, cada um com destino numa disciplina ou num módulo; as aulas, os módulos e as disciplinas mostram as "Leituras recomendadas das listas de referência". Teste "fontes externas" (49/49); conferido no navegador |
 | 7. Simbologia e semiótica | pendente (a disciplina já existe; falta a revisão) | — |
 | 8. Integração | pendente | — |
 | 9. Testes funcionais | pendente | — |
@@ -30,7 +30,13 @@ O plano está em `PLANO_EXECUCAO.md`. Atualize este arquivo ao fim de cada fase.
   - Carga estimada por semestre: de 204 h a 302 h, ou de 11,4 h a 16,8 h por semana em média; a semana mais pesada chega a 22,3 h.
   - Com o plano padrão de 6 h por semana, cada semestre se estende. A página mostra quantas semanas ele leva nesse ritmo.
   - Exceções registradas: nos degraus 5 e 7 a 12, a leitura integral dos livros não cabe em um semestre e continua no plano de leitura.
-- Mediateca: 919 registros.
+- Fontes externas (extraídas em 01/11/2026):
+  - Contra os Acadêmicos: 63 listas e 4.980 itens.
+  - Compilação do COF: 397 livros citados em aula. Em 104 deles o autor pôde ser separado do título; nos demais, título e autor ficam juntos, como na fonte.
+  - Resultado: 4.733 registros, sendo 4.459 livros, 195 filmes, 74 compositores e 5 cursos. 178 registros reúnem várias fontes.
+  - Descartados: 490 itens (notas, remissões a outras listas e tópicos de ementa).
+- Mediateca: 5.540 registros, contando os externos. Os números abaixo são de antes da importação.
+- Mediateca antes da importação: 919 registros.
   - Por categoria: 873 livros e tratados (os 607 do acervo e 266 das bibliografias), 15 documentos históricos, 3 discursos e 28 acervos digitais.
   - 93 registros reúnem várias fontes.
   - 23 categorias ainda não têm registros (cinema, música, artes etc.). Elas dependem da extração das fontes externas (fase 6); nada foi inventado para preenchê-las.
