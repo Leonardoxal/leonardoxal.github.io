@@ -1,5 +1,5 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
-import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina } from '../data/mediateca.js';
+import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
@@ -11,19 +11,24 @@ const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
 const filtro = { categoria: '', disciplina: '', modulo: '', texto: '', limite: POR_PAGINA, preset: '' };
 
-/** Leituras recomendadas pelas listas externas para o módulo de uma aula (escada) ou para a sua disciplina. */
+const itemObra = (o, estado) => `<li>${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''} <span class="meta">${esc(CATEGORIAS[o.categoria])}${o.funcao ? ` · ${esc(o.funcao)}` : ''}</span>${estado?.livros?.[o.id]?.estado === 'concluido' || (o.livro && estado?.livros?.[o.livro]?.estado === 'concluido') ? ' <span class="chip ok">concluída</span>' : ''}</li>`;
+
+/** Obras de um módulo (da escada ou de uma disciplina) ou, sem módulo, de uma disciplina inteira. */
 export function leiturasRecomendadasHTML(m, max = 8, estado = null) {
   if (!m) return '';
-  const escada = m.degrau !== null;
-  const obras = escada ? obrasDoModulo(m.id) : obrasDaDisciplina(m.disciplina);
+  const obras = m.id ? obrasDoModulo(m.id) : obrasDaDisciplina(m.disciplina);
   if (!obras.length) return '';
-  const alvo = escada ? `m-${m.id}` : `d-${m.disciplina}`;
-  const destaque = [...obras.filter((o) => o.criador), ...obras.filter((o) => !o.criador)].slice(0, max);
-  const feita = (o) => estado?.livros?.[o.id]?.estado === 'concluido';
-  return `<section class="leituras-recomendadas"><h2>Obras ${escada ? 'deste módulo' : `de ${esc(disciplinaPorId[m.disciplina]?.nome || m.disciplina)}`}</h2>
-    <p class="meta">${obras.length} obra(s), indicadas nas listas do Contra os Acadêmicos${escada && obras.some((o) => o.fontes.some((f) => f.fonte === 'olavo-cof')) ? ' e nas aulas do COF' : ''}.</p>
-    <ul class="lista-curta">${destaque.map((o) => `<li>${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''} <span class="meta">${esc(CATEGORIAS[o.categoria])}</span>${feita(o) ? ' <span class="chip ok">concluída</span>' : ''}</li>`).join('')}</ul>
+  const alvo = m.id ? `m-${m.id}` : `d-${m.disciplina}`;
+  return `<section class="leituras-recomendadas"><h2>Obras ${m.id ? 'deste módulo' : `de ${esc(disciplinaPorId[m.disciplina]?.nome || m.disciplina)}`}</h2>
+    <p class="meta">${obras.length} obra(s), de todos os tipos de mídia, com a função de cada uma neste módulo.</p>
+    <ul class="lista-curta">${obras.slice(0, max).map((o) => itemObra(o, estado)).join('')}</ul>
     ${obras.length > max ? link(`mediateca-${alvo}`, `Ver as ${obras.length} obras na mediateca`, 'btn') : ''}</section>`;
+}
+
+/** Obras ligadas a uma aula específica (o título ou o autor aparece na aula). */
+export function obrasDaAulaHTML(aulaId, estado = null) {
+  const obras = obrasDaAula(aulaId);
+  return obras.length ? `<section class="leituras-recomendadas"><h2>Obras desta aula</h2><ul class="lista-curta">${obras.map((o) => itemObra(o, estado)).join('')}</ul></section>` : '';
 }
 
 const NAO_INFORMADO = '<span class="meta">não informado</span>';
@@ -118,7 +123,10 @@ export function obra({ estado }, id) {
     ${linha('Data ou período', campo(o.data))}
     ${linha('País ou região', campo(o.pais))}
     ${linha('Disciplinas', o.disciplinas.length ? o.disciplinas.map((d) => link(`disciplina-${d}`, esc(disciplinaPorId[d]?.nome || d))).join(', ') : NAO_INFORMADO)}
-    ${linha('Módulos do curso', o.modulos.length ? o.modulos.map((m) => link(`mod-${m}`, esc(`Módulo ${moduloPorId[m]?.n}: ${moduloPorId[m]?.titulo}`))).join(', ') : NAO_INFORMADO)}
+    ${linha('Módulo do curso', o.modulos.length ? o.modulos.map((m) => link(`mod-${m}`, esc(`Módulo ${moduloPorId[m]?.n}: ${moduloPorId[m]?.titulo}`))).join(', ') : NAO_INFORMADO)}
+    ${linha('Aula', o.aula ? link(`aula-${o.aula}`, esc(`${o.aula} — ${aulaPorId[o.aula]?.titulo || ''}`)) : '<span class="meta">ligada ao módulo, sem aula específica</span>')}
+    ${linha('Função no módulo', campo(o.funcao))}
+    ${o.confianca === 'provisória' ? linha('Atribuição', '<span class="chip alerta">provisória</span> <span class="meta">sem base para ligar a uma aula ou seção; está no módulo introdutório da disciplina, a revisar</span>') : ''}
     ${linha('Tema', o.temas.length ? esc(o.temas.join(', ')) : NAO_INFORMADO)}
     ${linha('Contexto histórico', campo(o.contexto))}
     ${linha('Nível de dificuldade', o.nivel ? `${o.nivel} de 5` : NAO_INFORMADO)}

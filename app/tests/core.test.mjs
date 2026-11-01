@@ -26,7 +26,7 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina } from '../data/mediateca.js';
+import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { EXTERNOS, RESUMO_IMPORTACAO } from '../data/externos.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
@@ -884,5 +884,19 @@ test('fontes externas: registros importados com fonte, url e natureza declaradas
     e.modulos.forEach((m) => assert.ok(moduloPorId[m], `${e.id}: módulo ${m}`));
   }
   assert.ok(obrasDoModulo('m5').length && obrasDoModulo('m12').length, 'aulas de Platão, Aristóteles e Olavo recebem as obras das listas');
+  // cada obra importada tem UM módulo que existe, função e confiança; a aula, quando houver, pertence a esse módulo
+  const aulasDoModulo = (m) => new Set(moduloPorId[m].aulas.map((a) => a.id));
+  for (const e of EXTERNOS) {
+    const o = OBRAS.find((x) => x.id === e.id);
+    if (!o) continue; // obra já presente no acervo: fundida ao registro do livro (deduplicação)
+    assert.equal(o.modulos.length, 1, `${e.id}: um módulo`);
+    assert.ok(moduloPorId[o.modulos[0]], `${e.id}: módulo ${o.modulos[0]}`);
+    assert.ok(o.funcao && ['regra', 'aula', 'provisória'].includes(o.confianca), `${e.id}: função e confiança`);
+    if (o.aula) assert.ok(aulasDoModulo(o.modulos[0]).has(o.aula) && aulaPorId[o.aula], `${e.id}: aula ${o.aula} no módulo`);
+  }
+  assert.ok(OBRAS.filter((o) => o.confianca === 'provisória').length / EXTERNOS.length < 0.15, 'atribuições provisórias abaixo de 15%');
+  assert.ok(obrasDaAula('m5-5').length, 'aula Fédon e a alma recebe obras');
+  // livros do acervo também têm módulo e função, como as demais obras
+  assert.ok(OBRAS.filter((o) => o.livro).every((o) => o.funcao), 'livros do acervo com função');
   assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');
 });

@@ -8,6 +8,8 @@ import { AULAS_COMPLETAS } from './aulas/index.js';
 import { normalizar } from '../core.js';
 // registros das fontes externas (fase 6), gerados por scripts/importar-fontes.mjs; cada um traz fontes: [{ fonte, url, nota, natureza }]
 import { EXTERNOS } from './externos.js';
+// módulo, aula e função de cada obra importada, gerados por scripts/atribuir-obras.mjs
+import { ATRIBUICOES, FUNCOES, CONFIANCA } from './atribuicoes.js';
 
 export const CATEGORIAS = {
   livros: 'Livros e tratados', artigos: 'Artigos e ensaios', 'documentos-historicos': 'Documentos históricos',
@@ -108,11 +110,23 @@ function montar() {
   return [...registros.values()];
 }
 
-export const OBRAS = montar().map((o) => ({ modulos: [], ...o }));
+const FUNCAO_LIVRO = { primaria: 'Obra do autor (fonte primária)', secundaria: 'Estudo e comentário', referencia: 'Obra de consulta (gramática, dicionário, referência)' };
+
+/** Cada obra tem módulo, aula (quando há base), função e a confiança da atribuição; ver scripts/atribuir-obras.mjs. */
+function atribuir(o) {
+  const a = ATRIBUICOES[o.id];
+  if (a) return { ...o, modulos: [a[0]], aula: a[1] || '', funcao: FUNCOES[a[2]], confianca: CONFIANCA[a[3]] };
+  const l = o.livro && livroPorId[o.livro];
+  if (l) return { ...o, modulos: l.modulo ? [l.modulo] : [], aula: '', funcao: FUNCAO_LIVRO[l.tipo] || '', confianca: 'acervo original' };
+  return { ...o, modulos: [], aula: '', funcao: '', confianca: '' };
+}
+
+export const OBRAS = montar().map((o) => atribuir({ modulos: [], ...o }));
 export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
 
-/** Obras recomendadas pelas listas externas para um módulo da escada ou uma disciplina (leituras das aulas). */
-const recomendadas = (o) => o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof');
-export const obrasDoModulo = (m) => OBRAS.filter((o) => o.modulos.includes(m) && recomendadas(o));
-export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && recomendadas(o));
+// Obras de um módulo da escada, de um módulo de disciplina ou de uma aula; as ligadas a uma aula vêm primeiro.
+const ordem = (a, b) => (b.aula ? 1 : 0) - (a.aula ? 1 : 0);
+export const obrasDoModulo = (m) => OBRAS.filter((o) => o.modulos.includes(m)).sort(ordem);
+export const obrasDaAula = (aula) => OBRAS.filter((o) => o.aula === aula);
+export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
 export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));

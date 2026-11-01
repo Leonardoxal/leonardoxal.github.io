@@ -143,3 +143,27 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 **Testes:** 49 de 49 passaram. As páginas de aula, módulo, disciplina e mediateca filtrada foram conferidas no navegador, inclusive em 375 px. O deploy deu certo.
 
 **Pendente:** acervos institucionais (bibliotecas, museus, cinematecas), as fases 7 a 10 e a revisão dos semestres.
+
+## 2026-11-01 — Claude (sessão original): atribuição obra por obra (opção B do usuário)
+
+**Decisões do usuário:** todas as obras são obrigatórias, numa só biblioteca, e cada módulo pode ter todo tipo de obra. Ele escolheu a opção B: eu atribuo todas as obras das listas, lista por lista; ele revisa por amostragem.
+
+**Feito:**
+- `scripts/atribuir-obras.mjs` gera `app/data/atribuicoes.js`: para cada obra importada, um módulo, uma aula (quando há base), a função e a confiança.
+  - **Aula:** 1.511 obras ficaram ligadas a uma aula específica, porque o título ou o autor aparece no título, na fonte ou nas referências da aula.
+  - **Regra:** 2.804 foram decididas por regra sobre a lista ou a seção (tabelas `REGRAS` e `REGRAS_LISTA`).
+  - **Provisória:** 418 (9%) não tinham base e ficaram no módulo introdutório da disciplina, marcadas "provisória".
+- Funções usadas: obra do autor (fonte primária), estudo sobre o autor, obra literária, filme para assistir, compositor para ouvir, obra de consulta, introdução e manual de base, leitura básica ou de aprofundamento da disciplina, curso para acompanhar e obra citada no COF.
+- Os livros do acervo também ganharam função, pelo tipo (primária, secundária, referência).
+- Site: a ficha da obra mostra módulo, aula e função, e avisa quando a atribuição é provisória. A página da aula mostra "Obras desta aula", e a do módulo mostra "Obras deste módulo", com a função de cada uma.
+- Teste: cada obra tem um módulo que existe; a aula pertence a esse módulo; provisórias abaixo de 15%.
+
+**Erro corrigido:** a lista de Giovanni Reale inteira ia para o m5; agora o volume de Patrística e Escolástica vai para o m8, o de Idade Moderna para o m9 e o de Contemporânea para o m10.
+
+**Limitações:**
+- Como o módulo é decidido por palavras e por regras, parte das atribuições pode ser discutível. Há uma amostragem visível nas páginas dos módulos.
+- O módulo lt2 concentra 1.093 obras (as listas de literatura), porque a lista é por autor e não por tema.
+- A obrigatoriedade ainda NÃO foi aplicada: concluir um degrau continua exigindo só os livros originais. Ligá-la exige uma decisão sobre como tratar quem já concluiu degraus e módulos com centenas de obras (m12 tem 429 e m10, 416).
+- Os semestres seguem em aberto.
+
+**Testes:** 49 de 49. Conferido no navegador, inclusive em 375 px.

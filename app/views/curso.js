@@ -8,7 +8,7 @@ import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } fro
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula } from './conexoes.js';
 import { integradoresDaAulaHTML } from './integradores.js';
-import { leiturasRecomendadasHTML } from './mediateca.js';
+import { leiturasRecomendadasHTML, obrasDaAulaHTML } from './mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { INICIO_MULTIDISCIPLINAR } from '../core.js';
 
@@ -149,6 +149,7 @@ export function aula({ estado }, id) {
     <p class="meta">Etiquetas usadas no texto: ${['doutrina', 'fato', 'argumento', 'interpretacao', 'hipotese', 'debate'].map(etiqueta).join(' ')}</p></section>
   ${conexoesAula(estado, id)}
   ${integradoresDaAulaHTML(id)}
+  ${obrasDaAulaHTML(id, estado)}
   ${leiturasRecomendadasHTML(m, 6, estado)}
   ${a.avancado ? `<section id="s15" class="avancado-sec texto"><h2>Aprofundamento</h2>
     <p class="dica">Parte obrigatÃ³ria da aula: questionÃ¡rio com mÃ­nimo de ${notaMinima(estado)}% e questÃ£o discursiva.</p>
