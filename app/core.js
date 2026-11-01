@@ -253,6 +253,11 @@ export function camposComprovacao(nivel = 3) {
 }
 
 export const chaveComprovacao = (id, campo) => `livro-${id}-${campo}`;
+
+/** Obras que não são livros do acervo (filmes, músicas, áudios, livros das listas): concluir exige uma análise escrita. */
+export const MIN_ANALISE_OBRA = 150;
+export const analiseDaObra = (estado, id) => estado.discursivas[chaveComprovacao(id, 'analise')]?.texto || '';
+export const analiseObraOk = (estado, id) => analiseDaObra(estado, id).trim().length >= MIN_ANALISE_OBRA;
 export const quizDoLivro = (id) => `quiz-livro-${id}`;
 
 /**
@@ -291,9 +296,10 @@ const aulasDoDegrau = (degrau, modulos) => degrau.aulas || modulos.filter((m) =>
  * Progresso de um degrau: média entre aulas disponíveis concluídas, leituras obrigatórias concluídas
  * e competências autoavaliadas.
  */
-export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado) {
+export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado, obras = []) {
   const aulas = aulasDoDegrau(degrau, modulos).filter((a) => aulasDisponiveis.has(a.id));
   const partes = [];
+  if (obras.length) partes.push(obras.filter((id) => livroConcluido(estado, id)).length / obras.length);
   if (aulas.length) partes.push(aulas.filter((a) => aulaConcluida(estado, a.id)).length / aulas.length);
   if (degrau.leituras.length) partes.push(degrau.leituras.filter((id) => livroConcluido(estado, id)).length / degrau.leituras.length);
   const comp = estado.degraus[degrau.n]?.competencias || [];
@@ -305,7 +311,7 @@ export function progressoDegrau(degrau, modulos, aulasDisponiveis, estado) {
 
 /** Um degrau só pode ser concluído quando seus pré-requisitos foram concluídos e seus critérios atendidos. */
 /** @param {object} [livros] id → livro; com ele, cada leitura concluída precisa também da comprovação escrita. */
-export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado, livrosPorId = null) {
+export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado, livrosPorId = null, obras = []) {
   const faltas = [];
   for (const p of degrau.prereq) if (!estado.degraus[p]?.concluido) faltas.push(`Concluir o degrau ${p}`);
   if (bloqueadoPelaFase(estado, degrau.n)) faltas.push(MSG_FASE);
@@ -316,6 +322,9 @@ export function degrauConcluivel(degrau, modulos, aulasDisponiveis, estado, livr
   // aulas ainda não publicadas (emPreparacao) não bloqueiam: só o que já pode ser estudado é exigido
   const livros = degrau.leituras.filter((id) => !livroConcluido(estado, id)).length;
   if (livros) faltas.push(`Concluir ${livros} leitura(s) obrigatória(s)`);
+  // todas as demais obras dos módulos do degrau (livros das listas, filmes, músicas, áudios...) também são obrigatórias
+  const obrasFaltam = obras.filter((id) => !livroConcluido(estado, id)).length;
+  if (obrasFaltam) faltas.push(`Concluir ${obrasFaltam} obra(s) dos módulos do degrau`);
   if (livrosPorId) {
     // leituras marcadas como concluídas antes da comprovação continuam concluídas; só falta escrevê-la
     const semComprovar = degrau.leituras.filter((id) => livroConcluido(estado, id) && livrosPorId[id] && !comprovacaoLivro(livrosPorId[id], estado).ok).length;

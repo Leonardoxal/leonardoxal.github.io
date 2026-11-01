@@ -167,3 +167,26 @@ Cada IA acrescenta suas entradas ao fim deste arquivo, sem apagar as anteriores.
 - Os semestres seguem em aberto.
 
 **Testes:** 49 de 49. Conferido no navegador, inclusive em 375 px.
+
+## 2026-11-01 — Claude (sessão original): obras obrigatórias ligadas (opção A do usuário)
+
+**Decisão do usuário:** opção A. Todas as obras dos módulos são obrigatórias, e quem já concluiu mantém o que concluiu.
+
+**Feito:**
+- **Escada (`core.js`):** `degrauConcluivel(..., obras)` e `progressoDegrau(..., obras)` ganharam o parâmetro `obras`, uma lista de ids. A lista vem de `obrasDoDegrau(d)` (em `mediateca.js`) e conta as obras atribuídas aos módulos do degrau, exceto os livros do acervo, que mantêm as leituras do degrau e a comprovação próprias.
+  - Degrau já concluído continua concluído: o estado salvo não é recalculado.
+  - A escada mostra "Obras dos módulos (feitas/total)", com um link por módulo.
+- **Semestres (`periodos.js`):** cada matéria tem `obras`. `situacaoMateria` só aprova se as provas estão em 80% e todas as obras estão concluídas. Quem já tinha marcado todas as etapas do percurso continua aprovado.
+- **Ficha da obra:** para concluir, é preciso escrever uma análise com pelo menos 150 caracteres (`MIN_ANALISE_OBRA`). Antes de isso, o estado volta para "lendo". Quem já tinha concluído a obra continua concluído.
+  - A análise é um campo único, igual para filme, música, áudio e livro. Os campos de comprovação dos livros (resumo, conceitos, argumento) pedem resumo e argumento, o que não serve para filme ou música.
+
+**Números de obras obrigatórias (por matéria):**
+- **Concentradas:** Literatura 1.428; Filosofia degrau 9 (417), degrau 11 (422) e degrau 12 (249); História 247; Psicologia 167; Cultura 233.
+- **Sem nenhuma obra:** Biologia, Estatística, Geografia, Astronomia, Ciências Ambientais, Ciências da Terra, Demografia, Educação, Relações Internacionais, Antropologia e História da Arte, porque nenhuma lista cobre esses módulos. As listas foram extraídas por inteiro; a ausência é da fonte.
+
+**Testes:** 50 de 50. No navegador: sem análise a obra fica "lendo"; com análise, conclui; o estado de teste foi desfeito.
+
+**Limitações:**
+- A obrigatoriedade pode tornar degraus muito longos (Literatura 1.428 obras). O usuário aceitou isso.
+- O semestre de Literatura (8º) soma 1.428 obras ao que já era 16,8 h por semana: o cálculo de carga dos semestres NÃO inclui o tempo das obras. Os semestres seguem em aberto, a pedido do usuário.
+- As atribuições provisórias (418) contam como obrigatórias no módulo introdutório até serem revisadas.

@@ -26,7 +26,7 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
+import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula, obrasDoDegrau } from '../data/mediateca.js';
 import { EXTERNOS, RESUMO_IMPORTACAO } from '../data/externos.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
@@ -802,8 +802,12 @@ test('períodos letivos: semestres de 16+2 semanas, até 4 matérias, pré-requi
   const tent = (pct) => [{ pct, data: T0, acertos: 0, total: 1 }];
   const quase = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id, i) => [id, tent(i ? 100 : 70)])) };
   assert.equal(situacaoMateria(quase, mat), 'recuperacao');
-  const aprovada = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id) => [id, tent(C.NOTA_MINIMA)])) };
+  const provasOk = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id) => [id, tent(C.NOTA_MINIMA)])) };
+  assert.ok(mat.obras.length > 0, 'a matéria tem obras obrigatórias');
+  assert.equal(situacaoMateria(provasOk, mat), 'em curso', 'provas sem as obras não aprovam: todas as obras são obrigatórias');
+  const aprovada = { ...provasOk, livros: Object.fromEntries(mat.obras.map((id) => [id, { estado: 'concluido' }])) };
   assert.equal(situacaoMateria(aprovada, mat), 'aprovada');
+  assert.equal(situacaoMateria({ ...aprovada, livros: { ...aprovada.livros, [mat.obras[0]]: { estado: 'lendo' } } }, mat), 'em curso', 'uma obra pendente basta para não aprovar');
   assert.equal(situacaoMateria(vazio, mat), 'em curso');
   // ritmo: com menos horas por semana, o semestre se estende
   assert.ok(semanasNoRitmo(PERIODOS[0], 6) > semanasNoRitmo(PERIODOS[0], 20));
@@ -859,6 +863,24 @@ test('mediateca: 27 categorias, os 607 livros preservados, um registro por obra 
   assert.ok(rerum.fontes.length >= 2 && rerum.disciplinas.length >= 2, 'obra citada em duas disciplinas: um registro, duas fontes');
   assert.equal(chaveObra('São João Paulo II', 'Centesimus annus'), chaveObra('João Paulo II', 'Centesimus Annus'), 'honoríficos e maiúsculas não separam a mesma obra');
   assert.notEqual(chaveObra('Platão', 'A República, livro III'), chaveObra('Platão', 'A República'), 'partes diferentes não se fundem');
+});
+
+test('obras obrigatórias: todas as obras dos módulos do degrau contam; quem já concluiu mantém; análise para concluir', () => {
+  const d = DEGRAUS.find((x) => x.n === 5);
+  const obras = obrasDoDegrau(d);
+  assert.ok(obras.length > 50, 'o degrau 5 tem muitas obras');
+  const base = { ...C.estadoInicial(T0), degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true }, 3: { concluido: true }, 4: { concluido: true } } };
+  const sem = C.degrauConcluivel(d, MODULOS, new Set(), base, null, obras);
+  assert.ok(sem.faltas.includes(`Concluir ${obras.length} obra(s) dos módulos do degrau`));
+  assert.ok(C.progressoDegrau(d, MODULOS, new Set(), base, obras) < C.progressoDegrau(d, MODULOS, new Set(), base, []) || C.progressoDegrau(d, MODULOS, new Set(), base, []) === 0);
+  const feitas = { ...base, livros: Object.fromEntries(obras.map((id) => [id, { estado: 'concluido' }])) };
+  assert.ok(!C.degrauConcluivel(d, MODULOS, new Set(), feitas, null, obras).faltas.some((f) => /obra\(s\)/.test(f)), 'obras concluídas deixam de faltar');
+  // análise escrita para concluir uma obra
+  const id = obras[0];
+  assert.equal(C.analiseObraOk(base, id), false);
+  assert.equal(C.analiseObraOk({ ...base, discursivas: { [C.chaveComprovacao(id, 'analise')]: { texto: 'x'.repeat(C.MIN_ANALISE_OBRA) } } }, id), true);
+  // sem obras (livro do acervo não entra), o comportamento antigo se mantém
+  assert.ok(obras.every((o) => !livroPorId[o]), 'livros do acervo não são contados duas vezes');
 });
 
 test('fontes externas: registros importados com fonte, url e natureza declaradas', () => {

@@ -3,7 +3,7 @@ import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OB
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { normalizar } from '../core.js';
+import { normalizar, MIN_ANALISE_OBRA, analiseDaObra, chaveComprovacao } from '../core.js';
 import { esc, link, linkExterno, botaoFav, fmtData, toast, ESTADOS_LIVRO } from '../ui.js';
 import { notasDe } from './conexoes.js';
 
@@ -86,13 +86,19 @@ obra.ligar = (root, ctx, id) => {
   root.querySelector('#form-obra')?.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const fd = Object.fromEntries(new FormData(ev.target).entries());
+    // concluir exige a análise escrita; quem já tinha concluído a obra continua concluído
+    const jaConcluida = ctx.estado.livros[id]?.estado === 'concluido';
+    const bloqueado = fd.estado === 'concluido' && !jaConcluida && fd.analise.trim().length < MIN_ANALISE_OBRA;
+    if (bloqueado) toast(`Para concluir, escreva a análise (mínimo ${MIN_ANALISE_OBRA} caracteres; faltam ${MIN_ANALISE_OBRA - fd.analise.trim().length}).`);
     ctx.set((e) => {
       const ant = e.livros[id] || {};
-      const inicio = ant.inicio || (fd.estado !== 'nao' ? Date.now() : null);
-      const fim = fd.estado === 'concluido' ? (ant.fim || Date.now()) : null;
-      return { ...e, livros: { ...e.livros, [id]: { ...ant, estado: fd.estado, prioridade: fd.prioridade, edicao: fd.edicao.trim(), inicio, fim } } };
+      const estadoNovo = bloqueado ? (ant.estado && ant.estado !== 'nao' ? ant.estado : 'lendo') : fd.estado;
+      const inicio = ant.inicio || (estadoNovo !== 'nao' ? Date.now() : null);
+      const fim = estadoNovo === 'concluido' ? (ant.fim || Date.now()) : null;
+      return { ...e, livros: { ...e.livros, [id]: { ...ant, estado: estadoNovo, prioridade: fd.prioridade, edicao: fd.edicao.trim(), inicio, fim } },
+        discursivas: { ...e.discursivas, [chaveComprovacao(id, 'analise')]: { texto: fd.analise, data: Date.now() } } };
     }, { manterRolagem: true });
-    toast('Salvo.');
+    if (!bloqueado) toast('Salvo.');
   });
   root.querySelector('[data-acao="nota-obra"]')?.addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${obraPorId[id].titulo}`));
 };
@@ -110,8 +116,10 @@ export function obra({ estado }, id) {
       <label class="campo"><span>Estado</span><select name="estado">${opcoes(Object.entries(ESTADOS_LIVRO), st.estado)}</select></label>
       <label class="campo"><span>Prioridade</span><select name="prioridade"><option value="">—</option>${opcoes(Object.entries(PRIORIDADES), st.prioridade || '')}</select></label>
       <label class="campo largo"><span>Edição, tradução ou gravação utilizada</span><input name="edicao" value="${esc(st.edicao || '')}"></label>
+      <label class="campo largo"><span>Análise e observações (mínimo ${MIN_ANALISE_OBRA} caracteres para concluir)</span><textarea name="analise" rows="6">${esc(analiseDaObra(estado, id))}</textarea></label>
       <button class="btn primario" type="submit">Salvar</button>
     </form>
+    <p class="meta">Todas as obras dos módulos são obrigatórias. Para concluir, escreva a sua análise: o que a obra afirma ou mostra, o que você aprendeu e o que ficou em dúvida.</p>
     <p class="meta">Início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
     <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro</button><button class="btn" data-acao="nota-obra">Nova nota desta obra</button></div>
   </section>

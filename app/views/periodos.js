@@ -2,7 +2,7 @@
 import { PERIODOS, periodoPorN, periodoAtual, situacaoMateria, semanasNoRitmo, CARGA, SEMANA_INTERMEDIARIA, SEMANA_PROJETO, SEMANA_FINAL, SEMANA_RECUPERACAO, SEMANAS_TOTAIS } from '../data/periodos.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { avaliacaoPorId } from '../data/avaliacoes.js';
-import { aulaConcluida, melhorNota, NOTA_MINIMA, pendenciaDisciplinas } from '../core.js';
+import { aulaConcluida, livroConcluido, melhorNota, NOTA_MINIMA, pendenciaDisciplinas } from '../core.js';
 import { esc, link, fmtMin, barra } from '../ui.js';
 
 const ROTULO_SITUACAO = { aprovada: ['ok', 'aprovada'], recuperacao: ['alerta', 'recuperação'], 'em curso': ['', 'em curso'] };
@@ -49,7 +49,7 @@ export function periodo({ estado }, id) {
   ${p.excecoes.length ? `<div class="aviso"><strong>Exceções registradas.</strong><ul>${p.excecoes.map((e) => `<li>${esc(e)}</li>`).join('')}</ul></div>` : ''}
   <section><h2>Matérias</h2><ul class="lista-curta">${p.materias.map((m) => {
     const feitas = m.aulas.filter((a) => aulaConcluida(estado, a.id)).length;
-    return `<li>${link(m.href, esc(m.nome))} ${situacaoHTML(situacaoMateria(estado, m))} <span class="meta">${feitas}/${m.aulas.length} aulas</span>
+    return `<li>${link(m.href, esc(m.nome))} ${situacaoHTML(situacaoMateria(estado, m))} <span class="meta">${feitas}/${m.aulas.length} aulas · ${m.obras.filter((id) => livroConcluido(estado, id)).length}/${m.obras.length} obras</span>
       ${barra(Math.round((feitas / Math.max(1, m.aulas.length)) * 100), `Aulas de ${m.nome}`)}
       <p class="meta">Intermediária: ${m.intermediaria.map((a) => provaLink(estado, a)).join(', ') || '—'} · Final: ${m.final.map((a) => provaLink(estado, a)).join(', ')}</p></li>`;
   }).join('')}</ul></section>

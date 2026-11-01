@@ -128,5 +128,11 @@ export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
 const ordem = (a, b) => (b.aula ? 1 : 0) - (a.aula ? 1 : 0);
 export const obrasDoModulo = (m) => OBRAS.filter((o) => o.modulos.includes(m)).sort(ordem);
 export const obrasDaAula = (aula) => OBRAS.filter((o) => o.aula === aula);
+/**
+ * Ids das obras obrigatórias de um conjunto de módulos além dos livros do acervo (estes têm as leituras do degrau
+ * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais.
+ */
+export const obrasObrigatorias = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m))).map((o) => o.id);
+export const obrasDoDegrau = (degrau) => obrasObrigatorias(degrau.modulos);
 export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
 export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));

@@ -7,7 +7,8 @@ import { noPorId } from './arvore.js';
 import { MODULOS, DEGRAUS } from './curriculo.js';
 import { aulaPorId } from './aulas/index.js';
 import { AVALIACOES } from './avaliacoes.js';
-import { melhorNota, NOTA_MINIMA } from '../core.js';
+import { obrasObrigatorias } from './mediateca.js';
+import { melhorNota, livroConcluido, NOTA_MINIMA } from '../core.js';
 
 /** Avaliação objetiva que fecha um módulo: a prova do módulo ou, no último degrau, a avaliação final. */
 const provaDe = (modulo) => AVALIACOES.find((a) => a.modulo === modulo && ['prova', 'final'].includes(a.tipo))?.id;
@@ -77,6 +78,8 @@ export function distribuirDisciplinas() {
   return semestres;
 }
 
+const modulosDaDisciplina = (id) => MODULOS.filter((m) => m.disciplina === id).map((m) => m.id);
+
 /** Aulas publicadas de uma disciplina, módulo a módulo, com a prova de cada módulo. */
 function aulasDaDisciplina(id) {
   return MODULOS.filter((m) => m.disciplina === id).map((m) => ({ modulo: m.id, aulas: m.aulas.map((a) => a.id).filter((a) => aulaPorId[a]), prova: provaDe(m.id) }));
@@ -97,14 +100,15 @@ function materia({ id, nome, href, modulos, degrau = null }) {
   const provas = modulos.filter((m) => m.prova).map((m) => ({ id: m.prova, modulo: m.modulo, semana: Math.max(...m.aulas.map((a) => semanaDaAula[a])) }));
   const intermediaria = provas.filter((p) => p.semana < SEMANA_INTERMEDIARIA).map((p) => p.id);
   const final = provas.filter((p) => !intermediaria.includes(p.id)).map((p) => p.id);
-  return { id, nome, href, degrau, modulos: modulos.map((m) => m.modulo), aulas: calendario, provas: provas.map((p) => p.id), intermediaria, final };
+  // além das aulas e provas, todas as obras dos módulos da matéria são obrigatórias (livros, filmes, músicas, áudios...)
+  return { id, nome, href, degrau, modulos: modulos.map((m) => m.modulo), aulas: calendario, provas: provas.map((p) => p.id), intermediaria, final, obras: obrasObrigatorias(modulos.map((m) => m.modulo)) };
 }
 
 function materiaFilosofia(n) {
   const d = DEGRAUS.find((x) => x.n === n);
   const modulos = d.modulos.map((m) => ({ modulo: m, aulas: d.aulas.filter((a) => a.modulo === m && aulaPorId[a.id]).map((a) => a.id), prova: provaDe(m) }))
     .filter((m) => m.aulas.length);
-  return { ...materia({ id: `filosofia-${n}`, nome: `Filosofia — degrau ${n}: ${d.nome}`, href: 'escada', modulos, degrau: n }), leituras: d.leituras.length };
+  return { ...materia({ id: `filosofia-${n}`, nome: `Filosofia — degrau ${n}: ${d.nome}`, href: 'escada', modulos, degrau: n }), leituras: d.leituras.length, obras: obrasObrigatorias(d.modulos) };
 }
 
 /** Minutos de cada semana (1 a 18) somando todas as matérias do período. */
@@ -126,7 +130,7 @@ export const PERIODOS = distribuirDisciplinas().map((ids, i) => {
   const degrau = PRIMEIRO_DEGRAU + i;
   const disciplinas = ids.map((id) => {
     const d = DISCIPLINAS.find((x) => x.id === id);
-    return { ...materia({ id, nome: d.nome, href: `disciplina-${id}`, modulos: aulasDaDisciplina(id) }), etapas: d.etapas.length };
+    return { ...materia({ id, nome: d.nome, href: `disciplina-${id}`, modulos: aulasDaDisciplina(id) }), etapas: d.etapas.length, obras: obrasObrigatorias(modulosDaDisciplina(id)) };
   });
   const materias = [...(DEGRAUS.some((d) => d.n === degrau) ? [materiaFilosofia(degrau)] : []), ...disciplinas];
   const semanas = cargaSemanal(materias);
@@ -149,7 +153,7 @@ export const periodoPorN = Object.fromEntries(PERIODOS.map((p) => [p.n, p]));
 /** Matéria concluída: todas as provas dos módulos com a nota mínima (sem compensação entre provas ou matérias). */
 export function situacaoMateria(estado, m) {
   const notas = m.provas.map((p) => melhorNota(estado, p));
-  if (notas.every((x) => x >= NOTA_MINIMA)) return 'aprovada';
+  if (notas.every((x) => x >= NOTA_MINIMA) && m.obras.every((id) => livroConcluido(estado, id))) return 'aprovada';
   // quem já marcou todas as etapas do percurso antes dos semestres existirem mantém a conclusão
   if (m.degrau === null && Object.keys(estado.disciplinas?.[m.id] || {}).length >= m.etapas) return 'aprovada';
   if (m.degrau !== null && estado.degraus[m.degrau]?.concluido) return 'aprovada';
