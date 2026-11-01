@@ -4,23 +4,25 @@ import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { normalizar } from '../core.js';
-import { esc, link, linkExterno } from '../ui.js';
+import { esc, link, linkExterno, botaoFav, fmtData, toast, ESTADOS_LIVRO } from '../ui.js';
+import { notasDe } from './conexoes.js';
 
 const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
 const filtro = { categoria: '', disciplina: '', modulo: '', texto: '', limite: POR_PAGINA, preset: '' };
 
 /** Leituras recomendadas pelas listas externas para o módulo de uma aula (escada) ou para a sua disciplina. */
-export function leiturasRecomendadasHTML(m, max = 8) {
+export function leiturasRecomendadasHTML(m, max = 8, estado = null) {
   if (!m) return '';
   const escada = m.degrau !== null;
   const obras = escada ? obrasDoModulo(m.id) : obrasDaDisciplina(m.disciplina);
   if (!obras.length) return '';
   const alvo = escada ? `m-${m.id}` : `d-${m.disciplina}`;
   const destaque = [...obras.filter((o) => o.criador), ...obras.filter((o) => !o.criador)].slice(0, max);
-  return `<section class="leituras-recomendadas"><h2>Leituras recomendadas das listas de referência</h2>
-    <p class="meta">${obras.length} obra(s) ${escada ? `deste módulo` : `de ${esc(disciplinaPorId[m.disciplina]?.nome || m.disciplina)}`}, indicadas nas listas do Contra os Acadêmicos${escada && obras.some((o) => o.fontes.some((f) => f.fonte === 'olavo-cof')) ? ' e nas aulas do COF' : ''}. São leituras complementares; não substituem as leituras obrigatórias.</p>
-    <ul class="lista-curta">${destaque.map((o) => `<li>${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''}</li>`).join('')}</ul>
+  const feita = (o) => estado?.livros?.[o.id]?.estado === 'concluido';
+  return `<section class="leituras-recomendadas"><h2>Obras ${escada ? 'deste módulo' : `de ${esc(disciplinaPorId[m.disciplina]?.nome || m.disciplina)}`}</h2>
+    <p class="meta">${obras.length} obra(s), indicadas nas listas do Contra os Acadêmicos${escada && obras.some((o) => o.fontes.some((f) => f.fonte === 'olavo-cof')) ? ' e nas aulas do COF' : ''}.</p>
+    <ul class="lista-curta">${destaque.map((o) => `<li>${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''} <span class="meta">${esc(CATEGORIAS[o.categoria])}</span>${feita(o) ? ' <span class="chip ok">concluída</span>' : ''}</li>`).join('')}</ul>
     ${obras.length > max ? link(`mediateca-${alvo}`, `Ver as ${obras.length} obras na mediateca`, 'btn') : ''}</section>`;
 }
 
@@ -71,12 +73,44 @@ mediateca.ligar = (root, ctx) => {
   root.querySelector('#m-mais')?.addEventListener('click', () => { filtro.limite += POR_PAGINA; ctx.render({ manterRolagem: true }); });
 };
 
-export function obra(_ctx, id) {
+// Todas as obras usam o mesmo registro de leitura dos livros do acervo (estado.livros[id]), as mesmas notas e os favoritos.
+const PRIORIDADES = { alta: 'Alta', media: 'Média', baixa: 'Baixa' };
+const opcoes = (vals, sel) => vals.map(([v, r]) => `<option value="${esc(v)}" ${String(sel) === String(v) ? 'selected' : ''}>${esc(r)}</option>`).join('');
+
+obra.ligar = (root, ctx, id) => {
+  root.querySelector('#form-obra')?.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const fd = Object.fromEntries(new FormData(ev.target).entries());
+    ctx.set((e) => {
+      const ant = e.livros[id] || {};
+      const inicio = ant.inicio || (fd.estado !== 'nao' ? Date.now() : null);
+      const fim = fd.estado === 'concluido' ? (ant.fim || Date.now()) : null;
+      return { ...e, livros: { ...e.livros, [id]: { ...ant, estado: fd.estado, prioridade: fd.prioridade, edicao: fd.edicao.trim(), inicio, fim } } };
+    }, { manterRolagem: true });
+    toast('Salvo.');
+  });
+  root.querySelector('[data-acao="nota-obra"]')?.addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${obraPorId[id].titulo}`));
+};
+
+export function obra({ estado }, id) {
   const o = obraPorId[id];
   if (!o) return `<p>Obra não encontrada. ${link('mediateca', 'Voltar à mediateca')}</p>`;
   const linha = (rotulo, valor) => `<tr><th scope="row">${rotulo}</th><td>${valor}</td></tr>`;
+  const st = { estado: 'nao', ...estado.livros[id] };
+  const notas = notasDe(estado, 'livro', id);
   return `<nav class="migalha">${link('mediateca', 'Mediateca')} / ${esc(CATEGORIAS[o.categoria])}</nav>
-  <header class="cab"><span class="num">${esc(CATEGORIAS[o.categoria])}</span><h1>${esc(o.titulo)}</h1><p class="sub">${esc(o.criador)}</p></header>
+  <header class="cab"><span class="num">${esc(CATEGORIAS[o.categoria])}</span><h1>${esc(o.titulo)} ${botaoFav(estado, 'livro', id)}</h1><p class="sub">${esc(o.criador)}</p></header>
+  ${o.livro ? '' : `<section><h2>Minha leitura</h2>
+    <form class="form-leitura" id="form-obra">
+      <label class="campo"><span>Estado</span><select name="estado">${opcoes(Object.entries(ESTADOS_LIVRO), st.estado)}</select></label>
+      <label class="campo"><span>Prioridade</span><select name="prioridade"><option value="">—</option>${opcoes(Object.entries(PRIORIDADES), st.prioridade || '')}</select></label>
+      <label class="campo largo"><span>Edição, tradução ou gravação utilizada</span><input name="edicao" value="${esc(st.edicao || '')}"></label>
+      <button class="btn primario" type="submit">Salvar</button>
+    </form>
+    <p class="meta">Início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
+    <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro</button><button class="btn" data-acao="nota-obra">Nova nota desta obra</button></div>
+  </section>
+  <section><h2>Anotações desta obra (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong><p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`}
   ${o.livro ? `<p>${link(`livro-${o.livro}`, 'Abrir a ficha completa do livro no acervo', 'btn primario')}</p>` : ''}
   <div class="tabela-wrap"><table><tbody>
     ${linha('Autor ou criador', campo(o.criador))}
