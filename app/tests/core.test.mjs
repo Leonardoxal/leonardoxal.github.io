@@ -26,7 +26,8 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { OBRAS, CATEGORIAS, FONTES, chaveObra } from '../data/mediateca.js';
+import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina } from '../data/mediateca.js';
+import { EXTERNOS, RESUMO_IMPORTACAO } from '../data/externos.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
 
 const IDS_ORIGINAIS = JSON.parse(readFileSync(new URL('./ids-originais.json', import.meta.url), 'utf8'));
@@ -845,7 +846,8 @@ test('mediateca: 27 categorias, os 607 livros preservados, um registro por obra 
   }
   for (const o of OBRAS) {
     assert.ok(CATEGORIAS[o.categoria], `${o.id}: categoria ${o.categoria}`);
-    assert.ok(o.titulo && o.criador, `${o.id}: título e criador`);
+    // obras externas podem não ter autor quando a fonte não o informa; as internas sempre têm
+    assert.ok(o.titulo && (o.criador || o.id.startsWith('ext-')), `${o.id}: título e criador`);
     assert.ok(o.fontes.length && o.fontes.every((f) => FONTES[f.fonte] || f.url), `${o.id}: fonte declarada`);
     if (o.link) assert.ok(/^https?:\/\//.test(o.link.url), `${o.id}: link com url`);
     o.aulas.forEach((a) => assert.ok(aulaPorId[a], `${o.id}: aula ${a}`));
@@ -857,4 +859,30 @@ test('mediateca: 27 categorias, os 607 livros preservados, um registro por obra 
   assert.ok(rerum.fontes.length >= 2 && rerum.disciplinas.length >= 2, 'obra citada em duas disciplinas: um registro, duas fontes');
   assert.equal(chaveObra('São João Paulo II', 'Centesimus annus'), chaveObra('João Paulo II', 'Centesimus Annus'), 'honoríficos e maiúsculas não separam a mesma obra');
   assert.notEqual(chaveObra('Platão', 'A República, livro III'), chaveObra('Platão', 'A República'), 'partes diferentes não se fundem');
+});
+
+test('fontes externas: registros importados com fonte, url e natureza declaradas', () => {
+  assert.equal(RESUMO_IMPORTACAO.registros, EXTERNOS.length);
+  assert.equal(RESUMO_IMPORTACAO.coaListas, 63);
+  const hosts = ['contraosacademicos.com.br', 'olavodecarvalhofb.wordpress.com'];
+  for (const e of EXTERNOS) {
+    assert.ok(CATEGORIAS[e.categoria], `${e.id}: categoria`);
+    assert.ok(e.titulo.length >= 2 && e.titulo.length <= 200, `${e.id}: título`);
+    assert.ok(e.fontes.length && e.fontes.every((f) => FONTES[f.fonte] && hosts.some((h) => f.url.includes(h)) && f.natureza), `${e.id}: fonte`);
+    assert.ok(!/^(ver |conferir |obs[.:])/i.test(e.titulo), `${e.id}: remissão importada como obra`);
+    if (e.categoria === 'cinema') assert.ok(e.criador, `${e.id}: filme com diretor`);
+  }
+  // os livros citados no COF entram como menção em aula; as listas, como recomendação
+  assert.ok(EXTERNOS.some((e) => e.fontes.some((f) => f.fonte === 'olavo-cof' && f.natureza === 'menção em aula')));
+  assert.ok(EXTERNOS.some((e) => e.fontes.some((f) => f.fonte === 'contraosacademicos' && f.natureza === 'recomendação')));
+  // a mesma obra recomendada em duas listas é um só registro
+  assert.ok(EXTERNOS.some((e) => e.fontes.length > 1));
+  // as obras das listas entram no curso: cada uma tem uma disciplina ou um módulo de destino que existe
+  for (const e of EXTERNOS) {
+    assert.ok(e.disciplinas.length || e.modulos.length, `${e.id}: destino no curso`);
+    e.disciplinas.forEach((d) => assert.ok(DISCIPLINAS.some((x) => x.id === d), `${e.id}: disciplina ${d}`));
+    e.modulos.forEach((m) => assert.ok(moduloPorId[m], `${e.id}: módulo ${m}`));
+  }
+  assert.ok(obrasDoModulo('m5').length && obrasDoModulo('m12').length, 'aulas de Platão, Aristóteles e Olavo recebem as obras das listas');
+  assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');
 });

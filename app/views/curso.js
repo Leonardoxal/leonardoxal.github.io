@@ -8,6 +8,7 @@ import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } fro
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula } from './conexoes.js';
 import { integradoresDaAulaHTML } from './integradores.js';
+import { leiturasRecomendadasHTML } from './mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { INICIO_MULTIDISCIPLINAR } from '../core.js';
 
@@ -52,6 +53,7 @@ export function modulo({ estado }, id) {
     <section><h2>Objetivos de aprendizagem</h2><ul>${m.objetivos.map((o) => `<li>${esc(o)}</li>`).join('')}</ul>
       <h2>Critérios de conclusão</h2><ul>${m.criterios.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></section>
     <section><h2>Aulas</h2><ol class="lista-aulas">${m.aulas.map((a) => `<li><a href="#aula-${a.id}"><span>${a.n}. ${esc(a.titulo)}</span>${statusAula(estado, a)}</a></li>`).join('')}</ol></section>
+    ${leiturasRecomendadasHTML(m)}
   </div>
   <section><h2>Leituras e bibliografia do módulo</h2>
     ${livros.length ? `<ul class="lista-livros-curta">${livros.map((l) => `<li>${link(`livro-${l.id}`, esc(l.titulo))} — ${esc(l.autor)} <span class="meta">(degrau ${l.degrau})</span></li>`).join('')}</ul>` : '<p class="meta">As leituras deste módulo são retomadas de degraus anteriores; veja o Mapa.</p>'}</section>
@@ -147,6 +149,7 @@ export function aula({ estado }, id) {
     <p class="meta">Etiquetas usadas no texto: ${['doutrina', 'fato', 'argumento', 'interpretacao', 'hipotese', 'debate'].map(etiqueta).join(' ')}</p></section>
   ${conexoesAula(estado, id)}
   ${integradoresDaAulaHTML(id)}
+  ${leiturasRecomendadasHTML(m, 6)}
   ${a.avancado ? `<section id="s15" class="avancado-sec texto"><h2>Aprofundamento</h2>
     <p class="dica">Parte obrigatória da aula: questionário com mínimo de ${notaMinima(estado)}% e questão discursiva.</p>
     ${a.avancado.texto}

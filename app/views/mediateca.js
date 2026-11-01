@@ -1,13 +1,28 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
-import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OBRA } from '../data/mediateca.js';
+import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
+import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { normalizar } from '../core.js';
 import { esc, link, linkExterno } from '../ui.js';
 
 const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
-const filtro = { categoria: '', disciplina: '', texto: '', limite: POR_PAGINA };
+const filtro = { categoria: '', disciplina: '', modulo: '', texto: '', limite: POR_PAGINA, preset: '' };
+
+/** Leituras recomendadas pelas listas externas para o módulo de uma aula (escada) ou para a sua disciplina. */
+export function leiturasRecomendadasHTML(m, max = 8) {
+  if (!m) return '';
+  const escada = m.degrau !== null;
+  const obras = escada ? obrasDoModulo(m.id) : obrasDaDisciplina(m.disciplina);
+  if (!obras.length) return '';
+  const alvo = escada ? `m-${m.id}` : `d-${m.disciplina}`;
+  const destaque = [...obras.filter((o) => o.criador), ...obras.filter((o) => !o.criador)].slice(0, max);
+  return `<section class="leituras-recomendadas"><h2>Leituras recomendadas das listas de referência</h2>
+    <p class="meta">${obras.length} obra(s) ${escada ? `deste módulo` : `de ${esc(disciplinaPorId[m.disciplina]?.nome || m.disciplina)}`}, indicadas nas listas do Contra os Acadêmicos${escada && obras.some((o) => o.fontes.some((f) => f.fonte === 'olavo-cof')) ? ' e nas aulas do COF' : ''}. São leituras complementares; não substituem as leituras obrigatórias.</p>
+    <ul class="lista-curta">${destaque.map((o) => `<li>${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''}</li>`).join('')}</ul>
+    ${obras.length > max ? link(`mediateca-${alvo}`, `Ver as ${obras.length} obras na mediateca`, 'btn') : ''}</section>`;
+}
 
 const NAO_INFORMADO = '<span class="meta">não informado</span>';
 const campo = (v) => (v && String(v).trim() ? esc(v) : NAO_INFORMADO);
@@ -16,10 +31,16 @@ function filtrar() {
   const termos = normalizar(filtro.texto).split(/\s+/).filter(Boolean);
   return OBRAS.filter((o) => (!filtro.categoria || o.categoria === filtro.categoria)
     && (!filtro.disciplina || o.disciplinas.includes(filtro.disciplina))
+    && (!filtro.modulo || o.modulos.includes(filtro.modulo))
     && termos.every((t) => normalizar(`${o.titulo} ${o.criador} ${o.temas.join(' ')}`).includes(t)));
 }
 
-export function mediateca() {
+export function mediateca(_ctx, id = '') {
+  // #mediateca-d-<disciplina> e #mediateca-m-<módulo> abrem a mediateca já filtrada (links das aulas)
+  if ((id || '') !== filtro.preset) {
+    Object.assign(filtro, { preset: id || '', categoria: '', texto: '', limite: POR_PAGINA,
+      disciplina: id?.startsWith('d-') ? id.slice(2) : '', modulo: id?.startsWith('m-') ? id.slice(2) : '' });
+  }
   const lista = filtrar();
   const disciplinas = [...new Set(OBRAS.flatMap((o) => o.disciplinas))].sort();
   const vazias = Object.entries(contagemPorCategoria).filter(([, n]) => !n).map(([c]) => CATEGORIAS[c]);
@@ -30,6 +51,7 @@ export function mediateca() {
     <label class="campo"><span>Disciplina</span><select name="disciplina"><option value="">Todas</option>${disciplinas.map((d) => `<option value="${d}" ${filtro.disciplina === d ? 'selected' : ''}>${esc(disciplinaPorId[d]?.nome || d)}</option>`).join('')}</select></label>
     <label class="campo largo"><span>Título, autor ou tema</span><input type="search" id="m-q" name="texto" value="${esc(filtro.texto)}"></label>
   </form>
+  ${filtro.modulo ? `<p class="meta">Filtro ativo: leituras do ${link(`mod-${filtro.modulo}`, esc(`Módulo ${moduloPorId[filtro.modulo]?.n}: ${moduloPorId[filtro.modulo]?.titulo}`))} · ${link('mediateca', 'limpar')}</p>` : ''}
   <p class="meta">${lista.length} obra(s).${vazias.length ? ` Categorias ainda sem registros: ${esc(vazias.join(', '))}. Elas recebem obras na expansão bibliográfica, sempre com a fonte declarada.` : ''}</p>
   <ul class="lista-busca">${lista.slice(0, filtro.limite).map((o) => `<li><span class="chip">${esc(CATEGORIAS[o.categoria])}</span> ${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador)}${o.data ? ` (${esc(o.data)})` : ''}${o.fontes.length > 1 ? ` <span class="meta">${o.fontes.length} fontes</span>` : ''}</li>`).join('')}</ul>
   ${lista.length > filtro.limite ? `<button class="btn" id="m-mais">Mostrar mais ${Math.min(POR_PAGINA, lista.length - filtro.limite)}</button>` : ''}`;
@@ -62,6 +84,7 @@ export function obra(_ctx, id) {
     ${linha('Data ou período', campo(o.data))}
     ${linha('País ou região', campo(o.pais))}
     ${linha('Disciplinas', o.disciplinas.length ? o.disciplinas.map((d) => link(`disciplina-${d}`, esc(disciplinaPorId[d]?.nome || d))).join(', ') : NAO_INFORMADO)}
+    ${linha('Módulos do curso', o.modulos.length ? o.modulos.map((m) => link(`mod-${m}`, esc(`Módulo ${moduloPorId[m]?.n}: ${moduloPorId[m]?.titulo}`))).join(', ') : NAO_INFORMADO)}
     ${linha('Tema', o.temas.length ? esc(o.temas.join(', ')) : NAO_INFORMADO)}
     ${linha('Contexto histórico', campo(o.contexto))}
     ${linha('Nível de dificuldade', o.nivel ? `${o.nivel} de 5` : NAO_INFORMADO)}

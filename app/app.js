@@ -64,9 +64,9 @@ busca.ligar = (root, ctx) => {
 
 // Rotas: token exato ou prefixo seguido de id.
 const ROTAS = { painel, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, busca, entrar };
-const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
+const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
 const NAV = [['painel', 'Painel'], ['mapa', 'Mapa'], ['curso', 'Curso'], ['biblioteca', 'Biblioteca'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos'],['caderno', 'Caderno'], ['avaliacoes', 'Avaliações'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['busca', 'Busca']];
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
+const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'genealogia', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa', 'simbolo-': 'simbolos' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };

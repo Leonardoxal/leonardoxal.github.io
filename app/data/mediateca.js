@@ -6,6 +6,8 @@ import { LIVROS, livroPorId } from './livros.js';
 import { DISCIPLINAS } from './disciplinas.js';
 import { AULAS_COMPLETAS } from './aulas/index.js';
 import { normalizar } from '../core.js';
+// registros das fontes externas (fase 6), gerados por scripts/importar-fontes.mjs; cada um traz fontes: [{ fonte, url, nota, natureza }]
+import { EXTERNOS } from './externos.js';
 
 export const CATEGORIAS = {
   livros: 'Livros e tratados', artigos: 'Artigos e ensaios', 'documentos-historicos': 'Documentos históricos',
@@ -27,6 +29,8 @@ export const RELACOES_OBRA = {
 export const FONTES = {
   acervo: 'Acervo original da Academia da Verdade (607 livros)',
   bibliografia: 'Bibliografia progressiva de uma disciplina',
+  contraosacademicos: 'Contra os Acadêmicos — listas de leitura (contraosacademicos.com.br/lista)',
+  'olavo-cof': 'Livros mencionados por Olavo de Carvalho no COF — compilação de fiatjaf',
 };
 
 const HONORIFICOS = /^(sao|santo|santa|sto\.?|sta\.?|papa|beato|beata)\s+/;
@@ -52,12 +56,6 @@ for (const a of AULAS_COMPLETAS) {
   }
 }
 
-/**
- * Registros externos (fase 6): cada um precisa de titulo, criador, categoria e ao menos uma fonte com url.
- * Formato: { id, titulo, criador, categoria, data, pais, disciplinas, temas, contexto, nivel, prereq,
- * justificativa, fontes: [{ fonte, url, nota }], link, direitos, relacoes: [{ tipo, obra }] }.
- */
-export const EXTERNOS = [];
 
 function montar() {
   const registros = new Map();
@@ -96,14 +94,25 @@ function montar() {
   }
   // 3. Registros externos, mesclados pela mesma chave quando já existirem.
   for (const e of EXTERNOS) {
-    const id = porChave.get(chaveObra(e.criador, e.titulo));
-    const r = id && registros.get(id);
-    if (r && r.categoria === e.categoria) { r.fontes.push(...e.fontes); continue; }
-    registros.set(e.id, { livro: null, disciplinas: [], temas: [], aulas: [], relacoes: [], prereq: [], ...e });
+    const chave = chaveObra(e.criador, e.titulo);
+    const r = registros.get(porChave.get(chave));
+    if (r && r.categoria === e.categoria) {
+      r.fontes.push(...e.fontes);
+      r.disciplinas = [...new Set([...r.disciplinas, ...e.disciplinas])];
+      r.modulos = [...new Set([...(r.modulos || []), ...e.modulos])];
+      continue;
+    }
+    registros.set(e.id, { livro: null, disciplinas: [], modulos: [], temas: [], aulas: [], relacoes: [], prereq: [], ...e });
+    if (!r) porChave.set(chave, e.id);
   }
   return [...registros.values()];
 }
 
-export const OBRAS = montar();
+export const OBRAS = montar().map((o) => ({ modulos: [], ...o }));
 export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
+
+/** Obras recomendadas pelas listas externas para um módulo da escada ou uma disciplina (leituras das aulas). */
+const recomendadas = (o) => o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof');
+export const obrasDoModulo = (m) => OBRAS.filter((o) => o.modulos.includes(m) && recomendadas(o));
+export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && recomendadas(o));
 export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));

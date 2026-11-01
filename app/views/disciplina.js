@@ -9,6 +9,7 @@ import { esc, link } from '../ui.js';
 import { pendenciaDisciplinas, aulaConcluida } from '../core.js';
 import { todasAulas } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
+import { leiturasRecomendadasHTML } from './mediateca.js';
 
 const tituloAula = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
 
@@ -49,7 +50,8 @@ export function disciplina(ctx, id) {
       </div></details></li>`).join('')}</ol></section>
   <section><h2>Bibliografia progressiva (${bib.length})</h2>
     <p class="meta">Coleção complementar, em ordem de etapa. Não substitui nem altera os 607 títulos obrigatórios; "no acervo" indica uma obra que já faz parte deles.</p>
-    <ul class="refs">${bib.map(referencia).join('')}</ul></section>`;
+    <ul class="refs">${bib.map(referencia).join('')}</ul></section>
+  ${leiturasRecomendadasHTML({ degrau: null, disciplina: id }, 12)}`;
 }
 
 disciplina.ligar = (root, ctx, id) => {
