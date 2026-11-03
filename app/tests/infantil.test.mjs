@@ -10,7 +10,7 @@ import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarNuvem, criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
-import { FAIXAS, LIVROS_INFANTIL, livrosDaFaixa } from '../infantil/livros.js';
+import { FAIXAS, SECOES, LIVROS_INFANTIL, DEPOIS_DOS_16, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -128,17 +128,29 @@ test('infantil: leitor de PDF e recomendações aparecem nas telas', () => {
   for (const trecho of ['id="inf-proximas"', 'Como usar a Academia Infantil', 'A revisão da semana']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
 });
 
-test('livros: cada recomendação tem os campos, ids únicos e uma faixa válida; a aba mostra a lista', () => {
+test('livros: catálogo com campos, ids únicos (para o "Já lemos"), faixa e seção válidas; a aba mostra tudo', () => {
   const faixas = new Set(FAIXAS.map((f) => f.id));
-  assert.ok(LIVROS_INFANTIL.length >= 20);
-  assert.equal(new Set(LIVROS_INFANTIL.map((l) => l.id)).size, LIVROS_INFANTIL.length, 'ids repetidos');
+  const todos = [...LIVROS_INFANTIL, ...DEPOIS_DOS_16, ...CATEQUESE, ...PAIS];
+  assert.equal(new Set(todos.map((l) => l.id)).size, todos.length, 'ids repetidos');
   for (const l of LIVROS_INFANTIL) {
     assert.ok(faixas.has(l.faixa), `faixa inválida em ${l.id}`);
-    for (const campo of ['titulo', 'autor', 'tema', 'porque']) assert.ok(String(l[campo]).trim(), `${l.id} sem ${campo}`);
+    assert.ok(l.secao in SECOES, `seção inválida em ${l.id}`);
   }
+  for (const l of todos) for (const campo of ['titulo', 'autor']) assert.ok(String(l[campo] ?? '').trim(), `${l.id} sem ${campo}`);
   for (const f of FAIXAS) assert.ok(livrosDaFaixa(f.id).length > 0, `faixa vazia: ${f.id}`);
   const lista = infantil();
-  assert.ok(lista.includes('Leituras recomendadas') && lista.includes('data-livro="boa-noite-lua"') && lista.includes('Para os pais'));
+  for (const trecho of ['Biblioteca da família', 'id="inf-livros-filho"', 'data-livro="boa-noite-lua"', 'Sagrada Escritura', 'Catequese e formação religiosa', 'Depois dos 16 anos', 'não verificados']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
+});
+
+test('livros: a faixa sai da idade completa, com o aniversário contado no dia', () => {
+  const hoje = new Date(2026, 10, 3); // 03/11/2026
+  assert.equal(faixaPara('2026-09-04', hoje), '0-1');
+  assert.equal(faixaPara('2023-12-30', hoje), '1-3', '2 anos e 10 meses');
+  assert.equal(faixaPara('2023-11-03', hoje), '3-5', 'faz 3 anos hoje');
+  assert.equal(faixaPara('2023-11-04', hoje), '1-3', 'faz 3 anos amanhã');
+  assert.equal(faixaPara('2011-11-03', hoje), '14-15');
+  assert.equal(faixaPara('2010-11-03', hoje), null, '16 anos: Academia da Verdade');
+  assert.equal(faixaPara(null, hoje), null);
 });
 
 test('progresso: a próxima aula é a primeira não feita de cada filho, em ordem de data', () => {

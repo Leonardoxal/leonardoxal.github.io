@@ -1,4 +1,4 @@
-// Aba Infantil (#infantil, #infantil-AAAA-MM-DD): a Academia Católica Infantil, introdução à Academia da Verdade.
+﻿// Aba Infantil (#infantil, #infantil-AAAA-MM-DD): a Academia Católica Infantil, introdução à Academia da Verdade.
 // Baixar as aulas em PDF (cada uma é para um filho) e guardar as tarefas já feitas, dizendo qual filho fez.
 // Sem conta, tudo fica neste aparelho; com a conta da Verdade e o código da família, sincroniza entre todos que
 // entraram na família. Nome e nascimento dos filhos ficam só no aparelho ou no banco privado, nunca no repositório.
@@ -10,7 +10,7 @@ import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
-import { FAIXAS, livrosDaFaixa } from '../infantil/livros.js';
+import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, DEPOIS_DOS_16, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -47,12 +47,39 @@ const cartao = (a) => `
     </div>
   </article>`;
 
+const itemLivro = (l, marcar = true) => `<li>${marcar ? `<label class="inf-linha"><input type="checkbox" data-livro="${esc(l.id)}" aria-label="Já lemos: ${esc(l.titulo)}"> ` : ''}<span><strong>${esc(l.titulo)}</strong>${l.original ? ` <em>(${esc(l.original)})</em>` : ''} — ${esc(l.autor)}${l.nota ? `<br><span class="meta">${esc(l.nota)}</span>` : ''}${l.alerta ? `<br><span class="inf-alerta">Atenção: ${esc(l.alerta)}</span>` : ''}</span>${marcar ? '</label>' : ''}</li>`;
+const listaLivros = (itens, marcar) => `<ul class="inf-livros-lista">${itens.map((l) => itemLivro(l, marcar)).join('')}</ul>`;
+
 const livrosHTML = () => `<section class="inf-livros" aria-labelledby="inf-livros-titulo">
-    <h2 id="inf-livros-titulo">Leituras recomendadas</h2>
-    <p class="meta">Uma lista orientadora, por etapa: livros reais, só com título e autor. Confira se a edição em português existe e é fiel, e leia antes de oferecer à criança. Os livros não ficam no site. O "Já lemos" fica só neste aparelho.</p>
-    ${FAIXAS.map((f) => { const lista = livrosDaFaixa(f.id); return `<details class="inf-caixa inf-faixa"><summary><strong>${esc(f.titulo)}</strong> <span class="meta">(${lista.length} livros)</span></summary>
+    <h2 id="inf-livros-titulo">Biblioteca da família</h2>
+    <p class="meta">Um catálogo comum, por idade, com a trilha de cada filho. Só título e autor: confira se a edição em português existe, se a tradução é boa e se serve à criança, e leia antes de oferecer. A idade é referência, não obrigação. O "Já lemos" é marcado por filho e fica só neste aparelho.</p>
+    <label class="campo"><span>Trilha de</span><select id="inf-livros-filho"><option value="">Escolha o filho</option></select></label>
+    <p class="meta" id="inf-livros-idade" aria-live="polite"></p>
+    ${FAIXAS.map((f) => {
+      const itens = livrosDaFaixa(f.id);
+      const santos = SANTOS[f.id];
+      return `<details class="inf-caixa inf-faixa" data-faixa="${esc(f.id)}"><summary><strong>${esc(f.titulo)}</strong> <span class="meta">(${itens.length} livros)</span></summary>
       <p class="meta">${esc(f.ajuda)}</p>
-      <ul class="inf-livros-lista">${lista.map((l) => `<li><label class="inf-linha"><input type="checkbox" data-livro="${esc(l.id)}"> <span><strong>${esc(l.titulo)}</strong>${l.original ? ` <em>(${esc(l.original)})</em>` : ''} — ${esc(l.autor)} <span class="chip">${esc(l.tema)}</span><br><span class="meta">${esc(l.porque)}</span> <span class="meta">Já lemos</span></span></label></li>`).join('')}</ul></details>`; }).join('')}
+      ${Object.entries(SECOES).map(([s, nome]) => { const da = itens.filter((l) => l.secao === s); return da.length ? `<h3 class="inf-secao-${s}">${esc(nome)}</h3>${listaLivros(da, true)}` : ''; }).join('')}
+      ${santos ? `<p class="inf-santos"><strong>Santos para procurar em livros ilustrados ou biografias:</strong> <span class="inf-secao-feminina">${esc(santos.feminina.join(', '))}</span>; <span class="inf-secao-masculina">${esc(santos.masculina.join(', '))}</span>.</p>` : ''}
+    </details>`;
+    }).join('')}
+    <details class="inf-caixa inf-faixa"><summary><strong>Depois dos 16 anos</strong> <span class="meta">(${DEPOIS_DOS_16.length} livros)</span></summary>
+      <p class="meta">Leituras avançadas, tiradas da faixa de 14 a 15 anos: ficam para a Academia da Verdade, conforme a maturidade, e não são obrigatórias.</p>${listaLivros(DEPOIS_DOS_16, false)}</details>
+    <details class="inf-caixa inf-faixa"><summary><strong>Sagrada Escritura</strong></summary>
+      <h3>Uma Bíblia infantil para a família</h3>
+      <p><strong>${esc(BIBLIA.titulo)}</strong> — ${esc(BIBLIA.autor)}<br><span class="meta">Original: ${esc(BIBLIA.original)}. Edição brasileira: ${esc(BIBLIA.editora)}.</span></p>
+      <ul>${BIBLIA.notas.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
+      <h3>Histórias bíblicas por idade</h3>
+      <p class="meta">Para os pais lerem e explicarem, sempre com a passagem na Bíblia. Não entram na contagem da biblioteca.</p>
+      <table class="inf-tabela"><tr><th>Idade</th><th>Histórias</th></tr>${HISTORIAS_BIBLICAS.map(([i, h]) => `<tr><td>${esc(i)}</td><td>${esc(h)}</td></tr>`).join('')}</table>
+      <p><strong>Personagens para aprofundar.</strong> <span class="inf-secao-feminina">${esc(PERSONAGENS_BIBLICOS.feminina.join(', '))}</span>. <span class="inf-secao-masculina">${esc(PERSONAGENS_BIBLICOS.masculina.join(', '))}</span>.</p>
+    </details>
+    <details class="inf-caixa inf-faixa"><summary><strong>Catequese e formação religiosa</strong> <span class="meta">(${CATEQUESE.length} livros)</span></summary>
+      <p class="meta">Doutrina, sacramentos e orações. Não se confundem com a Bíblia infantil nem com a literatura.</p>${listaLivros(CATEQUESE, true)}</details>
+    <details class="inf-caixa inf-faixa"><summary><strong>Para os pais</strong> <span class="meta">(${PAIS.length} livros)</span></summary>${listaLivros(PAIS, false)}</details>
+    <details class="inf-caixa inf-faixa"><summary><strong>Fora da lista: não verificados</strong></summary>
+      <p class="meta">Indicados na pesquisa, mas sem autor e título confirmados. Só entram depois de conferidos.</p><ul>${NAO_VERIFICADOS.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></details>
   </section>`;
 
 export function infantil() {
@@ -326,15 +353,36 @@ infantil.ligar = (root) => {
   hidratar();
   sincronizar(root, hidratar);
 
-  // "Já lemos": só neste aparelho (localStorage); sem armazenamento, vale até sair da página.
-  const lidos = new Set((() => { try { return JSON.parse(localStorage.getItem('aci-livros-lidos')) ?? []; } catch { return []; } })());
-  root.querySelectorAll('[data-livro]').forEach((c) => {
-    c.checked = lidos.has(c.dataset.livro);
-    c.addEventListener('change', () => {
-      c.checked ? lidos.add(c.dataset.livro) : lidos.delete(c.dataset.livro);
-      try { localStorage.setItem('aci-livros-lidos', JSON.stringify([...lidos])); } catch { /* sem armazenamento */ }
-    });
-  });
+  // Biblioteca: a trilha de cada filho. "Já lemos" fica só neste aparelho (localStorage), por filho.
+  const seletorLivros = root.querySelector('#inf-livros-filho');
+  const chaveLidos = () => `aci-livros-lidos-${seletorLivros.value}`;
+  const lerLidos = () => { try { return new Set(JSON.parse(localStorage.getItem(chaveLidos())) ?? []); } catch { return new Set(); } };
+  const caixasLivro = [...root.querySelectorAll('[data-livro]')];
+  let filhosLivros = [];
+  const mostrarTrilha = () => {
+    const f = filhosLivros.find((x) => x.id === seletorLivros.value);
+    const lidos = f ? lerLidos() : new Set();
+    caixasLivro.forEach((c) => { c.checked = lidos.has(c.dataset.livro); c.disabled = !f; });
+    const faixa = f ? faixaPara(f.nascimento) : null;
+    root.querySelectorAll('.inf-faixa[data-faixa]').forEach((d) => { d.open = d.dataset.faixa === faixa; d.classList.toggle('atual', d.dataset.faixa === faixa); });
+    const titulo = FAIXAS.find((x) => x.id === faixa)?.titulo;
+    root.querySelector('#inf-livros-idade').textContent = !f ? 'Escolha um filho para abrir a faixa da idade dele e marcar o que já leram.'
+      : titulo ? `${f.nome}: ${idade(f.nascimento)}. Faixa aberta: ${titulo}. ${lidos.size} livro(s) marcados como lidos.` : `${f.nome}: cadastre o nascimento em "Filhos" para abrir a faixa da idade.`;
+  };
+  caixasLivro.forEach((c) => c.addEventListener('change', () => {
+    const lidos = lerLidos();
+    c.checked ? lidos.add(c.dataset.livro) : lidos.delete(c.dataset.livro);
+    try { localStorage.setItem(chaveLidos(), JSON.stringify([...lidos])); } catch { /* sem armazenamento: vale só nesta visita */ }
+    mostrarTrilha();
+  }));
+  seletorLivros.addEventListener('change', () => { lembrarQuem(seletorLivros.value); mostrarTrilha(); });
+  arm.listarFilhos().then((fs) => {
+    filhosLivros = fs;
+    seletorLivros.replaceChildren(Object.assign(document.createElement('option'), { value: '', textContent: fs.length ? 'Escolha o filho' : 'Cadastre os filhos abaixo' }), ...fs.map((f) => Object.assign(document.createElement('option'), { value: f.id, textContent: f.nome })));
+    const lembrado = lembrarQuem();
+    if (fs.some((f) => f.id === lembrado)) seletorLivros.value = lembrado;
+    mostrarTrilha();
+  }).catch(() => mostrarTrilha());
 
   root.querySelector('#inf-filho-novo').addEventListener('click', async () => {
     const usados = [...root.querySelectorAll('.inf-filho')].map((f) => f.dataset.codigo);
