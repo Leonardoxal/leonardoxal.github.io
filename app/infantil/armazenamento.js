@@ -132,7 +132,7 @@ export function criarNuvem(obterCliente) {
  * modo 'nuvem': logado e na família; 'pendente': logado, mas ainda sem o código da família; 'aparelho': sem login.
  * Fora do modo nuvem, tudo fica neste aparelho.
  */
-export function criarArmazenamento({ obterCliente, obterUsuario }) {
+export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = true }) {
   const nuvem = criarNuvem(obterCliente);
   let modo = 'aparelho';
   let usuario = null;
@@ -141,8 +141,10 @@ export function criarArmazenamento({ obterCliente, obterUsuario }) {
   return {
     modo: () => modo,
     usuario: () => usuario,
+    /** Com a família desativada (config.js), nem consulta a conta nem a nuvem: tudo fica no aparelho. */
     async iniciar() {
       modo = 'aparelho'; usuario = null; nuvem.limpar();
+      if (!familiaAtiva) return { modo, usuario };
       try {
         usuario = await obterUsuario();
         if (usuario) modo = (await nuvem.naFamilia()) ? 'nuvem' : 'pendente';

@@ -187,6 +187,25 @@ test('nuvem: cadastro de filhos (criar, atualizar, remover) e anexo com quem fez
   assert.equal((await nuvem.listarAnexos('2026-11-03')).length, 2, 'remover um filho não apaga as tarefas');
 });
 
+test('armazenamento: com a família desativada, nem consulta a conta nem a nuvem', async () => {
+  const banco = bancoSimulado({ membros: ['u1'] }); logado(banco);
+  let consultas = 0;
+  const arm = criarArmazenamento({
+    obterCliente: async () => { consultas++; return banco.cliente; },
+    obterUsuario: async () => { consultas++; return { id: 'u1', email: 'a@exemplo.com' }; },
+    familiaAtiva: false,
+  });
+  assert.deepEqual(await arm.iniciar(), { modo: 'aparelho', usuario: null });
+  assert.equal(consultas, 0, 'não deve tocar na conta nem no banco');
+  await assert.rejects(() => arm.listarAnexos('2026-11-03'), /não permite guardar tarefas no aparelho/, 'tudo vai para o aparelho (sem IndexedDB no Node)');
+  assert.equal(banco.objetos.size + banco.tabelas.aci_anexo.length, 0);
+});
+
+test('config: a família está desativada por enquanto', async () => {
+  const { FAMILIA_ATIVA } = await import('../infantil/config.js');
+  assert.equal(FAMILIA_ATIVA, false);
+});
+
 test('idade e códigos de filho', () => {
   const hoje = new Date(2026, 10, 3); // 03/11/2026
   assert.equal(idade('2023-12-30', hoje), '2 anos e 10 meses');

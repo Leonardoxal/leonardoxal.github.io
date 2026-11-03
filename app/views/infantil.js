@@ -7,13 +7,14 @@ import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
+import { FAMILIA_ATIVA } from '../infantil/config.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
 const MAX_LADO = 1800;
 const SINCRONIA_MS = 30000;
 const CODIGO_OK = /^[a-z0-9-]{1,30}$/;
-const arm = criarArmazenamento({ obterCliente: clienteNuvem, obterUsuario: usuarioNuvem });
+const arm = criarArmazenamento({ obterCliente: clienteNuvem, obterUsuario: usuarioNuvem, familiaAtiva: FAMILIA_ATIVA });
 
 const tamanho = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1048576).toFixed(1)} MB`);
 const dataBR = (iso) => iso.split('-').reverse().join('/');
@@ -131,6 +132,8 @@ async function desenharConta(root, depois) {
   const locais = await arm.contarLocais();
   if (!nuvemConfigurada()) {
     caixa.innerHTML = '<p class="inf-caixa">As tarefas ficam só neste aparelho.</p>';
+  } else if (!FAMILIA_ATIVA) {
+    caixa.innerHTML = '<p class="inf-caixa">As tarefas ficam só neste aparelho. A sincronização com a família será ativada quando tudo estiver pronto; até lá, use o backup para guardar uma cópia.</p>';
   } else if (modo === 'aparelho') {
     caixa.innerHTML = `<p class="inf-caixa">As tarefas ficam só neste aparelho. Para sincronizar com a família, ${link('entrar', 'entre na sua conta')} (a mesma da Academia da Verdade) e digite o código da família.</p>`;
   } else if (modo === 'pendente') {
