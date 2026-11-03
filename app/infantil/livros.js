@@ -125,6 +125,7 @@ export const LIVROS_INFANTIL = [
   L('14-15', 'comum', '1984', 'George Orwell', { alerta: 'Tortura e cenas de sexo: o adulto lê antes.' }),
   L('14-15', 'comum', 'Imitação de Cristo', 'Tomás de Kempis', { nota: 'Um capítulo curto por dia.' }),
   L('14-15', 'comum', 'Introdução à Vida Devota', 'São Francisco de Sales'),
+  L('14-15', 'comum', 'Confissões', 'Santo Agostinho', { noCurso: true, nota: 'Primeira leitura aos 14; o curso da Academia da Verdade volta a ela no degrau 2, para o estudo.' }),
   // Leituras avançadas que o curso da Verdade não pede: entram aqui para quem quiser fechar o ciclo até os 15.
   L('14-15', 'comum', 'Os Irmãos Karamázov', 'Fiódor Dostoiévski', { alerta: AVANCADA }),
   L('14-15', 'comum', 'Crime e Castigo', 'Fiódor Dostoiévski', { alerta: `${AVANCADA} Há um assassinato no centro da trama.` }),

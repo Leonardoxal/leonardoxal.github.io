@@ -146,7 +146,7 @@ test('livros: catálogo com campos, ids únicos (para o "Já lemos"), faixa e se
 test('livros: o catálogo infantil vai até os 15 e não repete livro que o curso da Verdade já pede', () => {
   const norm = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   const doCurso = new Set(LIVROS_VERDADE.map((l) => `${norm(l.titulo)}|${norm(l.autor)}`));
-  for (const l of LIVROS_INFANTIL) assert.ok(!doCurso.has(`${norm(l.titulo)}|${norm(l.autor)}`), `${l.titulo} já está no curso da Verdade`);
+  for (const l of LIVROS_INFANTIL.filter((x) => !x.noCurso)) assert.ok(!doCurso.has(`${norm(l.titulo)}|${norm(l.autor)}`), `${l.titulo} já está no curso da Verdade`);
 });
 
 test('livros: a faixa sai da idade completa, com o aniversário contado no dia', () => {
