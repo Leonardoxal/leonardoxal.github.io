@@ -10,7 +10,7 @@ import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
-import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, DEPOIS_DOS_16, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
+import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -64,8 +64,6 @@ const livrosHTML = () => `<section class="inf-livros" aria-labelledby="inf-livro
       ${santos ? `<p class="inf-santos"><strong>Santos para procurar em livros ilustrados ou biografias:</strong> <span class="inf-secao-feminina">${esc(santos.feminina.join(', '))}</span>; <span class="inf-secao-masculina">${esc(santos.masculina.join(', '))}</span>.</p>` : ''}
     </details>`;
     }).join('')}
-    <details class="inf-caixa inf-faixa"><summary><strong>Depois dos 16 anos</strong> <span class="meta">(${DEPOIS_DOS_16.length} livros)</span></summary>
-      <p class="meta">Leituras avançadas, tiradas da faixa de 14 a 15 anos: ficam para a Academia da Verdade, conforme a maturidade, e não são obrigatórias.</p>${listaLivros(DEPOIS_DOS_16, false)}</details>
     <details class="inf-caixa inf-faixa"><summary><strong>Sagrada Escritura</strong></summary>
       <h3>Uma Bíblia infantil para a família</h3>
       <p><strong>${esc(BIBLIA.titulo)}</strong> — ${esc(BIBLIA.autor)}<br><span class="meta">Original: ${esc(BIBLIA.original)}. Edição brasileira: ${esc(BIBLIA.editora)}.</span></p>

@@ -9,7 +9,7 @@ export const FAIXAS = [
   { id: '6-8', titulo: 'De 6 a 8 anos', de: 6, ate: 9, ajuda: 'Clássicos infantis por capítulos e as primeiras leituras sozinha.' },
   { id: '9-11', titulo: 'De 9 a 11 anos', de: 9, ate: 12, ajuda: 'Aventuras e romances clássicos, com leitura de fôlego.' },
   { id: '12-13', titulo: 'De 12 a 13 anos', de: 12, ate: 14, ajuda: 'Epopeias, grandes romances e as primeiras obras de formação, com conversa orientada.' },
-  { id: '14-15', titulo: 'De 14 a 15 anos', de: 14, ate: 16, ajuda: 'A aproximação exigente dos clássicos que antecede a Academia da Verdade. A idade é referência, não obrigação.' },
+  { id: '14-15', titulo: 'De 14 a 15 anos', de: 14, ate: 16, ajuda: 'A aproximação exigente dos clássicos antes do curso da Academia da Verdade, que começa aos 16. Os livros que o curso já pede ficam para ele e não entram aqui. A idade é referência, não obrigação.' },
 ];
 
 export const SECOES = { comum: 'Literatura comum', feminina: 'Formação feminina', masculina: 'Formação masculina' };
@@ -17,6 +17,7 @@ export const SECOES = { comum: 'Literatura comum', feminina: 'Formação feminin
 const slug = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const L = (faixa, secao, titulo, autor, extra = {}) => ({ id: slug(titulo), faixa, secao, titulo, autor, ...extra });
 const EM_INGLES = 'Original em inglês; ótimo para o inglês americano.';
+const AVANCADA = 'Leitura avançada e opcional, só com maturidade: o adulto lê antes.';
 
 export const LIVROS_INFANTIL = [
   // 0 a 1
@@ -122,9 +123,21 @@ export const LIVROS_INFANTIL = [
   L('14-15', 'comum', 'Quo Vadis', 'Henryk Sienkiewicz', { alerta: 'Violência do martírio e excessos da corte de Nero.' }),
   L('14-15', 'comum', 'O Senhor das Moscas', 'William Golding', { alerta: 'Violência entre crianças: só com maturidade e conversa.' }),
   L('14-15', 'comum', '1984', 'George Orwell', { alerta: 'Tortura e cenas de sexo: o adulto lê antes.' }),
-  L('14-15', 'comum', 'Confissões', 'Santo Agostinho'),
   L('14-15', 'comum', 'Imitação de Cristo', 'Tomás de Kempis', { nota: 'Um capítulo curto por dia.' }),
   L('14-15', 'comum', 'Introdução à Vida Devota', 'São Francisco de Sales'),
+  // Leituras avançadas que o curso da Verdade não pede: entram aqui para quem quiser fechar o ciclo até os 15.
+  L('14-15', 'comum', 'Os Irmãos Karamázov', 'Fiódor Dostoiévski', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'Crime e Castigo', 'Fiódor Dostoiévski', { alerta: `${AVANCADA} Há um assassinato no centro da trama.` }),
+  L('14-15', 'comum', 'Os Demônios', 'Fiódor Dostoiévski', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'Guerra e Paz', 'Liev Tolstói', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'Anna Kariênina', 'Liev Tolstói', { alerta: `${AVANCADA} Adultério e suicídio na trama.` }),
+  L('14-15', 'comum', 'Fausto', 'Johann Wolfgang von Goethe', { alerta: `${AVANCADA} Pacto com o demônio e sedução.` }),
+  L('14-15', 'comum', 'Grande Sertão: Veredas', 'João Guimarães Rosa', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'A Montanha Mágica', 'Thomas Mann', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'O Processo', 'Franz Kafka', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'Admirável Mundo Novo', 'Aldous Huxley', { alerta: `${AVANCADA} Sexo e drogas fazem parte da sociedade descrita.` }),
+  L('14-15', 'comum', 'Middlemarch', 'George Eliot', { alerta: AVANCADA }),
+  L('14-15', 'comum', 'A Menina que Roubava Livros', 'Markus Zusak', { alerta: `${AVANCADA} Narrado pela Morte, em meio à guerra.` }),
   L('14-15', 'feminina', 'Emma', 'Jane Austen'),
   L('14-15', 'feminina', 'Persuasão', 'Jane Austen'),
   L('14-15', 'feminina', 'Jane Eyre', 'Charlotte Brontë'),
@@ -143,14 +156,6 @@ export const SANTOS = {
   '12-13': { feminina: ['Santa Hildegarda de Bingen', 'Santa Teresa de Ávila', 'Santa Catarina de Sena', 'Santa Edith Stein', 'Santa Isabel da Hungria'], masculina: ['Santo Agostinho', 'São Tomás de Aquino', 'São Bento', 'São João Bosco', 'São Maximiliano Kolbe'] },
   '14-15': { feminina: ['Santa Teresa Benedita da Cruz (Edith Stein)', 'Santa Catarina de Sena', 'Santa Hildegarda de Bingen', 'Santa Joana d\'Arc', 'Santa Teresa de Calcutá', 'Santa Gianna Beretta Molla'], masculina: ['Santo Antônio', 'São Tomás de Aquino', 'São Maximiliano Kolbe', 'São João Paulo II', 'São Carlo Acutis'] },
 };
-
-/** Leituras avançadas tiradas da faixa de 14 a 15: ficam para depois dos 16, com a Academia da Verdade. */
-export const DEPOIS_DOS_16 = [
-  L('16+', 'comum', 'Os Irmãos Karamázov', 'Fiódor Dostoiévski'), L('16+', 'comum', 'Crime e Castigo', 'Fiódor Dostoiévski'), L('16+', 'comum', 'Os Demônios', 'Fiódor Dostoiévski'),
-  L('16+', 'comum', 'Guerra e Paz', 'Liev Tolstói'), L('16+', 'comum', 'Anna Kariênina', 'Liev Tolstói'), L('16+', 'comum', 'Fausto', 'Johann Wolfgang von Goethe'),
-  L('16+', 'comum', 'Grande Sertão: Veredas', 'João Guimarães Rosa'), L('16+', 'comum', 'A Montanha Mágica', 'Thomas Mann'), L('16+', 'comum', 'O Processo', 'Franz Kafka'),
-  L('16+', 'comum', 'Admirável Mundo Novo', 'Aldous Huxley'), L('16+', 'comum', 'Middlemarch', 'George Eliot'), L('16+', 'comum', 'A Menina que Roubava Livros', 'Markus Zusak'),
-];
 
 export const HISTORIAS_BIBLICAS = [
   ['2 a 3 anos', 'Criação, Adão e Eva, Noé, nascimento de Jesus, visita dos pastores, Jesus abençoa as crianças'],

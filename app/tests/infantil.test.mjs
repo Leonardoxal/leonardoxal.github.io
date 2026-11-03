@@ -10,7 +10,8 @@ import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarNuvem, criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
-import { FAIXAS, SECOES, LIVROS_INFANTIL, DEPOIS_DOS_16, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
+import { FAIXAS, SECOES, LIVROS_INFANTIL, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
+import { LIVROS as LIVROS_VERDADE } from '../data/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -130,7 +131,7 @@ test('infantil: leitor de PDF e recomendações aparecem nas telas', () => {
 
 test('livros: catálogo com campos, ids únicos (para o "Já lemos"), faixa e seção válidas; a aba mostra tudo', () => {
   const faixas = new Set(FAIXAS.map((f) => f.id));
-  const todos = [...LIVROS_INFANTIL, ...DEPOIS_DOS_16, ...CATEQUESE, ...PAIS];
+  const todos = [...LIVROS_INFANTIL, ...CATEQUESE, ...PAIS];
   assert.equal(new Set(todos.map((l) => l.id)).size, todos.length, 'ids repetidos');
   for (const l of LIVROS_INFANTIL) {
     assert.ok(faixas.has(l.faixa), `faixa inválida em ${l.id}`);
@@ -139,7 +140,13 @@ test('livros: catálogo com campos, ids únicos (para o "Já lemos"), faixa e se
   for (const l of todos) for (const campo of ['titulo', 'autor']) assert.ok(String(l[campo] ?? '').trim(), `${l.id} sem ${campo}`);
   for (const f of FAIXAS) assert.ok(livrosDaFaixa(f.id).length > 0, `faixa vazia: ${f.id}`);
   const lista = infantil();
-  for (const trecho of ['Biblioteca da família', 'id="inf-livros-filho"', 'data-livro="boa-noite-lua"', 'Sagrada Escritura', 'Catequese e formação religiosa', 'Depois dos 16 anos', 'não verificados']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
+  for (const trecho of ['Biblioteca da família', 'id="inf-livros-filho"', 'data-livro="boa-noite-lua"', 'Sagrada Escritura', 'Catequese e formação religiosa', 'não verificados']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
+});
+
+test('livros: o catálogo infantil vai até os 15 e não repete livro que o curso da Verdade já pede', () => {
+  const norm = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const doCurso = new Set(LIVROS_VERDADE.map((l) => `${norm(l.titulo)}|${norm(l.autor)}`));
+  for (const l of LIVROS_INFANTIL) assert.ok(!doCurso.has(`${norm(l.titulo)}|${norm(l.autor)}`), `${l.titulo} já está no curso da Verdade`);
 });
 
 test('livros: a faixa sai da idade completa, com o aniversário contado no dia', () => {
