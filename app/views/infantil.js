@@ -10,6 +10,7 @@ import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
+import { FAIXAS, livrosDaFaixa } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -45,6 +46,14 @@ const cartao = (a) => `
       <div class="inf-acoes">${botoesPdf(a)}<a class="btn" href="#infantil-${esc(a.data)}">${icone('clipe')} Anexar tarefas</a></div>
     </div>
   </article>`;
+
+const livrosHTML = () => `<section class="inf-livros" aria-labelledby="inf-livros-titulo">
+    <h2 id="inf-livros-titulo">Leituras recomendadas</h2>
+    <p class="meta">Uma lista orientadora, por etapa: livros reais, só com título e autor. Confira se a edição em português existe e é fiel, e leia antes de oferecer à criança. Os livros não ficam no site. O "Já lemos" fica só neste aparelho.</p>
+    ${FAIXAS.map((f) => { const lista = livrosDaFaixa(f.id); return `<details class="inf-caixa inf-faixa"><summary><strong>${esc(f.titulo)}</strong> <span class="meta">(${lista.length} livros)</span></summary>
+      <p class="meta">${esc(f.ajuda)}</p>
+      <ul class="inf-livros-lista">${lista.map((l) => `<li><label class="inf-linha"><input type="checkbox" data-livro="${esc(l.id)}"> <span><strong>${esc(l.titulo)}</strong>${l.original ? ` <em>(${esc(l.original)})</em>` : ''} — ${esc(l.autor)} <span class="chip">${esc(l.tema)}</span><br><span class="meta">${esc(l.porque)}</span> <span class="meta">Já lemos</span></span></label></li>`).join('')}</ul></details>`; }).join('')}
+  </section>`;
 
 export function infantil() {
   return `<section class="infantil">
@@ -82,6 +91,7 @@ export function infantil() {
       <p>O ciclo vai dos 3 aos 15 anos, em etapas. Aos 16, o estudante segue para a Academia da Verdade, que já tem o mesmo desenho: leitura, tarefa, acompanhamento e revisão. As aulas daqui preparam essa entrada.</p>
     </details>
     ${AULAS_INFANTIL.length ? AULAS_INFANTIL.map(cartao).join('') : '<p class="vazio">Ainda não há aulas publicadas.</p>'}
+    ${livrosHTML()}
     <section class="inf-filhos" aria-labelledby="inf-filhos-titulo">
       <h2 id="inf-filhos-titulo">Filhos</h2>
       <p class="meta">Cada aula é para um filho. Cadastre aqui o nome e o nascimento de cada um e atualize quando quiser: assim as aulas mostram para quem são e as tarefas dizem quem fez. Esses dados ficam só neste aparelho ou na sua família, nunca no site público.</p>
@@ -315,6 +325,16 @@ infantil.ligar = (root) => {
   };
   hidratar();
   sincronizar(root, hidratar);
+
+  // "Já lemos": só neste aparelho (localStorage); sem armazenamento, vale até sair da página.
+  const lidos = new Set((() => { try { return JSON.parse(localStorage.getItem('aci-livros-lidos')) ?? []; } catch { return []; } })());
+  root.querySelectorAll('[data-livro]').forEach((c) => {
+    c.checked = lidos.has(c.dataset.livro);
+    c.addEventListener('change', () => {
+      c.checked ? lidos.add(c.dataset.livro) : lidos.delete(c.dataset.livro);
+      try { localStorage.setItem('aci-livros-lidos', JSON.stringify([...lidos])); } catch { /* sem armazenamento */ }
+    });
+  });
 
   root.querySelector('#inf-filho-novo').addEventListener('click', async () => {
     const usados = [...root.querySelectorAll('.inf-filho')].map((f) => f.dataset.codigo);

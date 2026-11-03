@@ -10,6 +10,7 @@ import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarNuvem, criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
+import { FAIXAS, LIVROS_INFANTIL, livrosDaFaixa } from '../infantil/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -125,6 +126,19 @@ test('infantil: leitor de PDF e recomendações aparecem nas telas', () => {
   for (const trecho of ['id="inf-ler"', 'id="inf-leitor-area"', 'id="inf-leitor-tela"', 'name="inf-doc"', 'name="inf-modo"', 'data-acao="tela-cheia"']) assert.ok(tela.includes(trecho), `falta ${trecho}`);
   const lista = infantil();
   for (const trecho of ['id="inf-proximas"', 'Como usar a Academia Infantil', 'A revisão da semana']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
+});
+
+test('livros: cada recomendação tem os campos, ids únicos e uma faixa válida; a aba mostra a lista', () => {
+  const faixas = new Set(FAIXAS.map((f) => f.id));
+  assert.ok(LIVROS_INFANTIL.length >= 20);
+  assert.equal(new Set(LIVROS_INFANTIL.map((l) => l.id)).size, LIVROS_INFANTIL.length, 'ids repetidos');
+  for (const l of LIVROS_INFANTIL) {
+    assert.ok(faixas.has(l.faixa), `faixa inválida em ${l.id}`);
+    for (const campo of ['titulo', 'autor', 'tema', 'porque']) assert.ok(String(l[campo]).trim(), `${l.id} sem ${campo}`);
+  }
+  for (const f of FAIXAS) assert.ok(livrosDaFaixa(f.id).length > 0, `faixa vazia: ${f.id}`);
+  const lista = infantil();
+  assert.ok(lista.includes('Leituras recomendadas') && lista.includes('data-livro="boa-noite-lua"') && lista.includes('Para os pais'));
 });
 
 test('progresso: a próxima aula é a primeira não feita de cada filho, em ordem de data', () => {
