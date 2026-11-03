@@ -201,9 +201,9 @@ test('armazenamento: com a família desativada, nem consulta a conta nem a nuvem
   assert.equal(banco.objetos.size + banco.tabelas.aci_anexo.length, 0);
 });
 
-test('config: a família está desativada por enquanto', async () => {
+test('config: a família está ativa', async () => {
   const { FAMILIA_ATIVA } = await import('../infantil/config.js');
-  assert.equal(FAMILIA_ATIVA, false);
+  assert.equal(FAMILIA_ATIVA, true);
 });
 
 test('idade e códigos de filho', () => {

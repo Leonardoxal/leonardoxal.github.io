@@ -52,7 +52,7 @@ Para ativar a sincronização:
 1. No SQL Editor do mesmo projeto Supabase, rode `supabase-infantil.sql` (depois do `supabase.sql`). Tudo leva o prefixo `aci_` e não toca na tabela `progresso`.
 2. Defina o código da família, uma vez: descomente e rode o `insert into public.aci_config` do próprio arquivo, trocando `SEU-CODIGO` por 16 ou mais caracteres aleatórios. Guarde o código fora do repositório; no banco fica só o hash.
 3. Passe o código só a quem for da família. Para impedir novas entradas, troque o código; quem já entrou continua até sair da família.
-4. Em `app/infantil/config.js`, troque `FAMILIA_ATIVA` para `true` e publique. Enquanto estiver `false` (estado atual), a aba não pede o código e as tarefas ficam só no aparelho.
+4. Em `app/infantil/config.js`, troque `FAMILIA_ATIVA` para `true` e publique (estado atual: `true`). Com `false`, a aba não pede o código e as tarefas ficam só no aparelho.
 
 Para publicar uma aula nova na aba, no projeto privado da Academia Católica Infantil (que gera os PDFs): `node ferramentas/publicar-site.mjs <pasta deste repositório>`. Isso copia os PDFs para `app/infantil/aulas/` e reescreve `app/infantil/aulas.js`. Os testes (`node --test app/tests/core.test.mjs app/tests/infantil.test.mjs`) conferem se os PDFs existem.
 
