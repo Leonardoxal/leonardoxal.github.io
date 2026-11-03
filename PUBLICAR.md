@@ -37,3 +37,22 @@ Observação do plano gratuito: um projeto sem uso por uma semana é pausado. Os
 Abra o endereço no PC e no celular, vá em **Plano → Conta e sincronização**, crie a conta uma vez e entre com ela nos outros aparelhos. No celular, use "Adicionar à tela inicial" do navegador para abrir como app.
 
 Se você já tinha progresso no claude.ai, exporte o backup lá (**Plano → Exportar backup**) e importe no novo site depois de entrar na conta.
+
+## 4. Aba Infantil (Academia Católica Infantil)
+
+A aba **Infantil** é a introdução à Academia da Verdade: aulas em PDF para a criança (de 3 a 15 anos) e as tarefas já feitas, anexadas pela família. Ela usa o mesmo login da Verdade.
+
+- **Sem conta:** as tarefas (fotos ou PDFs), a marcação "aula feita" e as observações ficam só no navegador do aparelho, com backup em arquivo.
+- **Com conta e código da família:** as tarefas sincronizam entre todos que entraram na família, em qualquer aparelho. Cada pessoa usa o próprio login e digita o código uma vez.
+
+**Filhos.** Cada aula é para um filho: o `meta` da aula (no projeto privado) declara `filho` (código fixo, f1, f2…) e `para` (rótulo impresso nos PDFs, por exemplo "Filha 1"). Dentro da aba, a seção **Filhos** deixa cadastrar e atualizar o nome, o nascimento e o perfil de cada código; com isso as aulas mostram "Para: Maria", a idade é calculada, e cada tarefa e cada "aula feita" ficam ligadas ao filho escolhido em "Quem fez esta aula?". Nome e nascimento ficam só no navegador ou no banco privado, nunca no repositório. Para um filho novo, gere aulas com o código dele (f2) e cadastre-o na aba.
+
+Para ativar a sincronização:
+
+1. No SQL Editor do mesmo projeto Supabase, rode `supabase-infantil.sql` (depois do `supabase.sql`). Tudo leva o prefixo `aci_` e não toca na tabela `progresso`.
+2. Defina o código da família, uma vez: descomente e rode o `insert into public.aci_config` do próprio arquivo, trocando `SEU-CODIGO` por 16 ou mais caracteres aleatórios. Guarde o código fora do repositório; no banco fica só o hash.
+3. Passe o código só a quem for da família. Para impedir novas entradas, troque o código; quem já entrou continua até sair da família.
+
+Para publicar uma aula nova na aba, no projeto privado da Academia Católica Infantil (que gera os PDFs): `node ferramentas/publicar-site.mjs <pasta deste repositório>`. Isso copia os PDFs para `app/infantil/aulas/` e reescreve `app/infantil/aulas.js`. Os testes (`node --test app/tests/core.test.mjs app/tests/infantil.test.mjs`) conferem se os PDFs existem.
+
+Atenção: o repositório é público, então os PDFs das aulas ficam públicos. Nenhum nome, foto ou tarefa de criança entra aqui; as tarefas ficam só no navegador ou na pasta privada `aci-tarefas` do Supabase.

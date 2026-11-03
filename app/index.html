@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=MedievalSharp&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 /* Identidade gótica católica. Claro: página de pergaminho e marfim; escuro: nave em carvão. Bordô identifica,
    dourado envelhecido orna (nunca texto pequeno: para isso há --ouro-texto), azul profundo serve aos diagramas,
@@ -605,6 +605,58 @@ details > summary { cursor: pointer; }
 .sentido-interpretacao { border-left: 3px solid var(--g-naturais); } .sentido-hipotese { border-left: 3px dashed var(--pedra); }
 .comparar { border-left: 2px solid var(--ouro); padding-left: 10px; }
 @media (max-width: 760px) { .lab { grid-template-columns: minmax(0, 1fr); } }
+
+/* Aba Infantil: a mesma marca em versão de livro de histórias (cantos redondos, bichinhos, estrelas, botões grandes). */
+.infantil { --inf-display: "MedievalSharp", var(--f-titulo); --inf-texto: "Nunito", var(--f-ui); font-family: var(--inf-texto); font-size: 1.06rem; }
+.infantil h1, .infantil h2, .infantil h3 { font-family: var(--inf-display); font-weight: 400; }
+.infantil h1 { color: var(--vinho); font-size: clamp(2.1rem, 6vw, 3rem); }
+.infantil h2 { color: var(--azul); font-size: 1.7rem; margin-top: 1.4em; }
+.inf-etq { display: inline-block; font: 800 .78rem/1.4 var(--inf-texto); letter-spacing: .1em; text-transform: uppercase; color: var(--ouro-texto); background: var(--alerta-suave); border-radius: 999px; padding: 2px 12px; margin-bottom: 8px; }
+.inf-hero { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 8px 32px; align-items: center; }
+.inf-hero .vitral { width: 100%; height: auto; filter: drop-shadow(0 10px 14px rgb(60 30 10 / .3)); }
+@media (max-width: 700px) { .inf-hero { grid-template-columns: minmax(0, 1fr); } .inf-hero .vitral { width: min(240px, 76%); justify-self: center; order: -1; } }
+.inf-estrelas { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.inf-caixa, .inf-cartao { border: 2px solid color-mix(in srgb, var(--ouro) 55%, var(--linha)); background: var(--superficie); box-shadow: var(--sombra), inset 0 0 0 4px var(--superficie), inset 0 0 0 5px color-mix(in srgb, var(--ouro) 35%, transparent); }
+.inf-caixa { border-radius: 22px; padding: 14px 18px; margin: 0 0 16px; }
+.inf-caixa p { margin: .3em 0; }
+.inf-cartao { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 4px 18px; align-items: start; border-radius: 26px; padding: 20px; margin-bottom: 18px; }
+.inf-selo { width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--vinho-suave); border: 3px solid var(--ouro); box-shadow: inset 0 0 0 3px var(--superficie); }
+.inf-cartao h2 { margin: 0 0 .2em; font-size: 1.6rem; }
+.inf-cartao h2::before { display: none; }
+.inf-cartao h2 a { color: var(--vinho); text-decoration: none; }
+.inf-cartao h2 a:hover { text-decoration: underline wavy var(--ouro); }
+.inf-conteudo { min-width: 0; }
+@media (max-width: 480px) { .inf-cartao { grid-template-columns: minmax(0, 1fr); } .inf-selo { width: 64px; height: 64px; } }
+.inf-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0; }
+.infantil .btn { position: relative; min-height: 52px; padding: 12px 22px; font: 800 1rem/1.2 var(--inf-texto); letter-spacing: 0; text-transform: none; border-radius: 999px; border: 2px solid var(--ouro); gap: 8px; justify-content: center; box-shadow: 0 3px 0 color-mix(in srgb, var(--ouro) 60%, transparent); }
+.infantil .btn.primario { background: linear-gradient(180deg, var(--bordo-2), var(--bordo)); border-color: var(--ouro-claro); color: #fff3d6; box-shadow: 0 3px 0 #1d050c, inset 0 0 0 2px rgb(216 184 106 / .35); }
+.infantil .btn.pequeno { min-height: 44px; padding: 8px 16px; font-size: .9rem; }
+.infantil .btn.perigo { color: var(--erro); border-color: var(--erro); background: transparent; box-shadow: none; }
+.infantil .btn:active { transform: translateY(2px); }
+.infantil .btn:focus-within { outline: 2px solid var(--ouro); outline-offset: 3px; }
+.infantil .ico { flex: none; }
+.inf-virtude { background: var(--vinho-suave); color: var(--vinho); }
+.inf-soltar { border: 3px dashed var(--ouro); border-radius: 26px; padding: 22px; text-align: center; background: var(--superficie); font-weight: 700; color: var(--tinta-2); }
+.inf-soltar.sobre { background: var(--alerta-suave); }
+.inf-anexos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.inf-anexo { background: var(--superficie); border: 2px solid var(--linha); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--sombra); }
+.inf-miniatura { height: 160px; background: var(--papel-2); display: flex; align-items: center; justify-content: center; font: 400 1.8rem var(--inf-display); color: var(--vinho); }
+.inf-miniatura img { width: 100%; height: 100%; object-fit: cover; }
+.inf-info { padding: 10px 14px; font: 600 .9rem/1.4 var(--inf-texto); word-break: break-word; flex: 1; }
+.inf-anexo .inf-acoes { padding: 0 12px 14px; margin: 0; gap: 8px; }
+.inf-linha { display: flex; align-items: center; gap: 12px; min-height: 48px; font-weight: 800; }
+.inf-linha input { width: 26px; height: 26px; accent-color: var(--vinho); }
+.inf-salvo { font: 700 .9rem var(--inf-texto); color: var(--ok); }
+.inf-capitular::first-letter { float: left; font: 400 2.7em/.85 var(--inf-display); color: var(--vinho); margin: .06em .14em 0 0; padding: .1em .2em .04em; background: var(--vinho-suave); border: 2px solid var(--ouro); border-radius: 16px; }
+.inf-caminho p { font-style: italic; color: var(--tinta-2); }
+.inf-backup { margin-top: 24px; border-top: 3px dotted var(--linha); padding-top: 14px; }
+.inf-backup summary { cursor: pointer; font-weight: 800; }
+.inf-para { background: var(--azul-suave); color: var(--azul); }
+.inf-filhos { margin-top: 8px; }
+.inf-filho h3 { margin: 0 0 .6em; font-size: 1.3rem; color: var(--vinho); }
+.inf-filho-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.inf-filho .inf-acoes { margin: 8px 0; }
+@media (prefers-reduced-motion: reduce) { .infantil .btn:active { transform: none; } }
 </style>
 
 <header class="topo">
