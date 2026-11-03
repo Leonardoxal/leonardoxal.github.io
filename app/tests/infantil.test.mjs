@@ -91,7 +91,7 @@ const logado = (banco, id = 'u1') => { banco.estado.usuario = { id, email: `${id
 test('infantil: cada aula publicada tem os campos, os dois PDFs e um ícone válido', () => {
   assert.ok(AULAS_INFANTIL.length >= 1);
   for (const a of AULAS_INFANTIL) {
-    assert.match(a.data, /^\d{4}-\d{2}-\d{2}$/);
+    assert.match(a.data, /^\d{4}-\d{2}-\d{2}(-f\d{1,3})?$/, 'o id é a data, com o sufixo do filho quando há duas aulas no mesmo dia');
     assert.ok(a.titulo && a.resumo, `${a.data}: faltam título ou resumo`);
     assert.match(a.filho, /^f\d+$/, `${a.data}: falta o código do filho (f1, f2…)`);
     assert.ok(a.para, `${a.data}: falta o rótulo "Para"`);

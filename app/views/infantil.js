@@ -17,7 +17,7 @@ const CODIGO_OK = /^[a-z0-9-]{1,30}$/;
 const arm = criarArmazenamento({ obterCliente: clienteNuvem, obterUsuario: usuarioNuvem, familiaAtiva: FAMILIA_ATIVA });
 
 const tamanho = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1048576).toFixed(1)} MB`);
-const dataBR = (iso) => iso.split('-').reverse().join('/');
+const dataBR = (iso) => iso.slice(0, 10).split('-').reverse().join('/'); // o id pode levar o sufixo do filho (AAAA-MM-DD-f2)
 const quando = (ms) => new Date(ms).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
 const novoId = () => crypto.randomUUID?.() ?? ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
 // Mesma lista do banco da nuvem. SVG fica de fora: aberto numa aba, executaria script.

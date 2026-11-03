@@ -63,7 +63,7 @@ create table if not exists public.aci_filho (
 
 -- "Aula feita" e observações, por filho (filho = '' quando não se indica quem fez).
 create table if not exists public.aci_aula (
-  aula       text        not null check (aula ~ '^\d{4}-\d{2}-\d{2}$'),
+  aula       text        not null check (aula ~ '^\d{4}-\d{2}-\d{2}(-f\d{1,3})?$'),
   filho      text        not null default '' check (filho = '' or filho ~ '^[a-z0-9-]{1,30}$'),
   feita      boolean     not null default false,
   nota       text        not null default '' check (length(nota) <= 5000),
@@ -73,7 +73,7 @@ create table if not exists public.aci_aula (
 
 create table if not exists public.aci_anexo (
   id        uuid primary key,
-  aula      text    not null check (aula ~ '^\d{4}-\d{2}-\d{2}$'),
+  aula      text    not null check (aula ~ '^\d{4}-\d{2}-\d{2}(-f\d{1,3})?$'),
   filho     text    not null default '' check (filho = '' or filho ~ '^[a-z0-9-]{1,30}$'), -- quem fez a tarefa
   nome      text    not null check (length(nome) between 1 and 200),
   tipo      text    not null check (tipo = 'application/pdf' or tipo ~ '^image/(jpeg|png|webp|gif|heic|heif)$'),
