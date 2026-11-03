@@ -8,6 +8,8 @@ import { criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
+import { proximaPorFilho } from '../infantil/progresso.js';
+import { criarLeitor } from '../infantil/leitor.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
@@ -56,6 +58,29 @@ export function infantil() {
       ${cenaVitral()}
     </header>
     <div class="inf-conta" id="inf-conta" aria-live="polite"></div>
+    <section class="inf-proximas" id="inf-proximas" aria-label="Próxima aula de cada filho"></section>
+    <details class="inf-caixa inf-recom" open>
+      <summary><strong>Como usar a Academia Infantil</strong></summary>
+      <p>Funciona como o curso da Academia da Verdade: uma trilha de aulas em ordem, e cada aula tem material para ler, tarefa, acompanhamento e revisão. O progresso aparece em estrelas, e o "Continuar" mostra a próxima aula de cada filho.</p>
+      <h3>A rotina de cada aula</h3>
+      <ol>
+        <li><strong>Leia o manual do responsável</strong> no leitor da própria aula (cerca de 10 minutos). Ele diz o que fazer, o que dizer e como ajudar sem dar a resposta.</li>
+        <li><strong>Imprima o caderno da aluna</strong> em A4, colorido. Reúna os materiais da lista do manual.</li>
+        <li><strong>Faça a aula em uma ou duas sessões.</strong> Cada atividade dura de 3 a 5 minutos. Comece pelo Sinal da Cruz e pela oração "Vinde, Espírito Santo"; termine com o "Glória ao Pai".</li>
+        <li><strong>Anexe a tarefa pronta</strong> (foto ou PDF) e escolha em "Quem fez esta aula?" o filho certo.</li>
+        <li><strong>Marque "Aula feita"</strong> e anote o que ela disse, o que mais gostou e o que cansou. Essas observações guiam as próximas aulas.</li>
+      </ol>
+      <h3>O ritmo</h3>
+      <ul>
+        <li>Uma aula por dia é o ritmo previsto. Se faltar um dia, siga para a aula seguinte: não é preciso compensar, e a criança não deve sentir pressão.</li>
+        <li>Se a criança estiver cansada ou irritada, pare. Aula curta e boa vale mais que aula longa e ruim.</li>
+        <li>Para o bebê, o livrinho e o manual são feitos pelos pais, sem tarefa: marque "Aula feita" quando fizerem os momentos do dia.</li>
+      </ul>
+      <h3>A revisão da semana</h3>
+      <p>Como nas revisões do curso adulto, uma vez por semana olhe as estrelas e as observações de cada filho: o que ainda está em desenvolvimento entra de novo na semana seguinte, como reforço. Leve as observações ao Claude, no projeto privado da Academia Infantil, para receber o relatório de evolução e as aulas da próxima semana.</p>
+      <h3>O caminho</h3>
+      <p>O ciclo vai dos 3 aos 15 anos, em etapas. Aos 16, o estudante segue para a Academia da Verdade, que já tem o mesmo desenho: leitura, tarefa, acompanhamento e revisão. As aulas daqui preparam essa entrada.</p>
+    </details>
     ${AULAS_INFANTIL.length ? AULAS_INFANTIL.map(cartao).join('') : '<p class="vazio">Ainda não há aulas publicadas.</p>'}
     <section class="inf-filhos" aria-labelledby="inf-filhos-titulo">
       <h2 id="inf-filhos-titulo">Filhos</h2>
@@ -87,6 +112,23 @@ export function aulaInfantil(ctx, id) {
     </header>
     <p class="sub inf-capitular">${esc(a.resumo)}</p>
     <div class="inf-conta" id="inf-conta" aria-live="polite"></div>
+    <h2>Ler a aula</h2>
+    <p class="meta">Leia aqui mesmo, sem baixar. Comece pelo manual do responsável; o caderno da aluna é para imprimir e fazer com a criança. O app só lembra em que página você parou.</p>
+    <div class="leitor-barra">
+      <button class="btn primario" type="button" id="inf-ler">Ler agora</button>
+      <fieldset class="leitor-modos"><legend class="sr">Documento</legend>
+        <label class="opcao"><input type="radio" name="inf-doc" value="responsavel" checked> <span>Manual do responsável</span></label>
+        <label class="opcao"><input type="radio" name="inf-doc" value="aluna"> <span>Caderno da aluna</span></label></fieldset>
+      <fieldset class="leitor-modos"><legend class="sr">Modo de leitura</legend>
+        <label class="opcao"><input type="radio" name="inf-modo" value="continuo" checked> <span>Contínuo</span></label>
+        <label class="opcao"><input type="radio" name="inf-modo" value="folhear"> <span>Folhear</span></label></fieldset>
+      <span class="meta" id="inf-leitor-pos" aria-live="polite"></span>
+      <button class="btn" type="button" data-acao="tela-cheia">Tela cheia</button>
+    </div>
+    <div id="inf-leitor-tela" class="leitor-tela">
+      <div class="leitor-tela-barra"><span id="inf-leitor-pos-cheia" class="meta"></span><button class="btn pequeno" type="button" data-acao="tela-cheia">Sair da tela cheia</button></div>
+      <div id="inf-leitor-area" class="leitor-area" tabindex="-1"><p class="meta">Toque em "Ler agora" para abrir o documento escolhido.</p></div>
+    </div>
     <h2>Baixar a aula</h2>
     <p>Imprima o caderno da aluna em A4, colorido. O manual do responsável traz o passo a passo; leia antes de começar.</p>
     <div class="inf-acoes">${botoesPdf(a)}</div>
@@ -255,6 +297,11 @@ infantil.ligar = (root) => {
     if (!root.isConnected) return;
     const feitas = AULAS_INFANTIL.filter((a) => registros.some((r) => r.aula === a.data && r.feita)).length;
     root.querySelector('#inf-estrelas').innerHTML = `${estrelas(feitas, Math.max(AULAS_INFANTIL.length, 1))}<span class="meta">${feitas} de ${AULAS_INFANTIL.length} aulas feitas</span>`;
+    root.querySelector('#inf-proximas').innerHTML = proximaPorFilho(AULAS_INFANTIL, registros).map((p) => `<div class="inf-caixa inf-proxima">
+      <h2>Continuar: ${esc(nomeDe(filhos, p.filho, p.para))}</h2>
+      <p class="meta">${p.feitas} de ${p.total} aulas feitas</p>
+      ${p.proxima ? `<p>Próxima aula: <strong>${link(`infantil-${p.proxima.data}`, esc(p.proxima.titulo))}</strong> <span class="chip">${dataBR(p.proxima.data)}</span></p>` : '<p>Todas as aulas publicadas já foram feitas. A próxima semana de aulas chega em breve.</p>'}
+    </div>`).join('');
     for (const a of AULAS_INFANTIL) {
       const para = root.querySelector(`[data-para="${a.data}"]`);
       if (para && a.filho) para.textContent = `Para: ${nomeDe(filhos, a.filho, a.para || a.filho)}`;
@@ -448,4 +495,12 @@ aulaInfantil.ligar = (root, ctx, id) => {
   };
   iniciar();
   sincronizar(root, atualizar);
+
+  // Leitor de PDF: abre o manual ou o caderno desta aula, sem baixar.
+  const leitor = criarLeitor(root, toast);
+  const documento = () => root.querySelector('input[name="inf-doc"]:checked').value;
+  const lerAgora = () => leitor.abrir(aula.arquivos[documento()], `${id}-${documento()}`);
+  root.querySelector('#inf-ler').addEventListener('click', lerAgora);
+  root.querySelectorAll('input[name="inf-doc"]').forEach((r) => r.addEventListener('change', () => { if (root.querySelector('#inf-leitor-area .pg, #inf-leitor-area .folhas')) lerAgora(); }));
+  root.querySelectorAll('input[name="inf-modo"]').forEach((r) => { r.checked = r.value === leitor.modo(); r.addEventListener('change', () => leitor.trocarModo(r.value)); });
 };

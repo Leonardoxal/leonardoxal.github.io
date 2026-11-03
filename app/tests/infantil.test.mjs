@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarNuvem, criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
+import { proximaPorFilho } from '../infantil/progresso.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -117,6 +118,27 @@ test('infantil: as telas mostram as aulas, os PDFs e os campos de anexar', () =>
   for (const trecho of ['id="inf-arquivos"', 'id="inf-camera"', 'capture="environment"', 'id="inf-soltar"', 'id="inf-feita"', 'id="inf-nota"', 'id="inf-quem"', 'multiple', `Para: ${a.para}`]) assert.ok(tela.includes(trecho), `falta ${trecho}`);
   assert.ok(lista.includes('id="inf-filhos-lista"') && lista.includes('id="inf-filho-novo"') && lista.includes(`Para: ${a.para}`));
   assert.match(aulaInfantil(null, '1999-01-01'), /Aula não encontrada/);
+});
+
+test('infantil: leitor de PDF e recomendações aparecem nas telas', () => {
+  const tela = aulaInfantil(null, AULAS_INFANTIL[0].data);
+  for (const trecho of ['id="inf-ler"', 'id="inf-leitor-area"', 'id="inf-leitor-tela"', 'name="inf-doc"', 'name="inf-modo"', 'data-acao="tela-cheia"']) assert.ok(tela.includes(trecho), `falta ${trecho}`);
+  const lista = infantil();
+  for (const trecho of ['id="inf-proximas"', 'Como usar a Academia Infantil', 'A revisão da semana']) assert.ok(lista.includes(trecho), `falta ${trecho}`);
+});
+
+test('progresso: a próxima aula é a primeira não feita de cada filho, em ordem de data', () => {
+  const aulas = [
+    { data: '2026-11-05', filho: 'f1', para: 'Filha 1' }, { data: '2026-11-03', filho: 'f1', para: 'Filha 1' },
+    { data: '2026-11-04-f2', filho: 'f2', para: 'Filho 2' }, { data: '2026-11-05-f2', filho: 'f2', para: 'Filho 2' },
+  ];
+  const regs = [{ aula: '2026-11-03', filho: 'f1', feita: true }, { aula: '2026-11-04-f2', filho: 'f1', feita: true }, { aula: '2026-11-04-f2', filho: 'f2', feita: false }];
+  const [f1, f2] = proximaPorFilho(aulas, regs);
+  assert.deepEqual([f1.filho, f1.feitas, f1.total, f1.proxima.data], ['f1', 1, 2, '2026-11-05']);
+  assert.deepEqual([f2.filho, f2.feitas, f2.total, f2.proxima.data], ['f2', 0, 2, '2026-11-04-f2'], 'o registro de outro filho não conta');
+  const todas = proximaPorFilho(aulas.slice(0, 2), [{ aula: '2026-11-03', filho: 'f1', feita: true }, { aula: '2026-11-05', filho: 'f1', feita: true }]);
+  assert.equal(todas[0].proxima, null);
+  assert.deepEqual(proximaPorFilho([], []), []);
 });
 
 test('nuvem: anexo é enviado, listado, baixado e apagado (arquivo e linha)', async () => {
