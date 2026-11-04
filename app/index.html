@@ -634,6 +634,12 @@ details > summary { cursor: pointer; }
 .inf-livros-lista { list-style: none; padding: 0; margin: .5em 0 0; }
 .inf-livros-lista li { margin: .7em 0; }
 .inf-livros-lista .inf-linha { align-items: flex-start; }
+/* "Já lemos": quadrado vazio que ganha um X ao marcar. */
+.inf-livros-lista input[type="checkbox"] { appearance: none; -webkit-appearance: none; flex: none; width: 26px; height: 26px; margin: 0; border: 2px solid var(--vinho); border-radius: 3px; background: transparent; display: grid; place-content: center; cursor: pointer; }
+.inf-livros-lista input[type="checkbox"]::after { content: "✕"; font-size: 18px; font-weight: 900; line-height: 1; color: var(--vinho); opacity: 0; }
+.inf-livros-lista input[type="checkbox"]:checked::after { opacity: 1; }
+.inf-livros-lista input[type="checkbox"]:focus-visible { outline: 3px solid var(--vinho); outline-offset: 2px; }
+.inf-livros-lista input[type="checkbox"]:disabled { opacity: .45; cursor: not-allowed; }
 .inf-faixa.atual { border-color: var(--ouro); }
 .inf-faixa h3 { margin: 1em 0 .2em; }
 .inf-alerta { color: var(--vinho); font-size: .92em; }
