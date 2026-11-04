@@ -353,25 +353,27 @@ infantil.ligar = (root) => {
 
   // Biblioteca: a trilha de cada filho. "Já lemos" fica só neste aparelho (localStorage), por filho.
   const seletorLivros = root.querySelector('#inf-livros-filho');
-  const chaveLidos = () => `aci-livros-lidos-${seletorLivros.value}`;
+  // Sem filho escolhido (ou sem filho cadastrado neste aparelho), marca na lista da família.
+  const chaveLidos = () => `aci-livros-lidos-${seletorLivros.value || 'familia'}`;
   const lerLidos = () => { try { return new Set(JSON.parse(localStorage.getItem(chaveLidos())) ?? []); } catch { return new Set(); } };
   const caixasLivro = [...root.querySelectorAll('[data-livro]')];
   let filhosLivros = [];
-  const mostrarTrilha = () => {
+  // abrirFaixa só quando o filho muda: marcar um livro não pode fechar as faixas abertas.
+  const mostrarTrilha = (abrirFaixa = true) => {
     const f = filhosLivros.find((x) => x.id === seletorLivros.value);
-    const lidos = f ? lerLidos() : new Set();
-    caixasLivro.forEach((c) => { c.checked = lidos.has(c.dataset.livro); c.disabled = !f; });
+    const lidos = lerLidos();
+    caixasLivro.forEach((c) => { c.checked = lidos.has(c.dataset.livro); });
     const faixa = f ? faixaPara(f.nascimento) : null;
-    root.querySelectorAll('.inf-faixa[data-faixa]').forEach((d) => { d.open = d.dataset.faixa === faixa; d.classList.toggle('atual', d.dataset.faixa === faixa); });
+    if (abrirFaixa) root.querySelectorAll('.inf-faixa[data-faixa]').forEach((d) => { d.open = d.dataset.faixa === faixa; d.classList.toggle('atual', d.dataset.faixa === faixa); });
     const titulo = FAIXAS.find((x) => x.id === faixa)?.titulo;
-    root.querySelector('#inf-livros-idade').textContent = !f ? 'Escolha um filho para abrir a faixa da idade dele e marcar o que já leram.'
+    root.querySelector('#inf-livros-idade').textContent = !f ? `Marcando na lista da família (${lidos.size} lido(s)). Escolha um filho para abrir a faixa da idade dele e marcar só para ele.`
       : titulo ? `${f.nome}: ${idade(f.nascimento)}. Faixa aberta: ${titulo}. ${lidos.size} livro(s) marcados como lidos.` : `${f.nome}: cadastre o nascimento em "Filhos" para abrir a faixa da idade.`;
   };
   caixasLivro.forEach((c) => c.addEventListener('change', () => {
     const lidos = lerLidos();
     c.checked ? lidos.add(c.dataset.livro) : lidos.delete(c.dataset.livro);
     try { localStorage.setItem(chaveLidos(), JSON.stringify([...lidos])); } catch { /* sem armazenamento: vale só nesta visita */ }
-    mostrarTrilha();
+    mostrarTrilha(false);
   }));
   seletorLivros.addEventListener('change', () => { lembrarQuem(seletorLivros.value); mostrarTrilha(); });
   arm.listarFilhos().then((fs) => {
