@@ -32,8 +32,11 @@ const lembrarQuem = (v) => { try { v === undefined ? null : localStorage.setItem
 
 // ---------------------------------------------------------------- HTML
 
+const caderno = (a) => (a.perfil === 'menino' ? 'caderno do aluno' : 'caderno da aluna');
+const Caderno = (a) => caderno(a).replace('c', 'C');
+
 const botoesPdf = (a) => `
-  <a class="btn primario" href="${esc(a.arquivos.aluna)}" download>${icone('baixar')} Caderno da aluna (${a.paginas.aluna} págs.)</a>
+  <a class="btn primario" href="${esc(a.arquivos.aluna)}" download>${icone('baixar')} ${Caderno(a)} (${a.paginas.aluna} págs.)</a>
   <a class="btn" href="${esc(a.arquivos.responsavel)}" download>${icone('baixar')} Manual do responsável (${a.paginas.responsavel} págs.)</a>`;
 
 const cartao = (a) => `
@@ -99,7 +102,7 @@ export function infantil() {
       <h3>A rotina de cada aula</h3>
       <ol>
         <li><strong>Leia o manual do responsável</strong> no leitor da própria aula (cerca de 10 minutos). Ele diz o que fazer, o que dizer e como ajudar sem dar a resposta.</li>
-        <li><strong>Imprima o caderno da aluna</strong> em A4, colorido. Reúna os materiais da lista do manual.</li>
+        <li><strong>Imprima o caderno da criança</strong> em A4, colorido. Reúna os materiais da lista do manual.</li>
         <li><strong>Faça a aula em uma ou duas sessões.</strong> Cada atividade dura de 3 a 5 minutos. Comece pelo Sinal da Cruz e pela oração "Vinde, Espírito Santo"; termine com o "Glória ao Pai".</li>
         <li><strong>Anexe a tarefa pronta</strong> (foto ou PDF) e escolha em "Quem fez esta aula?" o filho certo.</li>
         <li><strong>Marque "Aula feita"</strong> e anote o que ela disse, o que mais gostou e o que cansou. Essas observações guiam as próximas aulas.</li>
@@ -148,12 +151,12 @@ export function aulaInfantil(ctx, id) {
     <p class="sub inf-capitular">${esc(a.resumo)}</p>
     <div class="inf-conta" id="inf-conta" aria-live="polite"></div>
     <h2>Ler a aula</h2>
-    <p class="meta">Leia aqui mesmo, sem baixar. Comece pelo manual do responsável; o caderno da aluna é para imprimir e fazer com a criança. O app só lembra em que página você parou.</p>
+    <p class="meta">Leia aqui mesmo, sem baixar. Comece pelo manual do responsável; o ${caderno(a)} é para imprimir e fazer com a criança. O app só lembra em que página você parou.</p>
     <div class="leitor-barra">
       <button class="btn primario" type="button" id="inf-ler">Ler agora</button>
       <fieldset class="leitor-modos"><legend class="sr">Documento</legend>
         <label class="opcao"><input type="radio" name="inf-doc" value="responsavel" checked> <span>Manual do responsável</span></label>
-        <label class="opcao"><input type="radio" name="inf-doc" value="aluna"> <span>Caderno da aluna</span></label></fieldset>
+        <label class="opcao"><input type="radio" name="inf-doc" value="aluna"> <span>${Caderno(a)}</span></label></fieldset>
       <fieldset class="leitor-modos"><legend class="sr">Modo de leitura</legend>
         <label class="opcao"><input type="radio" name="inf-modo" value="continuo" checked> <span>Contínuo</span></label>
         <label class="opcao"><input type="radio" name="inf-modo" value="folhear"> <span>Folhear</span></label></fieldset>
@@ -165,7 +168,7 @@ export function aulaInfantil(ctx, id) {
       <div id="inf-leitor-area" class="leitor-area" tabindex="-1"><p class="meta">Toque em "Ler agora" para abrir o documento escolhido.</p></div>
     </div>
     <h2>Baixar a aula</h2>
-    <p>Imprima o caderno da aluna em A4, colorido. O manual do responsável traz o passo a passo; leia antes de começar.</p>
+    <p>Imprima o ${caderno(a)} em A4, colorido. O manual do responsável traz o passo a passo; leia antes de começar.</p>
     <div class="inf-acoes">${botoesPdf(a)}</div>
     <h2>Quem fez esta aula?</h2>
     <label class="campo"><span>Filho</span><select id="inf-quem"></select></label>
