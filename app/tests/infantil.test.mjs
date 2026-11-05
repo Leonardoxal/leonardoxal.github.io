@@ -13,6 +13,8 @@ import { proximaPorFilho } from '../infantil/progresso.js';
 import { FAIXAS, SECOES, LIVROS_INFANTIL, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
 import { LIVROS as LIVROS_VERDADE } from '../data/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
+import { JOGOS, ajustar, progressoInicial, usadoHoje, acabou } from '../infantil/jogos.js';
+import { jogos, jogo } from '../views/jogos.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ICONES = ['peixe', 'passaro', 'ovelha', 'gato', 'pato', 'sol', 'estrela', 'cruz'];
@@ -266,6 +268,59 @@ test('livros lidos: marcados por filho na nuvem, sem duplicar, e sobem do aparel
     assert.deepEqual((await nuvem.listarLidos('f1')).sort(), ['a', 'b']);
     assert.deepEqual(await nuvem.listarLidos('familia'), ['c']);
   } finally { delete globalThis.localStorage; }
+});
+
+test('jogos: sobe com 3 acertos seguidos, desce com 2 erros seguidos e nunca fica abaixo de 1', () => {
+  let p = progressoInicial();
+  p = ajustar(ajustar(p, true), true);
+  assert.equal(p.nivel, 1);
+  p = ajustar(p, true);
+  assert.deepEqual(p, { nivel: 2, seguidos: 0, erros: 0 });
+  p = ajustar(ajustar(p, true), false);
+  assert.deepEqual([p.nivel, p.seguidos], [2, 0], 'um erro zera a sequência de acertos');
+  p = ajustar(p, false);
+  assert.equal(p.nivel, 1);
+  assert.equal(ajustar(ajustar(p, false), false).nivel, 1);
+});
+
+test('jogos: toda rodada de todo nível (1 a 60) tem a resposta certa entre as opções, sem repetir nem negativo', () => {
+  for (const j of Object.values(JOGOS)) {
+    for (let n = 1; n <= 60; n++) {
+      for (let k = 0; k < 40; k++) {
+        const r = j.rodada(n);
+        const chaves = r.opcoes.map((o) => o.chave);
+        assert.ok(chaves.includes(r.certa), `${j.id} nível ${n}: falta a resposta certa`);
+        assert.equal(new Set(chaves).size, chaves.length, `${j.id} nível ${n}: opção repetida`);
+        assert.ok(chaves.length >= 2 && r.fala && r.texto, `${j.id} nível ${n}: rodada incompleta`);
+        assert.ok(r.opcoes.every((o) => o.num === undefined || o.num >= 0), `${j.id} nível ${n}: número negativo`);
+      }
+    }
+  }
+});
+
+test('jogos: as contas e as sequências estão certas', () => {
+  for (let k = 0; k < 200; k++) {
+    const q = JOGOS.quantos.rodada(16 + (k % 10));
+    const [a, op, b] = q.texto.split(' ');
+    assert.equal(q.certa, `n${op === '+' ? Number(a) + Number(b) : Number(a) - Number(b)}`, q.texto);
+    const d = JOGOS.depois.rodada(9);
+    const s = d.mostrar.seq.map((x) => x.num);
+    assert.equal(d.certa, `n${s[3] + 1}`, 'nível 9: soma 1');
+  }
+  const contar = JOGOS.quantos.rodada(7);
+  assert.equal(contar.certa, `n${contar.mostrar.grupos[0].qtd}`);
+});
+
+test('jogos: tempo de tela por dia e telas', () => {
+  assert.equal(usadoHoje({ dia: '2026-11-05', ms: 90000 }, '2026-11-05'), 90000);
+  assert.equal(usadoHoje({ dia: '2026-11-04', ms: 90000 }, '2026-11-05'), 0, 'zera no dia seguinte');
+  assert.equal(acabou(0, 9e9), false, 'sem limite nunca acaba');
+  assert.equal(acabou(5, 5 * 60000), true);
+  const lista = jogos();
+  for (const id of Object.keys(JOGOS)) assert.ok(lista.includes(`href="#jogo-${id}"`));
+  assert.ok(lista.indexOf('</header>') > 0 && lista.includes('id="jg-limite"'));
+  assert.ok(jogo(null, 'quantos').includes('id="jg-comecar"'));
+  assert.ok(jogo(null, 'nada').includes('não encontrado'));
 });
 
 test('armazenamento: com a família desativada, nem consulta a conta nem a nuvem', async () => {
