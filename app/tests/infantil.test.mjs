@@ -281,6 +281,8 @@ test('jogos: sobe com 3 acertos seguidos, desce com 2 erros seguidos e nunca fic
   p = ajustar(p, false);
   assert.equal(p.nivel, 1);
   assert.equal(ajustar(ajustar(p, false), false).nivel, 1);
+  assert.equal(ajustar(ajustar({ nivel: 9, seguidos: 0, erros: 0 }, false), false).nivel, 1, 'dois erros seguidos voltam ao nível 1');
+  assert.equal(ajustar({ nivel: 9, seguidos: 0, erros: 0 }, false).nivel, 9, 'um erro só não muda o nível');
 });
 
 test('jogos: toda rodada de todo nível (1 a 60) tem a resposta certa entre as opções, sem repetir nem negativo', () => {

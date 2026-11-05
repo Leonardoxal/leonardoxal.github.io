@@ -4,16 +4,16 @@
 // Progressão pedagógica: quantidade antes do número escrito; palavra ouvida antes do som inicial; padrão antes de número.
 
 export const SUBIR = 3; // acertos seguidos para subir de nível
-export const DESCER = 2; // erros seguidos para descer
+export const DESCER = 2; // erros seguidos para recomeçar do nível 1 (pedido da família)
 
-/** Dificuldade adaptativa: sobe depois de SUBIR acertos seguidos, desce depois de DESCER erros seguidos; nunca abaixo de 1. */
+/** Dificuldade adaptativa: sobe depois de SUBIR acertos seguidos; depois de DESCER erros seguidos volta ao nível 1. */
 export function ajustar(p, acertou) {
   if (acertou) {
     const seguidos = p.seguidos + 1;
     return seguidos >= SUBIR ? { nivel: p.nivel + 1, seguidos: 0, erros: 0 } : { nivel: p.nivel, seguidos, erros: 0 };
   }
   const erros = p.erros + 1;
-  return erros >= DESCER ? { nivel: Math.max(1, p.nivel - 1), seguidos: 0, erros: 0 } : { nivel: p.nivel, seguidos: 0, erros };
+  return erros >= DESCER ? { nivel: 1, seguidos: 0, erros: 0 } : { nivel: p.nivel, seguidos: 0, erros };
 }
 
 export const progressoInicial = () => ({ nivel: 1, seguidos: 0, erros: 0 });
