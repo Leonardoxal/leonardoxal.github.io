@@ -3,7 +3,13 @@
 // Sem placar, sem tempo correndo, sem som de erro: errar mostra a resposta com calma e o jogo fica mais fácil.
 import { esc, link } from '../ui.js';
 import { JOGOS, ajustar, progressoInicial, LIMITES, hojeISO, usadoHoje, acabou } from '../infantil/jogos.js';
-import { arm } from './infantil.js';
+import { criarArmazenamento } from '../infantil/armazenamento.js';
+import { clienteNuvem, usuarioNuvem } from '../nuvem.js';
+import { FAMILIA_ATIVA } from '../infantil/config.js';
+
+// Armazenamento próprio (mesmo cadastro de filhos da aba Infantil). Não importa de views/infantil.js:
+// se o navegador guardar uma versão antiga daquele arquivo, a aba não pode quebrar o site inteiro.
+const arm = criarArmazenamento({ obterCliente: clienteNuvem, obterUsuario: usuarioNuvem, familiaAtiva: FAMILIA_ATIVA });
 
 const LIBERAR_MS = 5 * 60000; // o adulto libera mais 5 minutos
 const SEGURAR_MS = 3000; // segurar o botão do adulto por 3 segundos

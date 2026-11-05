@@ -17,7 +17,7 @@ const MAX_BYTES = 25 * 1024 * 1024;
 const MAX_LADO = 1800;
 const SINCRONIA_MS = 30000;
 const CODIGO_OK = /^[a-z0-9-]{1,30}$/;
-// Exportado para a aba Jogos usar o mesmo cadastro de filhos (aparelho ou família).
+// Exportado só por compatibilidade: a versão anterior de views/jogos.js importava daqui e pode estar no cache.
 export const arm = criarArmazenamento({ obterCliente: clienteNuvem, obterUsuario: usuarioNuvem, familiaAtiva: FAMILIA_ATIVA });
 
 const tamanho = (b) => (b < 1048576 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1048576).toFixed(1)} MB`);
