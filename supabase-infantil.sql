@@ -83,6 +83,18 @@ create table if not exists public.aci_anexo (
 );
 create index if not exists aci_anexo_aula on public.aci_anexo (aula);
 
+-- "Já lemos" da biblioteca: uma linha por livro lido, por filho (filho = 'familia' quando não se escolhe o filho).
+create table if not exists public.aci_livro (
+  filho     text not null check (filho ~ '^[a-z0-9-]{1,30}$'),
+  livro     text not null check (livro ~ '^[a-z0-9-]{1,80}$'),
+  criado_em timestamptz not null default now(),
+  primary key (filho, livro)
+);
+alter table public.aci_livro enable row level security;
+drop policy if exists "familia usa livros" on public.aci_livro;
+create policy "familia usa livros" on public.aci_livro
+  for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
+
 alter table public.aci_filho enable row level security;
 alter table public.aci_aula  enable row level security;
 alter table public.aci_anexo enable row level security;

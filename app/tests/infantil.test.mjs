@@ -19,7 +19,7 @@ const ICONES = ['peixe', 'passaro', 'ovelha', 'gato', 'pato', 'sol', 'estrela', 
 const CODIGO = 'codigo-certo';
 
 function bancoSimulado({ membros = [] } = {}) {
-  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [] };
+  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [] };
   const objetos = new Map();
   const familia = new Set(membros);
   const estado = { usuario: null, falharInsert: false };
@@ -36,7 +36,7 @@ function bancoSimulado({ membros = [] } = {}) {
         return { data: null, error: null };
       }
       if (op === 'upsert') {
-        const chave = (l) => (nome === 'aci_aula' ? `${l.aula}|${l.filho}` : l.id);
+        const chave = (l) => ({ aci_aula: `${l.aula}|${l.filho}`, aci_livro: `${l.filho}|${l.livro}` }[nome] ?? l.id);
         const i = t.findIndex((l) => chave(l) === chave(corpo));
         if (i >= 0) t[i] = { ...t[i], ...corpo }; else t.push({ ...corpo });
         return { data: null, error: null };
@@ -240,6 +240,32 @@ test('nuvem: cadastro de filhos (criar, atualizar, remover) e anexo com quem fez
   await nuvem.apagarFilho('f2');
   assert.deepEqual((await nuvem.listarFilhos()).map((f) => f.id), ['f1']);
   assert.equal((await nuvem.listarAnexos('2026-11-03')).length, 2, 'remover um filho não apaga as tarefas');
+});
+
+test('livros lidos: marcados por filho na nuvem, sem duplicar, e sobem do aparelho ao entrar na família', async () => {
+  const banco = bancoSimulado({ membros: ['u1'] }); logado(banco);
+  const nuvem = criarNuvem(async () => banco.cliente);
+  await nuvem.marcarLido('f1', 'boa-noite-lua', true);
+  await nuvem.marcarLido('f1', 'boa-noite-lua', true);
+  await nuvem.marcarLido('f2', 'black-on-white', true);
+  assert.deepEqual(await nuvem.listarLidos('f1'), ['boa-noite-lua'], 'marcar de novo não duplica');
+  await nuvem.marcarLido('f1', 'boa-noite-lua', false);
+  assert.deepEqual(await nuvem.listarLidos('f1'), []);
+  assert.deepEqual(await nuvem.listarLidos('f2'), ['black-on-white'], 'cada filho tem a sua lista');
+
+  // o que foi marcado no aparelho (localStorage) sobe junto com as tarefas
+  // como no navegador, Object.keys(localStorage) devolve as chaves guardadas
+  const guardado = { 'aci-livros-lidos-f1': '["a","b"]', 'aci-livros-lidos-familia': '["c"]', 'outra-chave': 'x' };
+  Object.defineProperties(guardado, { getItem: { value: (k) => guardado[k] ?? null }, setItem: { value: (k, v) => { guardado[k] = v; } } });
+  globalThis.localStorage = guardado;
+  try {
+    const arm = criarArmazenamento({ obterCliente: async () => banco.cliente, obterUsuario: async () => ({ id: 'u1', email: 'a@exemplo.com' }) });
+    assert.equal((await arm.iniciar()).modo, 'nuvem');
+    assert.equal(await arm.contarLocais(), 3, 'conta os livros mesmo sem IndexedDB');
+    await assert.rejects(() => arm.enviarAparelhoParaNuvem(), /não permite guardar/, 'sem IndexedDB no Node, as tarefas falham depois dos livros');
+    assert.deepEqual((await nuvem.listarLidos('f1')).sort(), ['a', 'b']);
+    assert.deepEqual(await nuvem.listarLidos('familia'), ['c']);
+  } finally { delete globalThis.localStorage; }
 });
 
 test('armazenamento: com a família desativada, nem consulta a conta nem a nuvem', async () => {

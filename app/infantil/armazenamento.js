@@ -45,6 +45,11 @@ const tx = async (loja, modo, fn) => {
 
 const comFilho = (a) => ({ ...a, filho: a.filho ?? '' });
 
+// "Já lemos" no aparelho: localStorage, uma lista de ids por filho (chave de antes, para não perder as marcações).
+const PREFIXO_LIDOS = 'aci-livros-lidos-';
+const lerLidosLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_LIDOS + filho)) ?? []; } catch { return []; } };
+const filhosComLidosLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_LIDOS)).map((k) => k.slice(PREFIXO_LIDOS.length)); } catch { return []; } };
+
 export const aparelho = {
   listarFilhos: () => tx('filhos', 'readonly', (s) => s.getAll()),
   salvarFilho: (f) => tx('filhos', 'readwrite', (s) => s.put({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null })),
@@ -58,6 +63,13 @@ export const aparelho = {
   lerAula: async (aula, filho = '') => (await tx('aulas', 'readonly', (s) => s.get([aula, filho]))) ?? { aula, filho, feita: false, nota: '' },
   listarAulas: () => tx('aulas', 'readonly', (s) => s.getAll()),
   salvarAula: (r) => tx('aulas', 'readwrite', (s) => s.put({ aula: r.aula, filho: r.filho ?? '', feita: !!r.feita, nota: r.nota ?? '' })),
+
+  listarLidos: async (filho) => lerLidosLocal(filho),
+  async marcarLido(filho, livro, lido) {
+    const s = new Set(lerLidosLocal(filho));
+    lido ? s.add(livro) : s.delete(livro);
+    try { localStorage.setItem(PREFIXO_LIDOS + filho, JSON.stringify([...s])); } catch { throw new Error('Este navegador não deixou guardar a marcação.'); }
+  },
 };
 
 // ---------------------------------------------------------------- nuvem da família (Supabase)
@@ -89,6 +101,12 @@ export function criarNuvem(obterCliente) {
     async lerAula(aula, filho = '') { return ok(await (await c()).from('aci_aula').select('aula, filho, feita, nota').eq('aula', aula).eq('filho', filho).maybeSingle()) ?? { aula, filho, feita: false, nota: '' }; },
     async listarAulas() { return ok(await (await c()).from('aci_aula').select('aula, filho, feita, nota')); },
     async salvarAula(r) { ok(await (await c()).from('aci_aula').upsert({ aula: r.aula, filho: r.filho ?? '', feita: !!r.feita, nota: r.nota ?? '', atualizado: new Date().toISOString() }, { onConflict: 'aula,filho' })); },
+
+    async listarLidos(filho) { return ok(await (await c()).from('aci_livro').select('livro').eq('filho', filho)).map((l) => l.livro); },
+    async marcarLido(filho, livro, lido) {
+      const t = (await c()).from('aci_livro');
+      ok(await (lido ? t.upsert({ filho, livro }, { onConflict: 'filho,livro' }) : t.delete().eq('filho', filho).eq('livro', livro)));
+    },
 
     async baixar(anexo) {
       if (blobs.has(anexo.id)) return blobs.get(anexo.id);
@@ -164,12 +182,20 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
     listarTodosAnexos: () => alvo().listarTodosAnexos(),
     salvarAnexo: (x) => alvo().salvarAnexo(x),
     apagarAnexo: (id) => alvo().apagarAnexo(id),
+    listarLidos: (filho) => alvo().listarLidos(filho),
+    marcarLido: (filho, livro, lido) => alvo().marcarLido(filho, livro, lido),
     /** Arquivo de um anexo: já vem no aparelho; na nuvem é baixado sob demanda. */
     arquivoDe: async (x) => x.blob ?? nuvem.baixar(x),
 
-    async contarLocais() { try { return (await aparelho.listarTodosAnexos()).length; } catch { return 0; } },
-    /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos anexos subiram. */
+    /** Quantos itens deste aparelho podem subir: anexos e livros marcados. */
+    async contarLocais() {
+      const livros = filhosComLidosLocal().reduce((n, f) => n + lerLidosLocal(f).length, 0);
+      try { return (await aparelho.listarTodosAnexos()).length + livros; } catch { return livros; }
+    },
+    /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos itens (anexos e livros) subiram. */
     async enviarAparelhoParaNuvem() {
+      let livros = 0;
+      for (const f of filhosComLidosLocal()) for (const l of lerLidosLocal(f)) { await nuvem.marcarLido(f, l, true); livros++; }
       const [filhos, aulas, anexos, naNuvem] = await Promise.all([aparelho.listarFilhos(), aparelho.listarAulas(), aparelho.listarTodosAnexos(), nuvem.listarTodosAnexos()]);
       const existentes = new Set(naNuvem.map((x) => x.id));
       for (const f of filhos) await nuvem.salvarFilho(f);
@@ -180,7 +206,7 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
         await nuvem.salvarAnexo(a);
         n++;
       }
-      return n;
+      return n + livros;
     },
   };
 }

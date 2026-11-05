@@ -55,7 +55,7 @@ const listaLivros = (itens, marcar) => `<ul class="inf-livros-lista">${itens.map
 
 const livrosHTML = () => `<section class="inf-livros" aria-labelledby="inf-livros-titulo">
     <h2 id="inf-livros-titulo">Biblioteca da família</h2>
-    <p class="meta">Um catálogo comum, por idade, com a trilha de cada filho. Só título e autor: confira se a edição em português existe, se a tradução é boa e se serve à criança, e leia antes de oferecer. A idade é referência, não obrigação. O "Já lemos" é marcado por filho e fica só neste aparelho.</p>
+    <p class="meta">Um catálogo comum, por idade, com a trilha de cada filho. Só título e autor: confira se a edição em português existe, se a tradução é boa e se serve à criança, e leia antes de oferecer. A idade é referência, não obrigação. O "Já lemos" é marcado por filho: na família, sincroniza entre os aparelhos; fora dela, fica só neste aparelho.</p>
     <label class="campo"><span>Trilha de</span><select id="inf-livros-filho"><option value="">Escolha o filho</option></select></label>
     <p class="meta" id="inf-livros-idade" aria-live="polite"></p>
     ${FAIXAS.map((f) => {
@@ -235,9 +235,9 @@ async function desenharConta(root, depois) {
     });
   } else {
     caixa.innerHTML = `<div class="inf-caixa"><p>Sincronizado com a família, como <strong>${esc(usuario.email)}</strong>. Todos que entraram na família veem os mesmos filhos, aulas e tarefas, em qualquer aparelho.</p>
-      <div class="inf-acoes">${locais > 0 ? `<button class="btn primario" type="button" id="inf-subir">Enviar as ${locais} tarefa(s) deste aparelho</button>` : ''}<button class="btn" type="button" id="inf-sair">Sair da família</button></div></div>`;
+      <div class="inf-acoes">${locais > 0 ? `<button class="btn primario" type="button" id="inf-subir">Enviar os ${locais} item(ns) deste aparelho (tarefas e livros lidos)</button>` : ''}<button class="btn" type="button" id="inf-sair">Sair da família</button></div></div>`;
     caixa.querySelector('#inf-subir')?.addEventListener('click', async () => {
-      try { toast(`${await arm.enviarAparelhoParaNuvem()} tarefa(s) enviada(s) para a nuvem.`); await depois(); } catch (e) { toast(erroTexto(e)); }
+      try { toast(`${await arm.enviarAparelhoParaNuvem()} item(ns) enviado(s) para a nuvem.`); await depois(); } catch (e) { toast(erroTexto(e)); }
     });
     caixa.querySelector('#inf-sair').addEventListener('click', async () => {
       if (!confirm('Sair da família? Você deixa de ver as tarefas, mas elas continuam na nuvem para os outros.')) return;
@@ -350,21 +350,25 @@ infantil.ligar = (root) => {
       alvo.replaceChildren(...quem.map((t) => Object.assign(document.createElement('span'), { className: 'chip ok', textContent: t })), ...(n ? [Object.assign(document.createElement('span'), { className: 'chip', textContent: `${n} tarefa(s) anexada(s)` })] : []));
     }
     lista.innerHTML = filhosHTML(filhos, extras);
+    await carregarLivros();
   };
+  let carregarLivros = async () => {};
+  let livrosCarregados = false;
   hidratar();
   sincronizar(root, hidratar);
 
-  // Biblioteca: a trilha de cada filho. "Já lemos" fica só neste aparelho (localStorage), por filho.
+  // Biblioteca: a trilha de cada filho. "Já lemos" vai para a nuvem da família, ou fica neste aparelho fora dela.
   const seletorLivros = root.querySelector('#inf-livros-filho');
-  // Sem filho escolhido (ou sem filho cadastrado neste aparelho), marca na lista da família.
-  const chaveLidos = () => `aci-livros-lidos-${seletorLivros.value || 'familia'}`;
-  const lerLidos = () => { try { return new Set(JSON.parse(localStorage.getItem(chaveLidos())) ?? []); } catch { return new Set(); } };
+  // Sem filho escolhido (ou sem filho cadastrado), marca na lista da família.
+  const quemLe = () => seletorLivros.value || 'familia';
   const caixasLivro = [...root.querySelectorAll('[data-livro]')];
   let filhosLivros = [];
+  let lidos = new Set();
   // abrirFaixa só quando o filho muda: marcar um livro não pode fechar as faixas abertas.
-  const mostrarTrilha = (abrirFaixa = true) => {
+  const mostrarTrilha = async (abrirFaixa = true) => {
     const f = filhosLivros.find((x) => x.id === seletorLivros.value);
-    const lidos = lerLidos();
+    try { lidos = new Set(await arm.listarLidos(quemLe())); } catch { /* mantém o que já estava na tela */ }
+    if (!root.isConnected) return;
     caixasLivro.forEach((c) => { c.checked = lidos.has(c.dataset.livro); });
     const faixa = f ? faixaPara(f.nascimento) : null;
     if (abrirFaixa) root.querySelectorAll('.inf-faixa[data-faixa]').forEach((d) => { d.open = d.dataset.faixa === faixa; d.classList.toggle('atual', d.dataset.faixa === faixa); });
@@ -372,20 +376,19 @@ infantil.ligar = (root) => {
     root.querySelector('#inf-livros-idade').textContent = !f ? `Marcando na lista da família (${lidos.size} lido(s)). Escolha um filho para abrir a faixa da idade dele e marcar só para ele.`
       : titulo ? `${f.nome}: ${idade(f.nascimento)}. Faixa aberta: ${titulo}. ${lidos.size} livro(s) marcados como lidos.` : `${f.nome}: cadastre o nascimento em "Filhos" para abrir a faixa da idade.`;
   };
-  caixasLivro.forEach((c) => c.addEventListener('change', () => {
-    const lidos = lerLidos();
-    c.checked ? lidos.add(c.dataset.livro) : lidos.delete(c.dataset.livro);
-    try { localStorage.setItem(chaveLidos(), JSON.stringify([...lidos])); } catch { /* sem armazenamento: vale só nesta visita */ }
+  caixasLivro.forEach((c) => c.addEventListener('change', async () => {
+    try { await arm.marcarLido(quemLe(), c.dataset.livro, c.checked); } catch (e) { c.checked = !c.checked; toast(erroTexto(e)); return; }
     mostrarTrilha(false);
   }));
   seletorLivros.addEventListener('change', () => { lembrarQuem(seletorLivros.value); mostrarTrilha(); });
-  arm.listarFilhos().then((fs) => {
+  // Depois de saber se está na família (hidratar), a lista de filhos e as marcações vêm do lugar certo.
+  carregarLivros = () => arm.listarFilhos().then((fs) => {
     filhosLivros = fs;
+    const atual = seletorLivros.value || lembrarQuem();
     seletorLivros.replaceChildren(Object.assign(document.createElement('option'), { value: '', textContent: fs.length ? 'Escolha o filho' : 'Cadastre os filhos abaixo' }), ...fs.map((f) => Object.assign(document.createElement('option'), { value: f.id, textContent: f.nome })));
-    const lembrado = lembrarQuem();
-    if (fs.some((f) => f.id === lembrado)) seletorLivros.value = lembrado;
-    mostrarTrilha();
-  }).catch(() => mostrarTrilha());
+    if (fs.some((f) => f.id === atual)) seletorLivros.value = atual;
+    return mostrarTrilha(!livrosCarregados && (livrosCarregados = true));
+  }).catch(() => mostrarTrilha(false));
 
   root.querySelector('#inf-filho-novo').addEventListener('click', async () => {
     const usados = [...root.querySelectorAll('.inf-filho')].map((f) => f.dataset.codigo);
