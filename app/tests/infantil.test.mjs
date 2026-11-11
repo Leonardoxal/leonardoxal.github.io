@@ -559,6 +559,24 @@ test('jogos de espanhol, música e estratégia: respostas certas', async () => {
   }
 });
 
+test('jogos de geografia e sílabas: respostas certas e frases corretas', async () => {
+  const { rodadaGeografia, ESTADOS, rodadaSilabas, SILABAS } = await import('../infantil/jogos.js');
+  assert.equal(ESTADOS.length, 27, '26 estados e o Distrito Federal');
+  assert.equal(new Set(ESTADOS.map((e) => e[1])).size, 27, 'capitais distintas');
+  for (let n = 1; n <= 20; n++) for (let k = 0; k < 20; k++) {
+    const g = rodadaGeografia(n);
+    if (g.tipo === 'capital') {
+      const est = ESTADOS.find((e) => e[1] === g.certa);
+      assert.ok(g.fala.endsWith(`${est[0]}?`) && /capital (do|da|de) /.test(g.fala), g.fala);
+    }
+    if (g.tipo === 'regiao') assert.equal(ESTADOS.find((e) => g.fala.endsWith(`${e[0]}?`))[2], g.certa, g.fala);
+    const s = rodadaSilabas(n);
+    const p = SILABAS.find((x) => x.s.join('') === s.texto.replace('__', s.certa));
+    assert.ok(p, `${s.texto} + ${s.certa} forma uma palavra da lista`);
+  }
+  assert.match(rodadaGeografia(10, () => 0.99).fala, /capital/);
+});
+
 test('séries: estrutura, episódio atual, marcação em lote, arcos e validação', () => {
   const est = lerEstrutura('Livro 1 | 3\n\n5', 'Começo | 1-3\nPausa | 4-5 | filler');
   assert.deepEqual(est.temporadas, [{ nome: 'Livro 1', episodios: 3 }, { nome: 'Temporada 2', episodios: 5 }]);

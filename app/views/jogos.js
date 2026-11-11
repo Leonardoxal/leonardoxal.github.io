@@ -120,6 +120,8 @@ const DESENHO_CAPA = {
   calculo: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:44px">7×8</text>',
   espanhol: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:40px">¡Hola!</text>',
   musica: '<text x="80" y="170" text-anchor="middle" font-size="52">🎵</text>',
+  geografia: '<text x="80" y="170" text-anchor="middle" font-size="52">🌎</text>',
+  silabas: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:40px">CA__</text>',
   estrategia: '<text x="80" y="166" text-anchor="middle" font-size="30">⚪⚪⚪</text><text x="80" y="196" text-anchor="middle" font-size="30">⚪⚪</text>',
 };
 const capa = (id) => `<svg class="jg-capa" viewBox="0 0 160 236" aria-hidden="true">

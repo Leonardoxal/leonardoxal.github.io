@@ -486,6 +486,80 @@ export function rodadaEstrategia(nivel, rnd = Math.random) {
   };
 }
 
+// ---------------------------------------------------------------- 13. Onde fica? (geografia)
+
+// [país com o artigo que a frase pede, continente]
+const PAISES = [
+  ['o Brasil', 'América'], ['a Argentina', 'América'], ['o México', 'América'], ['o Canadá', 'América'], ['Portugal', 'Europa'],
+  ['a Itália', 'Europa'], ['a França', 'Europa'], ['a Polônia', 'Europa'], ['o Egito', 'África'], ['Angola', 'África'],
+  ['a Nigéria', 'África'], ['o Japão', 'Ásia'], ['a China', 'Ásia'], ['a Índia', 'Ásia'], ['Israel', 'Ásia'], ['a Austrália', 'Oceania'],
+];
+const CONTINENTES = ['América', 'Europa', 'África', 'Ásia', 'Oceania'];
+// [estado, capital, região] — as 26 unidades da federação e o Distrito Federal.
+export const ESTADOS = [
+  ['Acre', 'Rio Branco', 'Norte'], ['Amapá', 'Macapá', 'Norte'], ['Amazonas', 'Manaus', 'Norte'], ['Pará', 'Belém', 'Norte'],
+  ['Rondônia', 'Porto Velho', 'Norte'], ['Roraima', 'Boa Vista', 'Norte'], ['Tocantins', 'Palmas', 'Norte'],
+  ['Alagoas', 'Maceió', 'Nordeste'], ['Bahia', 'Salvador', 'Nordeste'], ['Ceará', 'Fortaleza', 'Nordeste'], ['Maranhão', 'São Luís', 'Nordeste'],
+  ['Paraíba', 'João Pessoa', 'Nordeste'], ['Pernambuco', 'Recife', 'Nordeste'], ['Piauí', 'Teresina', 'Nordeste'],
+  ['Rio Grande do Norte', 'Natal', 'Nordeste'], ['Sergipe', 'Aracaju', 'Nordeste'],
+  ['Distrito Federal', 'Brasília', 'Centro-Oeste'], ['Goiás', 'Goiânia', 'Centro-Oeste'], ['Mato Grosso', 'Cuiabá', 'Centro-Oeste'], ['Mato Grosso do Sul', 'Campo Grande', 'Centro-Oeste'],
+  ['Espírito Santo', 'Vitória', 'Sudeste'], ['Minas Gerais', 'Belo Horizonte', 'Sudeste'], ['Rio de Janeiro', 'Rio de Janeiro', 'Sudeste'], ['São Paulo', 'São Paulo', 'Sudeste'],
+  ['Paraná', 'Curitiba', 'Sul'], ['Rio Grande do Sul', 'Porto Alegre', 'Sul'], ['Santa Catarina', 'Florianópolis', 'Sul'],
+];
+const REGIOES = ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'];
+// Artigo de cada estado ('' quando o nome não leva artigo): "a capital da Bahia", "de Pernambuco", "do Acre".
+const ARTIGO_UF = {
+  Acre: 'o', 'Amapá': 'o', Amazonas: 'o', 'Pará': 'o', 'Rondônia': '', Roraima: '', Tocantins: 'o', Alagoas: '', Bahia: 'a',
+  'Ceará': 'o', 'Maranhão': 'o', 'Paraíba': 'a', Pernambuco: '', 'Piauí': 'o', 'Rio Grande do Norte': 'o', Sergipe: '',
+  'Distrito Federal': 'o', 'Goiás': '', 'Mato Grosso': '', 'Mato Grosso do Sul': '', 'Espírito Santo': 'o', 'Minas Gerais': '',
+  'Rio de Janeiro': 'o', 'São Paulo': '', 'Paraná': 'o', 'Rio Grande do Sul': 'o', 'Santa Catarina': '',
+};
+const comArtigo = (uf) => (ARTIGO_UF[uf] ? `${ARTIGO_UF[uf]} ${uf}` : uf);
+const deUF = (uf) => ({ o: `do ${uf}`, a: `da ${uf}` })[ARTIGO_UF[uf]] ?? `de ${uf}`;
+
+/** Níveis: 1-4 em que continente fica o país (2 a 5 opções); 5-8 em que região fica o estado; 9+ qual é a capital do estado. */
+export function rodadaGeografia(nivel, rnd = Math.random) {
+  if (nivel <= 4) {
+    const [pais, cont] = escolher(PAISES, rnd);
+    const outras = embaralhar(CONTINENTES.filter((c) => c !== cont), rnd).slice(0, nivel);
+    return { tipo: 'continente', fala: `Em que continente fica ${pais}?`, idioma: 'pt-BR', texto: `Em que continente fica ${pais}?`, mostrar: null, opcoes: embaralhar([cont, ...outras], rnd).map(opcaoTexto), certa: cont };
+  }
+  const [estado, capital, regiao] = escolher(ESTADOS, rnd);
+  if (nivel <= 8) {
+    const outras = embaralhar(REGIOES.filter((r) => r !== regiao), rnd).slice(0, Math.min(4, nivel - 3));
+    return { tipo: 'regiao', fala: `Em que região do Brasil fica ${comArtigo(estado)}?`, idioma: 'pt-BR', texto: `Em que região fica ${comArtigo(estado)}?`, mostrar: null, opcoes: embaralhar([regiao, ...outras], rnd).map(opcaoTexto), certa: regiao };
+  }
+  // capitais erradas da mesma região a partir do nível 13: mais parecidas, mais difíceis
+  const fonte = nivel >= 13 ? ESTADOS.filter((e) => e[2] === regiao) : ESTADOS;
+  const outras = distintos(3, () => escolher(fonte.length > 3 ? fonte : ESTADOS, rnd)[1], (x) => x, [capital]);
+  return { tipo: 'capital', fala: `Qual é a capital ${deUF(estado)}?`, idioma: 'pt-BR', texto: `Capital ${deUF(estado)}?`, mostrar: null, opcoes: embaralhar([capital, ...outras], rnd).map(opcaoTexto), certa: capital };
+}
+
+// ---------------------------------------------------------------- 14. Que sílaba falta? (leitura e escrita)
+
+// Palavras com as sílabas separadas (separação silábica da escrita).
+export const SILABAS = [
+  { e: '🏠', s: ['CA', 'SA'] }, { e: '⚽', s: ['BO', 'LA'] }, { e: '🐈', s: ['GA', 'TO'] }, { e: '🦆', s: ['PA', 'TO'] },
+  { e: '🐄', s: ['VA', 'CA'] }, { e: '🐸', s: ['SA', 'PO'] }, { e: '🍇', s: ['U', 'VA'] }, { e: '🔑', s: ['CHA', 'VE'] },
+  { e: '🌙', s: ['LU', 'A'] }, { e: '🐭', s: ['RA', 'TO'] }, { e: '📖', s: ['LI', 'VRO'] }, { e: '🕯️', s: ['VE', 'LA'] },
+  { e: '🔔', s: ['SI', 'NO'] }, { e: '⛵', s: ['BAR', 'CO'] }, { e: '🍎', s: ['MA', 'ÇÃ'] },
+  // três sílabas (do nível 9)
+  { e: '🐒', s: ['MA', 'CA', 'CO'] }, { e: '🍅', s: ['TO', 'MA', 'TE'] }, { e: '🍌', s: ['BA', 'NA', 'NA'] }, { e: '🐎', s: ['CA', 'VA', 'LO'] },
+  { e: '🐔', s: ['GA', 'LI', 'NHA'] }, { e: '🐝', s: ['A', 'BE', 'LHA'] }, { e: '👞', s: ['SA', 'PA', 'TO'] },
+];
+
+/** Níveis: 1-4 falta a última sílaba (2 a 4 opções); 5-8 falta a primeira; 9+ palavras de três sílabas, falta qualquer uma. */
+export function rodadaSilabas(nivel, rnd = Math.random) {
+  const base = SILABAS.filter((p) => (nivel >= 9 ? p.s.length === 3 : p.s.length === 2));
+  const p = escolher(base, rnd);
+  const falta = nivel <= 4 ? p.s.length - 1 : nivel <= 8 ? 0 : inteiro(0, p.s.length - 1, rnd);
+  const certa = p.s[falta];
+  const todas = [...new Set(SILABAS.flatMap((x) => x.s))];
+  const outras = distintos(Math.min(3, nivel <= 2 ? nivel : 3), () => escolher(todas, rnd), (x) => x, [certa]);
+  const palavra = p.s.map((s, i) => (i === falta ? '__' : s)).join('');
+  return { tipo: 'silaba', fala: 'Que pedacinho falta na palavra?', idioma: 'pt-BR', texto: palavra, mostrar: { modelo: { e: p.e, pt: palavra } }, opcoes: embaralhar([certa, ...outras], rnd).map(opcaoTexto), certa };
+}
+
 // idade: faixa indicativa em anos (referência, não barreira: o nível acompanha o que a criança demonstra).
 // habilidades: o que o jogo trabalha, para os pais e para o texto de análise por IA.
 export const JOGOS = {
@@ -500,6 +574,8 @@ export const JOGOS = {
   calculo: { id: 'calculo', titulo: 'Cálculo de cabeça', area: 'Matemática', idade: [6, 15], habilidades: ['cálculo mental', 'tabuada', 'frações', 'porcentagem', 'potências', 'equações'], ajuda: 'Contas de cabeça, da soma até a equação do 1º grau. Vale usar papel para pensar; o que conta é acertar com compreensão, não a pressa.', rodada: rodadaCalculo },
   espanhol: { id: 'espanhol', titulo: 'Escuchar y encontrar', area: 'Espanhol', idade: [4, 12], habilidades: ['vocabulário em espanhol', 'compreensão oral', 'leitura em espanhol'], ajuda: 'Ouvir a palavra em espanhol e tocar na figura; mais adiante, ler e escolher a palavra escrita. O adulto pode repetir e apontar.', rodada: rodadaEspanhol },
   musica: { id: 'musica', titulo: 'Agudo ou grave?', area: 'Música', idade: [3, 12], habilidades: ['percepção de altura', 'atenção auditiva', 'contagem de sons'], ajuda: 'Ouvir dois sons e dizer qual é mais agudo; os sons ficam cada vez mais próximos. Mais adiante, contar as notas. Use um lugar quieto.', rodada: rodadaMusica },
+  geografia: { id: 'geografia', titulo: 'Onde fica?', area: 'Geografia', idade: [6, 15], habilidades: ['continentes', 'regiões do Brasil', 'capitais dos estados'], ajuda: 'Em que continente fica cada país; depois, as regiões do Brasil; mais adiante, as capitais. Tenha um mapa por perto e procure juntos.', rodada: rodadaGeografia },
+  silabas: { id: 'silabas', titulo: 'Que sílaba falta?', area: 'Leitura e escrita', idade: [4, 8], habilidades: ['consciência silábica', 'relação entre fala e escrita'], ajuda: 'Ver a figura e achar o pedaço que falta na palavra. Leia a palavra em voz alta, batendo palmas em cada sílaba.', rodada: rodadaSilabas },
   estrategia: { id: 'estrategia', titulo: 'A melhor jogada', area: 'Estratégia e lógica', idade: [7, 15], habilidades: ['planejamento', 'antecipar consequências', 'padrões e múltiplos'], ajuda: 'O jogo das pedras: descobrir a jogada que garante a vitória. Depois de acertar, jogue de verdade com pedrinhas ou feijões, em família.', rodada: rodadaEstrategia },
 };
 
