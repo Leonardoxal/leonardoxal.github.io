@@ -18,13 +18,14 @@ import { jogos, jogo } from '../views/jogos.js';
 import { rodadaQuantos, TEMAS, COISAS } from '../infantil/jogos.js';
 import { guardarPartida, anotarResposta, recorde, resumoJogo, recomendar, anosCompletos, interessesValidos, MAX_PARTIDAS } from '../infantil/historico.js';
 import { textoParaIA, OBSERVACOES } from '../infantil/prompt.js';
+import { validarRegistro, situacaoAtual, proximosPassos } from '../infantil/registro.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ICONES = ['peixe', 'passaro', 'ovelha', 'gato', 'pato', 'sol', 'estrela', 'cruz'];
 const CODIGO = 'codigo-certo';
 
 function bancoSimulado({ membros = [] } = {}) {
-  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [], aci_jogo: [] };
+  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [], aci_jogo: [], aci_registro: [] };
   const objetos = new Map();
   const familia = new Set(membros);
   const estado = { usuario: null, falharInsert: false };
@@ -449,6 +450,43 @@ test('nuvem: interesses do filho e partidas dos jogos sincronizam na família', 
   assert.equal(lidas.length, 1, 'mesmo id atualiza a mesma linha');
   assert.deepEqual(lidas[0], { ...p, acertos: 4, fim: 3000 });
   assert.equal((await arm.listarPartidas('f2')).length, 0);
+});
+
+const ID = (n) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
+const reg = (n, extra) => ({ id: ID(n), filho: 'f1', aula: '2026-11-11', area: 'Matemática', habilidade: 'Contar até 3', situacao: 'em-desenvolvimento', origem: 'observacao', criadoEm: n, ...extra });
+
+test('registro de habilidade: validação, situação atual e próximos passos', () => {
+  assert.equal(validarRegistro(reg(1)).habilidade, 'Contar até 3');
+  for (const [campo, valor, msg] of [['filho', '', /filho/], ['area', ' ', /área/], ['habilidade', '', /habilidade/], ['situacao', 'otimo', /situação/], ['origem', 'ia', /onde vem/], ['reavaliar', '11/12/2026', /reavaliação/], ['id', 'x', /identificador/], ['aula', 'ontem', /Aula/]]) {
+    assert.throws(() => validarRegistro(reg(1, { [campo]: valor })), msg, campo);
+  }
+  const regs = [
+    reg(1),
+    reg(2, { habilidade: 'contar até 3', situacao: 'dominado', origem: 'confirmado' }), // mesma habilidade, mais recente
+    reg(3, { area: 'Inglês', habilidade: 'cloak', situacao: 'parcial', reavaliar: '2026-11-20' }),
+    reg(4, { area: 'Formação católica', habilidade: 'Sinal da Cruz', situacao: 'dominado', reavaliar: '2026-11-10' }),
+  ];
+  const atual = situacaoAtual(regs);
+  assert.equal(atual.length, 3, 'uma linha por habilidade, sem diferenciar maiúscula');
+  assert.equal(atual.find((r) => r.area === 'Matemática').situacao, 'dominado');
+  assert.deepEqual(proximosPassos(regs, '2026-11-11').map((r) => r.habilidade), ['Sinal da Cruz', 'cloak'], 'vencido primeiro; dominado sem data vencida fica de fora');
+});
+
+test('nuvem e backup: registros de habilidade por filho', async () => {
+  const banco = bancoSimulado({ membros: ['u1'] });
+  logado(banco, 'u1');
+  const arm = criarArmazenamento({ obterCliente: async () => banco.cliente, obterUsuario: async () => ({ id: 'u1', email: 'a@exemplo.com' }) });
+  await arm.iniciar();
+  await arm.salvarRegistro(reg(1000, { reavaliar: '2026-11-20' }));
+  await assert.rejects(() => arm.salvarRegistro(reg(1001, { situacao: 'x' })), /situação/, 'não grava registro inválido');
+  const lidos = await arm.listarRegistros('f1');
+  assert.equal(lidos.length, 1);
+  assert.deepEqual(lidos[0], { ...reg(1000, { reavaliar: '2026-11-20' }), dificuldade: '', intervencao: '' });
+  await arm.apagarRegistro('f1', ID(1000));
+  assert.equal((await arm.listarRegistros('f1')).length, 0);
+  const tela = aulaInfantil({}, '2026-11-11');
+  assert.match(tela, /Registrar o que foi confirmado/);
+  assert.match(tela, /Parcialmente dominado/);
 });
 
 test('nuvem: sem cliente configurado, avisa em vez de quebrar', async () => {

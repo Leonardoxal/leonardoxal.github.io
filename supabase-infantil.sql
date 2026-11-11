@@ -137,6 +137,26 @@ drop policy if exists "familia usa jogos" on public.aci_jogo;
 create policy "familia usa jogos" on public.aci_jogo
   for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
 
+-- Registro de aprendizagem confirmado pelo responsável (a análise da IA só entra aqui depois de conferida).
+create table if not exists public.aci_registro (
+  id          uuid primary key,
+  filho       text not null check (filho ~ '^[a-z0-9-]{1,30}$'),
+  aula        text check (aula is null or aula ~ '^\d{4}-\d{2}-\d{2}(-f\d{1,3})?$'),
+  area        text not null check (length(area) between 1 and 60),
+  habilidade  text not null check (length(habilidade) between 1 and 160),
+  situacao    text not null check (situacao in ('nao-iniciado','em-desenvolvimento','parcial','dominado','revisar')),
+  origem      text not null check (origem in ('observacao','ia-conferida','confirmado')),
+  dificuldade text not null default '' check (length(dificuldade) <= 1000),
+  intervencao text not null default '' check (length(intervencao) <= 2000),
+  reavaliar   date,
+  criado_em   timestamptz not null default now()
+);
+create index if not exists aci_registro_filho on public.aci_registro (filho, criado_em desc);
+alter table public.aci_registro enable row level security;
+drop policy if exists "familia usa registros" on public.aci_registro;
+create policy "familia usa registros" on public.aci_registro
+  for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
+
 -- Pasta privada dos arquivos das tarefas (fotos e PDFs, até 25 MB cada).
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('aci-tarefas', 'aci-tarefas', false, 26214400,

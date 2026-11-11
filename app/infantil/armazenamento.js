@@ -4,6 +4,7 @@
 // Nome e nascimento dos filhos ficam só aqui (aparelho ou banco privado), nunca no repositório público.
 
 import { guardarPartida, interessesValidos, MAX_PARTIDAS } from './historico.js';
+import { validarRegistro } from './registro.js';
 
 // ---------------------------------------------------------------- aparelho (IndexedDB)
 
@@ -57,6 +58,12 @@ const PREFIXO_PARTIDAS = 'aci-jogos-hist-';
 const lerPartidasLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_PARTIDAS + filho)) ?? []; } catch { return []; } };
 const filhosComPartidasLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_PARTIDAS)).map((k) => k.slice(PREFIXO_PARTIDAS.length)); } catch { return []; } };
 
+// Registros de aprendizagem no aparelho: localStorage, uma lista por filho.
+const PREFIXO_REGISTROS = 'aci-registros-';
+const lerRegistrosLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_REGISTROS + filho)) ?? []; } catch { return []; } };
+const gravarRegistrosLocal = (filho, lista) => { try { localStorage.setItem(PREFIXO_REGISTROS + filho, JSON.stringify(lista)); } catch { throw new Error('Este navegador não deixou guardar o registro.'); } };
+const filhosComRegistrosLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_REGISTROS)).map((k) => k.slice(PREFIXO_REGISTROS.length)); } catch { return []; } };
+
 const comoFilho = (f) => ({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null, interesses: interessesValidos(f.interesses) });
 
 export const aparelho = {
@@ -84,6 +91,13 @@ export const aparelho = {
   async salvarPartida(p) {
     try { localStorage.setItem(PREFIXO_PARTIDAS + p.filho, JSON.stringify(guardarPartida(lerPartidasLocal(p.filho), p))); } catch { throw new Error('Este navegador não deixou guardar a partida.'); }
   },
+
+  listarRegistros: async (filho) => lerRegistrosLocal(filho),
+  async salvarRegistro(r) {
+    const v = validarRegistro(r);
+    gravarRegistrosLocal(v.filho, [v, ...lerRegistrosLocal(v.filho).filter((x) => x.id !== v.id)]);
+  },
+  async apagarRegistro(filho, id) { gravarRegistrosLocal(filho, lerRegistrosLocal(filho).filter((x) => x.id !== id)); },
 };
 
 // ---------------------------------------------------------------- nuvem da família (Supabase)
@@ -123,6 +137,16 @@ export function criarNuvem(obterCliente) {
     async lerAula(aula, filho = '') { return ok(await (await c()).from('aci_aula').select('aula, filho, feita, nota').eq('aula', aula).eq('filho', filho).maybeSingle()) ?? { aula, filho, feita: false, nota: '' }; },
     async listarAulas() { return ok(await (await c()).from('aci_aula').select('aula, filho, feita, nota')); },
     async salvarAula(r) { ok(await (await c()).from('aci_aula').upsert({ aula: r.aula, filho: r.filho ?? '', feita: !!r.feita, nota: r.nota ?? '', atualizado: new Date().toISOString() }, { onConflict: 'aula,filho' })); },
+
+    async listarRegistros(filho) {
+      const linhas = ok(await (await c()).from('aci_registro').select('*').eq('filho', filho).order('criado_em', { ascending: false }));
+      return linhas.map((l) => ({ id: l.id, filho: l.filho, aula: l.aula, area: l.area, habilidade: l.habilidade, situacao: l.situacao, origem: l.origem, dificuldade: l.dificuldade, intervencao: l.intervencao, reavaliar: l.reavaliar, criadoEm: Date.parse(l.criado_em) }));
+    },
+    async salvarRegistro(r) {
+      const v = validarRegistro(r);
+      ok(await (await c()).from('aci_registro').upsert({ id: v.id, filho: v.filho, aula: v.aula, area: v.area, habilidade: v.habilidade, situacao: v.situacao, origem: v.origem, dificuldade: v.dificuldade, intervencao: v.intervencao, reavaliar: v.reavaliar, criado_em: new Date(v.criadoEm).toISOString() }, { onConflict: 'id' }));
+    },
+    async apagarRegistro(filho, id) { ok(await (await c()).from('aci_registro').delete().eq('filho', filho).eq('id', id)); },
 
     async listarLidos(filho) { return ok(await (await c()).from('aci_livro').select('livro').eq('filho', filho)).map((l) => l.livro); },
     async marcarLido(filho, livro, lido) {
@@ -208,13 +232,17 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
     marcarLido: (filho, livro, lido) => alvo().marcarLido(filho, livro, lido),
     listarPartidas: (filho) => alvo().listarPartidas(filho),
     salvarPartida: (p) => alvo().salvarPartida(p),
+    listarRegistros: (filho) => alvo().listarRegistros(filho),
+    salvarRegistro: (r) => alvo().salvarRegistro(r),
+    apagarRegistro: (filho, id) => alvo().apagarRegistro(filho, id),
     /** Arquivo de um anexo: já vem no aparelho; na nuvem é baixado sob demanda. */
     arquivoDe: async (x) => x.blob ?? nuvem.baixar(x),
 
     /** Quantos itens deste aparelho podem subir: anexos, livros marcados e partidas dos jogos. */
     async contarLocais() {
       const livros = filhosComLidosLocal().reduce((n, f) => n + lerLidosLocal(f).length, 0)
-        + filhosComPartidasLocal().reduce((n, f) => n + lerPartidasLocal(f).length, 0);
+        + filhosComPartidasLocal().reduce((n, f) => n + lerPartidasLocal(f).length, 0)
+        + filhosComRegistrosLocal().reduce((n, f) => n + lerRegistrosLocal(f).length, 0);
       try { return (await aparelho.listarTodosAnexos()).length + livros; } catch { return livros; }
     },
     /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos itens (anexos, livros e partidas) subiram. */
@@ -223,6 +251,7 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
       for (const f of filhosComLidosLocal()) for (const l of lerLidosLocal(f)) { await nuvem.marcarLido(f, l, true); livros++; }
       // a partida tem id próprio: reenviar só atualiza a mesma linha
       for (const f of filhosComPartidasLocal()) for (const p of lerPartidasLocal(f)) { await nuvem.salvarPartida(p); livros++; }
+      for (const f of filhosComRegistrosLocal()) for (const r of lerRegistrosLocal(f)) { await nuvem.salvarRegistro(r); livros++; }
       const [filhos, aulas, anexos, naNuvem] = await Promise.all([aparelho.listarFilhos(), aparelho.listarAulas(), aparelho.listarTodosAnexos(), nuvem.listarTodosAnexos()]);
       const existentes = new Set(naNuvem.map((x) => x.id));
       for (const f of filhos) await nuvem.salvarFilho(f);

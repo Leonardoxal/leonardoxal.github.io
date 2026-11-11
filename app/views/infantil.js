@@ -15,6 +15,7 @@ import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 import { INTERESSES, resumoJogo } from '../infantil/historico.js';
 import { OBSERVACOES, textoParaIA } from '../infantil/prompt.js';
 import { JOGOS } from '../infantil/jogos.js';
+import { AREAS, SITUACOES, ORIGENS, situacaoAtual, proximosPassos } from '../infantil/registro.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
 const MAX_LADO = 1800;
@@ -100,6 +101,7 @@ export function infantil() {
     </header>
     <div class="inf-conta" id="inf-conta" aria-live="polite"></div>
     <section class="inf-proximas" id="inf-proximas" aria-label="Próxima aula de cada filho"></section>
+    <section id="inf-habilidades" aria-label="Acompanhamento por habilidade"></section>
     <details class="inf-caixa inf-recom" open>
       <summary><strong>Como usar a Academia Infantil</strong></summary>
       <p>Funciona como o curso da Academia da Verdade: uma trilha de aulas em ordem, e cada aula tem material para ler, tarefa, acompanhamento e revisão. O progresso aparece em estrelas, e o "Continuar" mostra a próxima aula de cada filho.</p>
@@ -133,7 +135,7 @@ export function infantil() {
     <aside class="inf-caixa inf-caminho"><p>Aos 16 anos, o estudante segue para a Academia da Verdade. Tudo o que se aprende aqui prepara essa entrada: ler com fôlego, contar com compreensão e conhecer a fé. ${link('painel', 'Ir ao painel da Verdade')}</p></aside>
     <details class="inf-backup">
       <summary>Backup das tarefas</summary>
-      <p class="meta">Um arquivo só, com os filhos, as observações e as fotos dentro. Guarde-o fora do aparelho. Serve para trocar de aparelho ou para o caso de o navegador limpar os dados.</p>
+      <p class="meta">Um arquivo só, com os filhos, as observações, as fotos, as partidas dos jogos e os registros de habilidade dentro. Guarde-o fora do aparelho. Serve para trocar de aparelho ou para o caso de o navegador limpar os dados.</p>
       <div class="inf-acoes">
         <button class="btn" type="button" id="inf-exportar">Exportar backup (.json)</button>
         <label class="btn">Restaurar backup<input type="file" id="inf-importar" accept="application/json,.json" class="sr"></label>
@@ -207,8 +209,26 @@ export function aulaInfantil(ctx, id) {
       ${OBSERVACOES.map((o) => `<label class="inf-linha"><input type="checkbox" name="inf-obs" value="${esc(o)}"> ${esc(o)}</label>`).join('')}</fieldset>
     <div class="inf-acoes"><button class="btn primario" type="button" id="inf-ia-gerar">Montar o texto</button><button class="btn" type="button" id="inf-ia-copiar" hidden>Copiar o texto</button></div>
     <label class="campo largo" id="inf-ia-caixa" hidden><span>Texto para a IA (pode editar antes de copiar)</span><textarea id="inf-ia-texto" rows="14"></textarea></label>
+    <h2>Registrar o que foi confirmado</h2>
+    <p class="meta">Só depois de conferir. Registre uma habilidade por vez, para o filho escolhido em "Quem fez esta aula?". A situação de cada habilidade é sempre o registro mais recente dela; uma atividade isolada não prova domínio.</p>
+    <form class="inf-caixa inf-registro" id="inf-registro">
+      <div class="inf-filho-campos">
+        <label class="campo"><span>Área</span><select name="area" required><option value="">Escolha</option>${opcoes(Object.fromEntries(AREAS.map((a) => [a, a])))}</select></label>
+        <label class="campo"><span>Habilidade</span><input name="habilidade" maxlength="160" required placeholder="Ex.: contar até 3 objetos"></label>
+        <label class="campo"><span>Situação</span><select name="situacao" required><option value="">Escolha</option>${opcoes(SITUACOES)}</select></label>
+        <label class="campo"><span>De onde vem</span><select name="origem" required>${opcoes(ORIGENS)}</select></label>
+        <label class="campo"><span>Reavaliar em</span><input name="reavaliar" type="date"></label>
+      </div>
+      <label class="campo largo"><span>Dificuldade observada</span><textarea name="dificuldade" rows="2" maxlength="1000"></textarea></label>
+      <label class="campo largo"><span>Intervenção: o que fazer agora</span><textarea name="intervencao" rows="2" maxlength="2000"></textarea></label>
+      <div class="inf-acoes"><button class="btn primario" type="submit">Registrar</button></div>
+    </form>
+    <ul class="inf-registros" id="inf-registros"></ul>
   </section>`;
 }
+
+const opcoes = (mapa) => Object.entries(mapa).map(([v, r]) => `<option value="${esc(v)}">${esc(r)}</option>`).join('');
+const registroLinha = (r) => `<strong>${esc(r.habilidade)}</strong> (${esc(r.area)}): ${esc(SITUACOES[r.situacao])}${r.reavaliar ? `, reavaliar em ${dataBR(r.reavaliar)}` : ''}<br><span class="meta">${esc(ORIGENS[r.origem])} · ${quando(r.criadoEm)}${r.dificuldade ? ` · Dificuldade: ${esc(r.dificuldade)}` : ''}${r.intervencao ? ` · Intervenção: ${esc(r.intervencao)}` : ''}</span>`;
 
 // ---------------------------------------------------------------- comportamento
 
@@ -292,16 +312,24 @@ async function exportar() {
   const [filhos, anexos, registros] = await Promise.all([arm.listarFilhos(), arm.listarTodosAnexos(), arm.listarAulas()]);
   const itens = [];
   for (const a of anexos) itens.push({ id: a.id, aula: a.aula, filho: a.filho, nome: a.nome, tipo: a.tipo, tamanho: a.tamanho, data: a.data, dados: await paraDataUrl(await arm.arquivoDe(a)) });
-  const url = URL.createObjectURL(new Blob([JSON.stringify({ versao: 2, criadoEm: new Date().toISOString(), filhos, aulas: registros, anexos: itens })], { type: 'application/json' }));
+  const partidas = []; const habilidades = [];
+  for (const quem of [...filhos.map((f) => f.id), 'familia']) {
+    partidas.push(...await arm.listarPartidas(quem));
+    habilidades.push(...await arm.listarRegistros(quem));
+  }
+  const url = URL.createObjectURL(new Blob([JSON.stringify({ versao: 3, criadoEm: new Date().toISOString(), filhos, aulas: registros, anexos: itens, partidas, habilidades })], { type: 'application/json' }));
   Object.assign(document.createElement('a'), { href: url, download: `academia-infantil-backup-${new Date().toISOString().slice(0, 10)}.json` }).click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
   return anexos.length;
 }
 
-/** Aceita backups da versão 1 (sem filhos) e da 2. */
+const PARTIDA_OK = (p) => /^[0-9a-f-]{36}$/i.test(String(p?.id)) && CODIGO_OK.test(String(p.filho)) && CODIGO_OK.test(String(p.jogo))
+  && ['inicio', 'fim', 'nivelInicial', 'nivelFinal', 'nivelMax', 'acertos', 'erros'].every((k) => Number.isFinite(p[k]) && p[k] >= 0);
+
+/** Aceita backups da versão 1 (sem filhos), da 2 e da 3 (com partidas dos jogos e registros de habilidade). */
 async function importar(arquivo) {
   const dados = JSON.parse(await arquivo.text());
-  if (![1, 2].includes(dados?.versao) || !Array.isArray(dados.anexos) || !Array.isArray(dados.aulas)) throw new Error('Este arquivo não é um backup da Academia Infantil.');
+  if (![1, 2, 3].includes(dados?.versao) || !Array.isArray(dados.anexos) || !Array.isArray(dados.aulas)) throw new Error('Este arquivo não é um backup da Academia Infantil.');
   let n = 0;
   for (const f of dados.filhos ?? []) if (CODIGO_OK.test(String(f.id)) && f.nome) await arm.salvarFilho({ id: String(f.id), nome: String(f.nome).slice(0, 60), nascimento: f.nascimento || null, perfil: ['menina', 'menino'].includes(f.perfil) ? f.perfil : null, interesses: f.interesses });
   for (const r of dados.aulas) if (codigoValido(String(r.filho ?? ''))) await arm.salvarAula({ aula: String(r.aula), filho: String(r.filho ?? ''), feita: !!r.feita, nota: String(r.nota ?? '') });
@@ -311,6 +339,8 @@ async function importar(arquivo) {
     await arm.salvarAnexo({ id: String(a.id), aula: String(a.aula), filho: String(a.filho ?? ''), nome: String(a.nome), tipo: String(a.tipo), tamanho: blob.size, data: Number(a.data) || Date.now(), blob });
     n++;
   }
+  for (const p of dados.partidas ?? []) if (PARTIDA_OK(p)) await arm.salvarPartida({ id: p.id, filho: p.filho, jogo: p.jogo, inicio: p.inicio, fim: p.fim, nivelInicial: Math.max(1, p.nivelInicial), nivelFinal: Math.max(1, p.nivelFinal), nivelMax: Math.max(1, p.nivelMax), acertos: p.acertos, erros: p.erros });
+  for (const r of dados.habilidades ?? []) { try { await arm.salvarRegistro(r); } catch { /* registro inválido no arquivo: pula */ } }
   return n;
 }
 
@@ -342,6 +372,24 @@ function filhosHTML(filhos, extras) {
   }).join('');
 }
 
+/** Por filho: próximos passos (reavaliar ou reforçar) e a situação atual de cada habilidade registrada. */
+async function desenharHabilidades(root, filhos) {
+  const alvo = root.querySelector('#inf-habilidades');
+  const hoje = new Date().toLocaleDateString('sv'); // AAAA-MM-DD no fuso do aparelho
+  const blocos = [];
+  for (const f of filhos) {
+    let regs = [];
+    try { regs = await arm.listarRegistros(f.id); } catch { continue; }
+    if (!regs.length) continue;
+    const passos = proximosPassos(regs, hoje);
+    blocos.push(`<details class="inf-caixa"${passos.length ? ' open' : ''}><summary><strong>Habilidades: ${esc(f.nome)}</strong> <span class="meta">(${situacaoAtual(regs).length} habilidade(s) registrada(s))</span></summary>
+      ${passos.length ? `<h3>Próximos passos</h3><ul>${passos.map((r) => `<li>${registroLinha(r)}</li>`).join('')}</ul>` : '<p class="meta">Nada para reforçar nem reavaliar agora.</p>'}
+      <table class="inf-tabela"><tr><th>Área</th><th>Habilidade</th><th>Situação</th><th>Reavaliar</th></tr>
+      ${situacaoAtual(regs).map((r) => `<tr><td>${esc(r.area)}</td><td>${esc(r.habilidade)}</td><td>${esc(SITUACOES[r.situacao])}</td><td>${r.reavaliar ? dataBR(r.reavaliar) : '—'}</td></tr>`).join('')}</table></details>`);
+  }
+  if (root.isConnected) alvo.innerHTML = blocos.join('');
+}
+
 infantil.ligar = (root) => {
   const extras = [];
   const lista = root.querySelector('#inf-filhos-lista');
@@ -370,6 +418,7 @@ infantil.ligar = (root) => {
       alvo.replaceChildren(...quem.map((t) => Object.assign(document.createElement('span'), { className: 'chip ok', textContent: t })), ...(n ? [Object.assign(document.createElement('span'), { className: 'chip', textContent: `${n} tarefa(s) anexada(s)` })] : []));
     }
     lista.innerHTML = filhosHTML(filhos, extras);
+    await desenharHabilidades(root, filhos);
     await carregarLivros();
   };
   let carregarLivros = async () => {};
@@ -587,7 +636,7 @@ aulaInfantil.ligar = (root, ctx, id) => {
     chaveAtual = null;
     await atualizarLista().catch((e) => toast(erroTexto(e)));
   };
-  iniciar();
+  const iniciando = iniciar();
   sincronizar(root, atualizar);
 
   // Leitor de PDF: abre o manual ou o caderno desta aula, sem baixar.
@@ -603,23 +652,53 @@ aulaInfantil.ligar = (root, ctx, id) => {
   const copiar = root.querySelector('#inf-ia-copiar');
   root.querySelector('#inf-ia-gerar').addEventListener('click', async () => {
     const f = filhos.find((x) => x.id === quem);
-    let anteriores = []; let partidas = [];
+    let anteriores = []; let partidas = []; let habilidades = [];
     try {
       anteriores = (await arm.listarAulas())
         .filter((r) => r.feita && r.aula !== id && (!quem || r.filho === quem))
         .map((r) => ({ ...aulaInfantilPorData(r.aula), nota: r.nota })).filter((a) => a.titulo)
         .sort((x, y) => y.data.localeCompare(x.data)).slice(0, 10);
       partidas = await arm.listarPartidas(quem || 'familia');
+      if (quem) habilidades = situacaoAtual(await arm.listarRegistros(quem)).map((r) => ({ ...r, situacao: SITUACOES[r.situacao] }));
     } catch { /* sem histórico: o texto sai só com esta aula */ }
     const jogos = Object.values(JOGOS).map((j) => ({ ...resumoJogo(partidas, j.id), titulo: j.titulo, habilidades: j.habilidades })).filter((j) => j.partidas);
     textoIA.value = textoParaIA({
       aula, idade: f ? idade(f.nascimento) : '', interesses: (f?.interesses ?? []).map((i) => INTERESSES[i]),
-      marcadas: [...root.querySelectorAll('input[name="inf-obs"]:checked')].map((c) => c.value), nota: nota.value, anteriores, jogos,
+      marcadas: [...root.querySelectorAll('input[name="inf-obs"]:checked')].map((c) => c.value), nota: nota.value, anteriores, jogos, habilidades,
     });
     root.querySelector('#inf-ia-caixa').hidden = false;
     copiar.hidden = false;
     textoIA.focus();
   });
+  // Registro confirmado: um por habilidade, do filho escolhido nesta aula.
+  const formReg = root.querySelector('#inf-registro');
+  const listaReg = root.querySelector('#inf-registros');
+  const filhoReg = () => seletor.value; // lê o seletor: o "quem" só muda depois de salvar a nota pendente
+  const mostrarRegistros = async () => {
+    const quem = filhoReg();
+    if (!quem) { listaReg.innerHTML = '<li class="meta">Escolha o filho em "Quem fez esta aula?" para ver e fazer registros.</li>'; return; }
+    let regs = [];
+    try { regs = (await arm.listarRegistros(quem)).filter((r) => r.aula === id); } catch (e) { toast(erroTexto(e)); }
+    listaReg.innerHTML = regs.length ? regs.map((r) => `<li>${registroLinha(r)} <button class="btn pequeno perigo" type="button" data-apagar="${esc(r.id)}">Apagar</button></li>`).join('') : '<li class="meta">Nenhum registro desta aula para este filho.</li>';
+  };
+  formReg.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const d = Object.fromEntries(new FormData(formReg));
+    try {
+      await arm.salvarRegistro({ ...d, id: novoId(), filho: filhoReg(), aula: id, criadoEm: Date.now() });
+      formReg.reset();
+      toast('Registro guardado.');
+      await mostrarRegistros();
+    } catch (e) { toast(erroTexto(e)); }
+  });
+  listaReg.addEventListener('click', async (ev) => {
+    const b = ev.target.closest('[data-apagar]');
+    if (!b || !confirm('Apagar este registro? Não dá para desfazer.')) return;
+    try { await arm.apagarRegistro(filhoReg(), b.dataset.apagar); await mostrarRegistros(); } catch (e) { toast(erroTexto(e)); }
+  });
+  seletor.addEventListener('change', mostrarRegistros);
+  iniciando.then(mostrarRegistros);
+
   copiar.addEventListener('click', async () => {
     try { await navigator.clipboard.writeText(textoIA.value); toast('Texto copiado. Cole na IA junto com as fotos.'); } catch { textoIA.select(); toast('Selecione o texto e copie com Ctrl+C.'); }
   });

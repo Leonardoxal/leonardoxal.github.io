@@ -35,8 +35,9 @@ const pct = (x) => (x === null || x === undefined ? 'sem dados' : `${Math.round(
  * @param {{titulo:string, nota:string}[]} [d.anteriores]  aulas anteriores feitas, com as observações
  * @param {{titulo:string, habilidades:string[], partidas:number, recorde:number, precisao:number|null}[]} [d.jogos]
  * @param {string[]} [d.interesses]
+ * @param {{area:string, habilidade:string, situacao:string}[]} [d.habilidades]  situação atual confirmada pelo responsável
  */
-export function textoParaIA({ aula, idade = '', marcadas = [], nota = '', anteriores = [], jogos = [], interesses = [] }) {
+export function textoParaIA({ aula, idade = '', marcadas = [], nota = '', anteriores = [], jogos = [], interesses = [], habilidades = [] }) {
   const partes = [
     'Você vai me ajudar a avaliar uma atividade de educação infantil feita em casa, numa formação católica integral. Vou enviar fotos ou o PDF da tarefa feita pela criança. Chame a criança de "Aluno A".',
     '',
@@ -59,6 +60,7 @@ export function textoParaIA({ aula, idade = '', marcadas = [], nota = '', anteri
     '## Histórico',
     anteriores.length ? anteriores.map((a) => `- ${a.titulo}${a.nota?.trim() ? `: ${a.nota.trim()}` : ''}`).join('\n') : '- Sem aulas anteriores registradas.',
     jogos.length ? `Jogos da Academia (nível mais alto alcançado e acertos nas últimas partidas):\n${jogos.map((j) => `- ${j.titulo} (${j.habilidades.join(', ')}): ${j.partidas} partida(s), recorde nível ${j.recorde}, ${pct(j.precisao)}`).join('\n')}` : null,
+    habilidades.length ? `Situação atual das habilidades, confirmada pelo responsável:\n${habilidades.map((h) => `- ${h.habilidade} (${h.area}): ${h.situacao}`).join('\n')}` : null,
     '',
     '## Critérios de avaliação (use só os das áreas que a atividade trabalha)',
     Object.entries(CRITERIOS).map(([area, c]) => `- ${area}: ${c}`).join('\n'),
