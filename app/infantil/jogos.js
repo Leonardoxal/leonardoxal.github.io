@@ -214,10 +214,72 @@ export function rodadaDepois(nivel, rnd = Math.random) {
   return { tipo: numeros ? 'numeros' : 'pecas', fala: pergunta, idioma: 'pt-BR', texto: pergunta, mostrar: { seq: r.seq }, opcoes: r.opcoes.map((x) => ({ chave: chavePeca(x), ...x })), certa: chavePeca(r.certa) };
 }
 
+// ---------------------------------------------------------------- 4. Que número é? (números até 100)
+
+// Faixas por nível: primeiro até 10, depois até 20, as dezenas redondas, até 50 e até 100.
+const FAIXAS_NUM = [[0, 10], [0, 10], [0, 10], [11, 20], [11, 20], [0, 20], [10, 100, 10], [10, 100, 10], [21, 50], [21, 50], [21, 50], [0, 100]];
+const invertido = (n) => (n >= 10 && n % 10 !== 0 ? (n % 10) * 10 + Math.floor(n / 10) : null);
+
+/** Ouvir o número e tocar no numeral. Níveis: 1-3 até 10; 4-6 até 20; 7-8 dezenas; 9-11 até 50; 12+ até 100, com opções cada vez mais parecidas (37 e 73, 46 e 56). */
+export function rodadaNumeros(nivel, rnd = Math.random) {
+  const [a, b, passo = 1] = FAIXAS_NUM[Math.min(nivel, FAIXAS_NUM.length) - 1];
+  const sortear = () => a + passo * inteiro(0, Math.floor((b - a) / passo), rnd);
+  const alvo = sortear();
+  const nOpcoes = nivel <= 3 ? nivel + 1 : Math.min(6, 3 + Math.floor((nivel - 4) / 3));
+  const parecidos = nivel >= 12 ? [invertido(alvo), alvo + 10, alvo - 10, alvo + 1, alvo - 1].filter((x) => x !== null && x >= 0 && x <= 100) : [];
+  const outros = distintos(nOpcoes - 1, () => (parecidos.length && rnd() < 0.7 ? escolher(parecidos, rnd) : sortear()), (x) => x, [alvo]);
+  const opcoes = embaralhar([alvo, ...outros], rnd).map((n) => ({ chave: `n${n}`, num: n, pontos: nivel <= 3 && n > 0 }));
+  return { tipo: 'numero', fala: `Onde está o número ${alvo}?`, idioma: 'pt-BR', texto: 'Onde está o número?', mostrar: null, opcoes, certa: `n${alvo}` };
+}
+
+// ---------------------------------------------------------------- 5. O que combina? (associar palavras)
+
+// Pares que combinam; os primeiros são os mais fáceis (do dia a dia da criança).
+export const PARES = [
+  [{ pt: 'abelha', e: '🐝' }, { pt: 'mel', e: '🍯' }], [{ pt: 'vaca', e: '🐄' }, { pt: 'leite', e: '🥛' }],
+  [{ pt: 'galinha', e: '🐔' }, { pt: 'ovo', e: '🥚' }], [{ pt: 'cachorro', e: '🐕' }, { pt: 'osso', e: '🦴' }],
+  [{ pt: 'coelho', e: '🐇' }, { pt: 'cenoura', e: '🥕' }], [{ pt: 'macaco', e: '🐒' }, { pt: 'banana', e: '🍌' }],
+  [{ pt: 'bebê', e: '👶' }, { pt: 'mamadeira', e: '🍼' }], [{ pt: 'chuva', e: '🌧️' }, { pt: 'guarda-chuva', e: '☂️' }],
+  // a partir daqui, pares que pedem mais pensamento (do nível 4)
+  [{ pt: 'rato', e: '🐭' }, { pt: 'queijo', e: '🧀' }], [{ pt: 'pé', e: '🦶' }, { pt: 'meia', e: '🧦' }],
+  [{ pt: 'mão', e: '✋' }, { pt: 'luva', e: '🧤' }], [{ pt: 'frio', e: '❄️' }, { pt: 'casaco', e: '🧥' }],
+  [{ pt: 'chave', e: '🔑' }, { pt: 'cadeado', e: '🔒' }], [{ pt: 'lápis', e: '✏️' }, { pt: 'papel', e: '📄' }],
+  [{ pt: 'noite', e: '🌙' }, { pt: 'cama', e: '🛏️' }], [{ pt: 'pão', e: '🍞' }, { pt: 'manteiga', e: '🧈' }],
+  [{ pt: 'sino', e: '🔔' }, { pt: 'igreja', e: '⛪' }], [{ pt: 'vela', e: '🕯️' }, { pt: 'fogo', e: '🔥' }],
+];
+const PARES_FACEIS = 8;
+// Grupos para "qual não é do grupo?".
+export const GRUPOS = {
+  animais: [{ pt: 'ovelha', e: '🐑' }, { pt: 'peixe', e: '🐟' }, { pt: 'gato', e: '🐈' }, { pt: 'leão', e: '🦁' }, { pt: 'sapo', e: '🐸' }, { pt: 'pássaro', e: '🐦' }],
+  frutas: [{ pt: 'maçã', e: '🍎' }, { pt: 'uva', e: '🍇' }, { pt: 'banana', e: '🍌' }, { pt: 'morango', e: '🍓' }, { pt: 'pera', e: '🍐' }, { pt: 'laranja', e: '🍊' }],
+  roupas: [{ pt: 'sapato', e: '👟' }, { pt: 'meia', e: '🧦' }, { pt: 'luva', e: '🧤' }, { pt: 'casaco', e: '🧥' }, { pt: 'chapéu', e: '🎩' }, { pt: 'vestido', e: '👗' }],
+  ceu: [{ pt: 'sol', e: '☀️' }, { pt: 'lua', e: '🌙' }, { pt: 'estrela', e: '⭐' }, { pt: 'nuvem', e: '☁️' }, { pt: 'arco-íris', e: '🌈' }],
+};
+const figura = (x) => ({ chave: x.pt, e: x.e, pt: x.pt });
+
+/** Níveis: 1-3 o que combina (2 a 4 figuras, pares fáceis); 4-6 todos os pares, 4 figuras; 7+ nos ímpares "qual não é do grupo?", nos pares o que combina com até 6 figuras. */
+export function rodadaPalavras(nivel, rnd = Math.random) {
+  if (nivel >= 7 && nivel % 2 === 1) {
+    const nomes = embaralhar(Object.keys(GRUPOS), rnd);
+    const iguais = embaralhar(GRUPOS[nomes[0]], rnd).slice(0, nivel >= 11 ? 4 : 3);
+    const intruso = escolher(GRUPOS[nomes[1]], rnd);
+    const opcoes = embaralhar([...iguais, intruso], rnd).map(figura);
+    return { tipo: 'intruso', fala: 'Qual não é do mesmo grupo?', idioma: 'pt-BR', texto: 'Qual não é do grupo?', mostrar: null, opcoes, certa: intruso.pt };
+  }
+  const base = nivel <= 3 ? PARES.slice(0, PARES_FACEIS) : PARES;
+  const nOpcoes = nivel <= 3 ? nivel + 1 : nivel <= 6 ? 4 : Math.min(6, 4 + Math.floor((nivel - 6) / 4));
+  const [modelo, certo] = escolher(base, rnd);
+  const outros = distintos(nOpcoes - 1, () => escolher(base, rnd)[1], (x) => x.pt, [certo]);
+  const opcoes = embaralhar([certo, ...outros], rnd).map(figura);
+  return { tipo: 'combina', fala: `O que combina com ${modelo.pt}?`, idioma: 'pt-BR', texto: `O que combina com ${modelo.pt}?`, mostrar: { modelo: figura(modelo) }, opcoes, certa: certo.pt };
+}
+
 export const JOGOS = {
   quantos: { id: 'quantos', titulo: 'Quantos são?', area: 'Matemática', ajuda: 'Achar o grupo, contar, comparar e, mais adiante, juntar e tirar. A quantidade vem antes do número escrito.', rodada: rodadaQuantos },
   depois: { id: 'depois', titulo: 'O que vem depois?', area: 'Raciocínio', ajuda: 'Padrões de forma, cor e tamanho; depois, sequências de números cada vez mais difíceis.', rodada: rodadaDepois },
   ouvir: { id: 'ouvir', titulo: 'Ouvir e achar', area: 'Linguagem e inglês', ajuda: 'Ouvir a palavra e tocar na figura; depois em inglês; mais adiante, o som do começo da palavra.', rodada: rodadaOuvir },
+  numeros: { id: 'numeros', titulo: 'Que número é?', area: 'Matemática', ajuda: 'Ouvir o número e tocar no número escrito: até 10, até 20, as dezenas e, mais adiante, até 100.', rodada: rodadaNumeros },
+  palavras: { id: 'palavras', titulo: 'O que combina?', area: 'Linguagem e raciocínio', ajuda: 'Juntar as coisas que andam juntas (abelha e mel); mais adiante, achar a que não é do grupo.', rodada: rodadaPalavras },
 };
 
 // ---------------------------------------------------------------- tempo de tela (opcional)

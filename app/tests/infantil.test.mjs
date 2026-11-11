@@ -13,7 +13,7 @@ import { proximaPorFilho } from '../infantil/progresso.js';
 import { FAIXAS, SECOES, LIVROS_INFANTIL, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
 import { LIVROS as LIVROS_VERDADE } from '../data/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
-import { JOGOS, ajustar, progressoInicial, usadoHoje, acabou } from '../infantil/jogos.js';
+import { JOGOS, PARES, GRUPOS, ajustar, progressoInicial, usadoHoje, acabou } from '../infantil/jogos.js';
 import { jogos, jogo } from '../views/jogos.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -311,6 +311,26 @@ test('jogos: as contas e as sequências estão certas', () => {
   }
   const contar = JOGOS.quantos.rodada(7);
   assert.equal(contar.certa, `n${contar.mostrar.grupos[0].qtd}`);
+});
+
+test('jogos: números até 100 e palavras que combinam', () => {
+  for (let n = 1; n <= 60; n++) {
+    for (let k = 0; k < 40; k++) {
+      const r = JOGOS.numeros.rodada(n);
+      assert.ok(r.opcoes.every((o) => o.num >= 0 && o.num <= 100), `nível ${n}: número fora de 0 a 100`);
+      if (n <= 3) assert.ok(r.opcoes.every((o) => o.num <= 10), `nível ${n}: passou de 10`);
+      const p = JOGOS.palavras.rodada(n);
+      if (p.tipo === 'combina') {
+        const par = PARES.find(([m]) => m.pt === p.mostrar.modelo.pt);
+        assert.equal(p.certa, par[1].pt, `nível ${n}: par errado`);
+      } else {
+        const grupoDe = (pt) => Object.keys(GRUPOS).find((g) => GRUPOS[g].some((x) => x.pt === pt));
+        const outros = p.opcoes.filter((o) => o.chave !== p.certa).map((o) => grupoDe(o.chave));
+        assert.equal(new Set(outros).size, 1, `nível ${n}: as outras figuras não são do mesmo grupo`);
+        assert.notEqual(grupoDe(p.certa), outros[0], `nível ${n}: o intruso é do mesmo grupo`);
+      }
+    }
+  }
 });
 
 test('jogos: tempo de tela por dia e telas', () => {

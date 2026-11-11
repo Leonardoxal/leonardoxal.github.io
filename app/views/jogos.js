@@ -91,6 +91,8 @@ const DESENHO_CAPA = {
   quantos: '<text x="80" y="140" text-anchor="middle" font-size="38">🐑</text><text x="52" y="184" text-anchor="middle" font-size="32">🐑</text><text x="108" y="184" text-anchor="middle" font-size="32">🐑</text>',
   depois: `<g transform="translate(26 132) scale(.3)" class="a">${FORMA.estrela}</g><g transform="translate(65 132) scale(.3)" class="b">${FORMA.cruz}</g><g transform="translate(104 132) scale(.3)" class="a">${FORMA.estrela}</g><text x="80" y="196" text-anchor="middle" font-size="34" class="q">?</text>`,
   ouvir: '<text x="80" y="166" text-anchor="middle" font-size="50">🔔</text><path class="onda" d="M118 126q12 14 0 28M128 116q22 24 0 48M42 126q-12 14 0 28M32 116q-22 24 0 48"/>',
+  numeros: '<text x="80" y="170" text-anchor="middle" class="q" style="font-size:52px">100</text>',
+  palavras: '<text x="54" y="166" text-anchor="middle" font-size="40">🐝</text><text x="106" y="166" text-anchor="middle" font-size="40">🍯</text>',
 };
 const capa = (id) => `<svg class="jg-capa" viewBox="0 0 160 236" aria-hidden="true">
   <path class="vidro" d="${ARCO}"/>
@@ -107,7 +109,7 @@ export function jogos() {
   return `<section class="infantil jogos">
     <header class="cab jg-cab">
       <h1>Jogos da Academia</h1>
-      <p class="sub">Três janelas de vidro colorido. Cada acerto acende a luz; três acertos seguidos sobem um nível, e os níveis não acabam.</p>
+      <p class="sub">Cinco janelas de vidro colorido. Cada acerto acende a luz; três acertos seguidos sobem um nível, e os níveis não acabam.</p>
     </header>
     <div class="jg-janelas">${Object.values(JOGOS).map((j) => `<a class="jg-janela jg-tema-${j.id}" href="#jogo-${j.id}">
       ${capa(j.id)}
@@ -182,7 +184,7 @@ function opcaoHTML(id, r, o) {
   let dentro; let rotulo;
   if (o.qtd !== undefined) { dentro = grupo(o.qtd, o.e); rotulo = String(o.qtd); }
   else if (o.num !== undefined) { dentro = `<span class="jg-num">${o.num}</span>${o.pontos ? pontos(o.num) : ''}`; rotulo = String(o.num); }
-  else if (id === 'ouvir') { dentro = `<span class="jg-figura" aria-hidden="true">${o.e}</span>`; rotulo = o.pt; }
+  else if (o.e) { dentro = `<span class="jg-figura" aria-hidden="true">${o.e}</span>`; rotulo = o.pt; }
   else { dentro = peca(o); rotulo = rotuloPeca(o); }
   return `<button class="jg-vidro${r.tipo === 'mais' ? ' largo' : ''}" type="button" data-chave="${esc(o.chave)}" aria-label="${esc(rotulo)}">${dentro}</button>`;
 }
@@ -194,7 +196,7 @@ function mostrarHTML(id, r) {
     if (!m.grupos) return `<p class="jg-conta">${esc(m.conta)} = ?</p>`;
     return `<div class="jg-mostrar">${m.grupos.map((g) => grupo(g.qtd, g.e, g.sai ?? 0)).join('<span class="jg-mais" aria-hidden="true">+</span>')}</div>`;
   }
-  if (id === 'ouvir') return `<div class="jg-mostrar"><span class="jg-vidro jg-modelo"><span class="jg-figura" aria-hidden="true">${m.modelo.e}</span><span class="jg-palavra">${esc(m.modelo.pt)}</span></span></div>`;
+  if (m.modelo) return `<div class="jg-mostrar"><span class="jg-vidro jg-modelo"><span class="jg-figura" aria-hidden="true">${m.modelo.e}</span><span class="jg-palavra">${esc(m.modelo.pt)}</span></span></div>`;
   return `<div class="jg-mostrar jg-seq">${m.seq.map((x) => `<span class="jg-elo">${x.num !== undefined ? `<span class="jg-num">${x.num}</span>` : peca(x)}</span>`).join('')}<span class="jg-elo jg-falta" aria-label="falta">?</span></div>`;
 }
 
