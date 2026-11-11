@@ -14,6 +14,7 @@ import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, P
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 import { INTERESSES, resumoJogo, recomendar, anosCompletos } from '../infantil/historico.js';
 import { proximo as proximoEpisodio } from '../infantil/series.js';
+import { ETAPAS_INFANTIS, etapaDaIdade } from '../infantil/etapas.js';
 import { OBSERVACOES, textoParaIA, textoReforcoIA } from '../infantil/prompt.js';
 import { JOGOS } from '../infantil/jogos.js';
 import { AREAS, SITUACOES, ORIGENS, situacaoAtual, proximosPassos } from '../infantil/registro.js';
@@ -127,6 +128,14 @@ export function infantil() {
     </details>
     ${AULAS_INFANTIL.length ? AULAS_INFANTIL.map(cartao).join('') : '<p class="vazio">Ainda não há aulas publicadas.</p>'}
     ${livrosHTML()}
+    <section class="inf-etapas" aria-labelledby="inf-etapas-titulo"><h2 id="inf-etapas-titulo">Guia por etapa, dos 2 aos 15 anos</h2>
+      <p class="meta">O foco de cada etapa e o que fazer em casa. As idades são referência: a criança pode estar adiantada numa área e precisar de reforço em outra, e a independência cresce aos poucos. A etapa de cada filho cadastrado fica aberta. Orientação da Academia.</p>
+      ${ETAPAS_INFANTIS.map((e) => `<details class="inf-caixa inf-etapa" data-etapa="${e.id}"><summary><strong>${e.de} a ${e.ate} anos: ${esc(e.nome)}</strong> <span class="meta" data-etapa-filhos="${e.id}"></span></summary>
+        <p><strong>Foco:</strong> ${esc(e.foco)}</p>
+        <h3>Em casa</h3><ul>${e.casa.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+        <p><strong>Autonomia:</strong> ${esc(e.autonomia)}</p>
+        ${e.academico ? `<h3>Caminho acadêmico</h3><ul>${e.academico.map((c) => `<li>${esc(c)}</li>`).join('')}</ul><p class="meta">Construir capacidade real vem antes de treinar para prova.</p>` : ''}
+      </details>`).join('')}</section>
     <p class="inf-caixa">${link('assistir', 'Filmes, séries e animações')}: fichas para os pais (o que está na obra, a leitura da Academia, os cuidados e as perguntas) e o acompanhamento de episódios de cada filho.</p>
     <section class="inf-filhos" aria-labelledby="inf-filhos-titulo">
       <h2 id="inf-filhos-titulo">Filhos</h2>
@@ -453,6 +462,10 @@ infantil.ligar = (root) => {
     }
     lista.innerHTML = filhosHTML(filhos, extras);
     await desenharHabilidades(root, filhos);
+    // guia por etapa: abre a etapa de cada filho e diz de quem é
+    const porEtapa = {};
+    for (const f of filhos) { const e = etapaDaIdade(anosCompletos(f.nascimento)); if (e) (porEtapa[e.id] ??= []).push(f.nome); }
+    root.querySelectorAll('[data-etapa]').forEach((d) => { const nomes = porEtapa[d.dataset.etapa]; if (nomes && !d.dataset.aberta) { d.open = true; d.dataset.aberta = '1'; } d.querySelector('[data-etapa-filhos]').textContent = nomes ? `(${nomes.join(', ')})` : ''; });
     await carregarLivros();
   };
   let carregarLivros = async () => {};

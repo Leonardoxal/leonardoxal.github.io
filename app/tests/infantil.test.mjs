@@ -593,6 +593,16 @@ test('ler e entender: a frase certa é a da lista; a resposta é a do texto', as
   }
 });
 
+test('guia por etapa: as seis faixas do projeto, sem buracos, e na tela', async () => {
+  const { ETAPAS_INFANTIS, etapaDaIdade } = await import('../infantil/etapas.js');
+  assert.deepEqual(ETAPAS_INFANTIS.map((e) => e.id), ['2-3', '4-5', '6-8', '9-11', '12-13', '14-15']);
+  for (let anos = 2; anos <= 15; anos++) assert.ok(etapaDaIdade(anos), `${anos} anos tem etapa`);
+  assert.equal(etapaDaIdade(1), null);
+  assert.equal(etapaDaIdade(null), null);
+  assert.ok(ETAPAS_INFANTIS.filter((e) => e.de < 9).every((e) => !e.academico), 'sem preparação para prova antes dos 9');
+  assert.match(infantil(), /Guia por etapa/);
+});
+
 test('fora da tela e reforço por habilidade', async () => {
   const { BRINCADEIRAS } = await import('../infantil/jogos.js');
   const { textoReforcoIA } = await import('../infantil/prompt.js');
