@@ -86,6 +86,7 @@ export function estadoInicial(agora = Date.now()) {
     tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]
     discursivas: {},  // itemId -> { texto, criterios: bool[], data }
     livros: {},       // id -> { estado, paginas, paginaAtual, inicio, fim, prioridade, edicao }
+    pessoais: [],     // biblioteca pessoal (só deste membro): { id, titulo, autor, tipo, edicao, obra (livro do acervo de que é edição), estado, paginas, paginaAtual, criada }
     notas: [],        // { id, titulo, texto, tipo, vinculo: {tipo, id}, pagina, criada, editada }
     favoritos: [],    // 'livro:id' | 'aula:id' | 'conceito:id'
     sessoes: [],      // { id, inicio, minutos, alvo: {tipo, id}, obs }
@@ -123,6 +124,18 @@ const num = (n) => (Number.isFinite(Number(n)) ? Number(n) : 0);
 const alvoSeguro = (a) => (a && idSeguro(a.tipo) && idSeguro(a.id) ? { tipo: a.tipo, id: a.id } : null);
 const chavesSeguras = (obj) => Object.fromEntries(Object.entries(obj).filter(([k]) => idSeguro(k)));
 
+/** Tipos de item da biblioteca pessoal: cada um com o seu jeito de registrar o progresso. */
+export const TIPOS_PESSOAL = { livro: 'Livro', artigo: 'Artigo ou ensaio', documento: 'Documento', filme: 'Filme', serie: 'Série', curso: 'Curso ou aula', outro: 'Outro' };
+const ESTADOS_PESSOAL = ['nao', 'lendo', 'pausado', 'concluido'];
+const curto = (v, max) => String(v ?? '').trim().slice(0, max);
+function sanearPessoal(p) {
+  return {
+    id: p.id, titulo: curto(p.titulo, 200), autor: curto(p.autor, 160), tipo: p.tipo in TIPOS_PESSOAL ? p.tipo : 'livro',
+    edicao: curto(p.edicao, 300), obra: idSeguro(p.obra) ? p.obra : null, estado: ESTADOS_PESSOAL.includes(p.estado) ? p.estado : 'nao',
+    paginas: Math.max(0, num(p.paginas)), paginaAtual: Math.max(0, num(p.paginaAtual)), criada: num(p.criada),
+  };
+}
+
 function sanearEstado(e) {
   const itens = (lista) => lista.filter((x) => x && typeof x === 'object' && idSeguro(x.id));
   return {
@@ -133,6 +146,7 @@ function sanearEstado(e) {
     tentativas: Object.fromEntries(Object.entries(chavesSeguras(e.tentativas)).map(([k, ts]) => [k, (Array.isArray(ts) ? ts : [])
       .map((t) => ({ ...t, acertos: num(t?.acertos), total: num(t?.total), pct: num(t?.pct), data: num(t?.data) }))])),
     favoritos: e.favoritos.filter(idSeguro),
+    pessoais: itens(e.pessoais).map(sanearPessoal).filter((p) => p.titulo),
     notas: itens(e.notas).map((n) => (n.vinculo ? { ...n, vinculo: alvoSeguro(n.vinculo) } : n)),
     sessoes: itens(e.sessoes).map((s) => ({ ...s, minutos: num(s.minutos), inicio: num(s.inicio), ...(s.alvo ? { alvo: alvoSeguro(s.alvo) } : {}) })),
     revisoes: itens(e.revisoes).map((r) => ({ ...r, nivel: num(r.nivel), proxima: num(r.proxima), historico: Array.isArray(r.historico) ? r.historico : [] })),

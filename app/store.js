@@ -42,7 +42,7 @@ function gravarBase(n) {
   try { n === null ? localStorage.removeItem(CHAVE_BASE) : localStorage.setItem(CHAVE_BASE, String(n)); } catch { /* sem armazenamento: a próxima abertura confia na conta */ }
 }
 
-const temDados = (e) => Object.keys(e.aulas).length || e.notas.length || e.sessoes.length || Object.keys(e.livros).length;
+const temDados = (e) => Object.keys(e.aulas).length || e.notas.length || e.sessoes.length || Object.keys(e.livros).length || e.pessoais.length;
 
 /**
  * @param {(estado:object)=>void} aoMudar      chamado quando o estado muda (redesenhar)

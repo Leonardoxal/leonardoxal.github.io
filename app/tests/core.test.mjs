@@ -977,3 +977,29 @@ test('obras relacionadas: conceito, autor e carga das obras no semestre', async 
   assert.ok(PERIODOS.every((p) => p.minutosObras >= 0));
   assert.ok(PERIODOS.some((p) => p.minutosObras > 0));
 });
+
+test('biblioteca pessoal: saneada na entrada, só deste membro, e aparece na Biblioteca', async () => {
+  const { normalizarEstado, TIPOS_PESSOAL } = await import('../core.js');
+  const { biblioteca } = await import('../views/biblioteca.js');
+  const e = normalizarEstado({ v: 3, pessoais: [
+    { id: 'p1', titulo: ' Suma Teológica ', autor: 'Tomás', tipo: 'xyz', obra: 'id inválido!', estado: 'lendo', paginas: '300', paginaAtual: -5 },
+    { id: 'bad id<', titulo: 'x' }, { id: 'p2', titulo: '' }, null,
+  ] });
+  assert.equal(e.pessoais.length, 1);
+  assert.deepEqual({ ...e.pessoais[0], criada: 0 }, { id: 'p1', titulo: 'Suma Teológica', autor: 'Tomás', tipo: 'livro', edicao: '', obra: null, estado: 'lendo', paginas: 300, paginaAtual: 0, criada: 0 });
+  assert.ok(TIPOS_PESSOAL.serie);
+  assert.deepEqual(normalizarEstado({ v: 3 }).pessoais, [], 'estado antigo ganha a lista vazia');
+  const html = biblioteca({ estado: { ...e, pessoais: [{ ...e.pessoais[0], titulo: '<script>' }] } });
+  assert.match(html, /Minha biblioteca pessoal/);
+  assert.ok(!html.includes('<script>'), 'título escapado');
+});
+
+test('mediateca: possíveis duplicatas para revisão humana, sem fundir nada', async () => {
+  const { possiveisDuplicatas, OBRAS } = await import('../data/mediateca.js');
+  const g = possiveisDuplicatas([{ titulo: 'As Confissões', criador: 'A' }, { titulo: 'Confissões.', criador: 'B' }, { titulo: 'Outra obra', criador: 'C' }, { titulo: 'Ab', criador: 'D' }, { titulo: 'Ab', criador: 'E' }]);
+  assert.equal(g.length, 1, 'artigo e pontuação ignorados; títulos curtos demais ficam de fora');
+  assert.equal(g[0].length, 2);
+  const antes = OBRAS.length;
+  possiveisDuplicatas();
+  assert.equal(OBRAS.length, antes, 'a revisão não altera o catálogo');
+});

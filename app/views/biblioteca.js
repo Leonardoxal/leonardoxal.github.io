@@ -2,9 +2,9 @@
 import { LIVROS, livroPorId } from '../data/livros.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { buscaCatalogo } from '../data/fontes.js';
-import { pctLivro, normalizar, comprovacaoLivro } from '../core.js';
+import { pctLivro, normalizar, comprovacaoLivro, TIPOS_PESSOAL } from '../core.js';
 import { transicaoHTML, comprovacaoHTML, ligarComprovacao } from './ficha.js';
-import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast } from '../ui.js';
+import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast, novoId } from '../ui.js';
 import { conexoesLivro, notasDe } from './conexoes.js';
 
 const FILTROS_VAZIOS = { q: '', autor: '', area: '', nivel: '', modulo: '', estado: '', prioridade: '', fav: false };
@@ -53,7 +53,58 @@ export function biblioteca({ estado }) {
       <h3>${esc(l.titulo)}</h3><p class="autor">${esc(l.autor)}</p>
       <div class="linha-meta"><span>${esc(l.area)}</span><span>Dificuldade ${l.nivel}/5</span><span class="chip ${st}">${ESTADOS_LIVRO[st]}</span>${l.verificacao !== 'confirmado' ? '<span class="chip alerta">dados a confirmar</span>' : ''}</div>
       ${st === 'lendo' || st === 'pausado' ? barra(pctLivro(estado, l.id)) : ''}</a></li>`;
-  }).join('')}</ul>`;
+  }).join('')}</ul>
+  ${pessoalHTML(estado)}`;
+}
+
+const pctPessoal = (p) => (p.estado === 'concluido' ? 100 : p.paginas ? Math.min(100, Math.round((p.paginaAtual / p.paginas) * 100)) : 0);
+
+/** Biblioteca pessoal: obras e edições que só este membro vê. O PDF continua só no aparelho, aberto no leitor. */
+function pessoalHTML(estado) {
+  const itens = estado.pessoais;
+  return `<section class="pessoal" aria-labelledby="pessoal-titulo"><h2 id="pessoal-titulo">Minha biblioteca pessoal</h2>
+    <p class="meta">Obras e edições que você usa e não estão no acervo, ou outra tradução de um livro do acervo. Só você vê: não entram no catálogo da Academia. Os PDFs nunca saem do seu aparelho.</p>
+    ${itens.length ? `<ul class="grade-livros">${itens.map((p) => `<li class="cartao-livro"><div>
+      <span class="num">${esc(TIPOS_PESSOAL[p.tipo])}${p.obra && livroPorId[p.obra] ? ` · edição de ${link(`livro-${p.obra}`, esc(livroPorId[p.obra].titulo))}` : ''}</span>
+      <h3>${esc(p.titulo)}</h3>${p.autor ? `<p class="autor">${esc(p.autor)}</p>` : ''}${p.edicao ? `<p class="meta">${esc(p.edicao)}</p>` : ''}
+      <form class="form-pessoal" data-pessoal="${esc(p.id)}">
+        <label class="campo"><span>Estado</span><select name="estado">${opcoes(Object.entries(ESTADOS_LIVRO), p.estado)}</select></label>
+        <label class="campo"><span>${p.tipo === 'serie' || p.tipo === 'curso' ? 'Total de partes' : 'Total de páginas'}</span><input name="paginas" type="number" min="0" inputmode="numeric" value="${p.paginas || ''}"></label>
+        <label class="campo"><span>Onde parei</span><input name="paginaAtual" type="number" min="0" inputmode="numeric" value="${p.paginaAtual || ''}"></label>
+        <div class="inf-acoes"><button class="btn pequeno" type="submit">Salvar</button><button class="btn pequeno perigo" type="button" data-remover="${esc(p.id)}">Remover</button></div>
+      </form>${barra(pctPessoal(p))}</div></li>`).join('')}</ul>` : '<p class="meta">Nada na biblioteca pessoal ainda.</p>'}
+    <details><summary>Acrescentar à biblioteca pessoal</summary>
+      <form class="form-leitura" id="form-pessoal-novo">
+        <label class="campo largo"><span>Título</span><input name="titulo" maxlength="200" required></label>
+        <label class="campo"><span>Autor ou criador</span><input name="autor" maxlength="160"></label>
+        <label class="campo"><span>Tipo</span><select name="tipo">${opcoes(Object.entries(TIPOS_PESSOAL), 'livro')}</select></label>
+        <label class="campo largo"><span>Edição, tradução ou versão (editora, tradutor, ano)</span><input name="edicao" maxlength="300"></label>
+        <label class="campo largo"><span>É outra edição de um livro do acervo? (opcional)</span><select name="obra"><option value="">Não</option>${opcoes(LIVROS.map((l) => [l.id, `${l.titulo} — ${l.autor}`]), '')}</select></label>
+        <button class="btn primario" type="submit">Acrescentar</button>
+      </form></details></section>`;
+}
+
+/** Liga os formulários da biblioteca pessoal (na página da Biblioteca e na de cada livro). */
+function ligarPessoal(root, ctx) {
+  root.querySelector('#form-pessoal-novo')?.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const fd = Object.fromEntries(new FormData(ev.target).entries());
+    if (!fd.titulo.trim()) return;
+    ctx.set((e) => ({ ...e, pessoais: [...e.pessoais, { ...fd, id: novoId('p'), estado: 'nao', paginas: 0, paginaAtual: 0, criada: Date.now() }] }));
+    toast('Acrescentado à biblioteca pessoal.');
+  });
+  root.querySelectorAll('.form-pessoal').forEach((f) => f.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const fd = Object.fromEntries(new FormData(f).entries());
+    const paginas = Math.max(0, parseInt(fd.paginas, 10) || 0);
+    const paginaAtual = Math.min(paginas || Infinity, Math.max(0, parseInt(fd.paginaAtual, 10) || 0));
+    ctx.set((e) => ({ ...e, pessoais: e.pessoais.map((p) => (p.id === f.dataset.pessoal ? { ...p, estado: fd.estado, paginas, paginaAtual } : p)) }), { manterRolagem: true });
+    toast('Salvo.');
+  }));
+  root.querySelectorAll('[data-remover]').forEach((b) => b.addEventListener('click', () => {
+    if (!confirm('Remover da biblioteca pessoal? O registro de progresso deste item é apagado.')) return;
+    ctx.set((e) => ({ ...e, pessoais: e.pessoais.filter((p) => p.id !== b.dataset.remover) }), { manterRolagem: true });
+  }));
 }
 
 biblioteca.ligar = (root, ctx) => {
@@ -67,6 +118,7 @@ biblioteca.ligar = (root, ctx) => {
   form.addEventListener('input', (ev) => { clearTimeout(t); t = setTimeout(aplicar, ev.target.type === 'search' ? 250 : 0); });
   form.addEventListener('submit', (ev) => ev.preventDefault());
   root.querySelector('[data-acao="limpar"]').addEventListener('click', () => { filtros = { ...FILTROS_VAZIOS }; ctx.render(); });
+  ligarPessoal(root, ctx);
 };
 
 /** Referência no formato AUTOR. Título. (dados de edição a completar pelo estudante). */
@@ -92,6 +144,7 @@ export function livro({ estado }, id) {
       <dt>Objetivo da leitura</dt><dd>${esc(l.objetivo)}</dd>
       ${l.ano ? `<dt>Data original</dt><dd>${esc(l.ano)}</dd>` : ''}
       <dt>Edição ou tradução</dt><dd>${esc(l.edicao || 'Não indicada pelo app; registre a sua abaixo.')}</dd>
+      ${estado.pessoais.some((p) => p.obra === id) ? `<dt>Minhas outras edições</dt><dd>${estado.pessoais.filter((p) => p.obra === id).map((p) => `${esc(p.titulo)}${p.edicao ? ` (${esc(p.edicao)})` : ''}`).join('; ')} <span class="meta">(na sua biblioteca pessoal)</span></dd>` : ''}
       ${l.nota && l.verificacao === 'confirmado' ? `<dt>Observação</dt><dd>${esc(l.nota)}</dd>` : ''}
       <dt>Referência</dt><dd>${referencia(l, st)}</dd>
       <dt>Acesso</dt><dd>${l.link ? `${linkExterno(l.link)} <span class="meta">(fonte oficial, verificada)</span>` : `<a href="${buscaCatalogo(l.titulo, l.autor)}" target="_blank" rel="noopener noreferrer" class="externo">Buscar no catálogo WorldCat ↗</a> <span class="meta">(busca, não link para o livro)</span>`}</dd>

@@ -1,5 +1,5 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
-import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
+import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
@@ -67,7 +67,17 @@ export function mediateca(_ctx, id = '') {
   ${filtro.modulo ? `<p class="meta">Filtro ativo: leituras do ${link(`mod-${filtro.modulo}`, esc(`Módulo ${moduloPorId[filtro.modulo]?.n}: ${moduloPorId[filtro.modulo]?.titulo}`))} · ${link('mediateca', 'limpar')}</p>` : ''}
   <p class="meta">${lista.length} obra(s).${vazias.length ? ` Categorias ainda sem registros: ${esc(vazias.join(', '))}. Elas recebem obras na expansão bibliográfica, sempre com a fonte declarada.` : ''}</p>
   <ul class="lista-busca">${lista.slice(0, filtro.limite).map((o) => `<li><span class="chip">${esc(CATEGORIAS[o.categoria])}</span> ${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador)}${o.data ? ` (${esc(o.data)})` : ''}${o.fontes.length > 1 ? ` <span class="meta">${o.fontes.length} fontes</span>` : ''}</li>`).join('')}</ul>
-  ${lista.length > filtro.limite ? `<button class="btn" id="m-mais">Mostrar mais ${Math.min(POR_PAGINA, lista.length - filtro.limite)}</button>` : ''}`;
+  ${lista.length > filtro.limite ? `<button class="btn" id="m-mais">Mostrar mais ${Math.min(POR_PAGINA, lista.length - filtro.limite)}</button>` : ''}
+  ${duplicatasHTML()}`;
+}
+
+/** Lista para revisão humana: mesmo título em registros separados. Nada é fundido sozinho. */
+function duplicatasHTML() {
+  const grupos = possiveisDuplicatas();
+  if (!grupos.length) return '';
+  return `<details class="revisao-duplicatas"><summary>Possíveis duplicatas para revisão (${grupos.length})</summary>
+    <p class="meta">Obras com o mesmo título em registros separados. Podem ser a mesma obra com o autor escrito de outro jeito (então devem ser agrupadas) ou obras diferentes de mesmo nome. Traduções e edições diferentes continuam como registros próprios, ligados à obra. Quem decide é uma pessoa.</p>
+    <ul>${grupos.map((g) => `<li>${g.map((o) => `${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador || 'autor não informado')}`).join(' · ')}</li>`).join('')}</ul></details>`;
 }
 
 mediateca.ligar = (root, ctx) => {

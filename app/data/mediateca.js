@@ -156,4 +156,16 @@ export const obrasDoAutor = (nome) => {
 export const obrasObrigatorias = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m))).map((o) => o.id);
 export const obrasDoDegrau = (degrau) => obrasObrigatorias(degrau.modulos);
 export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
+/**
+ * Possíveis duplicatas para revisão humana: obras com o mesmo título (sem acentos, pontuação nem artigo inicial)
+ * que ficaram em registros separados. Pode ser a mesma obra com o autor grafado de outro jeito, ou obras diferentes
+ * de mesmo nome: só uma pessoa decide; nada é fundido automaticamente.
+ */
+export function possiveisDuplicatas(obras = OBRAS) {
+  const titulo = (t) => normalizar(t).replace(/[^\p{L}\p{N} ]/gu, ' ').replace(/^(o|a|os|as|the|le|la|el|um|uma) /, '').replace(/\s+/g, ' ').trim();
+  const grupos = new Map();
+  for (const o of obras) { const k = titulo(o.titulo); if (k.length >= 4) grupos.set(k, [...(grupos.get(k) ?? []), o]); }
+  return [...grupos.values()].filter((g) => g.length > 1);
+}
+
 export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));
