@@ -25,15 +25,15 @@ const fichaCurta = (m) => `<li class="inf-caixa as-obra" data-idade="${m.idade}"
 export function assistir() {
   return `<section class="infantil assistir">
     <p class="migalha">${link('infantil', '← Academia Católica Infantil')}</p>
-    <header class="cab"><h1>Filmes, séries e animações</h1>
+    <header class="cab"><h1>Filmes, séries, animações e quadrinhos</h1>
       <p class="sub">Obras escolhidas pelo que podem formar, com ficha para os pais: o que está na obra, a leitura da Academia, os cuidados e as perguntas para conversar. A idade indicada é avaliação da Academia; a classificação oficial deve ser conferida na ClassInd.</p></header>
     <label class="campo"><span>Para quem</span><select id="as-quem"><option value="">Escolha o filho</option></select></label>
     <p class="meta" id="as-idade" aria-live="polite"></p>
     <section aria-labelledby="as-acomp-titulo"><h2 id="as-acomp-titulo">Acompanhando</h2><div id="as-acompanhando"><p class="meta">Escolha o filho para ver o que ele está assistindo.</p></div>
       <form class="inf-acoes" id="as-outra"><label class="campo"><span>Acompanhar outra série ou anime</span><input name="titulo" maxlength="120" required placeholder="Título"></label><button class="btn" type="submit">Acompanhar</button></form></section>
     <h2>Obras com ficha</h2>
-    <ul class="as-lista">${MIDIA_INFANTIL.map(fichaCurta).join('')}</ul>
-    <p class="meta">Livros, contos e quadrinhos ficam na Biblioteca da família, na aba ${link('infantil', 'Infantil')}. Videogames não entram aqui; os jogos educativos têm a aba ${link('jogos', 'Jogos')}.</p>
+    <ul class="as-lista">${[...MIDIA_INFANTIL].sort((a, b) => a.idade - b.idade).map(fichaCurta).join('')}</ul>
+    <p class="meta">Aqui ficam filmes, séries, animações, documentários e quadrinhos; livros e contos ficam na Biblioteca da família, na aba ${link('infantil', 'Infantil')}. Videogames não entram aqui; os jogos educativos têm a aba ${link('jogos', 'Jogos')}.</p>
   </section>`;
 }
 
@@ -89,8 +89,8 @@ export function obraInfantil(_ctx, id) {
       <dt>Classificação oficial</dt><dd>${esc(m.oficial)}</dd>
     </dl>
     <h2>Na obra</h2><p>${esc(m.obra)}</p>
-    <h2>Personagens</h2><ul>${m.personagens.map((p) => `<li><strong>${esc(p.nome)}</strong> <span class="chip">${esc(PERCURSOS[p.percurso])}</span><br>${esc(p.texto)}</li>`).join('')}</ul>
-    <p class="meta">Compreender um personagem não significa aprovar o que ele faz.</p>
+    ${m.personagens.length ? `<h2>Personagens</h2><ul>${m.personagens.map((p) => `<li><strong>${esc(p.nome)}</strong> <span class="chip">${esc(PERCURSOS[p.percurso])}</span><br>${esc(p.texto)}</li>`).join('')}</ul>
+    <p class="meta">Compreender um personagem não significa aprovar o que ele faz.</p>` : ''}
     <h2>Leitura da Academia</h2><p class="meta">Interpretação pedagógica da Academia, não doutrina da Igreja nem declaração dos autores.</p><p>${esc(m.academia)}</p>
     <h2>Adequação</h2>
     <table class="inf-tabela"><tr><th>Aspecto</th><th>Nível</th></tr>${Object.entries(ASPECTOS).map(([k, r]) => `<tr><td>${esc(r)}</td><td>${NIVEL_ASPECTO[m.adequacao[k]]}</td></tr>`).join('')}</table>
