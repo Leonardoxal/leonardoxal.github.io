@@ -16,6 +16,7 @@ const LIBERAR_MS = 5 * 60000; // o adulto libera mais 5 minutos
 const SEGURAR_MS = 3000; // segurar o botão do adulto por 3 segundos
 const ESPERA_ACERTO = 1400;
 const ESPERA_ERRO = 2200;
+const ESPERA_EXPLICAR = 5000; // no jogo das virtudes, tempo de ouvir a explicação
 const SALVAR_MS = 10000; // grava a partida em andamento a cada 10 s (e ao sair)
 
 // ---------------------------------------------------------------- guardado no aparelho
@@ -95,6 +96,10 @@ const DESENHO_CAPA = {
   ouvir: '<text x="80" y="166" text-anchor="middle" font-size="50">🔔</text><path class="onda" d="M118 126q12 14 0 28M128 116q22 24 0 48M42 126q-12 14 0 28M32 116q-22 24 0 48"/>',
   numeros: '<text x="80" y="170" text-anchor="middle" class="q" style="font-size:52px">100</text>',
   palavras: '<text x="54" y="166" text-anchor="middle" font-size="40">🐝</text><text x="106" y="166" text-anchor="middle" font-size="40">🍯</text>',
+  ciencias: '<text x="54" y="166" text-anchor="middle" font-size="40">🐧</text><text x="106" y="166" text-anchor="middle" font-size="40">🧊</text>',
+  virtudes: '<text x="80" y="170" text-anchor="middle" font-size="52">🤝</text>',
+  tempo: '<text x="54" y="166" text-anchor="middle" font-size="36">🌱</text><text x="106" y="166" text-anchor="middle" font-size="36">🌳</text>',
+  calculo: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:44px">7×8</text>',
 };
 const capa = (id) => `<svg class="jg-capa" viewBox="0 0 160 236" aria-hidden="true">
   <path class="vidro" d="${ARCO}"/>
@@ -111,7 +116,7 @@ export function jogos() {
   return `<section class="infantil jogos">
     <header class="cab jg-cab">
       <h1>Jogos da Academia</h1>
-      <p class="sub">Cinco janelas de vidro colorido. Cada acerto acende a luz; três acertos seguidos sobem um nível, e os níveis não acabam.</p>
+      <p class="sub">Janelas de vidro colorido, dos 2 aos 15 anos. Cada acerto acende a luz; três acertos seguidos sobem um nível, e os níveis não acabam. A idade de cada jogo é indicação; o nível acompanha o que a criança mostra.</p>
     </header>
     <div class="jg-janelas">${Object.values(JOGOS).map((j) => `<a class="jg-janela jg-tema-${j.id}" href="#jogo-${j.id}">
       ${capa(j.id)}
@@ -215,7 +220,8 @@ function opcaoHTML(id, r, o) {
   let dentro; let rotulo;
   if (o.qtd !== undefined) { dentro = grupo(o.qtd, o.e); rotulo = String(o.qtd); }
   else if (o.num !== undefined) { dentro = `<span class="jg-num">${o.num}</span>${o.pontos ? pontos(o.num) : ''}`; rotulo = String(o.num); }
-  else if (o.e) { dentro = `<span class="jg-figura" aria-hidden="true">${o.e}</span>`; rotulo = o.pt; }
+  else if (o.txt !== undefined) { dentro = `<span class="jg-txt">${esc(o.txt)}</span>`; rotulo = o.txt; }
+  else if (o.e) { dentro = `<span class="jg-figura" aria-hidden="true">${o.e}</span>${o.pt && r.tipo !== 'palavra' && r.tipo !== 'ingles' && r.tipo !== 'som' && r.tipo !== 'combina' && r.tipo !== 'intruso' ? `<span class="jg-palavra">${esc(o.pt)}</span>` : ''}`; rotulo = o.pt; }
   else { dentro = peca(o); rotulo = rotuloPeca(o); }
   return `<button class="jg-vidro${r.tipo === 'mais' ? ' largo' : ''}" type="button" data-chave="${esc(o.chave)}" aria-label="${esc(rotulo)}">${dentro}</button>`;
 }
@@ -227,6 +233,7 @@ function mostrarHTML(id, r) {
     if (!m.grupos) return `<p class="jg-conta">${esc(m.conta)} = ?</p>`;
     return `<div class="jg-mostrar">${m.grupos.map((g) => grupo(g.qtd, g.e, g.sai ?? 0)).join('<span class="jg-mais" aria-hidden="true">+</span>')}</div>`;
   }
+  if (m.cena) return `<p class="jg-cena">${esc(m.cena)}</p>`;
   if (m.modelo) return `<div class="jg-mostrar"><span class="jg-vidro jg-modelo"><span class="jg-figura" aria-hidden="true">${m.modelo.e}</span><span class="jg-palavra">${esc(m.modelo.pt)}</span></span></div>`;
   return `<div class="jg-mostrar jg-seq">${m.seq.map((x) => `<span class="jg-elo">${x.num !== undefined ? `<span class="jg-num">${x.num}</span>` : peca(x)}</span>`).join('')}<span class="jg-elo jg-falta" aria-label="falta">?</span></div>`;
 }
@@ -299,11 +306,12 @@ jogo.ligar = (root, ctx, id) => {
       botao.classList.add('certa');
       painel.classList.add('aceso');
       sino();
-      falar(p.nivel > antes ? `${elogio()} Você subiu para o nível ${p.nivel}!` : elogio());
+      const virtude = rodada.mostrar?.virtude ? ` Isso é ${rodada.mostrar.virtude.toLocaleLowerCase('pt-BR')}.` : '';
+      falar(p.nivel > antes ? `${elogio()}${virtude} Você subiu para o nível ${p.nivel}!` : `${elogio()}${virtude}`);
     } else {
       botao.classList.add('errada');
       painel.querySelector(`.jg-opcoes [data-chave="${CSS.escape(rodada.certa)}"]`)?.classList.add('mostrar');
-      falar('Olhe, é esta aqui.');
+      falar(rodada.mostrar?.virtude ? `O melhor é: ${rodada.certa}. Isso é ${rodada.mostrar.virtude.toLocaleLowerCase('pt-BR')}.` : 'Olhe, é esta aqui.');
     }
     mostrarNivel();
     nivelEl.classList.toggle('subiu', p.nivel > antes);
@@ -312,7 +320,7 @@ jogo.ligar = (root, ctx, id) => {
       painel.classList.remove('aceso');
       nivelEl.classList.remove('subiu');
       if (!descansoAberto()) nova();
-    }, acertou ? ESPERA_ACERTO : ESPERA_ERRO);
+    }, acertou ? ESPERA_ACERTO : rodada.mostrar?.virtude ? ESPERA_EXPLICAR : ESPERA_ERRO);
   };
   painel.addEventListener('click', (ev) => {
     if (ev.target.closest('#jg-ouvir')) { if (rodada) falar(rodada.fala, rodada.idioma); return; }

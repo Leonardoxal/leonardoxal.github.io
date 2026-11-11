@@ -303,7 +303,8 @@ test('jogos: toda rodada de todo nível (1 a 60) tem a resposta certa entre as o
         assert.ok(chaves.includes(r.certa), `${j.id} nível ${n}: falta a resposta certa`);
         assert.equal(new Set(chaves).size, chaves.length, `${j.id} nível ${n}: opção repetida`);
         assert.ok(chaves.length >= 2 && r.fala && r.texto, `${j.id} nível ${n}: rodada incompleta`);
-        assert.ok(r.opcoes.every((o) => o.num === undefined || o.num >= 0), `${j.id} nível ${n}: número negativo`);
+        const equacao = j.id === 'calculo' && n >= 22; // inteiros negativos fazem parte das equações (13 a 15 anos)
+        assert.ok(equacao || r.opcoes.every((o) => o.num === undefined || o.num >= 0), `${j.id} nível ${n}: número negativo`);
       }
     }
   }
@@ -491,6 +492,42 @@ test('nuvem e backup: registros de habilidade por filho', async () => {
   const tela = aulaInfantil({}, '2026-11-11');
   assert.match(tela, /Registrar o que foi confirmado/);
   assert.match(tela, /Parcialmente dominado/);
+});
+
+test('jogos novos: contas certas, ordem do tempo, virtudes e ciências', async () => {
+  const { rodadaCalculo, rodadaTempo, SEQUENCIAS, rodadaVirtudes, SITUACOES, rodadaCiencias } = await import('../infantil/jogos.js');
+  const resolver = (t) => {
+    let m;
+    if ((m = /^(\d+) \+ (\d+) = \?$/.exec(t))) return +m[1] + +m[2];
+    if ((m = /^(\d+) − (\d+) = \?$/.exec(t))) return m[1] - m[2];
+    if ((m = /^(\d+) × (\d+) = \?$/.exec(t))) return m[1] * m[2];
+    if ((m = /^(\d+) ÷ (\d+) = \?$/.exec(t))) return m[1] / m[2];
+    if ((m = /^1\/(\d+) de (\d+) = \?$/.exec(t))) return m[2] / m[1];
+    if ((m = /^(\d+)% de (\d+) = \?$/.exec(t))) return (m[1] * m[2]) / 100;
+    if ((m = /^(\d+)² = \?$/.exec(t))) return m[1] ** 2;
+    if ((m = /^√(\d+) = \?$/.exec(t))) return Math.sqrt(m[1]);
+    if ((m = /^(\d+)x ([+−]) (\d+) = (-?\d+)\. x = \?$/.exec(t))) return (m[4] - (m[2] === '+' ? +m[3] : -m[3])) / m[1];
+    throw new Error(`conta desconhecida: ${t}`);
+  };
+  for (let n = 1; n <= 30; n++) for (let k = 0; k < 30; k++) {
+    const r = rodadaCalculo(n);
+    const v = resolver(r.texto);
+    assert.ok(Number.isInteger(v), `nível ${n}: ${r.texto} não dá inteiro`);
+    assert.equal(r.certa, `n${v}`, `nível ${n}: ${r.texto}`);
+  }
+  for (let n = 1; n <= 20; n++) {
+    const r = rodadaTempo(n);
+    const seq = SEQUENCIAS.find((s) => s.itens.some((i) => i.pt === r.certa));
+    const pos = r.opcoes.map((o) => seq.itens.findIndex((i) => i.pt === o.chave));
+    assert.ok(pos.every((p) => p >= 0), 'todas as opções da mesma sequência');
+    assert.equal(seq.itens[Math.min(...pos)].pt, r.certa, 'a certa é a que vem primeiro');
+  }
+  for (let n = 1; n <= 15; n++) {
+    const r = rodadaVirtudes(n);
+    assert.ok(SITUACOES.some((s) => s.certa === r.certa && s.cena === r.mostrar.cena), 'a resposta é a ação virtuosa da própria situação');
+  }
+  assert.equal(rodadaCiencias(1).opcoes.length, 2);
+  assert.match(rodadaCiencias(3).fala, /^Onde vive (o|a) /);
 });
 
 test('séries: estrutura, episódio atual, marcação em lote, arcos e validação', () => {

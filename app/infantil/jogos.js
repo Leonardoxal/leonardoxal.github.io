@@ -287,6 +287,134 @@ export function rodadaPalavras(nivel, rnd = Math.random) {
   return { tipo: 'combina', fala: `O que combina com ${modelo.pt}?`, idioma: 'pt-BR', texto: `O que combina com ${modelo.pt}?`, mostrar: { modelo: figura(modelo) }, opcoes, certa: certo.pt };
 }
 
+// ---------------------------------------------------------------- 6. Onde vive? (ciências)
+
+const LUGARES = { agua: { e: '🌊', pt: 'água' }, deserto: { e: '🏜️', pt: 'deserto' }, gelo: { e: '🧊', pt: 'gelo' }, floresta: { e: '🌳', pt: 'floresta' }, fazenda: { e: '🏡', pt: 'fazenda' } };
+const HABITATS = [
+  { e: '🐟', pt: 'peixe', lugar: 'agua' }, { e: '🐬', pt: 'golfinho', lugar: 'agua' }, { e: '🐙', pt: 'polvo', lugar: 'agua' },
+  { e: '🐫', pt: 'camelo', lugar: 'deserto' }, { e: '🦂', pt: 'escorpião', lugar: 'deserto' },
+  { e: '🐻‍❄️', pt: 'urso-polar', lugar: 'gelo' }, { e: '🐧', pt: 'pinguim', lugar: 'gelo' },
+  { e: '🐒', pt: 'macaco', lugar: 'floresta' }, { e: '🦜', pt: 'papagaio', lugar: 'floresta' },
+  { e: '🐄', pt: 'vaca', lugar: 'fazenda', f: 1 }, { e: '🐔', pt: 'galinha', lugar: 'fazenda', f: 1 }, { e: '🐖', pt: 'porco', lugar: 'fazenda' },
+];
+const CLASSES = { mamifero: 'mamífero', ave: 'ave', peixe: 'peixe', reptil: 'réptil', anfibio: 'anfíbio', inseto: 'inseto' };
+const ANIMAIS_CLASSE = [
+  { e: '🐋', pt: 'baleia', c: 'mamifero', f: 1 }, { e: '🦇', pt: 'morcego', c: 'mamifero' }, { e: '🐬', pt: 'golfinho', c: 'mamifero' }, { e: '🐄', pt: 'vaca', c: 'mamifero', f: 1 },
+  { e: '🐧', pt: 'pinguim', c: 'ave' }, { e: '🦉', pt: 'coruja', c: 'ave', f: 1 }, { e: '🐔', pt: 'galinha', c: 'ave', f: 1 },
+  { e: '🦈', pt: 'tubarão', c: 'peixe' }, { e: '🐟', pt: 'peixe-palhaço', c: 'peixe' },
+  { e: '🐊', pt: 'jacaré', c: 'reptil' }, { e: '🐍', pt: 'cobra', c: 'reptil', f: 1 }, { e: '🐢', pt: 'tartaruga', c: 'reptil', f: 1 },
+  { e: '🐸', pt: 'sapo', c: 'anfibio' }, { e: '🦋', pt: 'borboleta', c: 'inseto', f: 1 }, { e: '🐜', pt: 'formiga', c: 'inseto', f: 1 }, { e: '🐝', pt: 'abelha', c: 'inseto', f: 1 },
+];
+// Perguntas de fenômenos (conteúdo de ciências consolidado; a resposta é a explicação científica corrente).
+const FENOMENOS = [
+  { p: 'O gelo derrete quando…', certa: 'esquenta', outras: ['esfria', 'escurece'] },
+  { p: 'A planta precisa de quê para fazer o próprio alimento?', certa: 'luz do sol', outras: ['escuro', 'sal'] },
+  { p: 'A Lua brilha à noite porque…', certa: 'reflete a luz do Sol', outras: ['tem fogo dentro', 'é uma estrela'] },
+  { p: 'A Terra leva quanto tempo para dar uma volta em torno do Sol?', certa: 'cerca de um ano', outras: ['um dia', 'uma semana'] },
+  { p: 'A Terra dá uma volta em torno de si mesma em…', certa: 'cerca de um dia', outras: ['um ano', 'uma hora'] },
+  { p: 'Quando a água vira vapor, ela passou do estado…', certa: 'líquido para gasoso', outras: ['sólido para líquido', 'gasoso para sólido'] },
+  { p: 'O que o nosso corpo usa do ar quando respiramos?', certa: 'oxigênio', outras: ['fumaça', 'sal'] },
+  { p: 'Um objeto cai no chão por causa da…', certa: 'gravidade', outras: ['luz', 'cor dele'] },
+];
+const opcaoTexto = (t) => ({ chave: t, txt: t });
+
+/** Níveis: 1-5 onde o animal vive (2 a 5 lugares); 6-10 que tipo de animal é; 11+ fenômenos e classificação alternados. */
+export function rodadaCiencias(nivel, rnd = Math.random) {
+  if (nivel >= 11 && nivel % 2 === 1) {
+    const f = escolher(FENOMENOS, rnd);
+    return { tipo: 'fenomeno', fala: f.p, idioma: 'pt-BR', texto: f.p, mostrar: null, opcoes: embaralhar([f.certa, ...f.outras], rnd).map(opcaoTexto), certa: f.certa };
+  }
+  if (nivel >= 6) {
+    const a = escolher(ANIMAIS_CLASSE, rnd);
+    const n = Math.min(6, 3 + Math.floor((nivel - 6) / 2));
+    const outras = embaralhar(Object.keys(CLASSES).filter((c) => c !== a.c), rnd).slice(0, n - 1);
+    return { tipo: 'classe', fala: `Que tipo de animal é ${a.f ? 'a' : 'o'} ${a.pt}?`, idioma: 'pt-BR', texto: 'Que tipo de animal é?', mostrar: { modelo: { e: a.e, pt: a.pt } }, opcoes: embaralhar([a.c, ...outras], rnd).map((c) => ({ chave: c, txt: CLASSES[c] })), certa: a.c };
+  }
+  const a = escolher(HABITATS, rnd);
+  const outros = embaralhar(Object.keys(LUGARES).filter((l) => l !== a.lugar), rnd).slice(0, Math.min(4, nivel));
+  return { tipo: 'habitat', fala: `Onde vive ${a.f ? 'a' : 'o'} ${a.pt}?`, idioma: 'pt-BR', texto: 'Onde vive?', mostrar: { modelo: { e: a.e, pt: a.pt } }, opcoes: embaralhar([a.lugar, ...outros], rnd).map((l) => ({ chave: l, ...LUGARES[l] })), certa: a.lugar };
+}
+
+// ---------------------------------------------------------------- 7. O que você faria? (formação moral)
+
+// Situações do dia a dia; a resposta certa é a ação virtuosa, e a explicação mostra a consequência, sem ameaça.
+export const SITUACOES = [
+  { n: 1, cena: 'Seu amigo quer brincar com o seu carrinho.', certa: 'Emprestar e brincar junto', outras: ['Esconder o carrinho', 'Dizer que é só seu'], virtude: 'Generosidade' },
+  { n: 1, cena: 'Você derrubou o copo de suco no chão.', certa: 'Contar e ajudar a limpar', outras: ['Sair de perto', 'Dizer que foi o gato'], virtude: 'Sinceridade' },
+  { n: 1, cena: 'A mamãe está carregando muitas sacolas.', certa: 'Ajudar a carregar uma', outras: ['Continuar brincando', 'Pedir um doce'], virtude: 'Caridade' },
+  { n: 1, cena: 'É hora de guardar os brinquedos.', certa: 'Guardar, mesmo com preguiça', outras: ['Deixar tudo no chão', 'Chorar até alguém guardar'], virtude: 'Diligência' },
+  { n: 2, cena: 'Um colega caiu e os outros riram dele.', certa: 'Ajudar o colega a levantar', outras: ['Rir junto', 'Fingir que não viu'], virtude: 'Misericórdia' },
+  { n: 2, cena: 'Seu irmão pediu desculpas por ter estragado seu desenho.', certa: 'Perdoar e fazer outro desenho', outras: ['Estragar o dele também', 'Ficar sem falar com ele'], virtude: 'Perdão' },
+  { n: 2, cena: 'Você ganhou o jogo e seu amigo perdeu.', certa: 'Dizer "bom jogo" e não zombar', outras: ['Zombar do amigo', 'Contar para todos que ele perdeu'], virtude: 'Humildade' },
+  { n: 2, cena: 'Achou uma nota de dinheiro caída na sala de aula.', certa: 'Entregar à professora', outras: ['Guardar para você', 'Gastar na cantina'], virtude: 'Justiça' },
+  { n: 3, cena: 'Na prova, um colega oferece a resposta escondido.', certa: 'Recusar e fazer com o que sabe', outras: ['Copiar a resposta', 'Pedir a resposta de outras questões'], virtude: 'Honestidade' },
+  { n: 3, cena: 'Um grupo pede que você não fale com um colega novo.', certa: 'Falar com o colega novo mesmo assim', outras: ['Obedecer ao grupo', 'Zombar do colega novo'], virtude: 'Coragem' },
+  { n: 3, cena: 'Você prometeu ajudar seu avô, mas apareceu um convite para brincar.', certa: 'Cumprir a promessa e brincar depois', outras: ['Ir brincar sem avisar', 'Dizer que está doente'], virtude: 'Fidelidade' },
+  { n: 3, cena: 'Você quer muito um brinquedo caro, e seus pais disseram que agora não dá.', certa: 'Aceitar e esperar, sem birra', outras: ['Fazer birra até ganhar', 'Pegar dinheiro escondido'], virtude: 'Temperança' },
+  { n: 4, cena: 'Você vê que um amigo está mentindo para os pais dele sobre algo perigoso.', certa: 'Conversar com ele e, se preciso, contar a um adulto', outras: ['Ficar quieto para não brigar', 'Espalhar para a turma'], virtude: 'Prudência' },
+  { n: 4, cena: 'Alguém fez algo errado com você e depois se arrependeu de verdade.', certa: 'Perdoar e, com prudência, confiar de novo aos poucos', outras: ['Nunca mais olhar para ele', 'Vingar-se primeiro'], virtude: 'Perdão' },
+  { n: 4, cena: 'Na internet, pedem seu nome completo e o endereço para ganhar um prêmio.', certa: 'Não dar e mostrar a um adulto', outras: ['Dar só o endereço', 'Dar tudo, é um prêmio'], virtude: 'Prudência' },
+];
+
+/** Níveis: 1-3 situações de casa (2 a 3 opções); 4-6 escola e amigos; 7-9 escolhas que custam; 10+ prudência e casos mais difíceis. */
+export function rodadaVirtudes(nivel, rnd = Math.random) {
+  const faixa = Math.min(4, Math.ceil(nivel / 3));
+  const s = escolher(SITUACOES.filter((x) => x.n <= faixa && x.n >= faixa - 1), rnd);
+  const outras = nivel <= 1 ? s.outras.slice(0, 1) : s.outras;
+  return { tipo: 'virtude', fala: `${s.cena} O que você faria?`, idioma: 'pt-BR', texto: 'O que você faria?', mostrar: { cena: s.cena, virtude: s.virtude }, opcoes: embaralhar([s.certa, ...outras], rnd).map(opcaoTexto), certa: s.certa };
+}
+
+// ---------------------------------------------------------------- 8. O que veio primeiro? (história e tempo)
+
+// Sequências em ordem; cada item com uma pista de data só quando a data é consolidada.
+export const SEQUENCIAS = [
+  { n: 1, nome: 'o dia', itens: [{ e: '🌅', pt: 'acordar' }, { e: '🥣', pt: 'café da manhã' }, { e: '🍽️', pt: 'almoço' }, { e: '🛁', pt: 'banho da noite' }, { e: '🛏️', pt: 'dormir' }] },
+  { n: 1, nome: 'a vida', itens: [{ e: '👶', pt: 'bebê' }, { e: '🧒', pt: 'criança' }, { e: '🧑', pt: 'adulto' }, { e: '🧓', pt: 'idoso' }] },
+  { n: 1, nome: 'a planta', itens: [{ e: '🌰', pt: 'semente' }, { e: '🌱', pt: 'broto' }, { e: '🌿', pt: 'planta' }, { e: '🌳', pt: 'árvore' }] },
+  { n: 2, nome: 'a História Sagrada', itens: [{ e: '🌍', pt: 'a Criação' }, { e: '🚢', pt: 'a Arca de Noé' }, { e: '⭐', pt: 'a promessa a Abraão' }, { e: '🌊', pt: 'Moisés e o Mar Vermelho' }, { e: '👑', pt: 'o rei Davi' }, { e: '👶', pt: 'o nascimento de Jesus' }] },
+  { n: 3, nome: 'a História do Brasil', itens: [{ e: '⛵', pt: 'chegada dos portugueses (1500)' }, { e: '🗣️', pt: 'Independência (1822)' }, { e: '⛓️', pt: 'Lei Áurea, fim da escravidão (1888)' }, { e: '🏛️', pt: 'Proclamação da República (1889)' }] },
+  { n: 3, nome: 'a História do mundo', itens: [{ e: '🔺', pt: 'pirâmides do Egito' }, { e: '🏛️', pt: 'Império Romano' }, { e: '⛪', pt: 'catedrais góticas' }, { e: '🧭', pt: 'Colombo chega à América (1492)' }, { e: '🚀', pt: 'o homem na Lua (1969)' }] },
+];
+
+/** Níveis: 1-4 o dia, a vida e a planta (2 a 3 opções); 5-8 também a História Sagrada; 9+ também o Brasil e o mundo, até 4 opções. */
+export function rodadaTempo(nivel, rnd = Math.random) {
+  const faixa = nivel <= 4 ? 1 : nivel <= 8 ? 2 : 3;
+  const seq = escolher(SEQUENCIAS.filter((s) => s.n <= faixa && (faixa === 1 || s.n >= faixa - 1)), rnd);
+  const n = Math.min(seq.itens.length, nivel <= 2 ? 2 : nivel <= 6 ? 3 : 4);
+  const posicoes = embaralhar(seq.itens.map((_, i) => i), rnd).slice(0, n);
+  const primeiro = seq.itens[Math.min(...posicoes)];
+  return { tipo: 'tempo', fala: `Em ${seq.nome}, o que vem primeiro?`, idioma: 'pt-BR', texto: `O que vem primeiro? (${seq.nome})`, mostrar: null, opcoes: embaralhar(posicoes.map((i) => seq.itens[i]), rnd).map((x) => ({ chave: x.pt, e: x.e, pt: x.pt })), certa: primeiro.pt };
+}
+
+// ---------------------------------------------------------------- 9. Cálculo de cabeça (6 a 15 anos)
+
+const FALA_OP = { '+': 'mais', '−': 'menos', '×': 'vezes', '÷': 'dividido por' };
+/** Uma conta por nível: soma, subtração, tabuada, divisão exata, frações de um número, porcentagem, potências e raízes, equação do 1º grau. */
+function conta(nivel, rnd) {
+  if (nivel <= 3) { const a = inteiro(2, 10 + nivel * 3, rnd); const b = inteiro(2, 10 + nivel * 3, rnd); return { t: `${a} + ${b}`, f: `${a} mais ${b}`, r: a + b }; }
+  if (nivel <= 6) { const a = inteiro(10, 20 + nivel * 5, rnd); const b = inteiro(2, a - 1, rnd); return { t: `${a} − ${b}`, f: `${a} menos ${b}`, r: a - b }; }
+  if (nivel <= 9) { const a = inteiro(2, 10, rnd); const b = inteiro(2, 10, rnd); return { t: `${a} × ${b}`, f: `${a} vezes ${b}`, r: a * b }; }
+  if (nivel <= 12) { const b = inteiro(2, 10, rnd); const r = inteiro(2, 10, rnd); return { t: `${b * r} ÷ ${b}`, f: `${b * r} ${FALA_OP['÷']} ${b}`, r }; }
+  if (nivel <= 15) { const d = escolher([2, 3, 4, 5, 10], rnd); const n = d * inteiro(2, 12, rnd); return { t: `1/${d} de ${n}`, f: `um ${({ 2: 'meio', 3: 'terço', 4: 'quarto', 5: 'quinto', 10: 'décimo' })[d]} de ${n}`, r: n / d }; }
+  if (nivel <= 18) { const p = escolher([10, 20, 25, 50, 75], rnd); const n = inteiro(1, 20, rnd) * (p === 25 || p === 75 ? 4 : 10); return { t: `${p}% de ${n}`, f: `${p} por cento de ${n}`, r: (p * n) / 100 }; }
+  if (nivel <= 21) {
+    if (rnd() < 0.5) { const b = inteiro(2, 12, rnd); return { t: `${b}²`, f: `${b} ao quadrado`, r: b * b }; }
+    const r = inteiro(2, 15, rnd); return { t: `√${r * r}`, f: `raiz quadrada de ${r * r}`, r };
+  }
+  const x = inteiro(-9, 15, rnd); const a = inteiro(2, 9, rnd); const b = inteiro(-20, 20, rnd);
+  const sinal = b < 0 ? `− ${-b}` : `+ ${b}`;
+  return { t: `${a}x ${sinal} = ${a * x + b}. x = ?`, f: `${a} x ${b < 0 ? 'menos' : 'mais'} ${Math.abs(b)} igual a ${a * x + b}. Quanto vale x?`, r: x };
+}
+
+/** Níveis: 1-3 soma; 4-6 subtração; 7-9 tabuada; 10-12 divisão; 13-15 frações; 16-18 porcentagem; 19-21 potências e raízes; 22+ equações. */
+export function rodadaCalculo(nivel, rnd = Math.random) {
+  const c = conta(nivel, rnd);
+  // números negativos só nas equações (13 a 15 anos); antes disso, as opções erradas também são naturais
+  const perto = distintos(3, () => { const v = c.r + inteiro(-5, 5, rnd); return nivel >= 22 ? v : Math.abs(v); }, (x) => x, [c.r]);
+  const opcoes = embaralhar([c.r, ...perto], rnd).map((n) => ({ chave: `n${n}`, num: n }));
+  return { tipo: 'calculo', fala: c.t.includes('x =') ? c.f : `Quanto é ${c.f}?`, idioma: 'pt-BR', texto: c.t.includes('x =') ? c.t : `${c.t} = ?`, mostrar: null, opcoes, certa: `n${c.r}` };
+}
+
 // idade: faixa indicativa em anos (referência, não barreira: o nível acompanha o que a criança demonstra).
 // habilidades: o que o jogo trabalha, para os pais e para o texto de análise por IA.
 export const JOGOS = {
@@ -295,6 +423,10 @@ export const JOGOS = {
   ouvir: { id: 'ouvir', titulo: 'Ouvir e achar', area: 'Linguagem e inglês', idade: [2, 6], habilidades: ['vocabulário', 'compreensão oral', 'inglês', 'consciência fonológica'], ajuda: 'Ouvir a palavra e tocar na figura; depois em inglês; mais adiante, o som do começo da palavra.', rodada: rodadaOuvir },
   numeros: { id: 'numeros', titulo: 'Que número é?', area: 'Matemática', idade: [3, 7], habilidades: ['reconhecer numerais', 'sistema de numeração até 100'], ajuda: 'Ouvir o número e tocar no número escrito: até 10, até 20, as dezenas e, mais adiante, até 100.', rodada: rodadaNumeros },
   palavras: { id: 'palavras', titulo: 'O que combina?', area: 'Linguagem e raciocínio', idade: [2, 6], habilidades: ['vocabulário', 'associação', 'classificação'], ajuda: 'Juntar as coisas que andam juntas (abelha e mel); mais adiante, achar a que não é do grupo.', rodada: rodadaPalavras },
+  ciencias: { id: 'ciencias', titulo: 'Onde vive?', area: 'Ciências', idade: [2, 10], habilidades: ['habitats', 'classificação dos animais', 'fenômenos da natureza'], ajuda: 'Onde cada animal vive; depois, que tipo de animal é (mamífero, ave, réptil…); mais adiante, por que o gelo derrete e a Lua brilha.', rodada: rodadaCiencias },
+  virtudes: { id: 'virtudes', titulo: 'O que você faria?', area: 'Formação moral', idade: [4, 10], habilidades: ['discernimento moral', 'virtudes', 'consequências das ações'], ajuda: 'Situações do dia a dia para escolher o que é certo. Depois de cada resposta, converse: por que é melhor assim?', rodada: rodadaVirtudes },
+  tempo: { id: 'tempo', titulo: 'O que veio primeiro?', area: 'História e tempo', idade: [3, 12], habilidades: ['sequência temporal', 'História Sagrada', 'História do Brasil e do mundo'], ajuda: 'Ordem das coisas: o dia, a vida, a planta; depois a História Sagrada; mais adiante, o Brasil e o mundo.', rodada: rodadaTempo },
+  calculo: { id: 'calculo', titulo: 'Cálculo de cabeça', area: 'Matemática', idade: [6, 15], habilidades: ['cálculo mental', 'tabuada', 'frações', 'porcentagem', 'potências', 'equações'], ajuda: 'Contas de cabeça, da soma até a equação do 1º grau. Vale usar papel para pensar; o que conta é acertar com compreensão, não a pressa.', rodada: rodadaCalculo },
 };
 
 // ---------------------------------------------------------------- tempo de tela (opcional)
