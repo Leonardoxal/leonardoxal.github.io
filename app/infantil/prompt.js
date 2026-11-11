@@ -23,6 +23,27 @@ export const CRITERIOS = {
   'Arte e motricidade': 'coordenação, uso do material, criatividade, cuidado com o trabalho',
 };
 
+/** Texto para pedir a uma IA um ciclo de reforço de uma habilidade ainda não dominada (seção 11.3 do projeto). */
+export function textoReforcoIA({ area, habilidade, situacao, dificuldade = '', intervencao = '', idade = '', interesses = [] }) {
+  return [
+    `Preciso de um ciclo de reforço para uma criança ("Aluno A"${idade ? `, ${idade}` : ''}) que aprende em casa, numa formação católica integral.`,
+    `Área: ${area}. Habilidade: ${habilidade}. Situação atual, confirmada pelo responsável: ${situacao}.`,
+    dificuldade.trim() ? `Dificuldade observada: ${dificuldade.trim()}` : null,
+    intervencao.trim() ? `O que já tentamos: ${intervencao.trim()}` : null,
+    interesses.length ? `Interesses da criança, para usar como exemplo: ${interesses.join(', ')}.` : null,
+    '',
+    'Monte, em linguagem simples para o adulto:',
+    '1. Qual pode ser o pré-requisito que falta, e como verificar isso em 2 minutos.',
+    '2. Uma explicação diferente da habitual, com material concreto da casa.',
+    '3. Três exemplos resolvidos juntos.',
+    '4. De 4 a 6 exercícios graduais, curtos (3 a 5 minutos cada), sem repetir a mesma questão.',
+    '5. Uma aplicação numa situação diferente do dia a dia.',
+    '6. Uma verificação final de 3 itens e o critério para avançar ou retomar.',
+    '',
+    'Regras: respeite a idade, nada de pressão nem comparação; não faça diagnóstico psicológico ou clínico; se a dificuldade persistir, sugira conversar com um profissional; diga com clareza quando algo for opinião sua.',
+  ].filter((p) => p !== null).join('\n');
+}
+
 /** Texto para conversar sobre um arco concluído de uma série, com a ficha da obra quando houver. */
 export function textoArcoIA({ titulo, arco, ficha = null, idade = '', observacoes = '' }) {
   return [

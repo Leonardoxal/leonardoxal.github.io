@@ -579,6 +579,25 @@ export const JOGOS = {
   estrategia: { id: 'estrategia', titulo: 'A melhor jogada', area: 'Estratégia e lógica', idade: [7, 15], habilidades: ['planejamento', 'antecipar consequências', 'padrões e múltiplos'], ajuda: 'O jogo das pedras: descobrir a jogada que garante a vitória. Depois de acertar, jogue de verdade com pedrinhas ou feijões, em família.', rodada: rodadaEstrategia },
 };
 
+// ---------------------------------------------------------------- brincadeiras fora da tela
+
+/** Brincadeiras e jogos de mesa tradicionais, sem tela, com o que desenvolvem. idade: faixa indicativa em anos. */
+export const BRINCADEIRAS = [
+  { id: 'massinha', nome: 'Massinha e blocos', idade: [2, 6], habilidades: ['coordenação fina', 'formas', 'criatividade'], como: 'Fazer bolinhas, cobrinhas e formas; contar as bolinhas; montar torres e comparar qual é mais alta.' },
+  { id: 'roda-historias', nome: 'Roda de histórias', idade: [2, 15], habilidades: ['linguagem', 'imaginação', 'memória'], como: 'Cada um conta um pedaço da história; os pequenos recontam a história do dia com as próprias palavras.' },
+  { id: 'palmas-silabas', nome: 'Palmas nas sílabas', idade: [3, 7], habilidades: ['consciência silábica', 'ritmo'], como: 'Falar nomes da casa batendo uma palma por sílaba (ca-sa, ja-ne-la) e contar as palmas.' },
+  { id: 'esconde', nome: 'Esconde-esconde', idade: [3, 10], habilidades: ['contagem', 'orientação no espaço', 'autocontrole'], como: 'Quem procura conta até 20 (os maiores, de 2 em 2 ou de 5 em 5) e diz onde procurou: atrás, embaixo, ao lado.' },
+  { id: 'memoria-caseira', nome: 'Jogo da memória feito em casa', idade: [3, 8], habilidades: ['memória', 'atenção', 'vocabulário'], como: 'Desenhar ou recortar pares de figuras em papel grosso; virar dois por vez e dizer o nome de cada figura.' },
+  { id: 'amarelinha', nome: 'Amarelinha', idade: [4, 9], habilidades: ['equilíbrio', 'coordenação', 'números até 10'], como: 'Desenhar as casas de 1 a 10 no chão; dizer o número ao pular e jogar a pedrinha na casa certa.' },
+  { id: 'domino', nome: 'Dominó', idade: [4, 10], habilidades: ['quantidades', 'correspondência', 'esperar a vez'], como: 'Começar contando os pontinhos de cada peça; depois somar as pontas.' },
+  { id: 'cozinha', nome: 'Ajudar na cozinha medindo', idade: [4, 12], habilidades: ['medidas', 'frações', 'vida prática'], como: 'Medir meia xícara e um quarto de xícara, contar ovos, dividir a receita ao meio. Sempre com um adulto perto do fogão e das facas.' },
+  { id: 'corda', nome: 'Pular corda cantando', idade: [5, 12], habilidades: ['ritmo', 'coordenação', 'contagem'], como: 'Contar os pulos, cantar parlendas, tentar bater o próprio recorde de pulos seguidos.' },
+  { id: 'tesouro', nome: 'Caça ao tesouro com pistas', idade: [5, 12], habilidades: ['leitura', 'orientação', 'raciocínio'], como: 'Esconder pistas escritas (ou desenhadas, para os pequenos) que levam de um lugar a outro da casa.' },
+  { id: 'damas', nome: 'Damas', idade: [6, 15], habilidades: ['estratégia', 'planejamento', 'perder e ganhar bem'], como: 'Jogar em família; depois de cada partida, perguntar: qual jogada decidiu o jogo?' },
+  { id: 'xadrez', nome: 'Xadrez', idade: [6, 15], habilidades: ['estratégia', 'concentração', 'antecipar consequências'], como: 'Aprender uma peça por vez; jogar partidas curtas só com peões, depois com todas as peças.' },
+  { id: 'pedras', nome: 'Jogo das pedras de verdade', idade: [7, 15], habilidades: ['estratégia', 'múltiplos'], como: 'Com feijões ou pedrinhas, jogar o mesmo jogo de "A melhor jogada": cada um tira de 1 a 3, quem tira a última ganha.' },
+];
+
 // ---------------------------------------------------------------- tempo de tela (opcional)
 
 export const LIMITES = [0, 5, 10, 15, 20, 30]; // minutos por dia; 0 = sem limite

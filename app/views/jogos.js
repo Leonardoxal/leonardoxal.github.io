@@ -2,7 +2,7 @@
 // Cada filho tem o seu nível em cada jogo (guardado neste aparelho). O limite de tela por dia é opcional.
 // Sem placar, sem tempo correndo, sem som de erro: errar mostra a resposta com calma e o jogo fica mais fácil.
 import { esc, link } from '../ui.js';
-import { JOGOS, ajustar, progressoInicial, LIMITES, hojeISO, usadoHoje, acabou } from '../infantil/jogos.js';
+import { JOGOS, ajustar, progressoInicial, LIMITES, hojeISO, usadoHoje, acabou, BRINCADEIRAS } from '../infantil/jogos.js';
 import { criarArmazenamento } from '../infantil/armazenamento.js';
 import { clienteNuvem, usuarioNuvem } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
@@ -149,6 +149,9 @@ export function jogos() {
       <fieldset class="jg-quem"><legend>Quem vai jogar?</legend><div id="jg-filhos" class="jg-chips"></div></fieldset>
       <div id="jg-recomendados" aria-live="polite"></div>
       <details class="jg-historico"><summary><strong>Histórico e recordes</strong></summary><div id="jg-hist"></div></details>
+      <details class="jg-historico" open><summary><strong>Fora da tela</strong></summary>
+        <p class="meta">Brincadeiras e jogos de mesa que trabalham o mesmo que as janelas, com o corpo, as mãos e a família. Valem mais que a tela.</p>
+        <ul class="jg-fora" id="jg-fora">${BRINCADEIRAS.map((b) => `<li data-idade="${b.idade[0]}-${b.idade[1]}"><strong>${esc(b.nome)}</strong> <span class="meta">(${b.idade[0]} a ${b.idade[1]} anos; ${esc(b.habilidades.join(', '))})</span><br>${esc(b.como)}</li>`).join('')}</ul></details>
       <label class="campo jg-limite"><span>Limite de tela por dia</span><select id="jg-limite">${LIMITES.map((m) => `<option value="${m}">${m ? `${m} minutos` : 'Sem limite'}</option>`).join('')}</select></label>
       <p class="meta" id="jg-usado" aria-live="polite"></p>
       <p class="meta">Jogue junto com a criança: a voz faz a pergunta, e o adulto comenta e conversa. Para crianças de 2 a 5 anos, a Academia Americana de Pediatria recomenda no máximo cerca de 1 hora de tela por dia, com um adulto junto; bebês não usam tela. O nível atual de cada filho fica neste aparelho; o histórico e os recordes vão para a nuvem da família quando a conta está na família.</p>
@@ -214,6 +217,8 @@ jogos.ligar = async (root) => {
     const sug = recomendar(Object.values(JOGOS), partidas, anos);
     root.querySelector('#jg-recomendados').innerHTML = sug.length ? `<p><strong>Sugeridos para hoje:</strong></p><ul>${sug.map((s) => `<li>${link(`jogo-${s.id}`, esc(JOGOS[s.id].titulo))}: ${esc(s.motivo)}</li>`).join('')}</ul>` : '';
     root.querySelector('#jg-hist').innerHTML = historicoHTML(partidas);
+    // fora da tela: só as brincadeiras da idade do filho (todas, se o nascimento não foi informado)
+    root.querySelectorAll('#jg-fora li').forEach((li) => { const [de, ate] = li.dataset.idade.split('-').map(Number); li.hidden = anos !== null && (anos < de || anos > ate); });
   };
   try { await arm.iniciar(); filhos = await arm.listarFilhos(); } catch { /* sem cadastro: joga como família */ }
   if (!root.isConnected) return;

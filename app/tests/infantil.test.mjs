@@ -577,6 +577,17 @@ test('jogos de geografia e sílabas: respostas certas e frases corretas', async 
   assert.match(rodadaGeografia(10, () => 0.99).fala, /capital/);
 });
 
+test('fora da tela e reforço por habilidade', async () => {
+  const { BRINCADEIRAS } = await import('../infantil/jogos.js');
+  const { textoReforcoIA } = await import('../infantil/prompt.js');
+  assert.ok(BRINCADEIRAS.length >= 10 && BRINCADEIRAS.every((b) => b.nome && b.como && b.habilidades.length && b.idade[0] <= b.idade[1]));
+  assert.equal(new Set(BRINCADEIRAS.map((b) => b.id)).size, BRINCADEIRAS.length);
+  assert.match(jogos(), /Fora da tela/);
+  const t = textoReforcoIA({ area: 'Matemática', habilidade: 'Contar até 3', situacao: 'Em desenvolvimento', dificuldade: 'Pula números', idade: '2 anos', interesses: ['Animais'] });
+  for (const trecho of ['Aluno A', 'Contar até 3', 'Pula números', 'Animais', 'pré-requisito', 'verificação final', 'não faça diagnóstico']) assert.ok(t.includes(trecho), trecho);
+  assert.doesNotMatch(textoReforcoIA({ area: 'A', habilidade: 'H', situacao: 'S' }), /null|undefined|já tentamos/);
+});
+
 test('séries: estrutura, episódio atual, marcação em lote, arcos e validação', () => {
   const est = lerEstrutura('Livro 1 | 3\n\n5', 'Começo | 1-3\nPausa | 4-5 | filler');
   assert.deepEqual(est.temporadas, [{ nome: 'Livro 1', episodios: 3 }, { nome: 'Temporada 2', episodios: 5 }]);

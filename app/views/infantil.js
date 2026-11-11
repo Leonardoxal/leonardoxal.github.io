@@ -14,7 +14,7 @@ import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, P
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 import { INTERESSES, resumoJogo, recomendar, anosCompletos } from '../infantil/historico.js';
 import { proximo as proximoEpisodio } from '../infantil/series.js';
-import { OBSERVACOES, textoParaIA } from '../infantil/prompt.js';
+import { OBSERVACOES, textoParaIA, textoReforcoIA } from '../infantil/prompt.js';
 import { JOGOS } from '../infantil/jogos.js';
 import { AREAS, SITUACOES, ORIGENS, situacaoAtual, proximosPassos } from '../infantil/registro.js';
 
@@ -381,11 +381,13 @@ async function completarProximas(root, filhos) {
   for (const alvo of root.querySelectorAll('[data-mais]')) {
     const f = filhos.find((x) => x.id === alvo.dataset.mais);
     if (!f) continue;
-    let partidas = []; let series = [];
-    try { [partidas, series] = await Promise.all([arm.listarPartidas(f.id), arm.listarSeries(f.id)]); } catch { /* sem histórico: só a aula */ }
+    let partidas = []; let series = []; let lidos = [];
+    try { [partidas, series, lidos] = await Promise.all([arm.listarPartidas(f.id), arm.listarSeries(f.id), arm.listarLidos(f.id)]); } catch { /* sem histórico: só a aula */ }
     const jogos = recomendar(Object.values(JOGOS), partidas, anosCompletos(f.nascimento));
     const andamento = series.filter((s) => proximoEpisodio(s.dados));
-    alvo.innerHTML = `${jogos.length ? `<p>Jogos sugeridos: ${jogos.map((j) => link(`jogo-${j.id}`, esc(JOGOS[j.id].titulo))).join(', ')}.</p>` : ''}${andamento.length ? `<p>Assistindo: ${andamento.map((s) => `${link(`acompanhar-${f.id}.${s.id}`, esc(s.titulo))} (episódio ${proximoEpisodio(s.dados)})`).join(', ')}.</p>` : ''}`;
+    // próximo livro da faixa de idade que ainda não foi marcado como lido
+    const livro = livrosDaFaixa(faixaPara(f.nascimento)).find((l) => !lidos.includes(l.id));
+    alvo.innerHTML = `${livro ? `<p>Para ler juntos: <strong>${esc(livro.titulo)}</strong>, ${esc(livro.autor)} <span class="meta">(da Biblioteca da família, abaixo)</span>.</p>` : ''}${jogos.length ? `<p>Jogos sugeridos: ${jogos.map((j) => link(`jogo-${j.id}`, esc(JOGOS[j.id].titulo))).join(', ')}.</p>` : ''}${andamento.length ? `<p>Assistindo: ${andamento.map((s) => `${link(`acompanhar-${f.id}.${s.id}`, esc(s.titulo))} (episódio ${proximoEpisodio(s.dados)})`).join(', ')}.</p>` : ''}`;
   }
 }
 
@@ -400,11 +402,24 @@ async function desenharHabilidades(root, filhos) {
     if (!regs.length) continue;
     const passos = proximosPassos(regs, hoje);
     blocos.push(`<details class="inf-caixa"${passos.length ? ' open' : ''}><summary><strong>Habilidades: ${esc(f.nome)}</strong> <span class="meta">(${situacaoAtual(regs).length} habilidade(s) registrada(s))</span></summary>
-      ${passos.length ? `<h3>Próximos passos</h3><ul>${passos.map((r) => `<li>${registroLinha(r)}</li>`).join('')}</ul>` : '<p class="meta">Nada para reforçar nem reavaliar agora.</p>'}
+      ${passos.length ? `<h3>Próximos passos</h3><ul>${passos.map((r) => `<li>${registroLinha(r)} <button class="btn pequeno" type="button" data-reforco="${esc(f.id)}|${esc(r.id)}">Texto para IA: reforço</button></li>`).join('')}</ul>
+        <textarea class="as-ia" rows="10" hidden data-reforco-texto="${esc(f.id)}" aria-label="Texto de reforço para a IA"></textarea>` : '<p class="meta">Nada para reforçar nem reavaliar agora.</p>'}
       <table class="inf-tabela"><tr><th>Área</th><th>Habilidade</th><th>Situação</th><th>Reavaliar</th></tr>
       ${situacaoAtual(regs).map((r) => `<tr><td>${esc(r.area)}</td><td>${esc(r.habilidade)}</td><td>${esc(SITUACOES[r.situacao])}</td><td>${r.reavaliar ? dataBR(r.reavaliar) : '—'}</td></tr>`).join('')}</table></details>`);
   }
-  if (root.isConnected) alvo.innerHTML = blocos.join('');
+  if (!root.isConnected) return;
+  alvo.innerHTML = blocos.join('');
+  alvo.onclick = async (ev) => {
+    const b = ev.target.closest('[data-reforco]');
+    if (!b) return;
+    const [filho, id] = b.dataset.reforco.split('|');
+    const f = filhos.find((x) => x.id === filho);
+    const r = (await arm.listarRegistros(filho)).find((x) => x.id === id);
+    const area = alvo.querySelector(`[data-reforco-texto="${CSS.escape(filho)}"]`);
+    if (!r || !area) return;
+    area.value = textoReforcoIA({ ...r, situacao: SITUACOES[r.situacao], idade: idade(f?.nascimento), interesses: (f?.interesses ?? []).map((i) => INTERESSES[i]) });
+    area.hidden = false; area.focus(); area.select();
+  };
 }
 
 infantil.ligar = (root) => {
