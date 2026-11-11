@@ -575,9 +575,48 @@ export const JOGOS = {
   espanhol: { id: 'espanhol', titulo: 'Escuchar y encontrar', area: 'Espanhol', idade: [4, 12], habilidades: ['vocabulário em espanhol', 'compreensão oral', 'leitura em espanhol'], ajuda: 'Ouvir a palavra em espanhol e tocar na figura; mais adiante, ler e escolher a palavra escrita. O adulto pode repetir e apontar.', rodada: rodadaEspanhol },
   musica: { id: 'musica', titulo: 'Agudo ou grave?', area: 'Música', idade: [3, 12], habilidades: ['percepção de altura', 'atenção auditiva', 'contagem de sons'], ajuda: 'Ouvir dois sons e dizer qual é mais agudo; os sons ficam cada vez mais próximos. Mais adiante, contar as notas. Use um lugar quieto.', rodada: rodadaMusica },
   geografia: { id: 'geografia', titulo: 'Onde fica?', area: 'Geografia', idade: [6, 15], habilidades: ['continentes', 'regiões do Brasil', 'capitais dos estados'], ajuda: 'Em que continente fica cada país; depois, as regiões do Brasil; mais adiante, as capitais. Tenha um mapa por perto e procure juntos.', rodada: rodadaGeografia },
+  leitura: { id: 'leitura', titulo: 'Ler e entender', area: 'Leitura e interpretação', idade: [6, 10], habilidades: ['ordem das palavras na frase', 'compreensão de texto', 'causa e consequência'], ajuda: 'Achar a frase bem escrita; depois, ler um texto curto e responder. A criança lê; se ainda não lê, o adulto lê junto. Os textos são ficção educativa da Academia.', rodada: rodadaLeitura },
   silabas: { id: 'silabas', titulo: 'Que sílaba falta?', area: 'Leitura e escrita', idade: [4, 8], habilidades: ['consciência silábica', 'relação entre fala e escrita'], ajuda: 'Ver a figura e achar o pedaço que falta na palavra. Leia a palavra em voz alta, batendo palmas em cada sílaba.', rodada: rodadaSilabas },
   estrategia: { id: 'estrategia', titulo: 'A melhor jogada', area: 'Estratégia e lógica', idade: [7, 15], habilidades: ['planejamento', 'antecipar consequências', 'padrões e múltiplos'], ajuda: 'O jogo das pedras: descobrir a jogada que garante a vitória. Depois de acertar, jogue de verdade com pedrinhas ou feijões, em família.', rodada: rodadaEstrategia },
 };
+
+// ---------------------------------------------------------------- 15. Ler e entender (frases e interpretação)
+
+// Todas começam com artigo: assim as duas versões erradas abaixo são sempre agramaticais (um embaralhamento ao acaso
+// pode gerar outra frase correta, como "Brilha o sol no céu", e a criança teria duas respostas certas).
+export const FRASES = [
+  'O gato bebe leite.', 'A menina lê um livro.', 'O sol brilha no céu.', 'O pássaro canta na árvore.',
+  'A família reza antes de dormir.', 'A vaca come capim.', 'O menino chuta a bola.', 'O padeiro faz o pão.',
+];
+const frase = (palavras) => { const f = palavras.join(' ').toLowerCase(); return `${f.charAt(0).toUpperCase()}${f.slice(1)}.`; };
+/** As duas versões erradas: de trás para a frente, e com o artigo levado para o fim. */
+function erradasDe(original) {
+  const p = original.replace(/\.$/, '').split(' ');
+  return [frase([...p].reverse()), frase([...p.slice(1), p[0]])];
+}
+
+// Textos curtos (ficção educativa da Academia) com uma pergunta de compreensão cada.
+export const TEXTOS = [
+  { t: 'Ana plantou uma semente no jardim. Todo dia ela regava a terra. Depois de uma semana, nasceu um broto verde.', p: 'O que Ana fazia todo dia?', certa: 'Regava a terra', outras: ['Comia a semente', 'Dormia no jardim'] },
+  { t: 'Pedro perdeu o lápis na escola. Lucas viu e emprestou o dele. No fim da aula, Pedro agradeceu.', p: 'Quem emprestou o lápis?', certa: 'Lucas', outras: ['Pedro', 'A professora'] },
+  { t: 'Choveu a manhã toda. Por isso, as crianças brincaram dentro de casa, montando um castelo de almofadas.', p: 'Por que as crianças brincaram dentro de casa?', certa: 'Porque choveu', outras: ['Porque era noite', 'Porque estavam doentes'] },
+  { t: 'Vovó fez um bolo de cenoura. Ela cortou oito pedaços e deu dois para cada neto. Não sobrou nenhum.', p: 'Quantos netos ganharam bolo?', certa: 'Quatro', outras: ['Oito', 'Dois'] },
+  { t: 'Antes da Missa, Maria ajudou a arrumar as flores no altar. Depois, sentou-se com a família e rezou em silêncio.', p: 'O que Maria fez primeiro?', certa: 'Arrumou as flores', outras: ['Sentou-se com a família', 'Rezou em silêncio'] },
+  { t: 'O cachorro latiu a noite inteira. De manhã, o pai descobriu que um gato estava preso no telhado.', p: 'Por que o cachorro latiu?', certa: 'Por causa do gato no telhado', outras: ['Porque estava com fome', 'Porque queria passear'] },
+  { t: 'Tiago juntou moedas durante três meses para comprar uma bola. Quando conseguiu, deu metade para a campanha da paróquia e resolveu esperar mais um pouco pela bola.', p: 'Que virtude Tiago mostrou?', certa: 'Generosidade', outras: ['Preguiça', 'Inveja'] },
+  { t: 'Clara achava que alguém cortava a Lua. O pai explicou que a Lua reflete a luz do Sol e que, durante o mês, vemos partes diferentes dela iluminadas.', p: 'Por que a Lua parece mudar de forma?', certa: 'Vemos partes diferentes iluminadas pelo Sol', outras: ['Alguém corta a Lua', 'A Lua encolhe'] },
+];
+
+/** Níveis: 1-5 qual frase está bem escrita (2 a 3 opções); 6+ ler um texto curto e responder (nos níveis pares, a frase volta como revisão). */
+export function rodadaLeitura(nivel, rnd = Math.random) {
+  if (nivel >= 6 && (nivel % 2 === 1 || nivel >= 12)) {
+    const x = escolher(TEXTOS, rnd);
+    return { tipo: 'texto', fala: `${x.t} ${x.p}`, idioma: 'pt-BR', texto: x.p, mostrar: { cena: x.t }, opcoes: embaralhar([x.certa, ...x.outras], rnd).map(opcaoTexto), certa: x.certa };
+  }
+  const certa = escolher(FRASES, rnd);
+  const erradas = embaralhar(erradasDe(certa), rnd).slice(0, nivel <= 2 ? 1 : 2);
+  return { tipo: 'frase', fala: 'Qual frase está escrita do jeito certo?', idioma: 'pt-BR', texto: 'Qual frase está certa?', mostrar: null, opcoes: embaralhar([certa, ...erradas], rnd).map(opcaoTexto), certa };
+}
 
 // ---------------------------------------------------------------- brincadeiras fora da tela
 

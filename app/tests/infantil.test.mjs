@@ -577,6 +577,22 @@ test('jogos de geografia e sílabas: respostas certas e frases corretas', async 
   assert.match(rodadaGeografia(10, () => 0.99).fala, /capital/);
 });
 
+test('ler e entender: a frase certa é a da lista; a resposta é a do texto', async () => {
+  const { rodadaLeitura, FRASES, TEXTOS } = await import('../infantil/jogos.js');
+  for (let n = 1; n <= 20; n++) for (let k = 0; k < 20; k++) {
+    const r = rodadaLeitura(n);
+    if (r.tipo === 'frase') {
+      assert.ok(FRASES.includes(r.certa));
+      const ordenar = (f) => f.toLowerCase().replace(/\.$/, '').split(' ').sort().join(' ');
+      for (const o of r.opcoes) assert.equal(ordenar(o.chave), ordenar(r.certa), 'as erradas usam as mesmas palavras');
+      assert.equal(r.opcoes.filter((o) => FRASES.includes(o.chave)).length, 1, 'só uma frase da lista entre as opções');
+    } else {
+      const x = TEXTOS.find((t) => t.t === r.mostrar.cena);
+      assert.equal(r.certa, x.certa);
+    }
+  }
+});
+
 test('fora da tela e reforço por habilidade', async () => {
   const { BRINCADEIRAS } = await import('../infantil/jogos.js');
   const { textoReforcoIA } = await import('../infantil/prompt.js');
