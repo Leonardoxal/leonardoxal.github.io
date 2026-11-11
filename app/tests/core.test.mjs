@@ -1016,3 +1016,18 @@ test('mediateca: todo formato com obras tem método de estudo próprio', async (
   const filme = OBRAS.find((o) => o.categoria === 'cinema' && !o.livro);
   if (filme) assert.match(obra({ estado: estadoInicial() }, filme.id), /Como estudar: filme/);
 });
+
+test('idiomas: sete línguas, nível do estudante saneado e tela com a aba do Mapa', async () => {
+  const { IDIOMAS } = await import('../data/idiomas.js');
+  const { idiomas } = await import('../views/idiomas.js');
+  const { normalizarEstado } = await import('../core.js');
+  assert.deepEqual(IDIOMAS.map((l) => l.id), ['latim', 'grego', 'ingles', 'espanhol', 'frances', 'italiano', 'alemao']);
+  for (const l of IDIOMAS) assert.ok(l.porque && l.niveis.length >= 3 && l.alvos.length && l.referencias.length, l.id);
+  assert.equal(IDIOMAS.find((l) => l.id === 'latim').foco, 'leitura');
+  assert.equal(IDIOMAS.find((l) => l.id === 'frances').niveis.length, 6, 'A1 a C2');
+  const e = normalizarEstado({ v: 3, idiomas: { latim: 'Leitura inicial', 'mal<': 'x', grego: 5 } });
+  assert.deepEqual(e.idiomas, { latim: 'Leitura inicial' });
+  const html = idiomas({ estado: e });
+  assert.match(html, /aria-current="page">Idiomas/);
+  assert.match(html, /meu nível: Leitura inicial/);
+});

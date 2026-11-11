@@ -16,7 +16,7 @@ import { santoHTML } from './santo.js';
 
 /** Abas que ligam os dois sistemas complementares: a árvore (áreas) e a escada (progressão). */
 export const abasMapa = (atual) => `<nav class="abas-mapa" aria-label="Modos do mapa">
-  ${[['mapa', 'Árvore do conhecimento'], ['escada', 'Escada da formação']].map(([t, r]) => `<a href="#${t}" ${t === atual ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>`;
+  ${[['mapa', 'Árvore do conhecimento'], ['escada', 'Escada da formação'], ['idiomas', 'Idiomas']].map(([t, r]) => `<a href="#${t}" ${t === atual ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>`;
 
 // ---------- Conteúdo ligado a cada nó (livros e aulas reais, para progresso e links) ----------
 const tituloAula = Object.fromEntries(todasAulas.map((a) => [a.id, a.titulo]));
