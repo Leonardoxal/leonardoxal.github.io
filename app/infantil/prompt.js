@@ -23,6 +23,25 @@ export const CRITERIOS = {
   'Arte e motricidade': 'coordenação, uso do material, criatividade, cuidado com o trabalho',
 };
 
+/** Texto para conversar sobre um arco concluído de uma série, com a ficha da obra quando houver. */
+export function textoArcoIA({ titulo, arco, ficha = null, idade = '', observacoes = '' }) {
+  return [
+    `Quero conversar com uma criança ("Aluno A"${idade ? `, ${idade}` : ''}) sobre o arco "${arco.nome}" (episódios ${arco.de} a ${arco.ate}) de "${titulo}", que ela acabou de assistir. A formação é católica.`,
+    ficha ? `Leitura da Academia sobre a obra: ${ficha.academia}` : null,
+    ficha?.personagens?.length ? `Personagens a observar: ${ficha.personagens.map((p) => `${p.nome} (${p.texto})`).join(' ')}` : null,
+    observacoes.trim() ? `Observações da família: ${observacoes.trim()}` : null,
+    '',
+    'Faça, sem inventar fatos da obra (se não tiver certeza de um acontecimento, diga que não sabe):',
+    '1. Um resumo curto do arco, só do que você tem certeza.',
+    '2. Para os personagens principais do arco: motivações, escolhas, virtudes, vícios e consequências.',
+    '3. Diga se houve arrependimento e reparação verdadeiros, só mudança de lado ou nenhuma mudança, com o que a história mostra.',
+    '4. Separe o que está na obra do que é interpretação sua.',
+    '5. Cinco perguntas de conversa adequadas à idade, do concreto ao moral, sem moralismo e sem forçar lição onde a obra não tem.',
+    '6. Uma ligação com a fé católica, só se for natural (uma virtude, um vício, uma passagem bíblica com livro, capítulo e versículo).',
+    '7. Cuidados: cenas que pedem conversa por violência, medo ou outros motivos.',
+  ].filter((p) => p !== null).join('\n');
+}
+
 const linha = (rotulo, valor) => (valor ? `- ${rotulo}: ${valor}` : null); // null some do texto; '' é linha em branco
 const pct = (x) => (x === null || x === undefined ? 'sem dados' : `${Math.round(x * 100)}% de acertos`);
 

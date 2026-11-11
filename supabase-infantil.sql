@@ -157,6 +157,22 @@ drop policy if exists "familia usa registros" on public.aci_registro;
 create policy "familia usa registros" on public.aci_registro
   for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
 
+-- Acompanhamento de séries, animes e filmes por filho. A estrutura (temporadas, episódios, arcos) é informada
+-- pela família a partir da fonte oficial; o site não inventa episódios. dados = { temporadas, arcos, assistidos, ... }.
+create table if not exists public.aci_serie (
+  id         uuid primary key,
+  filho      text not null check (filho ~ '^[a-z0-9-]{1,30}$'),
+  obra       text check (obra is null or obra ~ '^[a-z0-9-]{1,60}$'),
+  titulo     text not null check (length(titulo) between 1 and 120),
+  dados      jsonb not null default '{}'::jsonb check (pg_column_size(dados) <= 200000),
+  atualizado timestamptz not null default now()
+);
+create index if not exists aci_serie_filho on public.aci_serie (filho);
+alter table public.aci_serie enable row level security;
+drop policy if exists "familia usa series" on public.aci_serie;
+create policy "familia usa series" on public.aci_serie
+  for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
+
 -- Pasta privada dos arquivos das tarefas (fotos e PDFs, até 25 MB cada).
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('aci-tarefas', 'aci-tarefas', false, 26214400,

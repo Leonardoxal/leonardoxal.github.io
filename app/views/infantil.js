@@ -126,6 +126,7 @@ export function infantil() {
     </details>
     ${AULAS_INFANTIL.length ? AULAS_INFANTIL.map(cartao).join('') : '<p class="vazio">Ainda não há aulas publicadas.</p>'}
     ${livrosHTML()}
+    <p class="inf-caixa">${link('assistir', 'Filmes, séries e animações')}: fichas para os pais (o que está na obra, a leitura da Academia, os cuidados e as perguntas) e o acompanhamento de episódios de cada filho.</p>
     <section class="inf-filhos" aria-labelledby="inf-filhos-titulo">
       <h2 id="inf-filhos-titulo">Filhos</h2>
       <p class="meta">Cada aula é para um filho. Cadastre aqui o nome e o nascimento de cada um e atualize quando quiser: assim as aulas mostram para quem são e as tarefas dizem quem fez. Esses dados ficam só neste aparelho ou na sua família, nunca no site público.</p>
@@ -312,12 +313,13 @@ async function exportar() {
   const [filhos, anexos, registros] = await Promise.all([arm.listarFilhos(), arm.listarTodosAnexos(), arm.listarAulas()]);
   const itens = [];
   for (const a of anexos) itens.push({ id: a.id, aula: a.aula, filho: a.filho, nome: a.nome, tipo: a.tipo, tamanho: a.tamanho, data: a.data, dados: await paraDataUrl(await arm.arquivoDe(a)) });
-  const partidas = []; const habilidades = [];
+  const partidas = []; const habilidades = []; const series = [];
   for (const quem of [...filhos.map((f) => f.id), 'familia']) {
     partidas.push(...await arm.listarPartidas(quem));
     habilidades.push(...await arm.listarRegistros(quem));
+    series.push(...await arm.listarSeries(quem));
   }
-  const url = URL.createObjectURL(new Blob([JSON.stringify({ versao: 3, criadoEm: new Date().toISOString(), filhos, aulas: registros, anexos: itens, partidas, habilidades })], { type: 'application/json' }));
+  const url = URL.createObjectURL(new Blob([JSON.stringify({ versao: 3, criadoEm: new Date().toISOString(), filhos, aulas: registros, anexos: itens, partidas, habilidades, series })], { type: 'application/json' }));
   Object.assign(document.createElement('a'), { href: url, download: `academia-infantil-backup-${new Date().toISOString().slice(0, 10)}.json` }).click();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
   return anexos.length;
@@ -341,6 +343,7 @@ async function importar(arquivo) {
   }
   for (const p of dados.partidas ?? []) if (PARTIDA_OK(p)) await arm.salvarPartida({ id: p.id, filho: p.filho, jogo: p.jogo, inicio: p.inicio, fim: p.fim, nivelInicial: Math.max(1, p.nivelInicial), nivelFinal: Math.max(1, p.nivelFinal), nivelMax: Math.max(1, p.nivelMax), acertos: p.acertos, erros: p.erros });
   for (const r of dados.habilidades ?? []) { try { await arm.salvarRegistro(r); } catch { /* registro inválido no arquivo: pula */ } }
+  for (const s of dados.series ?? []) { try { await arm.salvarSerie(s); } catch { /* acompanhamento inválido no arquivo: pula */ } }
   return n;
 }
 

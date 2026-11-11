@@ -5,6 +5,7 @@
 
 import { guardarPartida, interessesValidos, MAX_PARTIDAS } from './historico.js';
 import { validarRegistro } from './registro.js';
+import { validarSerie } from './series.js';
 
 // ---------------------------------------------------------------- aparelho (IndexedDB)
 
@@ -64,6 +65,12 @@ const lerRegistrosLocal = (filho) => { try { return JSON.parse(localStorage.getI
 const gravarRegistrosLocal = (filho, lista) => { try { localStorage.setItem(PREFIXO_REGISTROS + filho, JSON.stringify(lista)); } catch { throw new Error('Este navegador não deixou guardar o registro.'); } };
 const filhosComRegistrosLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_REGISTROS)).map((k) => k.slice(PREFIXO_REGISTROS.length)); } catch { return []; } };
 
+// Séries acompanhadas no aparelho: localStorage, uma lista por filho.
+const PREFIXO_SERIES = 'aci-series-';
+const lerSeriesLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_SERIES + filho)) ?? []; } catch { return []; } };
+const gravarSeriesLocal = (filho, lista) => { try { localStorage.setItem(PREFIXO_SERIES + filho, JSON.stringify(lista)); } catch { throw new Error('Este navegador não deixou guardar o acompanhamento.'); } };
+const filhosComSeriesLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_SERIES)).map((k) => k.slice(PREFIXO_SERIES.length)); } catch { return []; } };
+
 const comoFilho = (f) => ({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null, interesses: interessesValidos(f.interesses) });
 
 export const aparelho = {
@@ -98,6 +105,13 @@ export const aparelho = {
     gravarRegistrosLocal(v.filho, [v, ...lerRegistrosLocal(v.filho).filter((x) => x.id !== v.id)]);
   },
   async apagarRegistro(filho, id) { gravarRegistrosLocal(filho, lerRegistrosLocal(filho).filter((x) => x.id !== id)); },
+
+  listarSeries: async (filho) => lerSeriesLocal(filho),
+  async salvarSerie(s) {
+    const v = validarSerie(s);
+    gravarSeriesLocal(v.filho, [v, ...lerSeriesLocal(v.filho).filter((x) => x.id !== v.id)]);
+  },
+  async apagarSerie(filho, id) { gravarSeriesLocal(filho, lerSeriesLocal(filho).filter((x) => x.id !== id)); },
 };
 
 // ---------------------------------------------------------------- nuvem da família (Supabase)
@@ -147,6 +161,17 @@ export function criarNuvem(obterCliente) {
       ok(await (await c()).from('aci_registro').upsert({ id: v.id, filho: v.filho, aula: v.aula, area: v.area, habilidade: v.habilidade, situacao: v.situacao, origem: v.origem, dificuldade: v.dificuldade, intervencao: v.intervencao, reavaliar: v.reavaliar, criado_em: new Date(v.criadoEm).toISOString() }, { onConflict: 'id' }));
     },
     async apagarRegistro(filho, id) { ok(await (await c()).from('aci_registro').delete().eq('filho', filho).eq('id', id)); },
+
+    async listarSeries(filho) {
+      // linha que não passa na validação (editada fora do site) fica de fora em vez de quebrar a tela
+      return ok(await (await c()).from('aci_serie').select('id, filho, obra, titulo, dados').eq('filho', filho))
+        .flatMap((l) => { try { return [validarSerie(l)]; } catch { return []; } });
+    },
+    async salvarSerie(s) {
+      const v = validarSerie(s);
+      ok(await (await c()).from('aci_serie').upsert({ ...v, atualizado: new Date().toISOString() }, { onConflict: 'id' }));
+    },
+    async apagarSerie(filho, id) { ok(await (await c()).from('aci_serie').delete().eq('filho', filho).eq('id', id)); },
 
     async listarLidos(filho) { return ok(await (await c()).from('aci_livro').select('livro').eq('filho', filho)).map((l) => l.livro); },
     async marcarLido(filho, livro, lido) {
@@ -235,6 +260,9 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
     listarRegistros: (filho) => alvo().listarRegistros(filho),
     salvarRegistro: (r) => alvo().salvarRegistro(r),
     apagarRegistro: (filho, id) => alvo().apagarRegistro(filho, id),
+    listarSeries: (filho) => alvo().listarSeries(filho),
+    salvarSerie: (s) => alvo().salvarSerie(s),
+    apagarSerie: (filho, id) => alvo().apagarSerie(filho, id),
     /** Arquivo de um anexo: já vem no aparelho; na nuvem é baixado sob demanda. */
     arquivoDe: async (x) => x.blob ?? nuvem.baixar(x),
 
@@ -242,7 +270,8 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
     async contarLocais() {
       const livros = filhosComLidosLocal().reduce((n, f) => n + lerLidosLocal(f).length, 0)
         + filhosComPartidasLocal().reduce((n, f) => n + lerPartidasLocal(f).length, 0)
-        + filhosComRegistrosLocal().reduce((n, f) => n + lerRegistrosLocal(f).length, 0);
+        + filhosComRegistrosLocal().reduce((n, f) => n + lerRegistrosLocal(f).length, 0)
+        + filhosComSeriesLocal().reduce((n, f) => n + lerSeriesLocal(f).length, 0);
       try { return (await aparelho.listarTodosAnexos()).length + livros; } catch { return livros; }
     },
     /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos itens (anexos, livros e partidas) subiram. */
@@ -252,6 +281,7 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
       // a partida tem id próprio: reenviar só atualiza a mesma linha
       for (const f of filhosComPartidasLocal()) for (const p of lerPartidasLocal(f)) { await nuvem.salvarPartida(p); livros++; }
       for (const f of filhosComRegistrosLocal()) for (const r of lerRegistrosLocal(f)) { await nuvem.salvarRegistro(r); livros++; }
+      for (const f of filhosComSeriesLocal()) for (const s of lerSeriesLocal(f)) { await nuvem.salvarSerie(s); livros++; }
       const [filhos, aulas, anexos, naNuvem] = await Promise.all([aparelho.listarFilhos(), aparelho.listarAulas(), aparelho.listarTodosAnexos(), nuvem.listarTodosAnexos()]);
       const existentes = new Set(naNuvem.map((x) => x.id));
       for (const f of filhos) await nuvem.salvarFilho(f);

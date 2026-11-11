@@ -19,13 +19,17 @@ import { rodadaQuantos, TEMAS, COISAS } from '../infantil/jogos.js';
 import { guardarPartida, anotarResposta, recorde, resumoJogo, recomendar, anosCompletos, interessesValidos, MAX_PARTIDAS } from '../infantil/historico.js';
 import { textoParaIA, OBSERVACOES } from '../infantil/prompt.js';
 import { validarRegistro, situacaoAtual, proximosPassos } from '../infantil/registro.js';
+import { validarSerie, ondeEsta, proximo, alternar, marcarAte, progresso, arcosParaAnalisar, lerEstrutura, escreverEstrutura, tipoDoEpisodio } from '../infantil/series.js';
+import { MIDIA_INFANTIL, ASPECTOS, PERCURSOS, TIPOS_MIDIA } from '../infantil/midia.js';
+import { assistir, obraInfantil } from '../views/assistir.js';
+import { textoArcoIA } from '../infantil/prompt.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ICONES = ['peixe', 'passaro', 'ovelha', 'gato', 'pato', 'sol', 'estrela', 'cruz'];
 const CODIGO = 'codigo-certo';
 
 function bancoSimulado({ membros = [] } = {}) {
-  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [], aci_jogo: [], aci_registro: [] };
+  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [], aci_jogo: [], aci_registro: [], aci_serie: [] };
   const objetos = new Map();
   const familia = new Set(membros);
   const estado = { usuario: null, falharInsert: false };
@@ -487,6 +491,67 @@ test('nuvem e backup: registros de habilidade por filho', async () => {
   const tela = aulaInfantil({}, '2026-11-11');
   assert.match(tela, /Registrar o que foi confirmado/);
   assert.match(tela, /Parcialmente dominado/);
+});
+
+test('séries: estrutura, episódio atual, marcação em lote, arcos e validação', () => {
+  const est = lerEstrutura('Livro 1 | 3\n\n5', 'Começo | 1-3\nPausa | 4-5 | filler');
+  assert.deepEqual(est.temporadas, [{ nome: 'Livro 1', episodios: 3 }, { nome: 'Temporada 2', episodios: 5 }]);
+  assert.equal(est.arcos[1].tipo, 'filler');
+  assert.throws(() => lerEstrutura('abc', ''), /linha 1/);
+  assert.throws(() => lerEstrutura('3', 'Sem faixa'), /Arcos, linha 1/);
+  assert.throws(() => lerEstrutura('3', 'X | 1-2 | inventado'), /tipo/);
+  const s = validarSerie({ id: ID(7), filho: 'f1', titulo: ' Série ', dados: { ...est, assistidos: [2, 2, 99, 'x'] } });
+  assert.equal(s.titulo, 'Série');
+  assert.deepEqual(s.dados.assistidos, [2], 'sem repetidos e só dentro do total');
+  let d = s.dados;
+  assert.equal(proximo(d), 1);
+  assert.deepEqual(ondeEsta(d, 4), { temporada: 1, nome: 'Temporada 2', numero: 1 });
+  d = marcarAte(d, 3);
+  assert.deepEqual(arcosParaAnalisar(d).map((a) => a.nome), ['Começo']);
+  assert.equal(arcosParaAnalisar({ ...d, analisados: ['Começo'] }).length, 0);
+  d = alternar(d, 2);
+  assert.equal(proximo(d), 2);
+  assert.deepEqual(progresso(marcarAte(d, 99)), { vistos: 8, total: 8, pct: 100 });
+  assert.equal(proximo(marcarAte(d, 99)), null);
+  assert.equal(tipoDoEpisodio(d, 5), 'filler');
+  assert.deepEqual(lerEstrutura(escreverEstrutura(d).temporadas, escreverEstrutura(d).arcos), est, 'escrever e ler devolvem o mesmo');
+  assert.throws(() => validarSerie({ id: ID(7), filho: 'f1', titulo: 'X', dados: { temporadas: [{ episodios: 2 }], arcos: [{ nome: 'A', de: 1, ate: 5 }] } }), /entre 1 e 2/);
+  assert.throws(() => validarSerie({ id: ID(7), filho: '', titulo: 'X' }), /filho/);
+});
+
+test('fichas de filmes e séries: campos, escalas, sem videogame e telas', () => {
+  const ids = new Set();
+  for (const m of MIDIA_INFANTIL) {
+    assert.ok(!ids.has(m.id) && /^[a-z0-9-]+$/.test(m.id), m.id); ids.add(m.id);
+    assert.ok(m.tipo in TIPOS_MIDIA, `${m.id}: tipo`);
+    for (const k of Object.keys(ASPECTOS)) assert.ok([0, 1, 2, 3].includes(m.adequacao[k]), `${m.id}: ${k}`);
+    for (const p of m.personagens) assert.ok(p.percurso in PERCURSOS, `${m.id}: ${p.nome}`);
+    for (const c of ['titulo', 'criador', 'ano', 'obra', 'academia', 'cuidados', 'oficial', 'fontes']) assert.ok(m[c], `${m.id}: ${c}`);
+    assert.ok(m.perguntas.length && m.temas.length && Number.isInteger(m.idade));
+    assert.match(m.oficial, /conferir/, 'classificação oficial nunca inventada');
+  }
+  assert.match(assistir(), /Obras com ficha/);
+  const naruto = obraInfantil({}, 'naruto');
+  for (const t of ['Gaara', 'Orochimaru', 'sem arrependimento', 'Interpretação pedagógica', 'Acompanhar os episódios']) assert.ok(naruto.includes(t), t);
+  assert.match(obraInfantil({}, 'nao-existe'), /não encontrada/);
+  const t = textoArcoIA({ titulo: 'Naruto', arco: { nome: 'Exame', de: 1, ate: 3 }, ficha: MIDIA_INFANTIL.find((m) => m.id === 'naruto') });
+  assert.match(t, /Aluno A/);
+  assert.match(t, /sem inventar/);
+});
+
+test('nuvem: séries acompanhadas por filho, com validação', async () => {
+  const banco = bancoSimulado({ membros: ['u1'] });
+  logado(banco, 'u1');
+  const arm = criarArmazenamento({ obterCliente: async () => banco.cliente, obterUsuario: async () => ({ id: 'u1', email: 'a@exemplo.com' }) });
+  await arm.iniciar();
+  await arm.salvarSerie({ id: ID(8), filho: 'f1', obra: 'avatar', titulo: 'Avatar', dados: { temporadas: [{ nome: 'Livro 1', episodios: 20 }], assistidos: [1, 2] } });
+  await assert.rejects(() => arm.salvarSerie({ id: ID(9), filho: 'f1', titulo: '' }), /título/);
+  banco.tabelas.aci_serie.push({ id: 'ruim', filho: 'f1', titulo: 'x', dados: {} }); // linha inválida não derruba a lista
+  const lidas = await arm.listarSeries('f1');
+  assert.equal(lidas.length, 1);
+  assert.deepEqual(lidas[0].dados.assistidos, [1, 2]);
+  await arm.apagarSerie('f1', ID(8));
+  assert.equal((await arm.listarSeries('f1')).length, 0);
 });
 
 test('nuvem: sem cliente configurado, avisa em vez de quebrar', async () => {
