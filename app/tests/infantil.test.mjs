@@ -542,6 +542,23 @@ test('jogos novos: contas certas, ordem do tempo, virtudes e ciências', async (
   assert.match(rodadaCiencias(3).fala, /^Onde vive (o|a) /);
 });
 
+test('jogos de espanhol, música e estratégia: respostas certas', async () => {
+  const { rodadaEspanhol, rodadaMusica, rodadaEstrategia } = await import('../infantil/jogos.js');
+  for (let n = 1; n <= 30; n++) for (let k = 0; k < 20; k++) {
+    const e = rodadaEstrategia(n);
+    const [, pedras, max] = /(\d+) pedras: tire de 1 a (\d+)/.exec(e.texto).map(Number);
+    const tira = Number(e.certa.slice(1));
+    assert.ok(tira >= 1 && tira <= max, `nível ${n}: jogada possível`);
+    assert.equal((pedras - tira) % (max + 1), 0, `nível ${n}: ${pedras} pedras, tirar ${tira} deixa um múltiplo de ${max + 1}`);
+    const m = rodadaMusica(n);
+    if (m.tipo === 'agudo') assert.equal(m.certa, m.mostrar.notas[0] > m.mostrar.notas[1] ? '1' : '2', 'o mais agudo é a frequência maior');
+    else assert.equal(m.certa, `n${m.mostrar.notas.length}`, 'conta as notas tocadas');
+    const s = rodadaEspanhol(n);
+    if (s.idioma === 'es-ES') assert.match(s.fala, /^¿Dónde (está|están) (el|la|los|las) /);
+    else assert.ok(s.opcoes.every((o) => o.txt && !/^(el|la|los|las) /.test(o.txt)), 'palavra escrita sem artigo');
+  }
+});
+
 test('séries: estrutura, episódio atual, marcação em lote, arcos e validação', () => {
   const est = lerEstrutura('Livro 1 | 3\n\n5', 'Começo | 1-3\nPausa | 4-5 | filler');
   assert.deepEqual(est.temporadas, [{ nome: 'Livro 1', episodios: 3 }, { nome: 'Temporada 2', episodios: 5 }]);

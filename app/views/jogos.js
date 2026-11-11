@@ -32,11 +32,12 @@ const somarTempo = (ms) => gravar('aci-jogos-tempo', { dia: hojeISO(), ms: Math.
 
 // ---------------------------------------------------------------- voz e som
 
-function falar(texto, idioma = 'pt-BR') {
+function falar(texto, idioma = 'pt-BR', depois = null) {
   const s = globalThis.speechSynthesis;
-  if (!s || !texto) return;
+  if (!s || !texto) { depois?.(); return; }
   s.cancel();
   const u = new SpeechSynthesisUtterance(texto);
+  if (depois) { u.onend = depois; u.onerror = depois; }
   u.lang = idioma;
   const vozes = s.getVoices();
   u.voice = vozes.find((v) => v.lang.replace('_', '-') === idioma) ?? vozes.find((v) => v.lang.startsWith(idioma.slice(0, 2))) ?? null;
@@ -59,6 +60,23 @@ function sino() {
       o.connect(g).connect(audio.destination); o.start(t + i * 0.07); o.stop(t + i * 0.07 + 1);
     });
   } catch { /* sem áudio: o jogo segue só com a luz */ }
+}
+
+/** Toca as notas uma depois da outra (o jogo "Agudo ou grave?"), com o próprio navegador. */
+function tocar(notas) {
+  try {
+    audio ??= new AudioContext();
+    const t0 = audio.currentTime + 0.1;
+    notas.forEach((f, i) => {
+      const o = audio.createOscillator(); const g = audio.createGain();
+      const t = t0 + i * 0.75;
+      o.type = 'triangle'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.25, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+      o.connect(g).connect(audio.destination); o.start(t); o.stop(t + 0.65);
+    });
+  } catch { /* sem áudio: o adulto pode cantar as notas */ }
 }
 
 const ELOGIOS = ['Muito bem!', 'Isso!', 'Acertou!', 'Que bom!', 'Parabéns!'];
@@ -100,6 +118,9 @@ const DESENHO_CAPA = {
   virtudes: '<text x="80" y="170" text-anchor="middle" font-size="52">🤝</text>',
   tempo: '<text x="54" y="166" text-anchor="middle" font-size="36">🌱</text><text x="106" y="166" text-anchor="middle" font-size="36">🌳</text>',
   calculo: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:44px">7×8</text>',
+  espanhol: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:40px">¡Hola!</text>',
+  musica: '<text x="80" y="170" text-anchor="middle" font-size="52">🎵</text>',
+  estrategia: '<text x="80" y="166" text-anchor="middle" font-size="30">⚪⚪⚪</text><text x="80" y="196" text-anchor="middle" font-size="30">⚪⚪</text>',
 };
 const capa = (id) => `<svg class="jg-capa" viewBox="0 0 160 236" aria-hidden="true">
   <path class="vidro" d="${ARCO}"/>
@@ -244,6 +265,8 @@ function mostrarHTML(id, r) {
     return `<div class="jg-mostrar">${m.grupos.map((g) => grupo(g.qtd, g.e, g.sai ?? 0)).join('<span class="jg-mais" aria-hidden="true">+</span>')}</div>`;
   }
   if (m.cena) return `<p class="jg-cena">${esc(m.cena)}</p>`;
+  if (m.pedras) return `<div class="jg-mostrar">${grupo(m.pedras, '⚪')}</div>`;
+  if (m.notas) return `<div class="jg-mostrar"><button class="btn jg-tocar" type="button" id="jg-tocar">🎵 Ouvir os sons de novo</button></div>`;
   if (m.modelo) return `<div class="jg-mostrar"><span class="jg-vidro jg-modelo"><span class="jg-figura" aria-hidden="true">${m.modelo.e}</span><span class="jg-palavra">${esc(m.modelo.pt)}</span></span></div>`;
   return `<div class="jg-mostrar jg-seq">${m.seq.map((x) => `<span class="jg-elo">${x.num !== undefined ? `<span class="jg-num">${x.num}</span>` : peca(x)}</span>`).join('')}<span class="jg-elo jg-falta" aria-label="falta">?</span></div>`;
 }
@@ -293,7 +316,9 @@ jogo.ligar = (root, ctx, id) => {
       ${mostrarHTML(id, rodada)}
       <div class="jg-opcoes n${rodada.opcoes.length}">${rodada.opcoes.map((o) => opcaoHTML(id, rodada, o)).join('')}</div>`;
     root.querySelector('#jg-legenda').textContent = rodada.idioma === 'en-US' ? 'Em inglês. O adulto pode repetir a palavra e apontar a figura.' : '';
-    falar(rodada.fala, rodada.idioma);
+    // no jogo dos sons, as notas tocam depois da pergunta falada
+    const notas = rodada.mostrar?.notas;
+    falar(rodada.fala, rodada.idioma, notas ? () => tocar(notas) : null);
     travado = false;
     mostrarNivel();
   };
@@ -322,7 +347,8 @@ jogo.ligar = (root, ctx, id) => {
     } else {
       botao.classList.add('errada');
       painel.querySelector(`.jg-opcoes [data-chave="${CSS.escape(rodada.certa)}"]`)?.classList.add('mostrar');
-      falar(rodada.mostrar?.virtude ? `O melhor é: ${rodada.certa}. Isso é ${rodada.mostrar.virtude.toLocaleLowerCase('pt-BR')}.` : 'Olhe, é esta aqui.');
+      falar(rodada.mostrar?.virtude ? `O melhor é: ${rodada.certa}. Isso é ${rodada.mostrar.virtude.toLocaleLowerCase('pt-BR')}.` : rodada.mostrar?.dica ? `Olhe: ${rodada.mostrar.dica}` : 'Olhe, é esta aqui.');
+      if (rodada.mostrar?.dica) root.querySelector('#jg-legenda').textContent = rodada.mostrar.dica;
     }
     mostrarNivel();
     nivelEl.classList.toggle('subiu', p.nivel > antes);
@@ -331,10 +357,11 @@ jogo.ligar = (root, ctx, id) => {
       painel.classList.remove('aceso');
       nivelEl.classList.remove('subiu');
       if (!descansoAberto()) nova();
-    }, acertou ? ESPERA_ACERTO : rodada.mostrar?.virtude ? ESPERA_EXPLICAR : ESPERA_ERRO);
+    }, acertou ? ESPERA_ACERTO : rodada.mostrar?.virtude || rodada.mostrar?.dica ? ESPERA_EXPLICAR * (rodada.mostrar?.dica ? 2 : 1) : ESPERA_ERRO);
   };
   painel.addEventListener('click', (ev) => {
-    if (ev.target.closest('#jg-ouvir')) { if (rodada) falar(rodada.fala, rodada.idioma); return; }
+    if (ev.target.closest('#jg-ouvir')) { if (rodada) falar(rodada.fala, rodada.idioma, rodada.mostrar?.notas ? () => tocar(rodada.mostrar.notas) : null); return; }
+    if (ev.target.closest('#jg-tocar')) { if (rodada?.mostrar?.notas) tocar(rodada.mostrar.notas); return; }
     const b = ev.target.closest('.jg-opcoes .jg-vidro');
     if (b) responder(b);
   });

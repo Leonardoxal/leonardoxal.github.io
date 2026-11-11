@@ -415,6 +415,77 @@ export function rodadaCalculo(nivel, rnd = Math.random) {
   return { tipo: 'calculo', fala: c.t.includes('x =') ? c.f : `Quanto é ${c.f}?`, idioma: 'pt-BR', texto: c.t.includes('x =') ? c.t : `${c.t} = ?`, mostrar: null, opcoes, certa: `n${c.r}` };
 }
 
+// ---------------------------------------------------------------- 10. Escuchar y encontrar (espanhol)
+
+// A palavra espanhola já com o artigo; as figuras são as mesmas do "Ouvir e achar".
+const ESPANHOL = {
+  ovelha: 'la oveja', peixe: 'el pez', gato: 'el gato', sol: 'el sol', lua: 'la luna', estrela: 'la estrella', flor: 'la flor',
+  'maçã': 'la manzana', casa: 'la casa', bola: 'la pelota', vaca: 'la vaca', uva: 'las uvas', 'pássaro': 'el pájaro',
+  'árvore': 'el árbol', 'pão': 'el pan', igreja: 'la iglesia', vela: 'la vela', sino: 'la campana', pomba: 'la paloma',
+  'leão': 'el león', barco: 'el barco', 'coração': 'el corazón', livro: 'el libro', chave: 'la llave', coroa: 'la corona',
+  abelha: 'la abeja', rato: 'el ratón', sapo: 'la rana', 'mão': 'la mano', anjo: 'el ángel',
+};
+const semArtigo = (es) => es.replace(/^(el|la|los|las) /, '');
+
+/** Níveis: 1-6 ouvir em espanhol e tocar na figura (2 a 5 figuras); 7+ ver a figura e escolher a palavra escrita em espanhol (nos ímpares). */
+export function rodadaEspanhol(nivel, rnd = Math.random) {
+  const base = (nivel <= 3 ? PALAVRAS.slice(0, FACEIS) : PALAVRAS).filter((p) => ESPANHOL[p.pt]);
+  const n = Math.min(5, nivel <= 3 ? nivel + 1 : 4 + Math.floor((nivel - 4) / 4));
+  const alvo = escolher(base, rnd);
+  const outros = distintos(n - 1, () => escolher(base, rnd), (p) => p.pt, [alvo]);
+  const es = ESPANHOL[alvo.pt];
+  if (nivel >= 7 && nivel % 2 === 1) {
+    const opcoes = embaralhar([alvo, ...outros], rnd).map((p) => ({ chave: p.pt, txt: semArtigo(ESPANHOL[p.pt]) }));
+    return { tipo: 'escrita', fala: `Como se diz ${alvo.pt} em espanhol?`, idioma: 'pt-BR', texto: 'Como se diz em espanhol?', mostrar: { modelo: comoOpcao(alvo) }, opcoes, certa: alvo.pt };
+  }
+  const plural = /^(los|las) /.test(es);
+  return { tipo: 'palavra', fala: `¿Dónde ${plural ? 'están' : 'está'} ${es}?`, idioma: 'es-ES', texto: `¿Dónde ${plural ? 'están' : 'está'} ${es}? (${alvo.f ? 'a' : 'o'} ${alvo.pt})`, mostrar: null, opcoes: embaralhar([alvo, ...outros], rnd).map(comoOpcao), certa: alvo.pt };
+}
+
+// ---------------------------------------------------------------- 11. Agudo ou grave? (música)
+
+// Frequências em Hz da escala de dó maior a partir do dó central (C4 a C6), para tocar com o próprio navegador.
+const ESCALA = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.0, 987.77, 1046.5];
+const PRIMEIRA = { chave: '1', txt: 'O primeiro' };
+const SEGUNDA = { chave: '2', txt: 'O segundo' };
+
+/** Níveis: 1-10 qual som é mais agudo (o intervalo diminui da oitava até um tom); 11+ alternam com "quantas notas você ouviu?" (2 a 5). */
+export function rodadaMusica(nivel, rnd = Math.random) {
+  if (nivel >= 11 && nivel % 2 === 1) {
+    const qtd = inteiro(2, Math.min(5, 2 + Math.floor((nivel - 11) / 2)), rnd);
+    const notas = Array.from({ length: qtd }, () => escolher(ESCALA.slice(0, 8), rnd));
+    const opcoes = embaralhar([qtd, ...distintos(2, () => inteiro(1, 6, rnd), (x) => x, [qtd])], rnd).map((n) => ({ chave: `n${n}`, num: n }));
+    return { tipo: 'contar-notas', fala: 'Quantas notas você ouviu?', idioma: 'pt-BR', texto: 'Quantas notas?', mostrar: { notas }, opcoes, certa: `n${qtd}` };
+  }
+  const salto = Math.max(1, 7 - Math.floor((Math.min(nivel, 10) - 1) * 0.67)); // 7 graus (oitava) até 1 grau (um tom)
+  const i = inteiro(0, ESCALA.length - 1 - salto, rnd);
+  const subindo = rnd() < 0.5;
+  const notas = subindo ? [ESCALA[i], ESCALA[i + salto]] : [ESCALA[i + salto], ESCALA[i]];
+  return { tipo: 'agudo', fala: 'Qual som é mais agudo, mais fininho?', idioma: 'pt-BR', texto: 'Qual é mais agudo?', mostrar: { notas }, opcoes: [PRIMEIRA, SEGUNDA], certa: subindo ? '2' : '1' };
+}
+
+// ---------------------------------------------------------------- 12. A melhor jogada (estratégia)
+
+/**
+ * Jogo das pedras (da família do Nim): cada um tira de 1 a k pedras por vez; quem tira a última ganha.
+ * Quem deixa para o outro um múltiplo de k+1 sempre pode vencer: a criança descobre a jogada que garante a vitória.
+ * Níveis: 1-4 tirar 1 ou 2, até 8 pedras; 5-8 até 15; 9-12 tirar até 3, até 20; 13+ tirar até 4, até 30.
+ */
+export function rodadaEstrategia(nivel, rnd = Math.random) {
+  const k = nivel <= 8 ? 2 : nivel <= 12 ? 3 : 4;
+  const max = nivel <= 4 ? 8 : nivel <= 8 ? 15 : nivel <= 12 ? 20 : 30;
+  let n;
+  do { n = inteiro(k + 2, max, rnd); } while (n % (k + 1) === 0); // só posições em que existe a jogada vencedora
+  const tirar = n % (k + 1);
+  const opcoes = Array.from({ length: k }, (_, i) => ({ chave: `t${i + 1}`, txt: `Tirar ${i + 1}` }));
+  return {
+    tipo: 'estrategia', fala: `Há ${n} pedras. Cada um tira de 1 a ${k} por vez, e quem tirar a última ganha. É a sua vez: quantas você tira para garantir a vitória?`,
+    idioma: 'pt-BR', texto: `${n} pedras: tire de 1 a ${k}. Quem tirar a última ganha.`,
+    mostrar: { pedras: n, dica: `Tirando ${tirar}, sobram ${n - tirar}, que é múltiplo de ${k + 1}. Depois, sempre que o outro tirar, você completa ${k + 1}, e a última pedra fica para você.` },
+    opcoes, certa: `t${tirar}`,
+  };
+}
+
 // idade: faixa indicativa em anos (referência, não barreira: o nível acompanha o que a criança demonstra).
 // habilidades: o que o jogo trabalha, para os pais e para o texto de análise por IA.
 export const JOGOS = {
@@ -427,6 +498,9 @@ export const JOGOS = {
   virtudes: { id: 'virtudes', titulo: 'O que você faria?', area: 'Formação moral', idade: [4, 10], habilidades: ['discernimento moral', 'virtudes', 'consequências das ações'], ajuda: 'Situações do dia a dia para escolher o que é certo. Depois de cada resposta, converse: por que é melhor assim?', rodada: rodadaVirtudes },
   tempo: { id: 'tempo', titulo: 'O que veio primeiro?', area: 'História e tempo', idade: [3, 12], habilidades: ['sequência temporal', 'História Sagrada', 'História do Brasil e do mundo'], ajuda: 'Ordem das coisas: o dia, a vida, a planta; depois a História Sagrada; mais adiante, o Brasil e o mundo.', rodada: rodadaTempo },
   calculo: { id: 'calculo', titulo: 'Cálculo de cabeça', area: 'Matemática', idade: [6, 15], habilidades: ['cálculo mental', 'tabuada', 'frações', 'porcentagem', 'potências', 'equações'], ajuda: 'Contas de cabeça, da soma até a equação do 1º grau. Vale usar papel para pensar; o que conta é acertar com compreensão, não a pressa.', rodada: rodadaCalculo },
+  espanhol: { id: 'espanhol', titulo: 'Escuchar y encontrar', area: 'Espanhol', idade: [4, 12], habilidades: ['vocabulário em espanhol', 'compreensão oral', 'leitura em espanhol'], ajuda: 'Ouvir a palavra em espanhol e tocar na figura; mais adiante, ler e escolher a palavra escrita. O adulto pode repetir e apontar.', rodada: rodadaEspanhol },
+  musica: { id: 'musica', titulo: 'Agudo ou grave?', area: 'Música', idade: [3, 12], habilidades: ['percepção de altura', 'atenção auditiva', 'contagem de sons'], ajuda: 'Ouvir dois sons e dizer qual é mais agudo; os sons ficam cada vez mais próximos. Mais adiante, contar as notas. Use um lugar quieto.', rodada: rodadaMusica },
+  estrategia: { id: 'estrategia', titulo: 'A melhor jogada', area: 'Estratégia e lógica', idade: [7, 15], habilidades: ['planejamento', 'antecipar consequências', 'padrões e múltiplos'], ajuda: 'O jogo das pedras: descobrir a jogada que garante a vitória. Depois de acertar, jogue de verdade com pedrinhas ou feijões, em família.', rodada: rodadaEstrategia },
 };
 
 // ---------------------------------------------------------------- tempo de tela (opcional)
