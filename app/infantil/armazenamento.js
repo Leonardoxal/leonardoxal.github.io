@@ -3,6 +3,8 @@
 // protegidas por RLS: só contas que entraram na família com o código enxergam). A aba usa o mesmo login da Verdade.
 // Nome e nascimento dos filhos ficam só aqui (aparelho ou banco privado), nunca no repositório público.
 
+import { guardarPartida, interessesValidos, MAX_PARTIDAS } from './historico.js';
+
 // ---------------------------------------------------------------- aparelho (IndexedDB)
 
 const NOME_BD = 'aci-tarefas';
@@ -50,9 +52,16 @@ const PREFIXO_LIDOS = 'aci-livros-lidos-';
 const lerLidosLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_LIDOS + filho)) ?? []; } catch { return []; } };
 const filhosComLidosLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_LIDOS)).map((k) => k.slice(PREFIXO_LIDOS.length)); } catch { return []; } };
 
+// Partidas dos jogos no aparelho: localStorage, uma lista por filho (mais recente primeiro).
+const PREFIXO_PARTIDAS = 'aci-jogos-hist-';
+const lerPartidasLocal = (filho) => { try { return JSON.parse(localStorage.getItem(PREFIXO_PARTIDAS + filho)) ?? []; } catch { return []; } };
+const filhosComPartidasLocal = () => { try { return Object.keys(localStorage).filter((k) => k.startsWith(PREFIXO_PARTIDAS)).map((k) => k.slice(PREFIXO_PARTIDAS.length)); } catch { return []; } };
+
+const comoFilho = (f) => ({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null, interesses: interessesValidos(f.interesses) });
+
 export const aparelho = {
-  listarFilhos: () => tx('filhos', 'readonly', (s) => s.getAll()),
-  salvarFilho: (f) => tx('filhos', 'readwrite', (s) => s.put({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null })),
+  listarFilhos: async () => (await tx('filhos', 'readonly', (s) => s.getAll())).map(comoFilho),
+  salvarFilho: (f) => tx('filhos', 'readwrite', (s) => s.put(comoFilho(f))),
   apagarFilho: (id) => tx('filhos', 'readwrite', (s) => s.delete(id)),
 
   listarAnexos: async (aula) => (await tx('anexos', 'readonly', (s) => s.index('aula').getAll(aula))).map(comFilho),
@@ -69,6 +78,11 @@ export const aparelho = {
     const s = new Set(lerLidosLocal(filho));
     lido ? s.add(livro) : s.delete(livro);
     try { localStorage.setItem(PREFIXO_LIDOS + filho, JSON.stringify([...s])); } catch { throw new Error('Este navegador não deixou guardar a marcação.'); }
+  },
+
+  listarPartidas: async (filho) => lerPartidasLocal(filho),
+  async salvarPartida(p) {
+    try { localStorage.setItem(PREFIXO_PARTIDAS + p.filho, JSON.stringify(guardarPartida(lerPartidasLocal(p.filho), p))); } catch { throw new Error('Este navegador não deixou guardar a partida.'); }
   },
 };
 
@@ -94,8 +108,16 @@ export function criarNuvem(obterCliente) {
     async sairDaFamilia() { ok(await (await c()).rpc('aci_sair_da_familia')); blobs.clear(); },
     limpar: () => blobs.clear(),
 
-    async listarFilhos() { return ok(await (await c()).from('aci_filho').select('id, nome, nascimento, perfil')); },
-    async salvarFilho(f) { ok(await (await c()).from('aci_filho').upsert({ id: f.id, nome: f.nome, nascimento: f.nascimento || null, perfil: f.perfil || null, atualizado: new Date().toISOString() }, { onConflict: 'id' })); },
+    async listarFilhos() { return ok(await (await c()).from('aci_filho').select('id, nome, nascimento, perfil, interesses')).map(comoFilho); },
+    async salvarFilho(f) { ok(await (await c()).from('aci_filho').upsert({ ...comoFilho(f), atualizado: new Date().toISOString() }, { onConflict: 'id' })); },
+
+    async listarPartidas(filho) {
+      const linhas = ok(await (await c()).from('aci_jogo').select('*').eq('filho', filho).order('inicio', { ascending: false }).limit(MAX_PARTIDAS));
+      return linhas.map((l) => ({ id: l.id, filho: l.filho, jogo: l.jogo, inicio: Date.parse(l.inicio), fim: Date.parse(l.fim), nivelInicial: l.nivel_inicial, nivelFinal: l.nivel_final, nivelMax: l.nivel_max, acertos: l.acertos, erros: l.erros }));
+    },
+    async salvarPartida(p) {
+      ok(await (await c()).from('aci_jogo').upsert({ id: p.id, filho: p.filho, jogo: p.jogo, inicio: new Date(p.inicio).toISOString(), fim: new Date(p.fim).toISOString(), nivel_inicial: p.nivelInicial, nivel_final: p.nivelFinal, nivel_max: p.nivelMax, acertos: p.acertos, erros: p.erros, atualizado: new Date().toISOString() }, { onConflict: 'id' }));
+    },
     async apagarFilho(id) { ok(await (await c()).from('aci_filho').delete().eq('id', id)); },
 
     async lerAula(aula, filho = '') { return ok(await (await c()).from('aci_aula').select('aula, filho, feita, nota').eq('aula', aula).eq('filho', filho).maybeSingle()) ?? { aula, filho, feita: false, nota: '' }; },
@@ -184,18 +206,23 @@ export function criarArmazenamento({ obterCliente, obterUsuario, familiaAtiva = 
     apagarAnexo: (id) => alvo().apagarAnexo(id),
     listarLidos: (filho) => alvo().listarLidos(filho),
     marcarLido: (filho, livro, lido) => alvo().marcarLido(filho, livro, lido),
+    listarPartidas: (filho) => alvo().listarPartidas(filho),
+    salvarPartida: (p) => alvo().salvarPartida(p),
     /** Arquivo de um anexo: já vem no aparelho; na nuvem é baixado sob demanda. */
     arquivoDe: async (x) => x.blob ?? nuvem.baixar(x),
 
-    /** Quantos itens deste aparelho podem subir: anexos e livros marcados. */
+    /** Quantos itens deste aparelho podem subir: anexos, livros marcados e partidas dos jogos. */
     async contarLocais() {
-      const livros = filhosComLidosLocal().reduce((n, f) => n + lerLidosLocal(f).length, 0);
+      const livros = filhosComLidosLocal().reduce((n, f) => n + lerLidosLocal(f).length, 0)
+        + filhosComPartidasLocal().reduce((n, f) => n + lerPartidasLocal(f).length, 0);
       try { return (await aparelho.listarTodosAnexos()).length + livros; } catch { return livros; }
     },
-    /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos itens (anexos e livros) subiram. */
+    /** Envia para a nuvem tudo o que está neste aparelho. Devolve quantos itens (anexos, livros e partidas) subiram. */
     async enviarAparelhoParaNuvem() {
       let livros = 0;
       for (const f of filhosComLidosLocal()) for (const l of lerLidosLocal(f)) { await nuvem.marcarLido(f, l, true); livros++; }
+      // a partida tem id próprio: reenviar só atualiza a mesma linha
+      for (const f of filhosComPartidasLocal()) for (const p of lerPartidasLocal(f)) { await nuvem.salvarPartida(p); livros++; }
       const [filhos, aulas, anexos, naNuvem] = await Promise.all([aparelho.listarFilhos(), aparelho.listarAulas(), aparelho.listarTodosAnexos(), nuvem.listarTodosAnexos()]);
       const existentes = new Set(naNuvem.map((x) => x.id));
       for (const f of filhos) await nuvem.salvarFilho(f);

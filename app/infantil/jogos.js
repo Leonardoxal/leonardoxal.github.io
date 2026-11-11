@@ -53,14 +53,27 @@ export const COISAS = [
   { e: '🍎', um: 'maçã', muitos: 'maçãs', g: 'a' },
   { e: '🌸', um: 'flor', muitos: 'flores', g: 'a' },
 ];
+// Mesmo objetivo, outra apresentação: figuras conforme os interesses do filho (cadastro na aba Infantil).
+export const TEMAS = {
+  animais: [{ e: '🐑', um: 'ovelha', muitos: 'ovelhas', g: 'a' }, { e: '🐟', um: 'peixe', muitos: 'peixes', g: 'o' }, { e: '🐄', um: 'vaca', muitos: 'vacas', g: 'a' }, { e: '🐔', um: 'galinha', muitos: 'galinhas', g: 'a' }, { e: '🐇', um: 'coelho', muitos: 'coelhos', g: 'o' }],
+  veiculos: [{ e: '🚗', um: 'carro', muitos: 'carros', g: 'o' }, { e: '✈️', um: 'avião', muitos: 'aviões', g: 'o' }, { e: '🚂', um: 'trem', muitos: 'trens', g: 'o' }, { e: '⛵', um: 'barco', muitos: 'barcos', g: 'o' }, { e: '🚲', um: 'bicicleta', muitos: 'bicicletas', g: 'a' }, { e: '🚜', um: 'trator', muitos: 'tratores', g: 'o' }],
+  ceu: [{ e: '⭐', um: 'estrela', muitos: 'estrelas', g: 'a' }, { e: '☁️', um: 'nuvem', muitos: 'nuvens', g: 'a' }, { e: '🪐', um: 'planeta', muitos: 'planetas', g: 'o' }, { e: '🚀', um: 'foguete', muitos: 'foguetes', g: 'o' }, { e: '☄️', um: 'cometa', muitos: 'cometas', g: 'o' }],
+  natureza: [{ e: '🌸', um: 'flor', muitos: 'flores', g: 'a' }, { e: '🌳', um: 'árvore', muitos: 'árvores', g: 'a' }, { e: '🍃', um: 'folha', muitos: 'folhas', g: 'a' }, { e: '🍄', um: 'cogumelo', muitos: 'cogumelos', g: 'o' }, { e: '🐚', um: 'concha', muitos: 'conchas', g: 'a' }],
+};
+const CHANCE_TEMA = 0.7; // o interesse é porta de entrada: 3 em 10 rodadas continuam com as figuras gerais
+/** Coisa para contar: na maioria das vezes do tema do filho, às vezes das figuras gerais. */
+export function coisaPara(interesses = [], rnd = Math.random) {
+  const doTema = interesses.flatMap((i) => TEMAS[i] ?? []);
+  return escolher(doTema.length && rnd() < CHANCE_TEMA ? doTema : COISAS, rnd);
+}
 const EXTENSO = ['zero', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove', 'dez'];
 const extenso = (n, g) => (n === 1 ? (g === 'a' ? 'uma' : 'um') : n === 2 ? (g === 'a' ? 'duas' : 'dois') : EXTENSO[n] ?? String(n));
 const nomeQtd = (n, c) => `${extenso(n, c.g)} ${n === 1 ? c.um : c.muitos}`;
 export const MAX_DESENHO = 20; // acima disso a conta aparece só com números
 
 /** Níveis: 1-5 achar o grupo com N; 6-10 contar e escolher o número; 11-13 qual tem mais; 14+ juntar (e, do 18, tirar). */
-export function rodadaQuantos(nivel, rnd = Math.random) {
-  const c = escolher(COISAS, rnd);
+export function rodadaQuantos(nivel, rnd = Math.random, { interesses = [] } = {}) {
+  const c = coisaPara(interesses, rnd);
   if (nivel <= 5) {
     const max = [2, 3, 3, 4, 5][nivel - 1];
     const nOpcoes = [2, 2, 3, 3, 3][nivel - 1];
@@ -274,12 +287,14 @@ export function rodadaPalavras(nivel, rnd = Math.random) {
   return { tipo: 'combina', fala: `O que combina com ${modelo.pt}?`, idioma: 'pt-BR', texto: `O que combina com ${modelo.pt}?`, mostrar: { modelo: figura(modelo) }, opcoes, certa: certo.pt };
 }
 
+// idade: faixa indicativa em anos (referência, não barreira: o nível acompanha o que a criança demonstra).
+// habilidades: o que o jogo trabalha, para os pais e para o texto de análise por IA.
 export const JOGOS = {
-  quantos: { id: 'quantos', titulo: 'Quantos são?', area: 'Matemática', ajuda: 'Achar o grupo, contar, comparar e, mais adiante, juntar e tirar. A quantidade vem antes do número escrito.', rodada: rodadaQuantos },
-  depois: { id: 'depois', titulo: 'O que vem depois?', area: 'Raciocínio', ajuda: 'Padrões de forma, cor e tamanho; depois, sequências de números cada vez mais difíceis.', rodada: rodadaDepois },
-  ouvir: { id: 'ouvir', titulo: 'Ouvir e achar', area: 'Linguagem e inglês', ajuda: 'Ouvir a palavra e tocar na figura; depois em inglês; mais adiante, o som do começo da palavra.', rodada: rodadaOuvir },
-  numeros: { id: 'numeros', titulo: 'Que número é?', area: 'Matemática', ajuda: 'Ouvir o número e tocar no número escrito: até 10, até 20, as dezenas e, mais adiante, até 100.', rodada: rodadaNumeros },
-  palavras: { id: 'palavras', titulo: 'O que combina?', area: 'Linguagem e raciocínio', ajuda: 'Juntar as coisas que andam juntas (abelha e mel); mais adiante, achar a que não é do grupo.', rodada: rodadaPalavras },
+  quantos: { id: 'quantos', titulo: 'Quantos são?', area: 'Matemática', idade: [2, 6], habilidades: ['contagem', 'quantidade', 'comparação', 'adição e subtração concretas'], ajuda: 'Achar o grupo, contar, comparar e, mais adiante, juntar e tirar. A quantidade vem antes do número escrito.', rodada: rodadaQuantos },
+  depois: { id: 'depois', titulo: 'O que vem depois?', area: 'Raciocínio', idade: [2, 7], habilidades: ['padrões', 'atenção', 'sequências numéricas'], ajuda: 'Padrões de forma, cor e tamanho; depois, sequências de números cada vez mais difíceis.', rodada: rodadaDepois },
+  ouvir: { id: 'ouvir', titulo: 'Ouvir e achar', area: 'Linguagem e inglês', idade: [2, 6], habilidades: ['vocabulário', 'compreensão oral', 'inglês', 'consciência fonológica'], ajuda: 'Ouvir a palavra e tocar na figura; depois em inglês; mais adiante, o som do começo da palavra.', rodada: rodadaOuvir },
+  numeros: { id: 'numeros', titulo: 'Que número é?', area: 'Matemática', idade: [3, 7], habilidades: ['reconhecer numerais', 'sistema de numeração até 100'], ajuda: 'Ouvir o número e tocar no número escrito: até 10, até 20, as dezenas e, mais adiante, até 100.', rodada: rodadaNumeros },
+  palavras: { id: 'palavras', titulo: 'O que combina?', area: 'Linguagem e raciocínio', idade: [2, 6], habilidades: ['vocabulário', 'associação', 'classificação'], ajuda: 'Juntar as coisas que andam juntas (abelha e mel); mais adiante, achar a que não é do grupo.', rodada: rodadaPalavras },
 };
 
 // ---------------------------------------------------------------- tempo de tela (opcional)

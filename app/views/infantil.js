@@ -12,6 +12,9 @@ import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
 import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
+import { INTERESSES, resumoJogo } from '../infantil/historico.js';
+import { OBSERVACOES, textoParaIA } from '../infantil/prompt.js';
+import { JOGOS } from '../infantil/jogos.js';
 
 const MAX_BYTES = 25 * 1024 * 1024;
 const MAX_LADO = 1800;
@@ -190,6 +193,20 @@ export function aulaInfantil(ctx, id) {
     <label class="inf-linha"><input type="checkbox" id="inf-feita"> Aula feita</label>
     <label class="campo largo"><span>Observações: o que ela disse, o que mais gostou, o que cansou</span><textarea id="inf-nota" rows="4"></textarea></label>
     <p class="inf-salvo" id="inf-salvo" aria-live="polite"></p>
+    <h2>Analisar a tarefa com uma IA</h2>
+    <p>Monte aqui um texto com os dados desta aula, as suas observações e o histórico do filho escolhido. Cole-o no ChatGPT, no Claude ou em outra IA, junto com as fotos da tarefa. O site não se conecta a nenhuma IA: ele só prepara o texto.</p>
+    <details class="inf-caixa"><summary><strong>Antes de enviar: privacidade</strong></summary>
+      <ul>
+        <li>O texto chama a criança de "Aluno A" e leva só a idade em anos e meses. Não acrescente nome completo, endereço nem documentos.</li>
+        <li>Releia as observações antes de colar: se escreveu o nome da criança nelas, troque por "Aluno A".</li>
+        <li>Prefira fotos só da folha, sem o rosto da criança.</li>
+        <li>O que você envia passa a seguir as regras do serviço escolhido.</li>
+        <li>A resposta da IA é uma sugestão. Leia, confira com o que você viu e só então anote nas observações o que confirmar.</li>
+      </ul></details>
+    <fieldset class="inf-obs-ia"><legend>Como foi a atividade</legend>
+      ${OBSERVACOES.map((o) => `<label class="inf-linha"><input type="checkbox" name="inf-obs" value="${esc(o)}"> ${esc(o)}</label>`).join('')}</fieldset>
+    <div class="inf-acoes"><button class="btn primario" type="button" id="inf-ia-gerar">Montar o texto</button><button class="btn" type="button" id="inf-ia-copiar" hidden>Copiar o texto</button></div>
+    <label class="campo largo" id="inf-ia-caixa" hidden><span>Texto para a IA (pode editar antes de copiar)</span><textarea id="inf-ia-texto" rows="14"></textarea></label>
   </section>`;
 }
 
@@ -286,7 +303,7 @@ async function importar(arquivo) {
   const dados = JSON.parse(await arquivo.text());
   if (![1, 2].includes(dados?.versao) || !Array.isArray(dados.anexos) || !Array.isArray(dados.aulas)) throw new Error('Este arquivo não é um backup da Academia Infantil.');
   let n = 0;
-  for (const f of dados.filhos ?? []) if (CODIGO_OK.test(String(f.id)) && f.nome) await arm.salvarFilho({ id: String(f.id), nome: String(f.nome).slice(0, 60), nascimento: f.nascimento || null, perfil: ['menina', 'menino'].includes(f.perfil) ? f.perfil : null });
+  for (const f of dados.filhos ?? []) if (CODIGO_OK.test(String(f.id)) && f.nome) await arm.salvarFilho({ id: String(f.id), nome: String(f.nome).slice(0, 60), nascimento: f.nascimento || null, perfil: ['menina', 'menino'].includes(f.perfil) ? f.perfil : null, interesses: f.interesses });
   for (const r of dados.aulas) if (codigoValido(String(r.filho ?? ''))) await arm.salvarAula({ aula: String(r.aula), filho: String(r.filho ?? ''), feita: !!r.feita, nota: String(r.nota ?? '') });
   for (const a of dados.anexos) {
     if (typeof a.dados !== 'string' || !a.dados.startsWith('data:') || !tipoPermitido(String(a.tipo)) || !codigoValido(String(a.filho ?? ''))) continue;
@@ -317,6 +334,8 @@ function filhosHTML(filhos, extras) {
         <label class="campo"><span>Nascimento</span><input name="nascimento" type="date" value="${esc(f?.nascimento ?? '')}"></label>
         <label class="campo"><span>Perfil</span><select name="perfil"><option value="">Não indicar</option><option value="menina"${f?.perfil === 'menina' ? ' selected' : ''}>Menina</option><option value="menino"${f?.perfil === 'menino' ? ' selected' : ''}>Menino</option></select></label>
       </div>
+      <fieldset class="inf-interesses"><legend>Interesses observados <span class="meta">(mudam as figuras dos jogos; gosto é porta de entrada, não limite)</span></legend>
+        ${Object.entries(INTERESSES).map(([k, r]) => `<label class="opcao"><input type="checkbox" name="interesses" value="${k}"${f?.interesses?.includes(k) ? ' checked' : ''}> <span>${esc(r)}</span></label>`).join('')}</fieldset>
       <div class="inf-acoes"><button class="btn primario pequeno" type="submit">Salvar</button>${f ? '<button class="btn perigo pequeno" type="button" data-acao="remover">Remover</button>' : ''}</div>
       <p class="meta">${f ? (anos ? `Idade hoje: ${esc(anos)}.` : 'Informe o nascimento para ver a idade.') : 'Ainda não salvo.'}</p>
     </form>`;
@@ -404,7 +423,7 @@ infantil.ligar = (root) => {
     const nome = String(dados.get('nome')).trim();
     if (!nome) return;
     try {
-      await arm.salvarFilho({ id: form.dataset.codigo, nome, nascimento: String(dados.get('nascimento') || '') || null, perfil: String(dados.get('perfil') || '') || null });
+      await arm.salvarFilho({ id: form.dataset.codigo, nome, nascimento: String(dados.get('nascimento') || '') || null, perfil: String(dados.get('perfil') || '') || null, interesses: dados.getAll('interesses').map(String) });
       toast('Filho salvo.');
       await hidratar();
     } catch (e) { toast(erroTexto(e)); }
@@ -578,4 +597,30 @@ aulaInfantil.ligar = (root, ctx, id) => {
   root.querySelector('#inf-ler').addEventListener('click', lerAgora);
   root.querySelectorAll('input[name="inf-doc"]').forEach((r) => r.addEventListener('change', () => { if (root.querySelector('#inf-leitor-area .pg, #inf-leitor-area .folhas')) lerAgora(); }));
   root.querySelectorAll('input[name="inf-modo"]').forEach((r) => { r.checked = r.value === leitor.modo(); r.addEventListener('change', () => leitor.trocarModo(r.value)); });
+
+  // Texto para a IA externa: dados públicos da aula + observações + histórico do filho escolhido, sem o nome.
+  const textoIA = root.querySelector('#inf-ia-texto');
+  const copiar = root.querySelector('#inf-ia-copiar');
+  root.querySelector('#inf-ia-gerar').addEventListener('click', async () => {
+    const f = filhos.find((x) => x.id === quem);
+    let anteriores = []; let partidas = [];
+    try {
+      anteriores = (await arm.listarAulas())
+        .filter((r) => r.feita && r.aula !== id && (!quem || r.filho === quem))
+        .map((r) => ({ ...aulaInfantilPorData(r.aula), nota: r.nota })).filter((a) => a.titulo)
+        .sort((x, y) => y.data.localeCompare(x.data)).slice(0, 10);
+      partidas = await arm.listarPartidas(quem || 'familia');
+    } catch { /* sem histórico: o texto sai só com esta aula */ }
+    const jogos = Object.values(JOGOS).map((j) => ({ ...resumoJogo(partidas, j.id), titulo: j.titulo, habilidades: j.habilidades })).filter((j) => j.partidas);
+    textoIA.value = textoParaIA({
+      aula, idade: f ? idade(f.nascimento) : '', interesses: (f?.interesses ?? []).map((i) => INTERESSES[i]),
+      marcadas: [...root.querySelectorAll('input[name="inf-obs"]:checked')].map((c) => c.value), nota: nota.value, anteriores, jogos,
+    });
+    root.querySelector('#inf-ia-caixa').hidden = false;
+    copiar.hidden = false;
+    textoIA.focus();
+  });
+  copiar.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(textoIA.value); toast('Texto copiado. Cole na IA junto com as fotos.'); } catch { textoIA.select(); toast('Selecione o texto e copie com Ctrl+C.'); }
+  });
 };

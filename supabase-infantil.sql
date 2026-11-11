@@ -111,6 +111,32 @@ drop policy if exists "familia usa anexos" on public.aci_anexo;
 create policy "familia usa anexos" on public.aci_anexo
   for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
 
+-- Interesses de cada filho (porta de entrada dos jogos e das recomendações; gosto é tendência, não limite).
+alter table public.aci_filho add column if not exists interesses text[] not null default '{}';
+alter table public.aci_filho drop constraint if exists aci_filho_interesses_validos;
+alter table public.aci_filho add constraint aci_filho_interesses_validos
+  check (interesses <@ array['animais','veiculos','ceu','natureza','musica','historias']::text[]);
+
+-- Partidas dos jogos, por filho: nível, acertos e erros (o recorde pessoal é o maior nivel_max). Sem ranking.
+create table if not exists public.aci_jogo (
+  id            uuid primary key,
+  filho         text not null check (filho ~ '^[a-z0-9-]{1,30}$'),
+  jogo          text not null check (jogo ~ '^[a-z0-9-]{1,30}$'),
+  inicio        timestamptz not null,
+  fim           timestamptz not null,
+  nivel_inicial integer not null check (nivel_inicial between 1 and 10000),
+  nivel_final   integer not null check (nivel_final between 1 and 10000),
+  nivel_max     integer not null check (nivel_max between 1 and 10000),
+  acertos       integer not null default 0 check (acertos between 0 and 100000),
+  erros         integer not null default 0 check (erros between 0 and 100000),
+  atualizado    timestamptz not null default now()
+);
+create index if not exists aci_jogo_filho on public.aci_jogo (filho, inicio desc);
+alter table public.aci_jogo enable row level security;
+drop policy if exists "familia usa jogos" on public.aci_jogo;
+create policy "familia usa jogos" on public.aci_jogo
+  for all to authenticated using (public.aci_na_familia()) with check (public.aci_na_familia());
+
 -- Pasta privada dos arquivos das tarefas (fotos e PDFs, até 25 MB cada).
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('aci-tarefas', 'aci-tarefas', false, 26214400,

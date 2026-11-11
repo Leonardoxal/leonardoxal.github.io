@@ -15,13 +15,16 @@ import { LIVROS as LIVROS_VERDADE } from '../data/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 import { JOGOS, PARES, GRUPOS, ajustar, progressoInicial, usadoHoje, acabou } from '../infantil/jogos.js';
 import { jogos, jogo } from '../views/jogos.js';
+import { rodadaQuantos, TEMAS, COISAS } from '../infantil/jogos.js';
+import { guardarPartida, anotarResposta, recorde, resumoJogo, recomendar, anosCompletos, interessesValidos, MAX_PARTIDAS } from '../infantil/historico.js';
+import { textoParaIA, OBSERVACOES } from '../infantil/prompt.js';
 
 const app = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ICONES = ['peixe', 'passaro', 'ovelha', 'gato', 'pato', 'sol', 'estrela', 'cruz'];
 const CODIGO = 'codigo-certo';
 
 function bancoSimulado({ membros = [] } = {}) {
-  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [] };
+  const tabelas = { aci_aula: [], aci_anexo: [], aci_filho: [], aci_livro: [], aci_jogo: [] };
   const objetos = new Map();
   const familia = new Set(membros);
   const estado = { usuario: null, falharInsert: false };
@@ -56,6 +59,7 @@ function bancoSimulado({ membros = [] } = {}) {
       eq: (c, v) => { filtros.push([c, v]); return q; },
       order: (c, { ascending }) => { ordem = [c, ascending]; return q; },
       maybeSingle: () => { unico = true; return q; },
+      limit: () => q,
       then: (ok, erro) => Promise.resolve(executar()).then(ok, erro),
     };
     return q;
@@ -377,6 +381,74 @@ test('idade e códigos de filho', () => {
   assert.equal(proximoCodigo([]), 'f1');
   assert.equal(proximoCodigo(['f1', 'f3']), 'f4');
   assert.equal(proximoCodigo(['f1', 'abc']), 'f2');
+});
+
+test('jogos: interesses mudam as figuras sem prender a criança ao tema', () => {
+  let x = 0;
+  const rnd = () => ((x = (x * 9301 + 49297) % 233280) / 233280);
+  const veiculos = new Set(TEMAS.veiculos.map((c) => c.e));
+  const gerais = new Set(COISAS.map((c) => c.e));
+  const vistas = Array.from({ length: 200 }, () => rodadaQuantos(2, rnd, { interesses: ['veiculos'] }).opcoes[0].e);
+  assert.ok(vistas.some((e) => veiculos.has(e)), 'aparecem veículos');
+  assert.ok(vistas.some((e) => gerais.has(e)), 'as figuras gerais continuam aparecendo');
+  assert.ok(Array.from({ length: 50 }, () => rodadaQuantos(2, rnd).opcoes[0].e).every((e) => gerais.has(e)), 'sem interesse, só as gerais');
+  assert.deepEqual(interessesValidos(['ceu', 'xyz', 'ceu']), ['ceu']);
+});
+
+test('histórico dos jogos: partida, recorde, resumo e recomendação', () => {
+  const p0 = { id: 'p1', filho: 'f1', jogo: 'quantos', inicio: 1000, fim: 1000, nivelInicial: 3, nivelFinal: 3, nivelMax: 3, acertos: 0, erros: 0 };
+  const p1 = anotarResposta(anotarResposta(p0, true, 4, 2000), false, 1, 3000);
+  assert.deepEqual([p1.acertos, p1.erros, p1.nivelMax, p1.nivelFinal, p1.fim], [1, 1, 4, 1, 3000]);
+  assert.equal(p0.acertos, 0, 'não altera a partida anterior');
+  let lista = guardarPartida([], p1);
+  lista = guardarPartida(lista, { ...p1, acertos: 5 }); // mesma partida atualizada
+  assert.equal(lista.length, 1);
+  lista = guardarPartida(lista, { ...p0, id: 'p2', inicio: 5000, nivelMax: 7, acertos: 2 });
+  assert.equal(lista[0].id, 'p2', 'mais recente primeiro');
+  assert.equal(recorde(lista, 'quantos'), 7);
+  assert.equal(recorde(lista, 'quantos', 'p2'), 4, 'sem a partida em andamento');
+  assert.equal(recorde(lista, 'ouvir'), 0);
+  assert.equal(resumoJogo(lista, 'quantos').partidas, 2);
+  const cheia = Array.from({ length: MAX_PARTIDAS + 5 }, (_, i) => ({ ...p1, id: `x${i}`, inicio: i })).reduce(guardarPartida, []);
+  assert.equal(cheia.length, MAX_PARTIDAS);
+
+  const jogosLista = [{ id: 'a', idade: [2, 6] }, { id: 'b', idade: [2, 6] }, { id: 'c', idade: [10, 12] }];
+  const fraca = { id: 'q', jogo: 'b', inicio: 10, acertos: 1, erros: 5, nivelMax: 1 };
+  const sug = recomendar(jogosLista, [fraca], 3, 3, 10 + 86400000 * 2);
+  assert.deepEqual(sug.map((s) => s.id), ['b', 'a'], 'reforço primeiro, depois o não jogado; o de 10 anos fica de fora');
+  assert.match(sug[0].motivo, /Reforço/);
+  assert.equal(anosCompletos('2023-12-30', new Date(2026, 10, 11)), 2);
+  assert.equal(anosCompletos('', new Date()), null);
+});
+
+test('texto para IA: anônimo, com observações, histórico, critérios e sem diagnóstico', () => {
+  const t = textoParaIA({
+    aula: { data: '2026-11-11', titulo: 'São Martinho e a capa', tema: 'Mateus 25,35-40', virtude: 'Caridade', resumo: 'Contar até 3.' },
+    idade: '2 anos e 10 meses', marcadas: [OBSERVACOES[1]], nota: 'Contou com os dedos.', interesses: ['Animais'],
+    anteriores: [{ titulo: 'O anjo da guarda', nota: 'Gostou da oração.' }],
+    jogos: [{ titulo: 'Quantos são?', habilidades: ['contagem'], partidas: 3, recorde: 6, precisao: 0.8 }],
+  });
+  for (const trecho of ['Aluno A', '2 anos e 10 meses', 'Precisou de ajuda.', 'Contou com os dedos.', 'O anjo da guarda', 'recorde nível 6', '80% de acertos', 'Matemática', 'grau de confiança', 'Não faça diagnóstico', 'avançar ou reforçar']) {
+    assert.ok(t.includes(trecho), `falta: ${trecho}`);
+  }
+  assert.doesNotMatch(t, /null|undefined|\n\n\n/);
+  assert.doesNotMatch(textoParaIA({ aula: { titulo: 'X' } }), /null|undefined|Interesses/);
+});
+
+test('nuvem: interesses do filho e partidas dos jogos sincronizam na família', async () => {
+  const banco = bancoSimulado({ membros: ['u1'] });
+  logado(banco, 'u1');
+  const arm = criarArmazenamento({ obterCliente: async () => banco.cliente, obterUsuario: async () => ({ id: 'u1', email: 'a@exemplo.com' }) });
+  assert.equal((await arm.iniciar()).modo, 'nuvem');
+  await arm.salvarFilho({ id: 'f1', nome: 'Teste', nascimento: '2023-12-30', interesses: ['animais', 'invalido'] });
+  assert.deepEqual((await arm.listarFilhos())[0].interesses, ['animais']);
+  const p = { id: '00000000-0000-4000-8000-000000000001', filho: 'f1', jogo: 'quantos', inicio: 1000, fim: 2000, nivelInicial: 1, nivelFinal: 2, nivelMax: 2, acertos: 3, erros: 0 };
+  await arm.salvarPartida(p);
+  await arm.salvarPartida({ ...p, acertos: 4, fim: 3000 });
+  const lidas = await arm.listarPartidas('f1');
+  assert.equal(lidas.length, 1, 'mesmo id atualiza a mesma linha');
+  assert.deepEqual(lidas[0], { ...p, acertos: 4, fim: 3000 });
+  assert.equal((await arm.listarPartidas('f2')).length, 0);
 });
 
 test('nuvem: sem cliente configurado, avisa em vez de quebrar', async () => {

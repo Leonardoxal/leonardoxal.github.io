@@ -6,6 +6,7 @@ import { JOGOS, ajustar, progressoInicial, LIMITES, hojeISO, usadoHoje, acabou }
 import { criarArmazenamento } from '../infantil/armazenamento.js';
 import { clienteNuvem, usuarioNuvem } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
+import { anotarResposta, recorde, resumoJogo, recomendar, anosCompletos } from '../infantil/historico.js';
 
 // Armazenamento próprio (mesmo cadastro de filhos da aba Infantil). Não importa de views/infantil.js:
 // se o navegador guardar uma versão antiga daquele arquivo, a aba não pode quebrar o site inteiro.
@@ -15,6 +16,7 @@ const LIBERAR_MS = 5 * 60000; // o adulto libera mais 5 minutos
 const SEGURAR_MS = 3000; // segurar o botão do adulto por 3 segundos
 const ESPERA_ACERTO = 1400;
 const ESPERA_ERRO = 2200;
+const SALVAR_MS = 10000; // grava a partida em andamento a cada 10 s (e ao sair)
 
 // ---------------------------------------------------------------- guardado no aparelho
 
@@ -113,13 +115,15 @@ export function jogos() {
     </header>
     <div class="jg-janelas">${Object.values(JOGOS).map((j) => `<a class="jg-janela jg-tema-${j.id}" href="#jogo-${j.id}">
       ${capa(j.id)}
-      <span class="jg-janela-txt"><strong>${esc(j.titulo)}</strong><span>${esc(j.area)}</span><span class="jg-nivel-capa" data-nivel="${j.id}">Nível 1</span></span></a>`).join('')}</div>
+      <span class="jg-janela-txt"><strong>${esc(j.titulo)}</strong><span>${esc(j.area)} · ${j.idade[0]} a ${j.idade[1]} anos</span><span class="jg-nivel-capa" data-nivel="${j.id}">Nível 1</span><span class="meta" data-recorde="${j.id}"></span></span></a>`).join('')}</div>
     <section class="inf-caixa jg-pais" aria-labelledby="jg-pais-titulo">
       <h2 id="jg-pais-titulo">Para os pais</h2>
       <fieldset class="jg-quem"><legend>Quem vai jogar?</legend><div id="jg-filhos" class="jg-chips"></div></fieldset>
+      <div id="jg-recomendados" aria-live="polite"></div>
+      <details class="jg-historico"><summary><strong>Histórico e recordes</strong></summary><div id="jg-hist"></div></details>
       <label class="campo jg-limite"><span>Limite de tela por dia</span><select id="jg-limite">${LIMITES.map((m) => `<option value="${m}">${m ? `${m} minutos` : 'Sem limite'}</option>`).join('')}</select></label>
       <p class="meta" id="jg-usado" aria-live="polite"></p>
-      <p class="meta">Jogue junto com a criança: a voz faz a pergunta, e o adulto comenta e conversa. Para crianças de 2 a 5 anos, a Academia Americana de Pediatria recomenda no máximo cerca de 1 hora de tela por dia, com um adulto junto; bebês não usam tela. O nível de cada filho fica guardado neste aparelho.</p>
+      <p class="meta">Jogue junto com a criança: a voz faz a pergunta, e o adulto comenta e conversa. Para crianças de 2 a 5 anos, a Academia Americana de Pediatria recomenda no máximo cerca de 1 hora de tela por dia, com um adulto junto; bebês não usam tela. O nível atual de cada filho fica neste aparelho; o histórico e os recordes vão para a nuvem da família quando a conta está na família.</p>
     </section>
   </section>`;
 }
@@ -132,6 +136,7 @@ export function jogo(ctx, id) {
       <a class="btn pequeno" href="#jogos">Voltar aos jogos</a>
       <span class="jg-titulo">${esc(j.titulo)}</span>
       <span class="jg-nivel" id="jg-nivel" aria-live="polite"></span>
+      <span class="meta" id="jg-recorde" aria-live="polite"></span>
       <span class="meta" id="jg-resta"></span>
     </div>
     <div class="jg-painel" id="jg-painel">
@@ -166,17 +171,43 @@ jogos.ligar = async (root) => {
   seletor.addEventListener('change', () => { gravar('aci-jogos-limite', Number(seletor.value)); mostrarUso(); });
   mostrarUso();
 
-  const niveis = () => root.querySelectorAll('[data-nivel]').forEach((el) => { el.textContent = `Nível ${nivelDe(quem(), el.dataset.nivel)}`; });
   let filhos = [];
+  // Nível atual, recorde, jogos sugeridos e histórico do filho escolhido (nunca de dois filhos lado a lado).
+  const mostrarFilho = async () => {
+    root.querySelectorAll('[data-nivel]').forEach((el) => { el.textContent = `Nível ${nivelDe(quem(), el.dataset.nivel)}`; });
+    let partidas = [];
+    try { partidas = await arm.listarPartidas(quem()); } catch { /* sem histórico: mostra só o nível */ }
+    if (!root.isConnected) return;
+    root.querySelectorAll('[data-recorde]').forEach((el) => { const r = recorde(partidas, el.dataset.recorde); el.textContent = r ? `Recorde: nível ${r}` : ''; });
+    const anos = anosCompletos(filhos.find((f) => f.id === quem())?.nascimento);
+    const sug = recomendar(Object.values(JOGOS), partidas, anos);
+    root.querySelector('#jg-recomendados').innerHTML = sug.length ? `<p><strong>Sugeridos para hoje:</strong></p><ul>${sug.map((s) => `<li>${link(`jogo-${s.id}`, esc(JOGOS[s.id].titulo))}: ${esc(s.motivo)}</li>`).join('')}</ul>` : '';
+    root.querySelector('#jg-hist').innerHTML = historicoHTML(partidas);
+  };
   try { await arm.iniciar(); filhos = await arm.listarFilhos(); } catch { /* sem cadastro: joga como família */ }
   if (!root.isConnected) return;
   const opcoes = filhos.length ? filhos.map((f) => ({ id: f.id, nome: f.nome })) : [{ id: 'familia', nome: 'Família' }];
   if (!opcoes.some((o) => o.id === quem())) gravar('aci-jogos-quem', opcoes[0].id);
   caixa.innerHTML = opcoes.map((o) => `<label class="jg-chip"><input type="radio" name="jg-quem" value="${esc(o.id)}"${o.id === quem() ? ' checked' : ''}><span>${esc(o.nome)}</span></label>`).join('')
     + (filhos.length ? '' : `<span class="meta">Cadastre os filhos na aba ${link('infantil', 'Infantil')} para guardar o nível de cada um.</span>`);
-  caixa.addEventListener('change', (ev) => { gravar('aci-jogos-quem', ev.target.value); niveis(); });
-  niveis();
+  caixa.addEventListener('change', (ev) => { gravar('aci-jogos-quem', ev.target.value); mostrarFilho(); });
+  mostrarFilho();
 };
+
+const dataCurta = (ms) => new Date(ms).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+const pct = (x) => (x === null ? '—' : `${Math.round(x * 100)}%`);
+
+/** Evolução por jogo e as últimas partidas. O tempo não aparece: aqui conta acertar, não ser rápido. */
+function historicoHTML(partidas) {
+  const jogadas = partidas.filter((x) => x.acertos + x.erros > 0);
+  if (!jogadas.length) return '<p class="meta">Nenhuma partida registrada ainda para este filho.</p>';
+  const resumos = Object.values(JOGOS).map((j) => ({ j, r: resumoJogo(partidas, j.id) })).filter((x) => x.r.partidas);
+  return `<table class="inf-tabela"><caption class="meta">Por jogo (acertos das últimas 5 partidas)</caption><tr><th>Jogo</th><th>Partidas</th><th>Recorde</th><th>Acertos</th><th>Última vez</th></tr>
+    ${resumos.map(({ j, r }) => `<tr><td>${esc(j.titulo)}</td><td>${r.partidas}</td><td>Nível ${r.recorde}</td><td>${pct(r.precisao)}</td><td>${dataCurta(r.ultima)}</td></tr>`).join('')}</table>
+    <table class="inf-tabela"><caption class="meta">Últimas partidas</caption><tr><th>Quando</th><th>Jogo</th><th>Nível</th><th>Acertos</th><th>Erros</th></tr>
+    ${jogadas.slice(0, 12).map((x) => `<tr><td>${dataCurta(x.inicio)}</td><td>${esc(JOGOS[x.jogo]?.titulo ?? x.jogo)}</td><td>${x.nivelInicial} → ${x.nivelFinal} (máx. ${x.nivelMax})</td><td>${x.acertos}</td><td>${x.erros}</td></tr>`).join('')}</table>
+    <p class="meta">Velocidade não é inteligência: o histórico mostra nível e acertos. Use-o para ver o que reforçar, não para comparar irmãos.</p>`;
+}
 
 // ---------------------------------------------------------------- comportamento: uma partida
 
@@ -211,12 +242,34 @@ jogo.ligar = (root, ctx, id) => {
   let p = { ...progressoInicial(), ...progressoDe(filho)[id] };
   let rodada = null;
   let travado = false;
+  // Interesses do filho (figuras dos jogos) e partidas anteriores (recorde): carregam enquanto a capa aparece.
+  let interesses = [];
+  let anteriores = [];
+  let partida = null;
+  let gravadaEm = 0;
+  let avisouRecorde = false;
+  const carregando = (async () => {
+    try {
+      await arm.iniciar();
+      interesses = (await arm.listarFilhos()).find((f) => f.id === filho)?.interesses ?? [];
+      anteriores = await arm.listarPartidas(filho);
+    } catch { /* sem cadastro ou sem rede: joga com as figuras gerais */ }
+  })();
+  /** Grava a partida em andamento (no aparelho ou na nuvem da família); `ja` ignora o intervalo de 10 s. */
+  const gravarPartida = (ja = false) => {
+    if (!partida || partida.acertos + partida.erros === 0 || (!ja && Date.now() - gravadaEm < SALVAR_MS)) return;
+    gravadaEm = Date.now();
+    arm.salvarPartida(partida).catch(() => { gravadaEm = 0; }); // tenta de novo na próxima resposta
+  };
+  const aoEsconder = () => { if (document.hidden) gravarPartida(true); };
+  document.addEventListener('visibilitychange', aoEsconder);
 
   const salvar = () => gravar(`aci-jogos-prog-${filho}`, { ...progressoDe(filho), [id]: p });
   const mostrarNivel = () => { nivelEl.innerHTML = `Nível ${p.nivel}<span class="jg-luzes" aria-hidden="true">${[0, 1, 2].map((i) => `<i${i < p.seguidos ? ' class="acesa"' : ''}></i>`).join('')}</span>`; };
 
   const nova = () => {
-    rodada = j.rodada(p.nivel);
+    partida ??= { id: crypto.randomUUID(), filho, jogo: id, inicio: Date.now(), fim: Date.now(), nivelInicial: p.nivel, nivelFinal: p.nivel, nivelMax: p.nivel, acertos: 0, erros: 0 };
+    rodada = j.rodada(p.nivel, Math.random, { interesses });
     painel.innerHTML = `<button class="jg-ouvir" type="button" id="jg-ouvir" aria-label="Ouvir a pergunta de novo"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       <p class="jg-pergunta">${esc(rodada.texto)}</p>
       ${mostrarHTML(id, rodada)}
@@ -234,6 +287,13 @@ jogo.ligar = (root, ctx, id) => {
     const antes = p.nivel;
     p = ajustar(p, acertou);
     salvar();
+    partida = anotarResposta(partida, acertou, p.nivel);
+    gravarPartida();
+    const anterior = recorde(anteriores, id, partida.id);
+    if (!avisouRecorde && anterior > 0 && partida.nivelMax > anterior) {
+      avisouRecorde = true; // um aviso discreto por partida, sem festa
+      root.querySelector('#jg-recorde').textContent = `Novo recorde pessoal: nível ${partida.nivelMax}`;
+    }
     painel.querySelectorAll('.jg-opcoes .jg-vidro').forEach((b) => { b.disabled = true; });
     if (acertou) {
       botao.classList.add('certa');
@@ -259,8 +319,10 @@ jogo.ligar = (root, ctx, id) => {
     const b = ev.target.closest('.jg-opcoes .jg-vidro');
     if (b) responder(b);
   });
-  root.querySelector('#jg-comecar').addEventListener('click', () => {
+  root.querySelector('#jg-comecar').addEventListener('click', async () => {
     if (descansoAberto()) return;
+    await carregando;
+    if (!root.isConnected) return;
     nova();
     root.querySelector('.jg-barra').scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   });
@@ -278,7 +340,7 @@ jogo.ligar = (root, ctx, id) => {
   };
   let ultimo = Date.now();
   const relogio = setInterval(() => {
-    if (!root.isConnected) { clearInterval(relogio); globalThis.speechSynthesis?.cancel(); return; }
+    if (!root.isConnected) { clearInterval(relogio); globalThis.speechSynthesis?.cancel(); gravarPartida(true); document.removeEventListener('visibilitychange', aoEsconder); return; }
     const agora = Date.now();
     if (!document.hidden && !descansoAberto()) somarTempo(Math.min(agora - ultimo, 5000));
     ultimo = agora;
