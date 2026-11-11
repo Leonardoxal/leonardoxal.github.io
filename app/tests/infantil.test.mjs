@@ -603,6 +603,14 @@ test('guia por etapa: as seis faixas do projeto, sem buracos, e na tela', async 
   assert.match(infantil(), /Guia por etapa/);
 });
 
+test('desenho livre: janela na aba Jogos e tela com cores e ideias', async () => {
+  const { desenhar, IDEIAS } = await import('../views/desenho.js');
+  assert.match(jogos(), /href="#desenhar"/);
+  const html = desenhar();
+  assert.match(html, /<canvas id="dz-tela"/);
+  assert.ok(IDEIAS.length >= 5 && html.includes(IDEIAS[0]));
+});
+
 test('fora da tela e reforço por habilidade', async () => {
   const { BRINCADEIRAS } = await import('../infantil/jogos.js');
   const { textoReforcoIA } = await import('../infantil/prompt.js');

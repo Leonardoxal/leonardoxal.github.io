@@ -666,6 +666,11 @@ details > summary { cursor: pointer; }
 .jg-historico .inf-tabela { font-size: .92rem; }
 .jg-obs { width: 100%; min-width: 12em; font: inherit; padding: 4px 6px; border: 1px solid var(--linha); border-radius: 6px; background: var(--superficie); color: var(--tinta); }
 .jg-obs.salvo { border-color: var(--ouro); }
+.jg-tema-desenho { --jg-cor: #b0457a; }
+.dz-ferr { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 10px; }
+.dz-cor { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--linha); cursor: pointer; }
+.dz-cor.ativa, .dz-pincel.ativa { outline: 3px solid var(--ouro); outline-offset: 2px; }
+.dz-tela { display: block; width: 100%; border-radius: 12px; border: 3px solid var(--linha); background: #fff; touch-action: none; cursor: crosshair; }
 .jg-fora { padding-left: 1.2em; }
 .jg-fora li { margin: .5em 0; }
 @media (max-width: 560px) { .jg-historico { overflow-x: auto; } }

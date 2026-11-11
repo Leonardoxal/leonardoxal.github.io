@@ -122,6 +122,7 @@ const DESENHO_CAPA = {
   musica: '<text x="80" y="170" text-anchor="middle" font-size="52">🎵</text>',
   geografia: '<text x="80" y="170" text-anchor="middle" font-size="52">🌎</text>',
   leitura: '<text x="80" y="170" text-anchor="middle" font-size="52">📖</text>',
+  desenho: '<text x="80" y="170" text-anchor="middle" font-size="52">🎨</text>',
   silabas: '<text x="80" y="168" text-anchor="middle" class="q" style="font-size:40px">CA__</text>',
   estrategia: '<text x="80" y="166" text-anchor="middle" font-size="30">⚪⚪⚪</text><text x="80" y="196" text-anchor="middle" font-size="30">⚪⚪</text>',
 };
@@ -144,7 +145,8 @@ export function jogos() {
     </header>
     <div class="jg-janelas">${Object.values(JOGOS).map((j) => `<a class="jg-janela jg-tema-${j.id}" href="#jogo-${j.id}">
       ${capa(j.id)}
-      <span class="jg-janela-txt"><strong>${esc(j.titulo)}</strong><span>${esc(j.area)} · ${j.idade[0]} a ${j.idade[1]} anos</span><span class="jg-nivel-capa" data-nivel="${j.id}">Nível 1</span><span class="meta" data-recorde="${j.id}"></span></span></a>`).join('')}</div>
+      <span class="jg-janela-txt"><strong>${esc(j.titulo)}</strong><span>${esc(j.area)} · ${j.idade[0]} a ${j.idade[1]} anos</span><span class="jg-nivel-capa" data-nivel="${j.id}">Nível 1</span><span class="meta" data-recorde="${j.id}"></span></span></a>`).join('')}
+      <a class="jg-janela jg-tema-desenho" href="#desenhar">${capa('desenho')}<span class="jg-janela-txt"><strong>Desenho livre</strong><span>Artes · 2 a 15 anos</span><span class="meta">sem nível nem placar</span></span></a></div>
     <section class="inf-caixa jg-pais" aria-labelledby="jg-pais-titulo">
       <h2 id="jg-pais-titulo">Para os pais</h2>
       <fieldset class="jg-quem"><legend>Quem vai jogar?</legend><div id="jg-filhos" class="jg-chips"></div></fieldset>
