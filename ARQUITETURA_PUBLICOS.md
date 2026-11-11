@@ -6,13 +6,13 @@ A Academia da Verdade atende dois públicos no mesmo site: a formação infantil
 
 | Camada | Formação adulta | Formação infantil e juvenil |
 |---|---|---|
-| Telas | `app/views/` (painel, curso, biblioteca, mediateca, avaliações…) | `app/views/infantil.js`, `jogos.js`, `assistir.js` |
+| Telas | `app/views/` (painel, curso, biblioteca, mediateca, avaliações, idiomas…) | `app/views/infantil.js`, `jogos.js`, `assistir.js`, `desenho.js` |
 | Lógica | `app/core.js`, `app/data/` | `app/infantil/` (jogos, histórico, registro, séries, prompt, mídia) |
 | Catálogo | `data/livros.js` (acervo), `data/mediateca.js` (obras) | `infantil/livros.js`, `infantil/midia.js`, `infantil/aulas.js` |
 | Dados pessoais | tabela `progresso` (uma linha por membro e parte, RLS por `user_id`) | tabelas `aci_*` (por família, RLS por `aci_na_familia()`) e pasta privada `aci-tarefas` |
 | Sem login | `localStorage` (`academia-verdade-*`) | IndexedDB `aci-tarefas` e `localStorage` (`aci-*`) |
 
-Rotas infantis: `#infantil`, `#infantil-<aula>`, `#jogos`, `#jogo-<id>`, `#assistir`, `#assistir-<obra>`, `#acompanhar-<filho>.<id>`. As demais rotas são da formação adulta.
+Rotas infantis: `#infantil`, `#infantil-<aula>`, `#jogos`, `#jogo-<id>`, `#desenhar`, `#assistir`, `#assistir-<obra>`, `#acompanhar-<filho>.<id>`. As demais rotas são da formação adulta.
 
 ## Regras que mantêm a separação
 
