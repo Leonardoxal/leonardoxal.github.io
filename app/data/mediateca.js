@@ -197,7 +197,8 @@ export const METODOS_POR_FORMATO = {
     depois: 'Junte o que achou com o que já sabia e diga o que a fonte permite e o que não permite concluir.',
     evidencia: 'A resposta à pergunta, com as referências dos itens consultados.' },
 };
-export const metodoDaCategoria = (categoria) => Object.values(METODOS_POR_FORMATO).find((m) => m.categorias.includes(categoria)) ?? null;
+export const formatoDaCategoria = (categoria) => Object.keys(METODOS_POR_FORMATO).find((k) => METODOS_POR_FORMATO[k].categorias.includes(categoria)) ?? null;
+export const metodoDaCategoria = (categoria) => METODOS_POR_FORMATO[formatoDaCategoria(categoria)] ?? null;
 
 /**
  * Possíveis duplicatas para revisão humana: obras com o mesmo título (sem acentos, pontuação nem artigo inicial)

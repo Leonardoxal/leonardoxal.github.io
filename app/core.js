@@ -86,6 +86,7 @@ export function estadoInicial(agora = Date.now()) {
     tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]
     discursivas: {},  // itemId -> { texto, criterios: bool[], data }
     livros: {},       // id -> { estado, paginas, paginaAtual, inicio, fim, prioridade, edicao }
+    fichas: {},       // 'livro:<id>' -> { campo: texto } (ficha de estudo da obra, só deste membro)
     idiomas: {},      // id da língua -> nível que o próprio estudante declarou (ex.: 'B1 (Intermediário)')
     pessoais: [],     // biblioteca pessoal (só deste membro): { id, titulo, autor, tipo, edicao, obra (livro do acervo de que é edição), estado, paginas, paginaAtual, criada }
     notas: [],        // { id, titulo, texto, tipo, vinculo: {tipo, id}, pagina, criada, editada }
@@ -148,6 +149,8 @@ function sanearEstado(e) {
       .map((t) => ({ ...t, acertos: num(t?.acertos), total: num(t?.total), pct: num(t?.pct), data: num(t?.data) }))])),
     favoritos: e.favoritos.filter(idSeguro),
     pessoais: itens(e.pessoais).map(sanearPessoal).filter((p) => p.titulo),
+    fichas: Object.fromEntries(Object.entries(chavesSeguras(e.fichas)).filter(([, f]) => f && typeof f === 'object' && !Array.isArray(f))
+      .map(([k, f]) => [k, Object.fromEntries(Object.entries(chavesSeguras(f)).filter(([, v]) => typeof v === 'string').map(([c, v]) => [c, v.slice(0, 4000)]))])),
     idiomas: Object.fromEntries(Object.entries(chavesSeguras(e.idiomas)).filter(([, v]) => typeof v === 'string').map(([k, v]) => [k, v.slice(0, 60)])),
     notas: itens(e.notas).map((n) => (n.vinculo ? { ...n, vinculo: alvoSeguro(n.vinculo) } : n)),
     sessoes: itens(e.sessoes).map((s) => ({ ...s, minutos: num(s.minutos), inicio: num(s.inicio), ...(s.alvo ? { alvo: alvoSeguro(s.alvo) } : {}) })),

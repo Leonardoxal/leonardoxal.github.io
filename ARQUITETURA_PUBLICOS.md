@@ -47,6 +47,8 @@ Nenhuma migração de dados é necessária: os dois públicos já gravam em tabe
 
 ## O que depende de revisão profissional
 
+Em que se apoia cada recurso, e com que força, está em `FUNDAMENTOS_PEDAGOGICOS.md`.
+
 - A sequência dos jogos, as fichas de filmes e séries, os critérios por área e os textos para IA são propostas da Academia. Não foram validados por pedagogos, psicólogos ou especialistas. Recomenda-se essa revisão antes de uso institucional.
 - A classificação oficial das obras (ClassInd) está marcada "a conferir" em cada ficha.
 - A estrutura de episódios e a marcação de fillers vêm da família, conferidas na fonte oficial. O site não inventa episódios.

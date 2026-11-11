@@ -3,11 +3,16 @@
 
 create table if not exists public.progresso (
   user_id    uuid        not null default auth.uid() references auth.users (id) on delete cascade,
-  parte      text        not null check (parte in ('nucleo', 'notas', 'sessoes', 'revisoes', 'respostas')),
+  parte      text        not null check (parte in ('nucleo', 'notas', 'sessoes', 'revisoes', 'respostas', 'fichas')),
   dados      jsonb       not null,
   atualizado timestamptz not null default now(),
   primary key (user_id, parte)
 );
+
+-- Para bancos criados antes da parte 'fichas' (o create acima não altera tabela existente):
+alter table public.progresso drop constraint if exists progresso_parte_check;
+alter table public.progresso add constraint progresso_parte_check
+  check (parte in ('nucleo', 'notas', 'sessoes', 'revisoes', 'respostas', 'fichas'));
 
 -- Cada usuário só enxerga e altera as próprias linhas.
 alter table public.progresso enable row level security;

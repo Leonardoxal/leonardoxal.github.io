@@ -6,6 +6,7 @@ import { pctLivro, normalizar, comprovacaoLivro, TIPOS_PESSOAL } from '../core.j
 import { transicaoHTML, comprovacaoHTML, ligarComprovacao } from './ficha.js';
 import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast, novoId } from '../ui.js';
 import { conexoesLivro, notasDe } from './conexoes.js';
+import { fichaObraHTML, ligarFichaObra } from './ficha-obra.js';
 
 const FILTROS_VAZIOS = { q: '', autor: '', area: '', nivel: '', modulo: '', estado: '', prioridade: '', fav: false };
 let filtros = { ...FILTROS_VAZIOS };
@@ -163,6 +164,7 @@ export function livro({ estado }, id) {
     </section>
   </div>
   ${comprovacaoHTML(estado, id)}
+  ${fichaObraHTML(estado, `livro:${id}`, 'livros')}
   ${conexoesLivro(estado, id)}
   <section><h2>Anotações deste livro (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong>${n.pagina ? ` <span class="meta">${esc(n.pagina)}</span>` : ''}<p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`;
 }
@@ -193,5 +195,6 @@ livro.ligar = (root, ctx, id) => {
     if (!bloqueado) toast('Leitura salva.');
   });
   ligarComprovacao(root, ctx, id);
+  ligarFichaObra(root, ctx);
   root.querySelector('[data-acao="nota-livro"]').addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${livroPorId[id].titulo}`));
 };

@@ -15,8 +15,9 @@ import { nuvemConfigurada, clienteNuvem, usuarioNuvem, refsNuvem, sair } from '.
 const CHAVE_LOCAL = 'academia-verdade-estado-v1';
 const CHAVE_BASE = 'academia-verdade-base-conta';
 const PARTES = {
-  nucleo: (e) => { const { notas, sessoes, revisoes, tentativas, discursivas, ...resto } = e; return resto; },
+  nucleo: (e) => { const { notas, sessoes, revisoes, tentativas, discursivas, fichas, ...resto } = e; return resto; },
   notas: (e) => ({ itens: e.notas }),
+  fichas: (e) => ({ itens: e.fichas }), // fichas de estudo podem crescer: parte própria, fora do limite do núcleo
   sessoes: (e) => ({ itens: e.sessoes }),
   revisoes: (e) => ({ itens: e.revisoes }),
   respostas: (e) => ({ tentativas: e.tentativas, discursivas: e.discursivas }),
@@ -25,7 +26,7 @@ const LIMITE_DOC = 250 * 1024;
 
 const juntar = (docs) => normalizarEstado({
   ...(docs.nucleo || {}),
-  notas: docs.notas?.itens, sessoes: docs.sessoes?.itens, revisoes: docs.revisoes?.itens,
+  notas: docs.notas?.itens, sessoes: docs.sessoes?.itens, revisoes: docs.revisoes?.itens, fichas: docs.fichas?.itens,
   tentativas: docs.respostas?.tentativas, discursivas: docs.respostas?.discursivas,
 });
 

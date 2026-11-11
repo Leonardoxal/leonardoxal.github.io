@@ -6,6 +6,7 @@ import { aulaPorId } from '../data/aulas/index.js';
 import { normalizar, MIN_ANALISE_OBRA, analiseDaObra, chaveComprovacao } from '../core.js';
 import { esc, link, linkExterno, botaoFav, fmtData, toast, ESTADOS_LIVRO } from '../ui.js';
 import { notasDe } from './conexoes.js';
+import { fichaObraHTML, ligarFichaObra } from './ficha-obra.js';
 
 const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
@@ -126,6 +127,7 @@ obra.ligar = (root, ctx, id) => {
     if (!bloqueado) toast('Salvo.');
   });
   root.querySelector('[data-acao="nota-obra"]')?.addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${obraPorId[id].titulo}`));
+  ligarFichaObra(root, ctx);
 };
 
 export function obra({ estado }, id) {
@@ -148,6 +150,7 @@ export function obra({ estado }, id) {
     <p class="meta">Início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
     <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro</button><button class="btn" data-acao="nota-obra">Nova nota desta obra</button></div>
   </section>
+  ${fichaObraHTML(estado, `livro:${id}`, o.categoria)}
   <section><h2>Anotações desta obra (${notas.length})</h2>${notas.length ? `<ul class="lista-notas">${notas.map((n) => `<li><a href="#nota-${n.id}"><strong>${esc(n.titulo || 'Sem título')}</strong><p>${esc((n.texto || '').slice(0, 180))}</p></a></li>`).join('')}</ul>` : '<p class="meta">Nenhuma anotação ainda.</p>'}</section>`}
   ${o.livro ? `<p>${link(`livro-${o.livro}`, 'Abrir a ficha completa do livro no acervo', 'btn primario')}</p>` : ''}
   <div class="tabela-wrap"><table><tbody>

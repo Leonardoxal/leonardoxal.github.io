@@ -732,7 +732,7 @@ const memoria = () => { const m = new Map(); return { getItem: (k) => (m.has(k) 
 /** Banco compartilhado entre "aparelhos", no formato get() → { exists, data() } e set(corpo). */
 const bancoEmMemoria = () => {
   const docs = new Map();
-  const refs = Object.fromEntries(['nucleo', 'notas', 'sessoes', 'revisoes', 'respostas'].map((p) => [p, {
+  const refs = Object.fromEntries(['nucleo', 'notas', 'sessoes', 'revisoes', 'respostas', 'fichas'].map((p) => [p, {
     get: async () => ({ exists: docs.has(p), data: () => structuredClone(docs.get(p)) }),
     set: async (corpo) => { docs.set(p, structuredClone(corpo)); },
   }]));
@@ -791,6 +791,18 @@ test('store: alteração ainda não enviada à conta sobrevive ao reabrir o app'
   await noAparelho(ls, async () => { await s2.conectar(); await s2.enviarAgora(); });
   assert.equal(s2.estado.aulas['m1-2']?.status, 'concluida', 'a cópia local mais nova não foi apagada');
   assert.ok(banco.docs.get('nucleo').aulas['m1-2'], 'e foi enviada à conta');
+});
+
+test('store: fichas de estudo vão numa parte própria e voltam ao reabrir', async () => {
+  const { criarStore } = await import('../store.js');
+  const banco = bancoEmMemoria();
+  const s = await noAparelho(memoria(), () => criarStore(() => {}, () => {}, async () => banco.refs));
+  await noAparelho(memoria(), async () => { await s.conectar(); s.set((e) => ({ ...e, fichas: { 'livro:x': { tese: 'T' } } })); await s.enviarAgora(); });
+  assert.deepEqual(banco.docs.get('fichas'), { itens: { 'livro:x': { tese: 'T' } } });
+  assert.equal(banco.docs.get('nucleo').fichas, undefined, 'fora do núcleo, que tem limite de tamanho');
+  const outro = await noAparelho(memoria(), () => criarStore(() => {}, () => {}, async () => banco.refs));
+  await noAparelho(memoria(), () => outro.conectar());
+  assert.equal(outro.estado.fichas['livro:x'].tese, 'T');
 });
 
 test('store: aparelho desatualizado não sobrescreve o progresso salvo por outro', async () => {
@@ -1030,4 +1042,20 @@ test('idiomas: sete línguas, nível do estudante saneado e tela com a aba do Ma
   const html = idiomas({ estado: e });
   assert.match(html, /aria-current="page">Idiomas/);
   assert.match(html, /meu nível: Leitura inicial/);
+});
+
+test('ficha de estudo da obra: campos por formato, distinções sempre, estado saneado', async () => {
+  const { camposFicha, fichaObraHTML } = await import('../views/ficha-obra.js');
+  const { normalizarEstado } = await import('../core.js');
+  const nomes = (c) => camposFicha(c).map(([k]) => k);
+  for (const c of ['livros', 'cinema', 'pintura', 'musica', 'palestras', 'cursos', 'mapas']) {
+    assert.ok(['declarou', 'naObra', 'academica', 'minha', 'hipoteses'].every((k) => nomes(c).includes(k)), `${c}: distinções`);
+  }
+  assert.ok(nomes('cinema').includes('personagens') && !nomes('livros').includes('personagens'), 'filme e livro têm campos próprios');
+  assert.ok(nomes('pintura').includes('simbolos'));
+  const e = normalizarEstado({ v: 3, fichas: { 'livro:x': { tese: 'T', naObra: 5, 'mal<': 'z' }, 'ruim<': { tese: 'a' }, 'livro:y': 'texto' } });
+  assert.deepEqual(e.fichas, { 'livro:x': { tese: 'T' } });
+  const html = fichaObraHTML({ fichas: { 'livro:x': { tese: '<b>' } } }, 'livro:x', 'livros');
+  assert.match(html, /1 de 7 campos/);
+  assert.ok(!html.includes('<b>'), 'texto escapado');
 });
