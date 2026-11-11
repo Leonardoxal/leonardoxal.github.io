@@ -12,7 +12,8 @@ import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
 import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
-import { INTERESSES, resumoJogo } from '../infantil/historico.js';
+import { INTERESSES, resumoJogo, recomendar, anosCompletos } from '../infantil/historico.js';
+import { proximo as proximoEpisodio } from '../infantil/series.js';
 import { OBSERVACOES, textoParaIA } from '../infantil/prompt.js';
 import { JOGOS } from '../infantil/jogos.js';
 import { AREAS, SITUACOES, ORIGENS, situacaoAtual, proximosPassos } from '../infantil/registro.js';
@@ -375,6 +376,19 @@ function filhosHTML(filhos, extras) {
   }).join('');
 }
 
+/** No cartão "Continuar" de cada filho: jogos sugeridos (pela idade e pelo histórico) e séries em andamento. */
+async function completarProximas(root, filhos) {
+  for (const alvo of root.querySelectorAll('[data-mais]')) {
+    const f = filhos.find((x) => x.id === alvo.dataset.mais);
+    if (!f) continue;
+    let partidas = []; let series = [];
+    try { [partidas, series] = await Promise.all([arm.listarPartidas(f.id), arm.listarSeries(f.id)]); } catch { /* sem histórico: só a aula */ }
+    const jogos = recomendar(Object.values(JOGOS), partidas, anosCompletos(f.nascimento));
+    const andamento = series.filter((s) => proximoEpisodio(s.dados));
+    alvo.innerHTML = `${jogos.length ? `<p>Jogos sugeridos: ${jogos.map((j) => link(`jogo-${j.id}`, esc(JOGOS[j.id].titulo))).join(', ')}.</p>` : ''}${andamento.length ? `<p>Assistindo: ${andamento.map((s) => `${link(`acompanhar-${f.id}.${s.id}`, esc(s.titulo))} (episódio ${proximoEpisodio(s.dados)})`).join(', ')}.</p>` : ''}`;
+  }
+}
+
 /** Por filho: próximos passos (reavaliar ou reforçar) e a situação atual de cada habilidade registrada. */
 async function desenharHabilidades(root, filhos) {
   const alvo = root.querySelector('#inf-habilidades');
@@ -410,7 +424,9 @@ infantil.ligar = (root) => {
       <h2>Continuar: ${esc(nomeDe(filhos, p.filho, p.para))}</h2>
       <p class="meta">${p.feitas} de ${p.total} aulas feitas</p>
       ${p.proxima ? `<p>Próxima aula: <strong>${link(`infantil-${p.proxima.data}`, esc(p.proxima.titulo))}</strong> <span class="chip">${dataBR(p.proxima.data)}</span></p>` : '<p>Todas as aulas publicadas já foram feitas. A próxima semana de aulas chega em breve.</p>'}
+      <div data-mais="${esc(p.filho)}"></div>
     </div>`).join('');
+    await completarProximas(root, filhos);
     for (const a of AULAS_INFANTIL) {
       const para = root.querySelector(`[data-para="${a.data}"]`);
       if (para && a.filho) para.textContent = `Para: ${nomeDe(filhos, a.filho, a.para || a.filho)}`;
