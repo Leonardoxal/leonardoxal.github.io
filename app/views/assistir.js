@@ -98,7 +98,7 @@ export function obraInfantil(_ctx, id) {
     <h2>Para conversar depois</h2><ul>${m.perguntas.map((q) => `<li>${esc(q)}</li>`).join('')}</ul>
     <p class="meta">Temas: ${esc(m.temas.join(', '))}. Liga-se a: ${esc(m.disciplinas.join(', '))}.</p>
     ${m.acompanhar ? `<div class="inf-acoes"><label class="campo"><span>Acompanhar com</span><select id="as-quem"><option value="">Escolha o filho</option></select></label><button class="btn primario" type="button" id="as-acompanhar">Acompanhar os episódios</button></div>` : ''}
-    <p class="meta">${esc(m.fontes)}</p>
+    <p class="meta">${esc(m.fontes)}${m.conferido ? ` ${esc(m.conferido)}` : ''}</p>
   </section>`;
 }
 

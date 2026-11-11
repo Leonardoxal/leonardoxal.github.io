@@ -91,8 +91,8 @@ Os backups antigos continuam abrindo.
 ## 8. O que depende de revisão profissional
 
 - A sequência dos jogos, os critérios de domínio, o guia por etapa e os textos para IA, por pedagogo.
-- As fichas de filmes e séries: a idade é da Academia, e a classificação oficial (ClassInd) está "a conferir". As fichas de Naruto e de Fullmetal foram escritas de memória e devem ser revistas.
-- As 27 capitais do jogo de geografia, a conferir na lista do IBGE.
+- As fichas de filmes e séries: a idade é da Academia, e a classificação oficial (ClassInd) continua "a conferir", porque o portal público de consulta do Ministério da Justiça não respondeu. Os fatos de enredo, as datas e o número de episódios de Naruto e Fullmetal foram conferidos em fontes de referência em novembro de 2026. A leitura moral continua sendo interpretação da Academia.
+- As 27 capitais do jogo de geografia foram conferidas com listas de referência; vale uma última olhada na lista do IBGE.
 - Os textos de doutrina, revistos com o critério do projeto.
 
 ## 9. Limitações técnicas

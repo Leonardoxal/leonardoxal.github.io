@@ -15,7 +15,8 @@ export const PERCURSOS = {
   heroi: 'Herói que persevera', crescimento: 'Cresce e amadurece', redencao: 'Arrependimento e reparação mostrados na história',
   ambiguo: 'Muda de lado, sem arrependimento mostrado', 'sem-arrependimento': 'Não se arrepende',
 };
-const OFICIAL = 'A conferir na ClassInd (Ministério da Justiça).';
+// O portal público de consulta da ClassInd não respondeu na conferência de novembro de 2026; por isso nenhuma faixa oficial foi copiada.
+const OFICIAL = 'A conferir: a plataforma de streaming ou a distribuidora no Brasil costuma mostrar a classificação da ClassInd (Ministério da Justiça).';
 const FONTES = 'Ficha escrita pela Academia a partir da obra. Confira ano, criadores e classificação oficial na ClassInd e na distribuidora.';
 
 export const MIDIA_INFANTIL = [
@@ -111,7 +112,8 @@ export const MIDIA_INFANTIL = [
     disciplinas: ['Formação moral', 'História (guerra e paz)', 'Geografia'],
   },
   {
-    id: 'naruto', titulo: 'Naruto', tipo: 'anime', criador: 'Masashi Kishimoto (mangá); anime do Studio Pierrot', ano: 'mangá 1999-2014', idade: 12, acompanhar: true,
+    id: 'naruto', titulo: 'Naruto', tipo: 'anime', criador: 'Masashi Kishimoto (mangá); anime do Studio Pierrot', ano: 'mangá 1999-2014; anime 2002-2007 (220 episódios) e Shippuden 2007-2017 (500 episódios)', idade: 12, acompanhar: true,
+    conferido: 'Datas, número de episódios e os fatos de enredo citados (a morte do Terceiro Hokage no ataque de Orochimaru, a mudança de Gaara até se tornar Kazekage) conferidos em fontes de referência em novembro de 2026.',
     adequacao: { violencia: 3, psicologica: 2, sexual: 2, linguagem: 1, terror: 2, emocional: 2, moral: 3 },
     obra: 'Um órfão, rejeitado na aldeia por carregar dentro de si uma raposa demoníaca, quer ser reconhecido e tornar-se o líder da vila. Treina como ninja, faz amigos e enfrenta inimigos poderosos.',
     temas: ['perseverança', 'amizade', 'rejeição', 'vingança', 'sacrifício', 'proteção dos outros'],
@@ -126,7 +128,8 @@ export const MIDIA_INFANTIL = [
     disciplinas: ['Formação moral', 'Literatura (narrativa)', 'Geografia (Japão)'],
   },
   {
-    id: 'fma-brotherhood', titulo: 'Fullmetal Alchemist: Brotherhood', tipo: 'anime', criador: 'Hiromu Arakawa (mangá); anime do estúdio Bones', ano: '2009-2010', idade: 14, acompanhar: true,
+    id: 'fma-brotherhood', titulo: 'Fullmetal Alchemist: Brotherhood', tipo: 'anime', criador: 'Hiromu Arakawa (mangá); anime do estúdio Bones', ano: '2009-2010 (64 episódios)', idade: 14, acompanhar: true,
+    conferido: 'Datas, número de episódios, os nomes dos homúnculos, o caso de Shou Tucker e o percurso de Scar conferidos em fontes de referência em novembro de 2026.',
     adequacao: { violencia: 3, psicologica: 3, sexual: 1, linguagem: 1, terror: 3, emocional: 3, moral: 3 },
     obra: 'Dois irmãos tentam trazer a mãe morta de volta pela alquimia e pagam caro: um perde partes do corpo, o outro o corpo inteiro. Buscam um meio de reparar o erro e descobrem uma conspiração no próprio país.',
     temas: ['limites da ciência', 'soberba', 'sacrifício', 'culpa e reparação', 'guerra', 'os sete pecados capitais'],
