@@ -1,5 +1,5 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
-import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
+import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, metodoDaCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
@@ -69,6 +69,15 @@ export function mediateca(_ctx, id = '') {
   <ul class="lista-busca">${lista.slice(0, filtro.limite).map((o) => `<li><span class="chip">${esc(CATEGORIAS[o.categoria])}</span> ${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador)}${o.data ? ` (${esc(o.data)})` : ''}${o.fontes.length > 1 ? ` <span class="meta">${o.fontes.length} fontes</span>` : ''}</li>`).join('')}</ul>
   ${lista.length > filtro.limite ? `<button class="btn" id="m-mais">Mostrar mais ${Math.min(POR_PAGINA, lista.length - filtro.limite)}</button>` : ''}
   ${duplicatasHTML()}`;
+}
+
+/** Como estudar esta obra, conforme o formato (proposta da Academia). */
+function metodoHTML(categoria) {
+  const m = metodoDaCategoria(categoria);
+  if (!m) return '';
+  return `<section><h2>Como estudar: ${esc(m.nome.toLocaleLowerCase('pt-BR'))}</h2>
+    <dl class="ficha"><dt>Antes</dt><dd>${esc(m.antes)}</dd><dt>Durante</dt><dd>${esc(m.durante)}</dd><dt>Depois</dt><dd>${esc(m.depois)}</dd><dt>Mostra que entendeu</dt><dd>${esc(m.evidencia)}</dd></dl>
+    <p class="meta">Método proposto pela Academia para este formato; não é regra de nenhum autor citado.</p></section>`;
 }
 
 /** Lista para revisão humana: mesmo título em registros separados. Nada é fundido sozinho. */
@@ -159,6 +168,7 @@ export function obra({ estado }, id) {
     ${linha('Acesso', o.link ? linkExterno(o.link) : NAO_INFORMADO)}
     ${linha('Direitos e acesso', campo(o.direitos))}
   </tbody></table></div>
+  ${metodoHTML(o.categoria)}
   <section><h2>Fontes (${o.fontes.length})</h2><ul class="lista-curta">${o.fontes.map((f) => `<li>${esc(FONTES[f.fonte] || f.fonte)}${f.nota ? ` — ${esc(f.nota)}` : ''}${f.url ? ` ${linkExterno({ url: f.url, rotulo: 'ver a fonte' })}` : ''}</li>`).join('')}</ul></section>
   ${o.aulas.length ? `<section><h2>Aulas que citam esta obra</h2><ul class="lista-curta">${o.aulas.map((a) => `<li>${link(`aula-${a}`, `${esc(a)} — ${esc(aulaPorId[a]?.titulo || '')}`)}</li>`).join('')}</ul></section>` : ''}
   ${o.relacoes.length ? `<section><h2>Obras relacionadas</h2><ul class="lista-curta">${o.relacoes.map((r) => `<li>${esc(RELACOES_OBRA[r.tipo] || r.tipo)}: ${obraPorId[r.obra] ? link(`obra-${r.obra}`, esc(obraPorId[r.obra].titulo)) : esc(r.obra)}</li>`).join('')}</ul></section>` : ''}`;

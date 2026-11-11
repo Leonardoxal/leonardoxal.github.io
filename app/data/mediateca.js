@@ -157,6 +157,49 @@ export const obrasObrigatorias = (modulos) => OBRAS.filter((o) => !o.livro && o.
 export const obrasDoDegrau = (degrau) => obrasObrigatorias(degrau.modulos);
 export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
 /**
+ * Método de estudo por formato: cada tipo de obra pede um modo próprio de estudar (proposta pedagógica da Academia,
+ * não regra de autor citado). Antes, durante e depois, e a evidência que mostra que a obra foi compreendida.
+ */
+export const METODOS_POR_FORMATO = {
+  texto: { categorias: ['livros', 'artigos', 'documentos-historicos', 'cartas'], nome: 'Texto escrito',
+    antes: 'Leia o índice, a introdução e a conclusão; anote o que espera encontrar e o contexto (autor, data, a quem escreve).',
+    durante: 'Marque a tese de cada parte, os termos que o autor define e os argumentos; separe o que o autor afirma do que você pensa.',
+    depois: 'Resuma com palavras próprias, liste as perguntas que ficaram e compare com outra obra sobre o mesmo tema.',
+    evidencia: 'Um resumo de uma página e a reconstrução do argumento principal em passos.' },
+  audiovisual: { categorias: ['cinema', 'documentarios', 'curtas', 'series'], nome: 'Filme, documentário ou série',
+    antes: 'Saiba o contexto da produção (diretor, ano, país) sem ler a crítica antes; se for documentário, veja quem produziu e com que fontes.',
+    durante: 'Anote as cenas que decidem a história, as escolhas dos personagens e os recursos de linguagem (enquadramento, música, montagem).',
+    depois: 'Separe o que a obra mostra do que é interpretação; num documentário, confira as afirmações em fontes independentes. Em séries, faça isso por arco, não por episódio.',
+    evidencia: 'Uma análise de uma cena e das escolhas de um personagem, com as consequências na história.' },
+  musica: { categorias: ['musica', 'gravacoes', 'concertos', 'compositores', 'opera', 'bale', 'teatro'], nome: 'Música e artes da cena',
+    antes: 'Leia sobre a forma (missa, sinfonia, canto gregoriano, ópera, peça de teatro), a época e, se houver, o texto cantado ou falado.',
+    durante: 'Ouça mais de uma vez: primeiro inteira, depois por partes, seguindo a forma, os temas e os instrumentos.',
+    depois: 'Descreva o que ouviu com termos próprios da música e, se for música sacra, o lugar dela na liturgia.',
+    evidencia: 'Uma descrição da estrutura da peça e do efeito de uma passagem escolhida.' },
+  visual: { categorias: ['pintura', 'escultura', 'fotografia', 'arquitetura'], nome: 'Artes visuais e arquitetura',
+    antes: 'Saiba o autor, a data, o lugar e para que a obra foi feita (altar, palácio, igreja, museu).',
+    durante: 'Descreva antes de interpretar: composição, luz, cor, materiais; depois, os símbolos e as cenas representadas.',
+    depois: 'Relacione a obra à época e ao seu uso; numa igreja, ao espaço litúrgico.',
+    evidencia: 'Uma descrição organizada (do conjunto ao detalhe) e a identificação dos símbolos com a fonte.' },
+  fala: { categorias: ['palestras', 'conferencias', 'entrevistas', 'podcasts', 'discursos'], nome: 'Palestra, entrevista ou discurso',
+    antes: 'Saiba quem fala, quando e para quem; isso muda o sentido.',
+    durante: 'Anote a tese, os argumentos e os exemplos; marque o que é dado e o que é opinião.',
+    depois: 'Verifique as afirmações factuais em fontes e resuma a posição do autor com justiça antes de concordar ou discordar.',
+    evidencia: 'Um resumo fiel da posição do autor e uma avaliação dos argumentos.' },
+  curso: { categorias: ['cursos'], nome: 'Curso ou aula',
+    antes: 'Veja o plano do curso e os pré-requisitos; marque as datas de revisão.',
+    durante: 'Faça os exercícios no dia, sem só assistir; anote as dúvidas.',
+    depois: 'Revise depois de alguns dias (revisão espaçada) e explique o conteúdo a alguém, sem consultar.',
+    evidencia: 'Exercícios resolvidos e uma explicação do conteúdo com palavras próprias.' },
+  consulta: { categorias: ['mapas', 'acervos'], nome: 'Mapa, atlas ou acervo',
+    antes: 'Defina a pergunta que você quer responder com a consulta.',
+    durante: 'Registre a fonte exata (coleção, item, escala, data) de cada informação.',
+    depois: 'Junte o que achou com o que já sabia e diga o que a fonte permite e o que não permite concluir.',
+    evidencia: 'A resposta à pergunta, com as referências dos itens consultados.' },
+};
+export const metodoDaCategoria = (categoria) => Object.values(METODOS_POR_FORMATO).find((m) => m.categorias.includes(categoria)) ?? null;
+
+/**
  * Possíveis duplicatas para revisão humana: obras com o mesmo título (sem acentos, pontuação nem artigo inicial)
  * que ficaram em registros separados. Pode ser a mesma obra com o autor grafado de outro jeito, ou obras diferentes
  * de mesmo nome: só uma pessoa decide; nada é fundido automaticamente.

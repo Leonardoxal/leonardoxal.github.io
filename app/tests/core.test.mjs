@@ -1003,3 +1003,16 @@ test('mediateca: possíveis duplicatas para revisão humana, sem fundir nada', a
   possiveisDuplicatas();
   assert.equal(OBRAS.length, antes, 'a revisão não altera o catálogo');
 });
+
+test('mediateca: todo formato com obras tem método de estudo próprio', async () => {
+  const { METODOS_POR_FORMATO, metodoDaCategoria, CATEGORIAS, OBRAS } = await import('../data/mediateca.js');
+  const { obra } = await import('../views/mediateca.js');
+  const { estadoInicial } = await import('../core.js');
+  const cobertas = Object.values(METODOS_POR_FORMATO).flatMap((m) => m.categorias);
+  assert.deepEqual([...cobertas].sort(), Object.keys(CATEGORIAS).sort(), 'cada categoria em exatamente um método');
+  assert.equal(new Set(cobertas).size, cobertas.length);
+  for (const m of Object.values(METODOS_POR_FORMATO)) for (const c of ['antes', 'durante', 'depois', 'evidencia']) assert.ok(m[c], `${m.nome}: ${c}`);
+  assert.equal(metodoDaCategoria('cinema').nome, 'Filme, documentário ou série');
+  const filme = OBRAS.find((o) => o.categoria === 'cinema' && !o.livro);
+  if (filme) assert.match(obra({ estado: estadoInicial() }, filme.id), /Como estudar: filme/);
+});
