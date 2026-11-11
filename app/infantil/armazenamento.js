@@ -141,10 +141,10 @@ export function criarNuvem(obterCliente) {
 
     async listarPartidas(filho) {
       const linhas = ok(await (await c()).from('aci_jogo').select('*').eq('filho', filho).order('inicio', { ascending: false }).limit(MAX_PARTIDAS));
-      return linhas.map((l) => ({ id: l.id, filho: l.filho, jogo: l.jogo, inicio: Date.parse(l.inicio), fim: Date.parse(l.fim), nivelInicial: l.nivel_inicial, nivelFinal: l.nivel_final, nivelMax: l.nivel_max, acertos: l.acertos, erros: l.erros }));
+      return linhas.map((l) => ({ id: l.id, filho: l.filho, jogo: l.jogo, inicio: Date.parse(l.inicio), fim: Date.parse(l.fim), nivelInicial: l.nivel_inicial, nivelFinal: l.nivel_final, nivelMax: l.nivel_max, acertos: l.acertos, erros: l.erros, obs: l.obs ?? '' }));
     },
     async salvarPartida(p) {
-      ok(await (await c()).from('aci_jogo').upsert({ id: p.id, filho: p.filho, jogo: p.jogo, inicio: new Date(p.inicio).toISOString(), fim: new Date(p.fim).toISOString(), nivel_inicial: p.nivelInicial, nivel_final: p.nivelFinal, nivel_max: p.nivelMax, acertos: p.acertos, erros: p.erros, atualizado: new Date().toISOString() }, { onConflict: 'id' }));
+      ok(await (await c()).from('aci_jogo').upsert({ id: p.id, filho: p.filho, jogo: p.jogo, inicio: new Date(p.inicio).toISOString(), fim: new Date(p.fim).toISOString(), nivel_inicial: p.nivelInicial, nivel_final: p.nivelFinal, nivel_max: p.nivelMax, acertos: p.acertos, erros: p.erros, obs: String(p.obs ?? '').slice(0, 1000), atualizado: new Date().toISOString() }, { onConflict: 'id' }));
     },
     async apagarFilho(id) { ok(await (await c()).from('aci_filho').delete().eq('id', id)); },
 

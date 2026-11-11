@@ -132,6 +132,10 @@ create table if not exists public.aci_jogo (
   atualizado    timestamptz not null default now()
 );
 create index if not exists aci_jogo_filho on public.aci_jogo (filho, inicio desc);
+-- Observação pedagógica do adulto em cada partida.
+alter table public.aci_jogo add column if not exists obs text not null default '';
+alter table public.aci_jogo drop constraint if exists aci_jogo_obs_tamanho;
+alter table public.aci_jogo add constraint aci_jogo_obs_tamanho check (length(obs) <= 1000);
 alter table public.aci_jogo enable row level security;
 drop policy if exists "familia usa jogos" on public.aci_jogo;
 create policy "familia usa jogos" on public.aci_jogo

@@ -41,6 +41,20 @@ export function resumoJogo(lista, jogo) {
   return { jogo, partidas: ps.length, recorde: recorde(lista, jogo), precisao: respostas ? acertos / respostas : null, ultima: ps[0]?.inicio ?? null };
 }
 
+/** Marcos de nível de cada jogo ("desafios"): concluídos quando o recorde chega lá. */
+export const DESAFIOS = [5, 10, 15, 20, 30];
+export const desafiosConcluidos = (lista, jogo) => DESAFIOS.filter((n) => recorde(lista, jogo) >= n);
+
+/**
+ * Nível atual de um jogo: o do aparelho (com o carimbo `em`) ou o fim da partida mais recente da família,
+ * o que for mais novo. Assim o nível acompanha a criança de um aparelho para outro.
+ */
+export function nivelAtual(local, lista, jogo) {
+  const ultima = lista.find((x) => x.jogo === jogo && x.acertos + x.erros > 0);
+  if (ultima && !(local?.em >= ultima.fim)) return { nivel: ultima.nivelFinal, seguidos: 0, erros: 0, em: ultima.fim };
+  return local;
+}
+
 /** Idade em anos completos (null se o nascimento não for informado). */
 export function anosCompletos(nascimento, hoje = new Date()) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(nascimento ?? '');

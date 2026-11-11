@@ -427,6 +427,16 @@ test('histórico dos jogos: partida, recorde, resumo e recomendação', () => {
   assert.equal(anosCompletos('', new Date()), null);
 });
 
+test('nível entre aparelhos e desafios concluídos', async () => {
+  const { nivelAtual, desafiosConcluidos } = await import('../infantil/historico.js');
+  const lista = [{ id: 'a', jogo: 'quantos', inicio: 100, fim: 200, nivelFinal: 7, nivelMax: 12, acertos: 3, erros: 1 }];
+  assert.equal(nivelAtual({ nivel: 3, em: 150 }, lista, 'quantos').nivel, 7, 'partida mais nova em outro aparelho vence');
+  assert.equal(nivelAtual({ nivel: 3, em: 250 }, lista, 'quantos').nivel, 3, 'nível local mais novo vence');
+  assert.equal(nivelAtual({ nivel: 3 }, lista, 'quantos').nivel, 7, 'nível antigo sem carimbo dá lugar à partida');
+  assert.equal(nivelAtual(undefined, [], 'quantos'), undefined);
+  assert.deepEqual(desafiosConcluidos(lista, 'quantos'), [5, 10]);
+});
+
 test('texto para IA: anônimo, com observações, histórico, critérios e sem diagnóstico', () => {
   const t = textoParaIA({
     aula: { data: '2026-11-11', titulo: 'São Martinho e a capa', tema: 'Mateus 25,35-40', virtude: 'Caridade', resumo: 'Contar até 3.' },
@@ -453,7 +463,9 @@ test('nuvem: interesses do filho e partidas dos jogos sincronizam na família', 
   await arm.salvarPartida({ ...p, acertos: 4, fim: 3000 });
   const lidas = await arm.listarPartidas('f1');
   assert.equal(lidas.length, 1, 'mesmo id atualiza a mesma linha');
-  assert.deepEqual(lidas[0], { ...p, acertos: 4, fim: 3000 });
+  assert.deepEqual(lidas[0], { ...p, acertos: 4, fim: 3000, obs: '' });
+  await arm.salvarPartida({ ...p, acertos: 4, fim: 3000, obs: 'Jogou sozinha.' });
+  assert.equal((await arm.listarPartidas('f1'))[0].obs, 'Jogou sozinha.', 'observação do adulto na partida');
   assert.equal((await arm.listarPartidas('f2')).length, 0);
 });
 
