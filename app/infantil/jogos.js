@@ -390,7 +390,9 @@ export const SEQUENCIAS = [
   { n: 1, nome: 'a vida', itens: [{ e: '👶', pt: 'bebê' }, { e: '🧒', pt: 'criança' }, { e: '🧑', pt: 'adulto' }, { e: '🧓', pt: 'idoso' }] },
   { n: 1, nome: 'a planta', itens: [{ e: '🌰', pt: 'semente' }, { e: '🌱', pt: 'broto' }, { e: '🌿', pt: 'planta' }, { e: '🌳', pt: 'árvore' }] },
   { n: 2, nome: 'a História Sagrada', itens: [{ e: '🌍', pt: 'a Criação' }, { e: '🚢', pt: 'a Arca de Noé' }, { e: '⭐', pt: 'a promessa a Abraão' }, { e: '🌊', pt: 'Moisés e o Mar Vermelho' }, { e: '👑', pt: 'o rei Davi' }, { e: '👶', pt: 'o nascimento de Jesus' }] },
-  { n: 3, nome: 'a História do Brasil', itens: [{ e: '⛵', pt: 'chegada dos portugueses (1500)' }, { e: '🗣️', pt: 'Independência (1822)' }, { e: '⛓️', pt: 'Lei Áurea, fim da escravidão (1888)' }, { e: '🏛️', pt: 'Proclamação da República (1889)' }] },
+  { n: 3, nome: 'a História do Brasil', itens: [{ e: '⛵', pt: 'chegada dos portugueses (1500)' }, { e: '⛪', pt: 'fundação de São Paulo pelos jesuítas (1554)' }, { e: '🗣️', pt: 'Independência (1822)' }, { e: '⛓️', pt: 'Lei Áurea, fim da escravidão (1888)' }, { e: '🏛️', pt: 'Proclamação da República (1889)' }, { e: '🏙️', pt: 'inauguração de Brasília (1960)' }] },
+  { n: 2, nome: 'o ano litúrgico', itens: [{ e: '🕯️', pt: 'Advento' }, { e: '⭐', pt: 'Natal' }, { e: '✝️', pt: 'Quaresma' }, { e: '🌅', pt: 'Páscoa' }, { e: '🕊️', pt: 'Pentecostes' }] },
+  { n: 2, nome: 'a vida de Jesus', itens: [{ e: '👼', pt: 'a Anunciação' }, { e: '👶', pt: 'o Nascimento em Belém' }, { e: '💧', pt: 'o Batismo no Jordão' }, { e: '🍞', pt: 'a Última Ceia' }, { e: '✝️', pt: 'a Crucificação' }, { e: '🌅', pt: 'a Ressurreição' }] },
   { n: 3, nome: 'a História do mundo', itens: [{ e: '🔺', pt: 'pirâmides do Egito' }, { e: '🏛️', pt: 'Império Romano' }, { e: '⛪', pt: 'catedrais góticas' }, { e: '🧭', pt: 'Colombo chega à América (1492)' }, { e: '🚀', pt: 'o homem na Lua (1969)' }] },
 ];
 
@@ -511,6 +513,9 @@ const PAISES = [
   ['o Brasil', 'América'], ['a Argentina', 'América'], ['o México', 'América'], ['o Canadá', 'América'], ['Portugal', 'Europa'],
   ['a Itália', 'Europa'], ['a França', 'Europa'], ['a Polônia', 'Europa'], ['o Egito', 'África'], ['Angola', 'África'],
   ['a Nigéria', 'África'], ['o Japão', 'Ásia'], ['a China', 'Ásia'], ['a Índia', 'Ásia'], ['Israel', 'Ásia'], ['a Austrália', 'Oceania'],
+  ['o Chile', 'América'], ['o Peru', 'América'], ['a Colômbia', 'América'], ['a Espanha', 'Europa'], ['a Alemanha', 'Europa'],
+  ['a Irlanda', 'Europa'], ['o Quênia', 'África'], ['a África do Sul', 'África'], ['o Marrocos', 'África'], ['a Coreia do Sul', 'Ásia'],
+  ['a Nova Zelândia', 'Oceania'],
 ];
 const CONTINENTES = ['América', 'Europa', 'África', 'Ásia', 'Oceania'];
 // [estado, capital, região] — as 26 unidades da federação e o Distrito Federal.
