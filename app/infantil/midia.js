@@ -608,6 +608,28 @@ export const MIDIA_INFANTIL = [
     perguntas: ['Que passagem do Evangelho foi mostrada hoje?', 'O que esta cena nos ensina sobre Jesus?'],
     disciplinas: ['Formação católica', 'História (Israel no século I)'], conferido: 'Ano, direção, ator principal e estreia em 1977 conferidos em fontes de referência.',
   },
+  {
+    id: 'peter-pan', titulo: 'Peter Pan', tipo: 'filme', criador: 'Clyde Geronimi, Wilfred Jackson e Hamilton Luske (Disney)', ano: '1953', idade: 5,
+    adequacao: { violencia: 1, psicologica: 1, sexual: 0, linguagem: 0, terror: 1, emocional: 1, moral: 1 },
+    obra: 'Em Londres, Peter Pan leva Wendy e os irmãos para a Terra do Nunca, onde ninguém cresce. O Capitão Gancho usa o ciúme da fada Sininho para capturar as crianças, e Peter as salva.',
+    temas: ['crescer', 'ciúme', 'lealdade', 'família', 'aventura'],
+    personagens: [{ nome: 'Wendy', percurso: 'crescimento', texto: 'Cuida dos meninos como mãe e escolhe voltar para casa e crescer.' }, { nome: 'Sininho', percurso: 'redencao', texto: 'O ciúme a leva a trair; arrepende-se e salva Peter, arriscando-se.' }],
+    academia: 'Bom para falar de ciúme e de que crescer é bom: Wendy escolhe a família e o caminho de virar adulta.',
+    cuidados: 'Gancho e o crocodilo podem assustar um pouco. O filme tem caricaturas de povos indígenas típicas da época: converse sobre isso.',
+    perguntas: ['O que o ciúme fez Sininho fazer?', 'Por que Wendy quis voltar para casa?'],
+    disciplinas: ['Formação moral', 'Literatura (J. M. Barrie)'], conferido: 'Ano, direção e enredo conferidos em fontes de referência.',
+  },
+  {
+    id: 'irmao-sol-irma-lua', titulo: 'Irmão Sol, Irmã Lua', original: 'Fratello Sole, Sorella Luna', tipo: 'filme', criador: 'Franco Zeffirelli', ano: '1972', idade: 11,
+    adequacao: { violencia: 1, psicologica: 1, sexual: 1, linguagem: 0, terror: 0, emocional: 2, moral: 2 },
+    obra: 'O filho mimado de um rico comerciante de tecidos de Assis volta mudado da guerra contra Perúgia, deixa a vida de riqueza, reúne companheiros e conhece Clara, até o encontro com o Papa.',
+    temas: ['conversão', 'pobreza evangélica', 'amor à criação', 'vocação', 'a Igreja'],
+    personagens: [{ nome: 'Francisco', percurso: 'redencao', texto: 'De jovem rico e vaidoso a pobre por amor a Cristo.' }, { nome: 'Clara', percurso: 'heroi', texto: 'Segue Francisco e o caminho da pobreza.' }],
+    academia: 'Bela introdução a São Francisco e Santa Clara. É dramatização com o tom dos anos 1970; para conhecer o santo de verdade, leia uma biografia confiável e as fontes franciscanas.',
+    cuidados: 'Filme longo e lento, com estética dos anos 1970; veja antes para decidir a idade certa na sua família.',
+    perguntas: ['O que Francisco deixou para seguir a Cristo?', 'Como Francisco via a criação?'],
+    disciplinas: ['Formação católica (santos)', 'História (Idade Média)'], conferido: 'Ano, direção, elenco e premissa conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
