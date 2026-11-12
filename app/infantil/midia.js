@@ -617,7 +617,7 @@ export const MIDIA_INFANTIL = [
     academia: 'Bom para falar de ciúme e de que crescer é bom: Wendy escolhe a família e o caminho de virar adulta.',
     cuidados: 'Gancho e o crocodilo podem assustar um pouco. O filme tem caricaturas de povos indígenas típicas da época: converse sobre isso.',
     perguntas: ['O que o ciúme fez Sininho fazer?', 'Por que Wendy quis voltar para casa?'],
-    disciplinas: ['Formação moral', 'Literatura (J. M. Barrie)'], conferido: 'Ano, direção e enredo conferidos em fontes de referência.',
+    disciplinas: ['Formação moral', 'Literatura (J. M. Barrie)'], conferido: 'Ano, direção, enredo e o aviso que a Disney+ acrescentou em 2020 sobre o retrato dos indígenas conferidos em fontes de referência.',
   },
   {
     id: 'irmao-sol-irma-lua', titulo: 'Irmão Sol, Irmã Lua', original: 'Fratello Sole, Sorella Luna', tipo: 'filme', criador: 'Franco Zeffirelli', ano: '1972', idade: 11,
