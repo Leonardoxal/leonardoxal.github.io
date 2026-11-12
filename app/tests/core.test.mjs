@@ -1016,6 +1016,23 @@ test('mediateca: possíveis duplicatas para revisão humana, sem fundir nada', a
   assert.equal(OBRAS.length, antes, 'a revisão não altera o catálogo');
 });
 
+test('idiomas: aulas de latim e grego completas e mostradas na aba', async () => {
+  const { AULAS_IDIOMAS } = await import('../data/aulas-idiomas.js');
+  const { idiomas } = await import('../views/idiomas.js');
+  for (const [lingua, aulas] of Object.entries(AULAS_IDIOMAS)) {
+    assert.ok(aulas.length >= 10, `${lingua}: poucas aulas`);
+    for (const a of aulas) {
+      for (const campo of ['titulo', 'objetivo']) assert.ok(a[campo]?.trim(), `${lingua}: aula sem ${campo}`);
+      assert.ok(a.texto.length && a.vocab.length && a.exercicios.length, `${lingua}: ${a.titulo} incompleta`);
+      assert.ok(a.exercicios.every(([q, r]) => q && r), `${lingua}: ${a.titulo} com exercício sem resposta`);
+      if (a.tabela) assert.ok(a.tabela.linhas.every((l) => l.length === a.tabela.cab.length), `${lingua}: tabela torta em ${a.titulo}`);
+    }
+  }
+  const html = idiomas({ estado: {} });
+  assert.match(html, /Aula 1: Pronúncia e primeiras palavras/);
+  assert.match(html, /Aula 1: O alfabeto/);
+});
+
 test('mediateca: a sugestão junta autores com nome em comum e separa os diferentes', async () => {
   const { sugerirGrupos } = await import('../data/mediateca.js');
   const s = sugerirGrupos([

@@ -1,6 +1,7 @@
 // Idiomas (#idiomas): percurso de línguas da formação adulta, com metas por nível, método e textos-alvo.
 // O nível de cada língua é escolhido e guardado pelo próprio estudante (estado.idiomas), sem prova automática.
 import { IDIOMAS, PRINCIPIOS } from '../data/idiomas.js';
+import { AULAS_IDIOMAS } from '../data/aulas-idiomas.js';
 import { esc } from '../ui.js';
 import { abasMapa } from './arvore.js';
 
@@ -16,8 +17,25 @@ export function idiomas({ estado }) {
     <div class="tabela-wrap"><table><tr><th>Nível</th><th>Meta</th></tr>${l.niveis.map((n) => `<tr><td>${esc(n.nivel)}</td><td>${esc(n.meta)}</td></tr>`).join('')}</table></div>
     <p><strong>Textos-alvo:</strong> ${esc(l.alvos.join('; '))}.</p>
     <p><strong>Referências:</strong> ${l.referencias.map((r) => `${esc(r.autor)}, <em>${esc(r.titulo)}</em> (${esc(r.nota)})`).join('; ')}. Confira a edição disponível antes de comprar.</p>
+    ${aulasHTML(AULAS_IDIOMAS[l.id])}
     <label class="campo"><span>Meu nível em ${esc(l.nome)}</span><select data-idioma="${l.id}"><option value="">Não estudo</option>${l.niveis.map((n) => `<option ${meus[l.id] === n.nivel ? 'selected' : ''}>${esc(n.nivel)}</option>`).join('')}</select></label>
   </details>`).join('')}`;
+}
+
+const tabelaHTML = (t) => `<div class="tabela-wrap"><table><tr>${t.cab.map((c) => `<th>${esc(c)}</th>`).join('')}</tr>${t.linhas.map((l) => `<tr>${l.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</table></div>`;
+
+/** Aulas de leitura inicial (latim e grego): explicação, tabela, vocabulário e exercícios com respostas escondidas. */
+function aulasHTML(aulas) {
+  if (!aulas) return '';
+  return `<h3>Aulas de leitura inicial (${aulas.length})</h3>
+    <p class="meta">Cobrem a meta "Leitura inicial". Depois, siga com um dos cursos das referências. Tente cada exercício antes de abrir a resposta.</p>
+    ${aulas.map((a, i) => `<details class="aula-idioma"><summary>Aula ${i + 1}: ${esc(a.titulo)}</summary>
+      <p><strong>Objetivo:</strong> ${esc(a.objetivo)}</p>
+      ${a.texto.map((p) => `<p>${esc(p)}</p>`).join('')}
+      ${a.tabela ? tabelaHTML(a.tabela) : ''}
+      <p><strong>Vocabulário:</strong> ${a.vocab.map(([w, s]) => `<em>${esc(w)}</em>: ${esc(s)}`).join('; ')}.</p>
+      <ol>${a.exercicios.map(([q, r]) => `<li>${esc(q)}<details><summary>Ver resposta</summary><p>${esc(r)}</p></details></li>`).join('')}</ol>
+    </details>`).join('')}`;
 }
 
 idiomas.ligar = (root, ctx) => {

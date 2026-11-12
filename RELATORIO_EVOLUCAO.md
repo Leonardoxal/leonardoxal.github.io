@@ -100,7 +100,8 @@ Os backups antigos continuam abrindo.
 
 - O push para o GitHub é feito pelo responsável, porque a permissão do assistente não o permite.
 - Não há servidor próprio: tudo roda no navegador com o Supabase. A IA é externa e o site só monta o texto.
-- Aulas completas de idiomas e fichas preenchidas de cada obra adulta pedem conteúdo escrito por pessoas. Nada disso foi inventado.
+- A aba Idiomas tem agora 12 aulas de latim e 10 de grego antigo, que cobrem a meta "Leitura inicial" (declinações, verbos básicos, orações e trechos da Vulgata e do Novo Testamento, com respostas). Daí em diante o estudante segue com os cursos indicados nas referências; as línguas modernas continuam só com as metas do Quadro Europeu. As tabelas e traduções foram escritas pela Academia e merecem a revisão de um professor de línguas clássicas.
+- As fichas de estudo das obras adultas são do próprio membro (o que ele leu e concluiu); por isso o site traz o formulário, não fichas prontas.
 
 ## 10. Como a arquitetura permite separar os sites
 
