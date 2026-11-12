@@ -630,6 +630,28 @@ export const MIDIA_INFANTIL = [
     perguntas: ['O que Francisco deixou para seguir a Cristo?', 'Como Francisco via a criação?'],
     disciplinas: ['Formação católica (santos)', 'História (Idade Média)'], conferido: 'Ano, direção, elenco e premissa conferidos em fontes de referência.',
   },
+  {
+    id: 'bambi', titulo: 'Bambi', tipo: 'filme', criador: 'Walt Disney Productions, a partir do livro de Felix Salten', ano: '1942', idade: 5,
+    adequacao: { violencia: 1, psicologica: 1, sexual: 0, linguagem: 0, terror: 1, emocional: 3, moral: 0 },
+    obra: 'Um filhote de cervo cresce na floresta com os amigos Tambor, o coelho, e Flor, o gambá, aprende as estações e perde a mãe. Os caçadores nunca aparecem na tela.',
+    temas: ['crescer', 'amizade', 'perda', 'natureza e estações'],
+    personagens: [{ nome: 'Bambi', percurso: 'crescimento', texto: 'De filhote curioso a cervo adulto que protege a floresta.' }],
+    academia: 'Bonito para contemplar a natureza e as estações. A morte da mãe pede conversa: fale com calma do cuidado de Deus e do amor dos pais.',
+    cuidados: 'A morte da mãe é muito forte para crianças pequenas e sensíveis; o incêndio na floresta também.',
+    perguntas: ['O que Bambi aprendeu com os amigos?', 'Como a floresta muda em cada estação?'],
+    disciplinas: ['Ciências (estações e animais)', 'Formação moral'], conferido: 'Ano, base no livro de Salten e enredo conferidos em fontes de referência.',
+  },
+  {
+    id: 'robin-hood-disney', titulo: 'Robin Hood', tipo: 'filme', criador: 'Wolfgang Reitherman (Disney)', ano: '1973', idade: 5,
+    adequacao: { violencia: 1, psicologica: 1, sexual: 0, linguagem: 0, terror: 0, emocional: 1, moral: 2 },
+    obra: 'A lenda de Robin Hood com animais: a raposa Robin e o urso João Pequeno ajudam o povo de Nottingham, sufocado pelos impostos do príncipe João, até a volta do rei Ricardo das Cruzadas.',
+    temas: ['justiça', 'abuso de poder', 'lealdade ao rei legítimo', 'coragem'],
+    personagens: [{ nome: 'Robin Hood', percurso: 'heroi', texto: 'Defende os pobres e é fiel ao rei verdadeiro.' }, { nome: 'Príncipe João', percurso: 'sem-arrependimento', texto: 'Vaidoso e ganancioso, oprime o povo com impostos.' }],
+    academia: 'Bom para falar de justiça e de abuso de poder. Atenção: tirar dos ricos para dar aos pobres não justifica roubar; no filme, Robin devolve ao povo o que foi tomado injustamente.',
+    cuidados: 'Lutas de comédia; nada assustador.',
+    perguntas: ['Por que o povo sofria?', 'Qual a diferença entre devolver o que foi tomado e roubar?'],
+    disciplinas: ['Formação moral', 'História (Idade Média, Cruzadas)'], conferido: 'Ano, direção e enredo conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
