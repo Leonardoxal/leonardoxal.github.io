@@ -487,6 +487,28 @@ export const MIDIA_INFANTIL = [
     perguntas: ['Por que tantos não acreditavam em Bernadette?', 'O que é uma revelação particular?'],
     disciplinas: ['Formação católica', 'História (França, século XIX)'], conferido: 'Ano, direção, base em Werfel, as dezoito aparições de 1858 e o Oscar de Jennifer Jones conferidos em fontes de referência.',
   },
+  {
+    id: 'kung-fu-panda', titulo: 'Kung Fu Panda', tipo: 'filme', criador: 'John Stevenson e Mark Osborne (DreamWorks)', ano: '2008', idade: 7,
+    adequacao: { violencia: 2, psicologica: 1, sexual: 0, linguagem: 0, terror: 1, emocional: 1, moral: 1 },
+    obra: 'Um panda desajeitado, filho adotivo de um vendedor de macarrão, é escolhido sem querer como o Guerreiro Dragão, destinado a vencer o leopardo Tai Lung, que escapa da prisão. O mestre Shifu precisa treiná-lo.',
+    temas: ['autoconfiança', 'disciplina', 'mestre e discípulo', 'orgulho'],
+    personagens: [{ nome: 'Po', percurso: 'crescimento', texto: 'Acha que não tem valor; descobre que pode e treina com o próprio jeito.' }, { nome: 'Shifu', percurso: 'crescimento', texto: 'Mestre exigente, ferido pelo orgulho do antigo aluno; aprende a ensinar quem é diferente.' }, { nome: 'Tai Lung', percurso: 'sem-arrependimento', texto: 'Aluno talentoso e orgulhoso que se corrompe por querer poder e reconhecimento.' }],
+    academia: 'Bom para falar de disciplina, de humildade e de como o orgulho estraga um talento. A "paz interior" do filme vem de tradições orientais; a paz cristã nasce da graça e da oração.',
+    cuidados: 'Lutas de artes marciais, em tom de comédia; o vilão é ameaçador.',
+    perguntas: ['O que estragou Tai Lung?', 'Como Shifu descobriu o jeito certo de ensinar Po?'],
+    disciplinas: ['Formação moral', 'Educação física'], conferido: 'Ano, direção e enredo (Po, Shifu e Tai Lung) conferidos em fontes de referência.',
+  },
+  {
+    id: 'spy-family', titulo: 'Spy x Family', original: 'Spy × Family', tipo: 'anime', criador: 'Tatsuya Endo (mangá); anime dos estúdios Wit Studio e CloverWorks', ano: 'desde 2022', idade: 11, acompanhar: true,
+    adequacao: { violencia: 2, psicologica: 1, sexual: 1, linguagem: 1, terror: 0, emocional: 1, moral: 2 },
+    obra: 'Um espião precisa montar uma família de mentira para cumprir uma missão. Sem que ele saiba, a esposa e a filha que escolheu também escondem segredos, e a família inventada começa a se tornar de verdade.',
+    temas: ['família', 'mentira e verdade', 'paternidade', 'adoção'],
+    personagens: [{ nome: 'O pai espião', percurso: 'crescimento', texto: 'Começa usando a família como disfarce e passa a amá-la de verdade.' }],
+    academia: 'Comédia que mostra como o cuidado diário cria laços. Bom para conversar sobre mentira, mesmo "por um bom motivo", e sobre o que faz uma família de verdade.',
+    cuidados: 'Violência de ação em tom de comédia e personagens que matam por profissão; algumas piadas de duplo sentido. Para os maiores.',
+    perguntas: ['A família era de mentira ou de verdade?', 'Mentir para proteger alguém é certo?'],
+    disciplinas: ['Formação moral'], conferido: 'Estúdios, autor, estreia em 2022 e premissa conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
