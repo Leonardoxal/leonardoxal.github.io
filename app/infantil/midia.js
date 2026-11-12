@@ -597,6 +597,17 @@ export const MIDIA_INFANTIL = [
     perguntas: ['Que defeito cada criança tinha?', 'Por que Charlie foi o escolhido?'],
     disciplinas: ['Formação moral', 'Literatura (Roald Dahl)'], conferido: 'Ano, direção, roteiro de Dahl e enredo conferidos em fontes de referência.',
   },
+  {
+    id: 'jesus-de-nazare', titulo: 'Jesus de Nazaré', original: 'Jesus of Nazareth', tipo: 'serie', criador: 'Franco Zeffirelli (produção britânica e italiana), com Robert Powell como Jesus', ano: '1977', idade: 10, acompanhar: true,
+    adequacao: { violencia: 2, psicologica: 1, sexual: 0, linguagem: 0, terror: 0, emocional: 2, moral: 1 },
+    obra: 'Minissérie sobre a vida de Jesus, do anúncio a Maria à Ressurreição, seguindo de perto os Evangelhos, com um grande elenco.',
+    temas: ['vida de Jesus', 'Paixão e Ressurreição', 'os apóstolos', 'Nossa Senhora'],
+    personagens: [{ nome: 'Jesus', percurso: 'heroi', texto: 'Verdadeiro Deus e verdadeiro homem, que ensina, cura, morre e ressuscita.' }],
+    academia: 'Uma das encenações mais respeitosas da vida de Jesus, muito usada em famílias e paróquias. Ainda assim é dramatização: confira as cenas nos Evangelhos.',
+    cuidados: 'A Paixão e a crucificação são mostradas com sobriedade, mas são fortes. Longa: veja em partes, por exemplo na Quaresma.',
+    perguntas: ['Que passagem do Evangelho foi mostrada hoje?', 'O que esta cena nos ensina sobre Jesus?'],
+    disciplinas: ['Formação católica', 'História (Israel no século I)'], conferido: 'Ano, direção, ator principal e estreia em 1977 conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
