@@ -1,5 +1,7 @@
 # Relatório da evolução da Academia (novembro de 2026)
 
+> **Atualização (12/11/2026):** a formação infantil saiu deste site e passou para a Academia para Verdade Jr. (`https://leonardoxal.github.io/academia-para-verdade-jr/`). As seções sobre a formação infantil abaixo descrevem o que foi construído aqui e agora vive no Jr.; as rotas infantis antigas levam para lá. Ver `ARQUITETURA_PUBLICOS.md`.
+
 Relatório pedido na etapa 5 do plano de execução: o que se encontrou, o que se aproveitou, o que se fez, o que mudou no banco, como foi testado e o que ainda falta. Foram 17 entregas, uma por commit, e cada uma só é publicada depois de o responsável confirmar. Este documento não substitui o `RELATORIO_FINAL.md`, que trata de uma etapa anterior.
 
 ## 1. O que a auditoria encontrou

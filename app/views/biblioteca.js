@@ -72,7 +72,7 @@ function pessoalHTML(estado) {
         <label class="campo"><span>Estado</span><select name="estado">${opcoes(Object.entries(ESTADOS_LIVRO), p.estado)}</select></label>
         <label class="campo"><span>${p.tipo === 'serie' || p.tipo === 'curso' ? 'Total de partes' : 'Total de páginas'}</span><input name="paginas" type="number" min="0" inputmode="numeric" value="${p.paginas || ''}"></label>
         <label class="campo"><span>Onde parei</span><input name="paginaAtual" type="number" min="0" inputmode="numeric" value="${p.paginaAtual || ''}"></label>
-        <div class="inf-acoes"><button class="btn pequeno" type="submit">Salvar</button><button class="btn pequeno perigo" type="button" data-remover="${esc(p.id)}">Remover</button></div>
+        <div class="acoes-aula"><button class="btn pequeno" type="submit">Salvar</button><button class="btn pequeno perigo" type="button" data-remover="${esc(p.id)}">Remover</button></div>
       </form>${barra(pctPessoal(p))}</div></li>`).join('')}</ul>` : '<p class="meta">Nada na biblioteca pessoal ainda.</p>'}
     <details><summary>Acrescentar à biblioteca pessoal</summary>
       <form class="form-leitura" id="form-pessoal-novo">
