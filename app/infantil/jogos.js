@@ -259,6 +259,9 @@ export const PARES = [
   [{ pt: 'chave', e: '🔑' }, { pt: 'cadeado', e: '🔒' }], [{ pt: 'lápis', e: '✏️' }, { pt: 'papel', e: '📄' }],
   [{ pt: 'noite', e: '🌙' }, { pt: 'cama', e: '🛏️' }], [{ pt: 'pão', e: '🍞' }, { pt: 'manteiga', e: '🧈' }],
   [{ pt: 'sino', e: '🔔' }, { pt: 'igreja', e: '⛪' }], [{ pt: 'vela', e: '🕯️' }, { pt: 'fogo', e: '🔥' }],
+  [{ pt: 'pássaro', e: '🐦' }, { pt: 'ninho', e: '🪺' }], [{ pt: 'aranha', e: '🕷️' }, { pt: 'teia', e: '🕸️' }],
+  [{ pt: 'escova de dentes', e: '🪥' }, { pt: 'dente', e: '🦷' }], [{ pt: 'agulha', e: '🪡' }, { pt: 'linha', e: '🧵' }],
+  [{ pt: 'bola', e: '⚽' }, { pt: 'gol', e: '🥅' }], [{ pt: 'pincel', e: '🖌️' }, { pt: 'tinta', e: '🎨' }],
 ];
 const PARES_FACEIS = 8;
 // Grupos para "qual não é do grupo?".
@@ -267,6 +270,7 @@ export const GRUPOS = {
   frutas: [{ pt: 'maçã', e: '🍎' }, { pt: 'uva', e: '🍇' }, { pt: 'banana', e: '🍌' }, { pt: 'morango', e: '🍓' }, { pt: 'pera', e: '🍐' }, { pt: 'laranja', e: '🍊' }],
   roupas: [{ pt: 'sapato', e: '👟' }, { pt: 'meia', e: '🧦' }, { pt: 'luva', e: '🧤' }, { pt: 'casaco', e: '🧥' }, { pt: 'chapéu', e: '🎩' }, { pt: 'vestido', e: '👗' }],
   ceu: [{ pt: 'sol', e: '☀️' }, { pt: 'lua', e: '🌙' }, { pt: 'estrela', e: '⭐' }, { pt: 'nuvem', e: '☁️' }, { pt: 'arco-íris', e: '🌈' }],
+  instrumentos: [{ pt: 'piano', e: '🎹' }, { pt: 'violão', e: '🎸' }, { pt: 'tambor', e: '🥁' }, { pt: 'trompete', e: '🎺' }, { pt: 'violino', e: '🎻' }],
 };
 const figura = (x) => ({ chave: x.pt, e: x.e, pt: x.pt });
 
@@ -315,6 +319,10 @@ const FENOMENOS = [
   { p: 'Quando a água vira vapor, ela passou do estado…', certa: 'líquido para gasoso', outras: ['sólido para líquido', 'gasoso para sólido'] },
   { p: 'O que o nosso corpo usa do ar quando respiramos?', certa: 'oxigênio', outras: ['fumaça', 'sal'] },
   { p: 'Um objeto cai no chão por causa da…', certa: 'gravidade', outras: ['luz', 'cor dele'] },
+  { p: 'Vemos o relâmpago antes de ouvir o trovão porque…', certa: 'a luz viaja mais rápido que o som', outras: ['o trovão acontece depois', 'o relâmpago está mais perto'] },
+  { p: 'Nas folhas, com a luz do sol, as plantas soltam no ar…', certa: 'oxigênio', outras: ['fumaça', 'sal'] },
+  { p: 'O ímã atrai…', certa: 'objetos de ferro', outras: ['madeira', 'papel'] },
+  { p: 'A sombra fica mais comprida…', certa: 'quando o sol está baixo', outras: ['ao meio-dia', 'quando chove'] },
 ];
 const opcaoTexto = (t) => ({ chave: t, txt: t });
 
