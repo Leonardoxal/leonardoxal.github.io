@@ -10,7 +10,7 @@ import { AULAS_INFANTIL, aulaInfantilPorData } from '../infantil/aulas.js';
 import { criarNuvem, criarArmazenamento } from '../infantil/armazenamento.js';
 import { idade, proximoCodigo } from '../infantil/idade.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
-import { FAIXAS, SECOES, LIVROS_INFANTIL, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
+import { FAIXAS, SECOES, FORMATOS, LIVROS_INFANTIL, CATEQUESE, PAIS, livrosDaFaixa, faixaPara } from '../infantil/livros.js';
 import { LIVROS as LIVROS_VERDADE } from '../data/livros.js';
 import { infantil, aulaInfantil } from '../views/infantil.js';
 import { JOGOS, PARES, GRUPOS, ajustar, progressoInicial, usadoHoje, acabou } from '../infantil/jogos.js';
@@ -147,6 +147,7 @@ test('livros: catálogo com campos, ids únicos (para o "Já lemos"), faixa e se
   for (const l of LIVROS_INFANTIL) {
     assert.ok(faixas.has(l.faixa), `faixa inválida em ${l.id}`);
     assert.ok(l.secao in SECOES, `seção inválida em ${l.id}`);
+    assert.ok(!l.formato || l.formato in FORMATOS, `formato inválido em ${l.id}`);
   }
   for (const l of todos) for (const campo of ['titulo', 'autor']) assert.ok(String(l[campo] ?? '').trim(), `${l.id} sem ${campo}`);
   for (const f of FAIXAS) assert.ok(livrosDaFaixa(f.id).length > 0, `faixa vazia: ${f.id}`);

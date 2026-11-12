@@ -10,7 +10,7 @@ import { clienteNuvem, usuarioNuvem, nuvemConfigurada } from '../nuvem.js';
 import { FAMILIA_ATIVA } from '../infantil/config.js';
 import { proximaPorFilho } from '../infantil/progresso.js';
 import { criarLeitor } from '../infantil/leitor.js';
-import { FAIXAS, SECOES, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
+import { FAIXAS, SECOES, FORMATOS, SANTOS, livrosDaFaixa, faixaPara, HISTORIAS_BIBLICAS, PERSONAGENS_BIBLICOS, BIBLIA, CATEQUESE, PAIS, NAO_VERIFICADOS } from '../infantil/livros.js';
 import { cenaVitral, selo, estrelas, icone } from '../infantil/ilustracoes.js';
 import { INTERESSES, resumoJogo, recomendar, anosCompletos } from '../infantil/historico.js';
 import { proximo as proximoEpisodio } from '../infantil/series.js';
@@ -57,7 +57,7 @@ const cartao = (a) => `
     </div>
   </article>`;
 
-const itemLivro = (l, marcar = true) => `<li>${marcar ? `<label class="inf-linha"><input type="checkbox" data-livro="${esc(l.id)}" aria-label="Já lemos: ${esc(l.titulo)}"> ` : ''}<span><strong>${esc(l.titulo)}</strong>${l.original ? ` <em>(${esc(l.original)})</em>` : ''} — ${esc(l.autor)}${l.nota ? `<br><span class="meta">${esc(l.nota)}</span>` : ''}${l.alerta ? `<br><span class="inf-alerta">Atenção: ${esc(l.alerta)}</span>` : ''}</span>${marcar ? '</label>' : ''}</li>`;
+const itemLivro = (l, marcar = true) => `<li>${marcar ? `<label class="inf-linha"><input type="checkbox" data-livro="${esc(l.id)}" aria-label="Já lemos: ${esc(l.titulo)}"> ` : ''}<span><strong>${esc(l.titulo)}</strong>${l.original ? ` <em>(${esc(l.original)})</em>` : ''} — ${esc(l.autor)}${l.formato ? ` <span class="chip">${FORMATOS[l.formato]}</span>` : ''}${l.nota ? `<br><span class="meta">${esc(l.nota)}</span>` : ''}${l.alerta ? `<br><span class="inf-alerta">Atenção: ${esc(l.alerta)}</span>` : ''}</span>${marcar ? '</label>' : ''}</li>`;
 const listaLivros = (itens, marcar) => `<ul class="inf-livros-lista">${itens.map((l) => itemLivro(l, marcar)).join('')}</ul>`;
 
 const livrosHTML = () => `<section class="inf-livros" aria-labelledby="inf-livros-titulo">
