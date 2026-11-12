@@ -564,6 +564,17 @@ export const MIDIA_INFANTIL = [
     perguntas: ['O que Mahito aprendeu sobre a mãe e a madrasta?', 'Por que o título pergunta como vamos viver?'],
     disciplinas: ['Formação moral', 'História (Segunda Guerra)'], conferido: 'Ano, direção e premissa conferidos em fontes de referência.',
   },
+  {
+    id: 'heidi', titulo: 'Heidi', original: 'Alps no Shōjo Heidi', tipo: 'anime', criador: 'Isao Takahata, com Hayao Miyazaki (Zuiyo), a partir do romance de Johanna Spyri', ano: '1974 (52 episódios)', idade: 4, acompanhar: true,
+    adequacao: { violencia: 0, psicologica: 1, sexual: 0, linguagem: 0, terror: 0, emocional: 1, moral: 1 },
+    obra: 'Uma menina órfã vai morar com o avô nas montanhas dos Alpes. Depois é levada para a cidade para fazer companhia a Clara, uma menina rica que não anda, e sente muita saudade das montanhas.',
+    temas: ['natureza', 'amizade', 'saudade', 'avô e neta', 'bondade'],
+    personagens: [{ nome: 'Heidi', percurso: 'constante', texto: 'Alegre e generosa; alegra todos à sua volta.' }, { nome: 'O avô', percurso: 'redencao', texto: 'Velho fechado e afastado de todos; a neta devolve-lhe a ternura e a vida em comunidade.' }],
+    academia: 'Ritmo calmo e belo, bom para os pequenos. No livro de Spyri, a fé e a oração têm papel forte na mudança do avô; leia o livro depois.',
+    cuidados: 'Nenhuma cena forte; a saudade de Heidi na cidade é triste.',
+    perguntas: ['Do que Heidi sentia saudade?', 'Como Heidi ajudou o avô e Clara?'],
+    disciplinas: ['Formação moral', 'Geografia (Alpes, Suíça)', 'Literatura (Spyri)'], conferido: 'Ano, número de episódios, direção e premissa conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
