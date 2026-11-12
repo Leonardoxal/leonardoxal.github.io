@@ -37,7 +37,7 @@ Relatório pedido na etapa 5 do plano de execução: o que se encontrou, o que s
 - Texto para IA externa, anônimo ("Aluno A"), para analisar a tarefa. Outro texto monta o ciclo de reforço de uma habilidade e um terceiro prepara a conversa ao fim de um arco de série.
 - Registro do que foi confirmado por habilidade. Ele separa observação, sugestão da IA conferida e resultado confirmado, e tem situação e data de reavaliação.
 - Painel de habilidades, cartão "Continuar" (aula, livro, jogos, séries) e um guia por etapa, dos 2 aos 15 anos, com o caminho acadêmico a partir dos 9.
-- Filmes, séries e animações: 79 fichas pedagógicas e acompanhamento de episódios. Cada ficha diz o que foi conferido em fonte; o que não pôde ser conferido ficou de fora. A estrutura de episódios é informada pela família e a tela não traz resumo da história.
+- Filmes, séries e animações: 68 fichas pedagógicas e acompanhamento de episódios. Cada ficha diz o que foi conferido em fonte; o que não pôde ser conferido ficou de fora. O catálogo foi fechado em novembro de 2026: o critério é o valor formativo (virtude, fé, verdade, família), não a fama da obra, e por isso 12 animações que formavam pouco ou traziam religiosidade alheia apresentada como verdadeira foram retiradas. Obra nova só entra a pedido da família e pelo mesmo critério. A estrutura de episódios é informada pela família e a tela não traz resumo da história.
 
 **Formação adulta**
 
