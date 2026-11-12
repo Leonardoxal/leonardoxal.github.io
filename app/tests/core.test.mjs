@@ -1016,6 +1016,16 @@ test('mediateca: possíveis duplicatas para revisão humana, sem fundir nada', a
   assert.equal(OBRAS.length, antes, 'a revisão não altera o catálogo');
 });
 
+test('mediateca: a sugestão junta autores com nome em comum e separa os diferentes', async () => {
+  const { sugerirGrupos } = await import('../data/mediateca.js');
+  const s = sugerirGrupos([
+    { titulo: 'Confissões', criador: 'Santo Agostinho' }, { titulo: 'Confissões', criador: 'Jean-Jacques Rousseau' },
+    { titulo: 'As Confissões', criador: 'Jean-Jacques Rousseau' }, { titulo: 'Confissões', criador: 'Agostinho de Hipona' },
+  ]);
+  assert.deepEqual(s.map((g) => g.map((o) => o.criador)), [['Santo Agostinho', 'Agostinho de Hipona'], ['Jean-Jacques Rousseau', 'Jean-Jacques Rousseau']]);
+  assert.equal(sugerirGrupos([{ criador: 'Platão' }, { criador: 'Xenofonte (testemunho sobre Sócrates)' }]).length, 2, 'autores diferentes ficam separados');
+});
+
 test('mediateca: todo formato com obras tem método de estudo próprio', async () => {
   const { METODOS_POR_FORMATO, metodoDaCategoria, CATEGORIAS, OBRAS } = await import('../data/mediateca.js');
   const { obra } = await import('../views/mediateca.js');

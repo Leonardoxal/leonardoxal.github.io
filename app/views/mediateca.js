@@ -1,5 +1,5 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
-import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, metodoDaCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
+import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, sugerirGrupos, metodoDaCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
@@ -87,8 +87,16 @@ function duplicatasHTML() {
   if (!grupos.length) return '';
   return `<details class="revisao-duplicatas"><summary>Possíveis duplicatas para revisão (${grupos.length})</summary>
     <p class="meta">Obras com o mesmo título em registros separados. Podem ser a mesma obra com o autor escrito de outro jeito (então devem ser agrupadas) ou obras diferentes de mesmo nome. Traduções e edições diferentes continuam como registros próprios, ligados à obra. Quem decide é uma pessoa.</p>
-    <ul>${grupos.map((g) => `<li>${g.map((o) => `${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador || 'autor não informado')}`).join(' · ')}</li>`).join('')}</ul></details>`;
+    <p class="meta">A sugestão compara os nomes dos autores: registros com um nome em comum provavelmente são a mesma obra; os demais, obras diferentes. É só um ponto de partida.</p>
+    <ul>${grupos.map((g) => `<li>${g.map((o) => `${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador || 'autor não informado')}`).join(' · ')}<br><span class="meta">Sugestão: ${sugestaoTexto(sugerirGrupos(g))}</span></li>`).join('')}</ul></details>`;
 }
+
+const sugestaoTexto = (subgrupos) => {
+  const iguais = subgrupos.filter((s) => s.length > 1);
+  if (!iguais.length) return 'obras diferentes de mesmo título; manter separadas.';
+  const juntar = iguais.map((s) => `juntar os ${s.length} registros de ${esc(s[0].criador || 'autor não informado')}`).join('; ');
+  return subgrupos.length > iguais.length ? `${juntar}; os demais são outras obras.` : `${juntar}.`;
+};
 
 mediateca.ligar = (root, ctx) => {
   const form = root.querySelector('#f-midia');

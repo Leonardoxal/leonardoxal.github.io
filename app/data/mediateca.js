@@ -212,4 +212,25 @@ export function possiveisDuplicatas(obras = OBRAS) {
   return [...grupos.values()].filter((g) => g.length > 1);
 }
 
+// Palavras do campo "criador" que não identificam o autor.
+const NAO_AUTOR = new Set(['santo', 'santa', 'conforme', 'edicao', 'sobre', 'testemunho', 'traducao', 'organizacao', 'varios', 'autores', 'hipona']);
+// Grafias diferentes do mesmo autor que aparecem no catálogo.
+const GRAFIAS = { espinosa: 'spinoza', gaius: 'gaio' };
+const nomesDoCriador = (c) => new Set(normalizar(c ?? '').replace(/[^\p{L} ]/gu, ' ').split(/\s+/).map((p) => GRAFIAS[p] ?? p).filter((p) => p.length >= 4 && !NAO_AUTOR.has(p)));
+
+/**
+ * Sugestão para um grupo de possíveis duplicatas: junta os registros cujos criadores têm um nome em comum
+ * (ex.: "Boécio" e "Severino Boécio"). Cada subgrupo com mais de um registro é provavelmente a mesma obra;
+ * subgrupos diferentes são provavelmente obras distintas de mesmo título. É só sugestão: uma pessoa decide.
+ */
+export function sugerirGrupos(grupo) {
+  const subgrupos = [];
+  for (const o of grupo) {
+    const nomes = nomesDoCriador(o.criador);
+    const alvo = subgrupos.find((s) => [...nomes].some((n) => s.nomes.has(n)));
+    if (alvo) { alvo.obras.push(o); nomes.forEach((n) => alvo.nomes.add(n)); } else subgrupos.push({ nomes, obras: [o] });
+  }
+  return subgrupos.map((s) => s.obras);
+}
+
 export const contagemPorCategoria = Object.fromEntries(Object.keys(CATEGORIAS).map((c) => [c, OBRAS.filter((o) => o.categoria === c).length]));

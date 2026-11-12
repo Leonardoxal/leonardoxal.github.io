@@ -87,7 +87,7 @@ Os backups antigos continuam abrindo.
 
 - O nível dos jogos acompanha a criança entre aparelhos quando a família usa o código da nuvem: cada partida sobe com o nível final, e ao abrir o jogo vale o mais recente entre o nível do aparelho e a última partida da família (`nivelAtual` em `app/infantil/historico.js`). A partida em andamento é gravada a cada 10 segundos, ao esconder a aba e ao sair do jogo; se o navegador for fechado à força, as respostas dos últimos segundos podem não subir. Sem o código da família, tudo fica só no aparelho.
 - Os sons de "Agudo ou grave?" dependem do navegador e só tocam depois de um toque na tela. Não foram testados com fone ou caixa de som.
-- A lista de possíveis duplicatas tem 191 grupos e precisa de uma pessoa para decidir cada um.
+- A lista de possíveis duplicatas tem 191 grupos. Cada grupo agora traz uma sugestão automática, que compara os nomes dos autores: 87 parecem a mesma obra (juntar), 100 parecem obras diferentes de mesmo título (manter) e 4 misturam os dois casos. Juntar registros continua sendo decisão de uma pessoa; nada é fundido sozinho.
 
 ## 8. O que depende de revisão profissional
 
