@@ -2,6 +2,7 @@
 // Os 607 livros do acervo original entram sem alteração (o registro aponta para eles). As demais obras vêm das
 // bibliografias das disciplinas; registros de outras fontes (fase 6) entram em EXTERNOS com a fonte declarada.
 // Nada aqui é inventado: campos sem informação ficam vazios, e a interface mostra "não informado".
+import { FICHAS_OBRA } from './fichas-obras.js';
 import { LIVROS, livroPorId } from './livros.js';
 import { DISCIPLINAS } from './disciplinas.js';
 import { MODULOS, todasAulas } from './curriculo.js';
@@ -135,7 +136,13 @@ function atribuir(o) {
   return { ...o, modulos: [], aula: '', funcao: '', confianca: '' };
 }
 
-export const OBRAS = montar().map((o) => atribuir({ modulos: [], ...o }));
+/** Junta a ficha escrita à mão (contexto, aula, nível, justificativa), quando existe; a aula da ficha vale mais que a automática. */
+function comFicha(o) {
+  const f = FICHAS_OBRA[o.id];
+  return f ? { ...o, contexto: f.contexto, aula: f.aula, nivel: f.nivel ?? o.nivel, justificativa: f.justificativa ?? o.justificativa, fontesFicha: f.fontes ?? [] } : o;
+}
+
+export const OBRAS = montar().map((o) => comFicha(atribuir({ modulos: [], ...o })));
 export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
 
 // Obras de um módulo da escada, de um módulo de disciplina ou de uma aula; as ligadas a uma aula vêm primeiro.
@@ -149,11 +156,22 @@ export const obrasDoAutor = (nome) => {
   const chave = normalizar(nome.replace(/^(Santo|São) /, ''));
   return OBRAS.filter((o) => !o.livro && o.criador && normalizar(o.criador).includes(chave));
 };
+/** Uma obra está pronta quando tem contexto escrito e a aula que a apresenta (ver fichas-obras.js). */
+export const obraPronta = (o) => Boolean(o.contexto?.trim() && o.aula);
+const dosModulos = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m)));
 /**
  * Ids das obras obrigatórias de um conjunto de módulos além dos livros do acervo (estes têm as leituras do degrau
- * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais.
+ * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais. Só as obras prontas são
+ * exigidas; as outras ficam em preparação e não bloqueiam, como as aulas ainda não publicadas.
  */
-export const obrasObrigatorias = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m))).map((o) => o.id);
+export const obrasObrigatorias = (modulos) => dosModulos(modulos).filter(obraPronta).map((o) => o.id);
+/** Ids das obras dos módulos que ainda não têm contexto e aula: consultáveis, mas não exigidas. */
+export const obrasEmPreparacao = (modulos) => dosModulos(modulos).filter((o) => !obraPronta(o)).map((o) => o.id);
+/** Andamento das fichas: quantas obras dos módulos estão prontas e quantas existem. */
+export const andamentoFichas = (modulos = null) => {
+  const todas = modulos ? dosModulos(modulos) : OBRAS.filter((o) => !o.livro && o.modulos.length);
+  return { prontas: todas.filter(obraPronta).length, total: todas.length };
+};
 export const obrasDoDegrau = (degrau) => obrasObrigatorias(degrau.modulos);
 export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
 /**

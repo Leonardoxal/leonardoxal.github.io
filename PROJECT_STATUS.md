@@ -10,7 +10,7 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 
 | O quê | Comando | Resultado em 12/11/2026 |
 |---|---|---|
-| Testes da Academia | `node --test app/tests/core.test.mjs` | 62 passam, 0 falham |
+| Testes da Academia | `node --test app/tests/core.test.mjs` | 63 passam, 0 falham |
 | Auditoria de dados da Academia | `node scripts/auditoria.mjs` | 12 apontamentos, todos já documentados como intencionais |
 | Testes do Jr. | `node --test app/tests/infantil.test.mjs` | 43 passam, 0 falham (40 antes do mapa de habilidades) |
 | Publicação | GitHub Actions, "Publicar site" | últimas execuções dos dois repositórios com sucesso |
@@ -22,7 +22,7 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 | Percurso que começa pela teologia, com fases e pré-requisitos | funcional | `app/core.js` (`FASE_TEOLOGICA`, `FASE_INICIACAO`, `degrauConcluivel`); testes | — | — |
 | Currículo amplo com sequência | funcional na estrutura | 155 módulos, 841 aulas completas, 25 disciplinas, 9 semestres (`app/data/`) | O conteúdo das aulas foi escrito por IA; datas, números de leis e parágrafos de documentos estão registrados como **não verificados** em `RELATORIO-IA.md` | alta |
 | Biblioteca e mediateca | incompleto | 5.547 registros em `app/data/mediateca.js` | Dos 4.733 importados, **nenhum** tem contexto, nível, pré-requisito ou justificativa preenchidos; 946 obras sem autor; 191 grupos de possíveis duplicatas; há autor mal separado (por exemplo "3 Volumes – Richard P. Feynman") | alta |
-| Obras ligadas ao currículo | incompleto, com efeito nocivo | `obrasObrigatorias` em `mediateca.js` e `degrauConcluivel` em `core.js` | Toda obra importada ligada a um módulo virou **obrigatória**. Concluir o degrau 1 exige 161 obras além dos 12 livros; o degrau 3, 120; um módulo de literatura (`lt2`), 1.098. A formação fica impossível de concluir | **crítica** |
+| Obras ligadas ao currículo | incompleto; regra corrigida em 12/11/2026 | `obraPronta`, `obrasObrigatorias` e `obrasEmPreparacao` em `mediateca.js`; `app/data/fichas-obras.js`; testes | Decisão do responsável: toda obra terá a sua aula e o seu contexto. Enquanto não tem, fica em preparação e não bloqueia. **0 de 4.940 obras prontas.** Antes da correção, concluir o degrau 1 exigia 161 obras sem ficha, e o módulo `lt2`, 1.098. Parte das atribuições automáticas está errada: o degrau 0 (método de estudo) recebeu Russell, Santayana e o *Dicionário Filosófico* de Voltaire | alta |
 | Comprovação de leitura | incompleto | `MIN_ANALISE_OBRA = 150` em `core.js`; `views/mediateca.js` | A obra é dada por concluída com uma análise de 150 caracteres. O critério mede tamanho, não compreensão | alta |
 | Avaliação objetiva | funcional | 149 avaliações, mínimo de 80%, conceitos a revisar | — | — |
 | Avaliação discursiva e produção intelectual | incompleto | `views/quiz.js` (caixas de autoavaliação) | Quem escreve é quem marca os critérios como cumpridos. Não há leitor, nem humano nem IA, nem distinção entre sugerido e confirmado. É o ponto mais fraco diante do objetivo de formar quem argumenta | alta |
@@ -57,7 +57,7 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 
 Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucional.
 
-1. **Obras obrigatórias por importação automática (P, I).** Centenas de obras sem ficha são exigidas para concluir um degrau. Contradiz o princípio de não confundir quantidade com qualidade e torna o curso inconcluível. Foi decisão do responsável; recomendo revê-la (ver `ROADMAP.md`).
+1. **4.940 obras sem aula nem contexto próprios (P, I).** A exigência automática foi retirada em 12/11/2026 (só obra pronta é obrigatória), mas o trabalho de escrever e conferir as fichas, e de corrigir atribuições erradas, está todo por fazer.
 2. **O Jr. nunca foi usado de ponta a ponta (P, I).** Zero registros na nuvem. Tudo o que se construiu sobre avaliação está sem prova de uso.
 3. **Materiais públicos das aulas com dois ajustes pendentes no gerador (I).** Regra geral em `PEDAGOGICAL_STANDARDS.md`.
 4. **Produção escrita do adulto sem leitor (P).** Autoavaliação por caixas de marcar e mínimo de 150 caracteres.
@@ -70,7 +70,7 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 
 ## Pendências que dependem do responsável
 
-- Decidir sobre o item 1 (obras obrigatórias).
+- Conferir, degrau por degrau, as fichas de obra à medida que forem escritas (começando pelos degraus 0 e 1).
 - Corrigir no projeto privado que gera os PDFs os dois pontos informados na conversa de 12/11/2026 e publicar de novo as aulas.
 - Entrar na família no Jr. com a conta e o código, cadastrar as crianças e usar a trilha por duas semanas.
 - Ligar no painel do Supabase a proteção contra senhas vazadas (Authentication → Passwords).
@@ -81,4 +81,5 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 | Data | Entrega | Onde | Testes |
 |---|---|---|---|
 | 12/11/2026 | Auditoria dos dois projetos; quatro arquivos persistentes; correção do fluxo de publicação | este repositório, ramo `claude/auditoria-e-fundacao` | 62/62 |
+| 12/11/2026 | Só obra pronta (contexto e aula) é obrigatória; as demais aparecem como "em preparação"; arquivo de fichas com validação | este repositório, mesmo ramo | 63/63; `#escada` conferida no navegador |
 | 12/11/2026 | Mapa de habilidades (trilha Número e quantidade), regra de domínio, painel "O que fazer agora", sugestões no formulário de registro | Jr., ramo `claude/mapa-de-habilidades` | 43/43; painel conferido no navegador a 390 px, sem erro de JavaScript nem rolagem lateral |

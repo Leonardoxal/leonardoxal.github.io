@@ -1,6 +1,7 @@
 // Auditoria de integridade dos dados da Academia da Verdade.
 // Uso: node scripts/auditoria.mjs [--json]
 // Lê os módulos de dados reais (não altera nada) e imprime contagens e problemas encontrados.
+import { andamentoFichas } from '../app/data/mediateca.js';
 import { readFileSync } from 'node:fs';
 import { LIVROS, livroPorId } from '../app/data/livros.js';
 import { MODULOS, DEGRAUS } from '../app/data/curriculo.js';
@@ -106,6 +107,7 @@ const relatorio = {
   avaliacoes: { total: AVALIACOES.length, porMinimo: Object.fromEntries(Object.entries(minimos).map(([k, v]) => [k, v.length])) },
   disciplinas: resumoDisc,
   conceitos: CONCEITOS.length, santos: Object.keys(SANTOS).length, nosArvore: NOS.length,
+  fichasDeObras: { ...andamentoFichas(), porDegrau: Object.fromEntries(DEGRAUS.map((d) => [d.n, andamentoFichas(d.modulos)])) },
   problemas: problemas.length,
 };
 

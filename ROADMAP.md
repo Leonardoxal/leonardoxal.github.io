@@ -10,7 +10,7 @@ Nada de catálogo, jogo ou disciplina nova enquanto o ciclo de aprendizagem não
 
 | # | Item | Projeto | Veredito | Como saber que funcionou |
 |---|---|---|---|---|
-| 1 | Tirar a obrigatoriedade das obras importadas automaticamente. Obrigatório passa a ser só o que tem ficha completa e foi escolhido; o resto vira leitura complementar | Academia | IMPLEMENTAR, depois da decisão do responsável (a regra atual foi escolha dele) | Concluir o degrau 1 volta a exigir um número de obras que caiba no semestre; teste em `core.test.mjs` |
+| 1 | Fichas das obras: contexto e aula de cada obra, escritos e conferidos, em `app/data/fichas-obras.js`. Ordem: degrau 0, depois 1, e assim por diante. Antes de escrever, corrigir a atribuição quando a obra está no módulo errado | Academia | IMPLEMENTAR (decisão do responsável em 12/11/2026). A regra que só exige obra pronta já está feita | `node scripts/auditoria.mjs` mostra as obras prontas de cada degrau; o teste "fichas das obras" passa |
 | 2 | Corrigir os materiais públicos das aulas (ver pendências) | Jr. (projeto privado) | IMPLEMENTAR | Nova leitura dos PDFs publicados |
 | 3 | Usar a trilha "Número e quantidade" por duas semanas, registrando na nuvem | Jr. | IMPLEMENTAR | Registros em `aci_registro`; o painel "O que fazer agora" muda conforme os registros |
 | 4 | Revisão da trilha por quem a usou: o que estava errado na ordem, no critério, no texto | Jr. | IMPLEMENTAR | Ajustes em `habilidades.js` com o motivo no commit |
@@ -32,7 +32,7 @@ Nada de catálogo, jogo ou disciplina nova enquanto o ciclo de aprendizagem não
 
 | # | Item | Veredito | Motivo |
 |---|---|---|---|
-| 13 | Fichas completas das obras importadas (contexto, nível, pré-requisito, justificativa), por ordem de uso no currículo | IMPLEMENTAR COM AJUSTES | Só para obras que entrarem em algum módulo. As demais ficam como lista de referência |
+| 13 | Fichas das obras dos degraus 5 em diante e das disciplinas (a maior parte das 4.940) | IMPLEMENTAR | Continuação do item 1. No ritmo de um degrau por vez, com conferência; não há atalho honesto para escrever milhares de contextos de uma vez |
 | 14 | Nivelamento do adulto e passagem do Jr. para a Academia por domínio | IMPLEMENTAR | Depende de habilidades registradas dos dois lados |
 | 15 | Trilhas do mapa para 6 a 15 anos e aulas dessas idades | IMPLEMENTAR | Depois de as trilhas iniciais estarem em uso |
 | 16 | Jogos ligados às habilidades do mapa por identificador | IMPLEMENTAR COM AJUSTES | Hoje a ligação é só um link para o jogo |
