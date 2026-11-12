@@ -575,6 +575,28 @@ export const MIDIA_INFANTIL = [
     perguntas: ['Do que Heidi sentia saudade?', 'Como Heidi ajudou o avô e Clara?'],
     disciplinas: ['Formação moral', 'Geografia (Alpes, Suíça)', 'Literatura (Spyri)'], conferido: 'Ano, número de episódios, direção e premissa conferidos em fontes de referência.',
   },
+  {
+    id: 'cinderela', titulo: 'Cinderela', original: 'Cinderella', tipo: 'filme', criador: 'Clyde Geronimi, Wilfred Jackson e Hamilton Luske (Disney)', ano: '1950', idade: 4,
+    adequacao: { violencia: 0, psicologica: 1, sexual: 0, linguagem: 0, terror: 0, emocional: 1, moral: 1 },
+    obra: 'Depois da morte do pai, uma jovem fica com a madrasta e as duas filhas dela, que a fazem trabalhar como criada. Uma fada madrinha a ajuda a ir ao baile do palácio, onde conhece o príncipe.',
+    temas: ['bondade', 'paciência no sofrimento', 'inveja', 'humildade'],
+    personagens: [{ nome: 'Cinderela', percurso: 'constante', texto: 'Paciente, trabalhadora e gentil mesmo maltratada.' }, { nome: 'A madrasta', percurso: 'sem-arrependimento', texto: 'Movida pela inveja e pela ambição pelas próprias filhas.' }],
+    academia: 'Bom para falar de bondade que não se deixa azedar pelo mal recebido. A fada madrinha é fantasia do conto de fadas.',
+    cuidados: 'A crueldade da madrasta pode entristecer; nada assustador.',
+    perguntas: ['Como Cinderela tratava quem a maltratava?', 'O que é a inveja?'],
+    disciplinas: ['Formação moral', 'Literatura (conto de fadas)'], conferido: 'Ano, direção e enredo conferidos em fontes de referência.',
+  },
+  {
+    id: 'fantastica-fabrica', titulo: 'A Fantástica Fábrica de Chocolate', original: 'Willy Wonka & the Chocolate Factory', tipo: 'filme', criador: 'Mel Stuart, roteiro de Roald Dahl', ano: '1971', idade: 7,
+    adequacao: { violencia: 1, psicologica: 1, sexual: 0, linguagem: 0, terror: 2, emocional: 1, moral: 2 },
+    obra: 'Um menino pobre encontra um dos cinco bilhetes dourados e visita a fábrica do misterioso Willy Wonka com outras quatro crianças. Uma a uma, as outras caem pelos próprios vícios; ao fim, ele é escolhido como herdeiro da fábrica.',
+    temas: ['gula', 'ganância', 'inveja', 'orgulho', 'honestidade'],
+    personagens: [{ nome: 'Charlie', percurso: 'crescimento', texto: 'Pobre e honesto; erra, mas reconhece o erro e é fiel.' }],
+    academia: 'Cada criança castigada representa um vício: ótimo para falar dos pecados capitais e das consequências das escolhas, sem moralismo.',
+    cuidados: 'O passeio de barco no túnel é assustador para os pequenos; as punições podem impressionar.',
+    perguntas: ['Que defeito cada criança tinha?', 'Por que Charlie foi o escolhido?'],
+    disciplinas: ['Formação moral', 'Literatura (Roald Dahl)'], conferido: 'Ano, direção, roteiro de Dahl e enredo conferidos em fontes de referência.',
+  },
 ].map((m) => ({ publico: m.idade >= 12 ? 'juvenil' : 'infantil', oficial: OFICIAL, fontes: FONTES, original: '', acompanhar: false, ...m }));
 
 export const midiaPorId = Object.fromEntries(MIDIA_INFANTIL.map((m) => [m.id, m]));
