@@ -354,6 +354,16 @@ export const SITUACOES = [
   { n: 4, cena: 'Você vê que um amigo está mentindo para os pais dele sobre algo perigoso.', certa: 'Conversar com ele e, se preciso, contar a um adulto', outras: ['Ficar quieto para não brigar', 'Espalhar para a turma'], virtude: 'Prudência' },
   { n: 4, cena: 'Alguém fez algo errado com você e depois se arrependeu de verdade.', certa: 'Perdoar e, com prudência, confiar de novo aos poucos', outras: ['Nunca mais olhar para ele', 'Vingar-se primeiro'], virtude: 'Perdão' },
   { n: 4, cena: 'Na internet, pedem seu nome completo e o endereço para ganhar um prêmio.', certa: 'Não dar e mostrar a um adulto', outras: ['Dar só o endereço', 'Dar tudo, é um prêmio'], virtude: 'Prudência' },
+  { n: 1, cena: 'Sua irmã caiu e está chorando.', certa: 'Abraçar e chamar um adulto', outras: ['Rir dela', 'Continuar brincando'], virtude: 'Caridade' },
+  { n: 1, cena: 'É hora de rezar antes de dormir, mas você quer brincar mais.', certa: 'Rezar com a família e depois dormir', outras: ['Fingir que já dormiu', 'Brincar escondido'], virtude: 'Piedade' },
+  { n: 2, cena: 'Na padaria, você recebeu troco a mais.', certa: 'Devolver o dinheiro ao padeiro', outras: ['Ficar com o troco', 'Comprar um doce com ele'], virtude: 'Justiça' },
+  { n: 2, cena: 'Um colega errou a resposta e a turma riu dele.', certa: 'Não rir e ajudá-lo depois', outras: ['Rir mais alto', 'Chamar o colega de burro'], virtude: 'Caridade' },
+  { n: 2, cena: 'Seus pais pediram que você arrume a cama todos os dias.', certa: 'Arrumar mesmo quando ninguém confere', outras: ['Arrumar só quando eles olham', 'Esconder as cobertas embaixo da cama'], virtude: 'Responsabilidade' },
+  { n: 3, cena: 'Você perdeu o jogo e ficou com muita raiva.', certa: 'Respirar, cumprimentar quem ganhou e treinar mais', outras: ['Jogar o tabuleiro no chão', 'Dizer que o outro roubou'], virtude: 'Temperança' },
+  { n: 3, cena: 'Um amigo conta o segredo de outra pessoa só para fazer graça.', certa: 'Dizer que não quer ouvir fofoca', outras: ['Espalhar o segredo', 'Inventar mais coisas'], virtude: 'Justiça' },
+  { n: 3, cena: 'Você esqueceu de fazer a lição e a professora pergunta por ela.', certa: 'Dizer a verdade e fazer a lição', outras: ['Dizer que o cachorro comeu o caderno', 'Copiar de um colega bem rápido'], virtude: 'Honestidade' },
+  { n: 4, cena: 'Um adulto que você não conhece oferece carona na saída da escola.', certa: 'Recusar e procurar um adulto de confiança', outras: ['Aceitar, porque ele parece legal', 'Ir com ele só até a esquina'], virtude: 'Prudência' },
+  { n: 4, cena: 'Num grupo de mensagens, um colega está sendo humilhado.', certa: 'Não participar, apoiar o colega e avisar um adulto', outras: ['Mandar mais piadas', 'Sair do grupo sem contar a ninguém'], virtude: 'Fortaleza' },
 ];
 
 /** Níveis: 1-3 situações de casa (2 a 3 opções); 4-6 escola e amigos; 7-9 escolhas que custam; 10+ prudência e casos mais difíceis. */
@@ -587,6 +597,7 @@ export const JOGOS = {
 export const FRASES = [
   'O gato bebe leite.', 'A menina lê um livro.', 'O sol brilha no céu.', 'O pássaro canta na árvore.',
   'A família reza antes de dormir.', 'A vaca come capim.', 'O menino chuta a bola.', 'O padeiro faz o pão.',
+  'A avó conta uma história.', 'O cachorro corre no quintal.', 'A professora abre a porta.', 'O peixe nada no rio.',
 ];
 const frase = (palavras) => { const f = palavras.join(' ').toLowerCase(); return `${f.charAt(0).toUpperCase()}${f.slice(1)}.`; };
 /** As duas versões erradas: de trás para a frente, e com o artigo levado para o fim. */
@@ -604,6 +615,18 @@ export const TEXTOS = [
   { t: 'Antes da Missa, Maria ajudou a arrumar as flores no altar. Depois, sentou-se com a família e rezou em silêncio.', p: 'O que Maria fez primeiro?', certa: 'Arrumou as flores', outras: ['Sentou-se com a família', 'Rezou em silêncio'] },
   { t: 'O cachorro latiu a noite inteira. De manhã, o pai descobriu que um gato estava preso no telhado.', p: 'Por que o cachorro latiu?', certa: 'Por causa do gato no telhado', outras: ['Porque estava com fome', 'Porque queria passear'] },
   { t: 'Tiago juntou moedas durante três meses para comprar uma bola. Quando conseguiu, deu metade para a campanha da paróquia e resolveu esperar mais um pouco pela bola.', p: 'Que virtude Tiago mostrou?', certa: 'Generosidade', outras: ['Preguiça', 'Inveja'] },
+  { t: 'João tinha dez figurinhas. Deu três para o irmão e depois ganhou duas da avó.', p: 'Com quantas figurinhas João ficou?', certa: 'Nove', outras: ['Sete', 'Quinze'] },
+  { t: 'Na feira, Lia escolheu as frutas mais bonitas para levar à vizinha doente, mesmo sem ninguém pedir.', p: 'Para quem eram as frutas?', certa: 'Para a vizinha doente', outras: ['Para vender na feira', 'Para a própria Lia'] },
+  { t: 'O avô de Davi plantou uma mangueira quando era menino. Hoje a árvore é grande e dá sombra para toda a família.', p: 'Quem plantou a mangueira?', certa: 'O avô de Davi', outras: ['Davi', 'A vizinha'] },
+  { t: 'Quando a água da panela ferveu, saiu muito vapor. A mãe explicou que o vapor é água que virou gás por causa do calor.', p: 'O que é o vapor?', certa: 'Água que virou gás', outras: ['Fumaça do fogo', 'Ar gelado'] },
+  { t: 'Bia esqueceu o casaco na escola. No dia seguinte, foi à secretaria e encontrou o casaco na caixa de achados e perdidos.', p: 'Onde Bia encontrou o casaco?', certa: 'Na caixa de achados e perdidos', outras: ['Em casa', 'No ônibus'] },
+  { t: 'Os pais de Tomás foram à missa das sete. Tomás ficou com a avó e foi com ela à missa das nove.', p: 'A que horas Tomás foi à missa?', certa: 'Às nove', outras: ['Às sete', 'Ao meio-dia'] },
+  { t: 'Sofia quebrou o vaso da sala sem querer. Podia esconder os cacos, mas contou para a mãe e pediu desculpas.', p: 'Que virtude Sofia mostrou?', certa: 'Sinceridade', outras: ['Preguiça', 'Vaidade'] },
+  { t: 'No inverno, os dias ficam mais curtos e as noites mais longas. Por isso, Ana precisa acender a luz mais cedo para ler.', p: 'Por que Ana acende a luz mais cedo no inverno?', certa: 'Porque escurece mais cedo', outras: ['Porque a lâmpada é nova', 'Porque ela acorda tarde'] },
+  { t: 'Lucas queria brincar, mas tinha prometido terminar a lição antes. Fez as contas com calma e só depois foi jogar bola.', p: 'O que Lucas fez primeiro?', certa: 'Terminou a lição', outras: ['Jogou bola', 'Foi dormir'] },
+  { t: 'Três amigos dividiram doze biscoitos em partes iguais, sem sobrar nenhum.', p: 'Quantos biscoitos cada um ganhou?', certa: 'Quatro', outras: ['Três', 'Seis'] },
+  { t: 'As abelhas visitam as flores para buscar néctar. Voando de flor em flor, levam o pólen e ajudam as plantas a dar frutos.', p: 'Como as abelhas ajudam as plantas?', certa: 'Levando o pólen de flor em flor', outras: ['Comendo as folhas', 'Regando a terra'] },
+  { t: 'Marta guardou a última fatia de bolo para o irmão, que chegaria tarde do treino. Quando ele chegou, ficou muito feliz.', p: 'Por que o irmão ficou feliz?', certa: 'Porque Marta guardou o bolo para ele', outras: ['Porque ganhou o jogo', 'Porque não havia bolo'] },
   { t: 'Clara achava que alguém cortava a Lua. O pai explicou que a Lua reflete a luz do Sol e que, durante o mês, vemos partes diferentes dela iluminadas.', p: 'Por que a Lua parece mudar de forma?', certa: 'Vemos partes diferentes iluminadas pelo Sol', outras: ['Alguém corta a Lua', 'A Lua encolhe'] },
 ];
 
