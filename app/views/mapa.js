@@ -2,7 +2,7 @@
 import { DEGRAUS, MODULOS, moduloPorId, todasAulas, sequenciaDegrau } from '../data/curriculo.js';
 import { livroPorId } from '../data/livros.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { obrasDoDegrau, obrasObrigatorias, contagemPorCategoria, CATEGORIAS } from '../data/mediateca.js';
+import { obrasDoDegrau, obrasObrigatorias, obrasEmPreparacao, contagemPorCategoria, CATEGORIAS } from '../data/mediateca.js';
 import { progressoDegrau, degrauConcluivel, livroConcluido, aulaConcluida, notaMinima, FASE_TEOLOGICA } from '../core.js';
 import { esc, barra, link, fmtData, toast } from '../ui.js';
 import { abasMapa } from './arvore.js';
@@ -30,6 +30,7 @@ export function escada({ estado }) {
   <p class="meta"><strong>Obras por tipo:</strong> ${Object.entries(contagemPorCategoria).filter(([, n]) => n).map(([c, n]) => link(`mediateca-t-${c}`, `${esc(CATEGORIAS[c])} (${n})`)).join(' · ')}</p>
   <ol class="escada" reversed>${DEGRAUS.slice().reverse().map((d) => {
     const obras = obrasDoDegrau(d);
+    const preparo = obrasEmPreparacao(d.modulos);
     const pct = progressoDegrau(d, MODULOS, disponiveis, estado, obras);
     const conc = degrauConcluivel(d, MODULOS, disponiveis, estado, livroPorId, obras);
     const obrasFeitas = obras.filter((id) => livroConcluido(estado, id)).length;
@@ -47,8 +48,9 @@ export function escada({ estado }) {
           <div class="grade-2">
             <div><h3>Sequência de estudo</h3><p class="meta">Primeiro os livros; uma aula vem antes só quando introduz a obra seguinte.</p><ol class="leituras">${listaSequencia(d, estado)}</ol>
               ${d.retomar ? `<h3>Retomar</h3><ul class="leituras">${listaLivros(d.retomar, estado)}</ul>` : ''}
-              ${obras.length ? `<h3>Obras dos módulos (${obrasFeitas}/${obras.length})</h3><p class="meta">Livros das listas, filmes, músicas, áudios e demais obras: todas são obrigatórias, cada uma com a sua análise escrita.</p>
+              ${obras.length ? `<h3>Obras dos módulos (${obrasFeitas}/${obras.length})</h3><p class="meta">Livros das listas, filmes, músicas, áudios e demais obras com contexto e aula prontos: todas são obrigatórias, cada uma com a sua análise escrita.</p>
                 <ul class="leituras">${d.modulos.map((m) => { const n = obrasObrigatorias([m]); return n.length ? `<li>${link(`mediateca-m-${m}`, esc(`${moduloPorId[m].n}. ${moduloPorId[m].titulo}`))} <span class="meta">— ${n.filter((id) => livroConcluido(estado, id)).length}/${n.length}</span></li>` : ''; }).join('')}</ul>` : ''}
+              ${preparo.length ? `<p class="meta"><strong>Obras em preparação: ${preparo.length}.</strong> Ainda sem contexto e aula próprios. Podem ser consultadas na mediateca, mas só passam a ser exigidas quando estiverem prontas: ${d.modulos.filter((m) => obrasEmPreparacao([m]).length).map((m) => link(`mediateca-m-${m}`, esc(`${moduloPorId[m].n}. ${moduloPorId[m].titulo}`))).join(' · ')}.</p>` : ''}
 </div>
             <div><h3>Competências a demonstrar</h3>
               ${d.competencias.map((c, i) => `<label class="opcao"><input type="checkbox" data-comp="${d.n}" data-i="${i}" ${st.competencias?.[i] ? 'checked' : ''} ${st.concluido ? 'disabled' : ''}> <span>${esc(c)}</span></label>`).join('')}

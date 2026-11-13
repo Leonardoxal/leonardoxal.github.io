@@ -7,10 +7,14 @@ import { transicaoHTML, comprovacaoHTML, ligarComprovacao } from './ficha.js';
 import { esc, barra, link, linkExterno, botaoFav, fmtData, ESTADOS_LIVRO, TIPOS_LIVRO, toast, novoId } from '../ui.js';
 import { conexoesLivro, notasDe } from './conexoes.js';
 import { fichaObraHTML, ligarFichaObra } from './ficha-obra.js';
+import { edicoesHTML } from './edicoes.js';
+import { OBRAS } from '../data/mediateca.js';
 
 const FILTROS_VAZIOS = { q: '', autor: '', area: '', nivel: '', modulo: '', estado: '', prioridade: '', fav: false };
 let filtros = { ...FILTROS_VAZIOS };
 const PRIORIDADES = { alta: 'Alta', media: 'Média', baixa: 'Baixa' };
+/** A obra da mediateca de cada livro do acervo: é ela que reúne as outras edições, traduções e volumes. */
+const obraDoLivro = Object.fromEntries(OBRAS.filter((o) => o.livro).map((o) => [o.livro, o]));
 const opcoes = (vals, sel) => vals.map(([v, r]) => `<option value="${esc(v)}" ${String(sel) === String(v) ? 'selected' : ''}>${esc(r)}</option>`).join('');
 const unicos = (f) => [...new Set(LIVROS.map(f))].sort((a, b) => a.localeCompare(b, 'pt'));
 const estadoDe = (estado, id) => estado.livros[id]?.estado || 'nao';
@@ -32,9 +36,10 @@ function filtrar(estado) {
 
 export function biblioteca({ estado }) {
   const lista = filtrar(estado);
-  return `<header class="cab"><h1>Biblioteca</h1>
+  return `<nav class="migalha">${link('biblioteca', 'Biblioteca e mediateca')} / Trilha de leitura</nav>
+  <header class="cab"><h1>Trilha de leitura</h1>
     <p class="sub">${LIVROS.length} títulos numa única sequência de leitura: introduções, depois a obra completa de cada autor estudado, degrau por degrau. Links externos levam apenas a fontes oficiais verificadas; os demais livros têm busca em catálogo bibliográfico.</p>
-    <p class="meta">Documentos, acervos e as demais obras de todos os tipos de mídia estão na ${link('mediateca', 'Biblioteca e mediateca')}.</p></header>
+    <p class="meta">Estes livros e todas as demais obras, de todos os tipos de mídia, estão no catálogo único: ${link('biblioteca', 'Biblioteca e mediateca')}.</p></header>
   <form class="filtros" id="filtros" role="search">
     <label class="campo largo"><span>Buscar</span><input type="search" id="f-q" name="q" value="${esc(filtros.q)}" placeholder="Título, autor ou assunto"></label>
     <label class="campo"><span>Autor</span><select id="f-autor" name="autor"><option value="">Todos</option>${opcoes(unicos((l) => l.autor).map((a) => [a, a]), filtros.autor)}</select></label>
@@ -61,7 +66,7 @@ export function biblioteca({ estado }) {
 const pctPessoal = (p) => (p.estado === 'concluido' ? 100 : p.paginas ? Math.min(100, Math.round((p.paginaAtual / p.paginas) * 100)) : 0);
 
 /** Biblioteca pessoal: obras e edições que só este membro vê. O PDF continua só no aparelho, aberto no leitor. */
-function pessoalHTML(estado) {
+export function pessoalHTML(estado) {
   const itens = estado.pessoais;
   return `<section class="pessoal" aria-labelledby="pessoal-titulo"><h2 id="pessoal-titulo">Minha biblioteca pessoal</h2>
     <p class="meta">Obras e edições que você usa e não estão no acervo, ou outra tradução de um livro do acervo. Só você vê: não entram no catálogo da Academia. Os PDFs nunca saem do seu aparelho.</p>
@@ -86,7 +91,7 @@ function pessoalHTML(estado) {
 }
 
 /** Liga os formulários da biblioteca pessoal (na página da Biblioteca e na de cada livro). */
-function ligarPessoal(root, ctx) {
+export function ligarPessoal(root, ctx) {
   root.querySelector('#form-pessoal-novo')?.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const fd = Object.fromEntries(new FormData(ev.target).entries());
@@ -163,6 +168,7 @@ export function livro({ estado }, id) {
       <div class="acoes-aula"><a class="btn primario" href="#ler-${id}">Ler o PDF no app</a><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro de leitura</button><button class="btn" data-acao="nota-livro">Nova nota deste livro</button></div>
     </section>
   </div>
+  ${edicoesHTML(obraDoLivro[id] ?? { livro: id, versoes: [] }, st.edicao || '')}
   ${comprovacaoHTML(estado, id)}
   ${fichaObraHTML(estado, `livro:${id}`, 'livros')}
   ${conexoesLivro(estado, id)}

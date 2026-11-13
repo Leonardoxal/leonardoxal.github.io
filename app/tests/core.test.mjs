@@ -26,6 +26,8 @@ import { gerar, ARQUIVO } from '../../scripts/leituras-em-ordem.mjs';
 import { readFileSync } from 'node:fs';
 import { INTEGRADORES, TIPOS_INTEGRADOR, RELACOES_INTEGRADOR, prereqsPendentes, integradoresDaAula } from '../data/integradores.js';
 import { aulaPorId } from '../data/aulas/index.js';
+import { obraPronta, obrasObrigatorias, obrasEmPreparacao, andamentoFichas } from '../data/mediateca.js';
+import { FICHAS_OBRA } from '../data/fichas-obras.js';
 import { OBRAS, CATEGORIAS, FONTES, chaveObra, obrasDoModulo, obrasDaDisciplina, obrasDaAula, obrasDoDegrau, obrasDoConceito, obrasDoAutor } from '../data/mediateca.js';
 import { EXTERNOS, RESUMO_IMPORTACAO } from '../data/externos.js';
 import { PERIODOS, SEMANAS_TOTAIS, SEMANA_INTERMEDIARIA, SEMANA_FINAL, situacaoMateria, periodoAtual, semanasNoRitmo } from '../data/periodos.js';
@@ -852,11 +854,15 @@ test('períodos letivos: semestres de 16+2 semanas, até 4 matérias, pré-requi
   const quase = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id, i) => [id, tent(i ? 100 : 70)])) };
   assert.equal(situacaoMateria(quase, mat), 'recuperacao');
   const provasOk = { ...vazio, tentativas: Object.fromEntries(mat.provas.map((id) => [id, tent(C.NOTA_MINIMA)])) };
-  assert.ok(mat.obras.length > 0, 'a matéria tem obras obrigatórias');
-  assert.equal(situacaoMateria(provasOk, mat), 'em curso', 'provas sem as obras não aprovam: todas as obras são obrigatórias');
-  const aprovada = { ...provasOk, livros: Object.fromEntries(mat.obras.map((id) => [id, { estado: 'concluido' }])) };
-  assert.equal(situacaoMateria(aprovada, mat), 'aprovada');
-  assert.equal(situacaoMateria({ ...aprovada, livros: { ...aprovada.livros, [mat.obras[0]]: { estado: 'lendo' } } }, mat), 'em curso', 'uma obra pendente basta para não aprovar');
+  // obra em preparação (sem contexto e aula) não é exigida; obra pronta é. Simula-se a obra pronta com uma lista própria.
+  assert.ok(mat.obras.every((id) => obraPronta(OBRAS.find((o) => o.id === id))), 'a matéria só exige obras prontas');
+  assert.equal(situacaoMateria(provasOk, { ...mat, obras: [] }), 'aprovada', 'sem obra pronta, as provas bastam');
+  const comObras = { ...mat, obras: obrasEmPreparacao(mat.modulos).slice(0, 2) };
+  assert.equal(comObras.obras.length, 2, 'a matéria tem obras nos módulos');
+  assert.equal(situacaoMateria(provasOk, comObras), 'em curso', 'provas sem as obras exigidas não aprovam');
+  const aprovada = { ...provasOk, livros: Object.fromEntries(comObras.obras.map((id) => [id, { estado: 'concluido' }])) };
+  assert.equal(situacaoMateria(aprovada, comObras), 'aprovada');
+  assert.equal(situacaoMateria({ ...aprovada, livros: { ...aprovada.livros, [comObras.obras[0]]: { estado: 'lendo' } } }, comObras), 'em curso', 'uma obra pendente basta para não aprovar');
   assert.equal(situacaoMateria(vazio, mat), 'em curso');
   // ritmo: com menos horas por semana, o semestre se estende
   assert.ok(semanasNoRitmo(PERIODOS[0], 6) > semanasNoRitmo(PERIODOS[0], 20));
@@ -914,9 +920,20 @@ test('mediateca: 27 categorias, os 607 livros preservados, um registro por obra 
   assert.notEqual(chaveObra('Platão', 'A República, livro III'), chaveObra('Platão', 'A República'), 'partes diferentes não se fundem');
 });
 
-test('obras obrigatórias: todas as obras dos módulos do degrau contam; quem já concluiu mantém; análise para concluir', () => {
+test('obras obrigatórias: só as prontas (com contexto e aula) são exigidas; quem já concluiu mantém; análise para concluir', () => {
   const d = DEGRAUS.find((x) => x.n === 5);
-  const obras = obrasDoDegrau(d);
+  // a regra: obrigatória é a obra pronta; as demais ficam em preparação e somam o total do degrau
+  const prontas = obrasDoDegrau(d);
+  const preparo = obrasEmPreparacao(d.modulos);
+  assert.ok(prontas.every((id) => obraPronta(OBRAS.find((o) => o.id === id))));
+  assert.ok(preparo.every((id) => !obraPronta(OBRAS.find((o) => o.id === id))));
+  assert.deepEqual(andamentoFichas(d.modulos), { prontas: prontas.length, total: prontas.length + preparo.length });
+  assert.equal(obraPronta({ contexto: 'x', aula: '' }), false, 'só contexto não basta');
+  assert.equal(obraPronta({ contexto: '  ', aula: 'm1-1' }), false, 'só aula não basta: a aula automática não é ficha');
+  assert.equal(obraPronta({ contexto: 'x', aula: 'm1-1' }), true);
+  if (!prontas.length) assert.ok(!C.degrauConcluivel(d, MODULOS, new Set(), C.estadoInicial(T0), null, obrasDoDegrau(d)).faltas.some((f) => /obra\(s\)/.test(f)), 'obra em preparação não bloqueia o degrau');
+  // daqui em diante, o comportamento das obras exigidas, com uma lista de obras do degrau
+  const obras = [...prontas, ...preparo];
   assert.ok(obras.length > 50, 'o degrau 5 tem muitas obras');
   const base = { ...C.estadoInicial(T0), degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true }, 3: { concluido: true }, 4: { concluido: true } } };
   const sem = C.degrauConcluivel(d, MODULOS, new Set(), base, null, obras);
@@ -973,7 +990,8 @@ test('fontes externas: registros importados com fonte, url e natureza declaradas
   assert.ok(OBRAS.filter((o) => o.confianca === 'etapa do percurso').every((o) => o.funcao), 'obras da bibliografia com função');
   // livros do acervo também têm módulo e função, como as demais obras
   assert.ok(OBRAS.filter((o) => o.livro).every((o) => o.funcao), 'livros do acervo com função');
-  assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');
+  // volumes e outros registros da mesma obra contam dentro dela (versoes), não como obras separadas
+  assert.ok(obrasDaDisciplina('matematica').reduce((n, o) => n + 1 + o.versoes.filter((v) => v.id !== o.id).length, 0) >= 70, 'itens das seções "complementar" não são descartados');
 });
 
 test('obras relacionadas: conceito, autor e carga das obras no semestre', async () => {
@@ -987,7 +1005,7 @@ test('obras relacionadas: conceito, autor e carga das obras no semestre', async 
   assert.ok(AUTORES.some((a) => obrasDoAutor(a.nome).length), 'algum autor tem obras relacionadas');
   // as obras obrigatórias pesam na carga declarada de cada semestre
   assert.ok(PERIODOS.every((p) => p.minutosObras >= 0));
-  assert.ok(PERIODOS.some((p) => p.minutosObras > 0));
+  if (andamentoFichas().prontas) assert.ok(PERIODOS.some((p) => p.minutosObras > 0));
 });
 
 test('biblioteca pessoal: saneada na entrada, só deste membro, e aparece na Biblioteca', async () => {
@@ -1085,4 +1103,59 @@ test('ficha de estudo da obra: campos por formato, distinções sempre, estado s
   const html = fichaObraHTML({ fichas: { 'livro:x': { tese: '<b>' } } }, 'livro:x', 'livros');
   assert.match(html, /1 de 7 campos/);
   assert.ok(!html.includes('<b>'), 'texto escapado');
+});
+
+test('fichas das obras: obra e aula existem, a aula é do módulo da obra, contexto com fonte', () => {
+  const porId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
+  for (const [id, f] of Object.entries(FICHAS_OBRA)) {
+    const o = porId[id];
+    assert.ok(o && !o.livro, `${id}: obra da mediateca (não livro do acervo)`);
+    assert.ok(f.contexto?.trim().length >= 200, `${id}: contexto com pelo menos 200 caracteres`);
+    const aula = aulaPorId[f.aula];
+    assert.ok(aula, `${id}: a aula ${f.aula} existe`);
+    assert.ok(o.modulos.includes(aula.modulo), `${id}: a aula é do módulo da obra`);
+    assert.ok(f.fontes?.length, `${id}: fontes do contexto`);
+    assert.ok(f.justificativa?.trim(), `${id}: justificativa`);
+    assert.ok(f.nivel >= 1 && f.nivel <= 5, `${id}: nível de 1 a 5`);
+    assert.ok(obraPronta(o), `${id}: fica pronta`);
+  }
+  assert.equal(andamentoFichas().prontas, Object.keys(FICHAS_OBRA).length, 'só a ficha escrita deixa a obra pronta');
+});
+
+test('uma obra, um registro: edições, traduções e volumes ficam dentro da obra, sem perder registro nem link', async () => {
+  const { REGISTROS, TIPOS_VERSAO, totalUnificados, obraPorId } = await import('../data/mediateca.js');
+  const { UNIFICACOES } = await import('../data/unificacoes.js');
+  const { livro: telaLivro } = await import('../views/biblioteca.js');
+  const { obra: telaObra } = await import('../views/mediateca.js');
+  const reg = new Map(REGISTROS.map((r) => [r.id, r]));
+  assert.equal(OBRAS.length + totalUnificados, REGISTROS.length, 'nenhum registro some: ou é obra, ou é versão de uma');
+  const vistos = new Set();
+  for (const [principal, outros, comum] of UNIFICACOES) {
+    assert.ok(reg.has(principal), `${principal}: principal existe`);
+    assert.ok(!vistos.has(principal), `${principal}: não aparece em dois grupos`); vistos.add(principal);
+    assert.ok(outros.length, `${principal}: tem ao menos um registro unificado`);
+    assert.ok(outros.filter(([id]) => reg.get(id)?.livro).length === 0 || !reg.get(principal).livro, `${principal}: dois livros do acervo nunca são fundidos`);
+    for (const [id, tipo] of outros) {
+      assert.ok(reg.has(id) && TIPOS_VERSAO[tipo], `${id}: registro e tipo válidos`);
+      assert.ok(!vistos.has(id), `${id}: num grupo só`); vistos.add(id);
+      assert.equal(obraPorId[id], obraPorId[principal], `${id}: a id antiga leva à obra principal`);
+      assert.ok(!OBRAS.some((o) => o.id === id), `${id}: não aparece como obra separada`);
+    }
+    const o = obraPorId[principal];
+    assert.equal(o.versoes.filter((v) => v.id !== principal).length, outros.length);
+    if (comum) { assert.equal(o.titulo, comum); assert.ok(o.versoes.every((v) => v.tipo === 'p') && o.versoes.some((v) => v.id === principal), `${principal}: obra em volumes lista todos os volumes`); }
+  }
+  assert.equal(vistos.size - UNIFICACOES.length, totalUnificados);
+  assert.equal(new Set(OBRAS.map((o) => o.id)).size, OBRAS.length, 'ids únicos');
+  assert.equal(OBRAS.filter((o) => o.livro).length, 607, 'os 607 livros do acervo continuam todos como obras');
+  // casos conferidos à mão
+  const homero = OBRAS.find((o) => o.titulo === 'Ilíada e Odisseia');
+  assert.equal(homero.versoes.filter((v) => v.tipo === 't').length, 3, 'três traduções identificadas de Homero');
+  const adler = OBRAS.find((o) => o.livro && o.titulo === 'Como Ler Livros');
+  assert.ok(adler.versoes.length >= 2 && OBRAS.filter((o) => o.titulo === 'Como Ler Livros').length === 1);
+  // as telas mostram a seção de edições: na obra importada e no livro do acervo
+  const e = C.estadoInicial(T0);
+  assert.match(telaObra({ estado: e }, homero.id), /Edições, traduções e volumes[\s\S]*Carlos Alberto Nunes/);
+  assert.match(telaObra({ estado: e }, homero.versoes[0].id), /Ilíada e Odisseia/, 'link antigo de um registro unificado abre a obra');
+  assert.match(telaLivro({ estado: e }, adler.livro), /Edições, traduções e volumes[\s\S]*Edição recomendada/);
 });

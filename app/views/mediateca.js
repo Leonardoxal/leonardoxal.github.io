@@ -3,14 +3,18 @@ import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDu
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
 import { aulaPorId } from '../data/aulas/index.js';
-import { normalizar, MIN_ANALISE_OBRA, analiseDaObra, chaveComprovacao } from '../core.js';
-import { esc, link, linkExterno, botaoFav, fmtData, toast, ESTADOS_LIVRO } from '../ui.js';
+import { normalizar, MIN_ANALISE_OBRA, analiseDaObra, chaveComprovacao, pctLivro } from '../core.js';
+import { esc, link, linkExterno, botaoFav, fmtData, toast, barra, ESTADOS_LIVRO } from '../ui.js';
 import { notasDe } from './conexoes.js';
 import { fichaObraHTML, ligarFichaObra } from './ficha-obra.js';
+import { edicoesHTML, resumoVersoes } from './edicoes.js';
+import { pessoalHTML, ligarPessoal } from './biblioteca.js';
+import { livroPorId } from '../data/livros.js';
+import { obraPronta } from '../data/mediateca.js';
 
 const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
-const filtro = { categoria: '', disciplina: '', modulo: '', texto: '', limite: POR_PAGINA, preset: '' };
+const filtro = { categoria: '', disciplina: '', modulo: '', texto: '', estado: '', trilha: false, fav: false, limite: POR_PAGINA, preset: '' };
 
 const itemObra = (o, estado) => `<li>${link(o.livro ? `livro-${o.livro}` : `obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)}${o.criador ? ` — ${esc(o.criador)}` : ''} <span class="meta">${esc(CATEGORIAS[o.categoria])}${o.funcao ? ` · ${esc(o.funcao)}` : ''}</span>${estado?.livros?.[o.id]?.estado === 'concluido' || (o.livro && estado?.livros?.[o.livro]?.estado === 'concluido') ? ' <span class="chip ok">concluída</span>' : ''}</li>`;
 
@@ -41,34 +45,69 @@ export function obrasRelacionadasHTML(obras, estado = null, max = 10) {
 const NAO_INFORMADO = '<span class="meta">não informado</span>';
 const campo = (v) => (v && String(v).trim() ? esc(v) : NAO_INFORMADO);
 
-function filtrar() {
+/** A chave do registro de leitura e dos favoritos: a do livro do acervo, quando a obra é um deles. */
+const chaveDe = (o) => o.livro || o.id;
+const estadoDe = (estado, o) => estado?.livros[chaveDe(o)]?.estado || 'nao';
+const cmp = new Intl.Collator('pt').compare;
+/** Primeiro a trilha de leitura (degrau e ordem); depois as demais obras, por título. */
+const ordemCatalogo = (a, b) => {
+  const la = a.livro && livroPorId[a.livro], lb = b.livro && livroPorId[b.livro];
+  if (la && lb) return la.degrau - lb.degrau || la.ordem - lb.ordem;
+  return la ? -1 : lb ? 1 : cmp(a.titulo, b.titulo);
+};
+
+function filtrar(estado) {
   const termos = normalizar(filtro.texto).split(/\s+/).filter(Boolean);
+  // a busca acha a obra também pelo título e autor de uma edição, tradução ou volume dela
+  const texto = (o) => normalizar(`${o.titulo} ${o.criador} ${o.temas.join(' ')} ${o.versoes.map((v) => `${v.titulo} ${v.criador}`).join(' ')}`);
   return OBRAS.filter((o) => (!filtro.categoria || o.categoria === filtro.categoria)
     && (!filtro.disciplina || o.disciplinas.includes(filtro.disciplina))
     && (!filtro.modulo || o.modulos.includes(filtro.modulo))
-    && termos.every((t) => normalizar(`${o.titulo} ${o.criador} ${o.temas.join(' ')}`).includes(t)));
+    && (!filtro.trilha || o.livro)
+    && (!filtro.estado || estadoDe(estado, o) === filtro.estado)
+    && (!filtro.fav || estado?.favoritos.includes(`livro:${chaveDe(o)}`))
+    && (!termos.length || termos.every((t) => texto(o).includes(t)))).sort(ordemCatalogo);
 }
 
-export function mediateca(_ctx, id = '') {
+/** Cartão de uma obra, no desenho da Biblioteca. O livro do acervo abre a ficha completa dele. */
+function cartaoObra(o, estado) {
+  const l = o.livro && livroPorId[o.livro];
+  const st = estadoDe(estado, o);
+  const versoes = resumoVersoes(o);
+  return `<li class="cartao-livro"><a href="#${l ? `livro-${l.id}` : `obra-${o.id}`}">
+    <span class="num">${l ? `Degrau ${l.degrau} · ${l.ordem}º na trilha` : esc(CATEGORIAS[o.categoria])}</span>
+    <h3>${esc(o.titulo)}</h3><p class="autor">${esc(o.criador || l?.autor || 'Autor não informado')}</p>
+    <div class="linha-meta">${o.disciplinas.slice(0, 2).map((d) => `<span>${esc(disciplinaPorId[d]?.nome || d)}</span>`).join('')}${l ? `<span>Dificuldade ${l.nivel}/5</span>` : ''}<span class="chip ${st}">${ESTADOS_LIVRO[st]}</span>${versoes ? `<span class="chip">${versoes}</span>` : ''}${!l && o.modulos.length && !obraPronta(o) ? '<span class="chip alerta">em preparação</span>' : ''}</div>
+    ${l && estado && (st === 'lendo' || st === 'pausado') ? barra(pctLivro(estado, l.id)) : ''}</a></li>`;
+}
+
+export function mediateca(ctx, id = '') {
+  const estado = ctx?.estado ?? null;
   // #mediateca-d-<disciplina> e #mediateca-m-<módulo> abrem a mediateca já filtrada (links das aulas)
   if ((id || '') !== filtro.preset) {
-    Object.assign(filtro, { preset: id || '', categoria: id?.startsWith('t-') && CATEGORIAS[id.slice(2)] ? id.slice(2) : '', texto: '', limite: POR_PAGINA,
+    Object.assign(filtro, { preset: id || '', categoria: id?.startsWith('t-') && CATEGORIAS[id.slice(2)] ? id.slice(2) : '', texto: '', estado: '', trilha: false, fav: false, limite: POR_PAGINA,
       disciplina: id?.startsWith('d-') ? id.slice(2) : '', modulo: id?.startsWith('m-') ? id.slice(2) : '' });
   }
-  const lista = filtrar();
+  const lista = filtrar(estado);
   const disciplinas = [...new Set(OBRAS.flatMap((o) => o.disciplinas))].sort();
   const vazias = Object.entries(contagemPorCategoria).filter(([, n]) => !n).map(([c]) => CATEGORIAS[c]);
+  const comVersoes = OBRAS.filter((o) => o.versoes.length).length;
   return `<header class="cab"><h1>Biblioteca e mediateca</h1>
-    <p class="sub">${OBRAS.length} obras num registro único: os 607 livros do acervo e as obras das bibliografias das disciplinas. Uma obra citada em várias listas tem um só registro, com todas as fontes. Campos sem informação aparecem como "não informado"; nada é preenchido por suposição.</p></header>
+    <p class="sub">${OBRAS.length} obras num catálogo único: os 607 livros da trilha de leitura e as obras das bibliografias e das listas, de todos os tipos de mídia. Cada obra tem um só registro; edições, traduções e volumes aparecem dentro dela (${comVersoes} obras reúnem mais de um registro). Campos sem informação aparecem como "não informado"; nada é preenchido por suposição.</p>
+    <p class="meta">A sequência de leitura dos 607 livros, com filtros por autor, dificuldade e prioridade, continua em ${link('trilha', 'Trilha de leitura')}.</p></header>
   <form class="filtros" id="f-midia" role="search">
+    <label class="campo largo"><span>Buscar</span><input type="search" id="m-q" name="texto" value="${esc(filtro.texto)}" placeholder="Título, autor, tradutor ou tema"></label>
     <label class="campo"><span>Tipo de mídia</span><select name="categoria"><option value="">Todas</option>${Object.entries(CATEGORIAS).map(([c, nome]) => `<option value="${c}" ${filtro.categoria === c ? 'selected' : ''} ${contagemPorCategoria[c] ? '' : 'disabled'}>${esc(nome)} (${contagemPorCategoria[c]})</option>`).join('')}</select></label>
     <label class="campo"><span>Disciplina</span><select name="disciplina"><option value="">Todas</option>${disciplinas.map((d) => `<option value="${d}" ${filtro.disciplina === d ? 'selected' : ''}>${esc(disciplinaPorId[d]?.nome || d)}</option>`).join('')}</select></label>
-    <label class="campo largo"><span>Título, autor ou tema</span><input type="search" id="m-q" name="texto" value="${esc(filtro.texto)}"></label>
+    <label class="campo"><span>Estado</span><select name="estado"><option value="">Todos</option>${opcoes(Object.entries(ESTADOS_LIVRO), filtro.estado)}</select></label>
+    <label class="opcao"><input type="checkbox" name="trilha" ${filtro.trilha ? 'checked' : ''}> <span>Só a trilha de leitura</span></label>
+    <label class="opcao"><input type="checkbox" name="fav" ${filtro.fav ? 'checked' : ''}> <span>Só favoritos</span></label>
   </form>
   ${filtro.modulo ? `<p class="meta">Filtro ativo: leituras do ${link(`mod-${filtro.modulo}`, esc(`Módulo ${moduloPorId[filtro.modulo]?.n}: ${moduloPorId[filtro.modulo]?.titulo}`))} · ${link('mediateca', 'limpar')}</p>` : ''}
-  <p class="meta">${lista.length} obra(s).${vazias.length ? ` Categorias ainda sem registros: ${esc(vazias.join(', '))}. Elas recebem obras na expansão bibliográfica, sempre com a fonte declarada.` : ''}</p>
-  <ul class="lista-busca">${lista.slice(0, filtro.limite).map((o) => `<li><span class="chip">${esc(CATEGORIAS[o.categoria])}</span> ${link(`obra-${o.id}`, `<em>${esc(o.titulo)}</em>`)} — ${esc(o.criador)}${o.data ? ` (${esc(o.data)})` : ''}${o.fontes.length > 1 ? ` <span class="meta">${o.fontes.length} fontes</span>` : ''}</li>`).join('')}</ul>
+  <p class="meta" aria-live="polite">${lista.length} obra(s).${vazias.length ? ` Categorias ainda sem registros: ${esc(vazias.join(', '))}. Elas recebem obras na expansão bibliográfica, sempre com a fonte declarada.` : ''}</p>
+  <ul class="grade-livros">${lista.slice(0, filtro.limite).map((o) => cartaoObra(o, estado)).join('')}</ul>
   ${lista.length > filtro.limite ? `<button class="btn" id="m-mais">Mostrar mais ${Math.min(POR_PAGINA, lista.length - filtro.limite)}</button>` : ''}
+  ${estado ? pessoalHTML(estado) : ''}
   ${duplicatasHTML()}`;
 }
 
@@ -102,7 +141,7 @@ mediateca.ligar = (root, ctx) => {
   const form = root.querySelector('#f-midia');
   const aplicar = (foco) => {
     const fd = new FormData(form);
-    Object.assign(filtro, { categoria: fd.get('categoria'), disciplina: fd.get('disciplina'), texto: fd.get('texto'), limite: POR_PAGINA });
+    Object.assign(filtro, { categoria: fd.get('categoria'), disciplina: fd.get('disciplina'), texto: fd.get('texto'), estado: fd.get('estado'), trilha: fd.has('trilha'), fav: fd.has('fav'), limite: POR_PAGINA });
     ctx.render({ foco });
   };
   form.addEventListener('submit', (e) => e.preventDefault());
@@ -110,6 +149,7 @@ mediateca.ligar = (root, ctx) => {
   let t;
   root.querySelector('#m-q').addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => aplicar('m-q'), 200); });
   root.querySelector('#m-mais')?.addEventListener('click', () => { filtro.limite += POR_PAGINA; ctx.render({ manterRolagem: true }); });
+  if (root.querySelector('.pessoal')) ligarPessoal(root, ctx);
 };
 
 // Todas as obras usam o mesmo registro de leitura dos livros do acervo (estado.livros[id]), as mesmas notas e os favoritos.
@@ -141,6 +181,7 @@ obra.ligar = (root, ctx, id) => {
 export function obra({ estado }, id) {
   const o = obraPorId[id];
   if (!o) return `<p>Obra não encontrada. ${link('mediateca', 'Voltar à mediateca')}</p>`;
+  id = o.id; // a id de um registro unificado (outra edição, tradução ou volume) abre a obra principal
   const linha = (rotulo, valor) => `<tr><th scope="row">${rotulo}</th><td>${valor}</td></tr>`;
   const st = { estado: 'nao', ...estado.livros[id] };
   const notas = notasDe(estado, 'livro', id);
@@ -154,7 +195,7 @@ export function obra({ estado }, id) {
       <label class="campo largo"><span>Análise e observações (mínimo ${MIN_ANALISE_OBRA} caracteres para concluir)</span><textarea name="analise" rows="6">${esc(analiseDaObra(estado, id))}</textarea></label>
       <button class="btn primario" type="submit">Salvar</button>
     </form>
-    <p class="meta">Todas as obras dos módulos são obrigatórias. Para concluir, escreva a sua análise: o que a obra afirma ou mostra, o que você aprendeu e o que ficou em dúvida.</p>
+    <p class="meta">${obraPronta(o) ? 'Esta obra é obrigatória no módulo.' : 'Esta obra ainda está em preparação (sem contexto e aula próprios) e não é exigida para concluir o módulo.'} Para concluir, escreva a sua análise: o que a obra afirma ou mostra, o que você aprendeu e o que ficou em dúvida.</p>
     <p class="meta">Início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
     <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro</button><button class="btn" data-acao="nota-obra">Nova nota desta obra</button></div>
   </section>
@@ -179,6 +220,7 @@ export function obra({ estado }, id) {
     ${linha('Acesso', o.link ? linkExterno(o.link) : NAO_INFORMADO)}
     ${linha('Direitos e acesso', campo(o.direitos))}
   </tbody></table></div>
+  ${edicoesHTML(o, estado.livros[o.livro || id]?.edicao || '')}
   ${metodoHTML(o.categoria)}
   <section><h2>Fontes (${o.fontes.length})</h2><ul class="lista-curta">${o.fontes.map((f) => `<li>${esc(FONTES[f.fonte] || f.fonte)}${f.nota ? ` — ${esc(f.nota)}` : ''}${f.url ? ` ${linkExterno({ url: f.url, rotulo: 'ver a fonte' })}` : ''}</li>`).join('')}</ul></section>
   ${o.aulas.length ? `<section><h2>Aulas que citam esta obra</h2><ul class="lista-curta">${o.aulas.map((a) => `<li>${link(`aula-${a}`, `${esc(a)} — ${esc(aulaPorId[a]?.titulo || '')}`)}</li>`).join('')}</ul></section>` : ''}

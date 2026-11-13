@@ -2,6 +2,8 @@
 // Os 607 livros do acervo original entram sem alteração (o registro aponta para eles). As demais obras vêm das
 // bibliografias das disciplinas; registros de outras fontes (fase 6) entram em EXTERNOS com a fonte declarada.
 // Nada aqui é inventado: campos sem informação ficam vazios, e a interface mostra "não informado".
+import { UNIFICACOES } from './unificacoes.js';
+import { FICHAS_OBRA } from './fichas-obras.js';
 import { LIVROS, livroPorId } from './livros.js';
 import { DISCIPLINAS } from './disciplinas.js';
 import { MODULOS, todasAulas } from './curriculo.js';
@@ -135,8 +137,60 @@ function atribuir(o) {
   return { ...o, modulos: [], aula: '', funcao: '', confianca: '' };
 }
 
-export const OBRAS = montar().map((o) => atribuir({ modulos: [], ...o }));
+/** Junta a ficha escrita à mão (contexto, aula, nível, justificativa), quando existe; a aula da ficha vale mais que a automática. */
+function comFicha(o) {
+  const f = FICHAS_OBRA[o.id];
+  return f ? { ...o, contexto: f.contexto, aula: f.aula, nivel: f.nivel ?? o.nivel, justificativa: f.justificativa ?? o.justificativa, fontesFicha: f.fontes ?? [] } : o;
+}
+
+/** Todos os registros, um por entrada das fontes, antes de juntar edições, traduções e volumes da mesma obra. */
+export const REGISTROS = montar().map((o) => comFicha(atribuir({ modulos: [], ...o })));
+
+/** Marca de volume num título ("Volume 2", "Tomo III", "vol. I e II", "3 volumes"). */
+export const MARCA_VOLUME = /\b(vol(ume)?s?\.?|tomo|parte|v\.)\s*([ivxlc]+|\d+)(\s*(,|e|a|-)\s*([ivxlc]+|\d+))*\b|\b\d+\s*volumes?\b/i;
+const cmpTitulo = new Intl.Collator('pt', { numeric: true }).compare;
+export const TIPOS_VERSAO = { t: 'Tradução', d: 'Outro registro da mesma obra (edição ou grafia do título)', p: 'Volume ou parte da obra' };
+/**
+ * Uma obra intelectual tem um só registro. As unificações (unificacoes.js, geradas por scripts/unificar-obras.mjs e
+ * revisáveis à mão) dizem que registros são a mesma obra: o principal fica no catálogo e os outros viram `versoes`
+ * dele, com título, autor e fontes próprios. As disciplinas se somam; o módulo e a aula são os do principal.
+ */
+function unificar(registros) {
+  const porId = new Map(registros.map((o) => [o.id, o]));
+  const absorvido = new Map();
+  const versoesDe = new Map();
+  const comumDe = new Map();
+  for (const [principal, outros, comum] of UNIFICACOES) {
+    if (!porId.has(principal) || absorvido.has(principal)) continue;
+    if (comum) comumDe.set(principal, comum);
+    for (const [id, tipo] of outros) {
+      if (!porId.has(id) || id === principal || absorvido.has(id) || versoesDe.has(id) || !TIPOS_VERSAO[tipo]) continue;
+      absorvido.set(id, principal);
+      versoesDe.set(principal, [...(versoesDe.get(principal) ?? []), { ...porId.get(id), tipo }]);
+    }
+  }
+  const obras = registros.filter((o) => !absorvido.has(o.id)).map((o) => {
+    let vs = versoesDe.get(o.id) ?? [];
+    let titulo = o.titulo;
+    // obra que só existe em volumes: o registro principal também é um volume, e a obra leva o título comum
+    if (vs.length && comumDe.has(o.id)) { titulo = comumDe.get(o.id); vs = [{ ...o, tipo: 'p' }, ...vs]; }
+    const ORDEM_TIPO = { t: 0, d: 1, p: 2 };
+    vs = [...vs].sort((a, b) => ORDEM_TIPO[a.tipo] - ORDEM_TIPO[b.tipo] || cmpTitulo(a.titulo, b.titulo));
+    return {
+      ...o,
+      titulo,
+      disciplinas: [...new Set([...o.disciplinas, ...vs.flatMap((v) => v.disciplinas)])],
+      versoes: vs.map((v) => ({ id: v.id, tipo: v.tipo, titulo: v.titulo, criador: v.criador, data: v.data, livro: v.livro, fontes: v.fontes })),
+    };
+  });
+  return { obras, absorvido };
+}
+const UNIFICADO = unificar(REGISTROS);
+export const OBRAS = UNIFICADO.obras;
+/** Por id; a id de um registro unificado leva à obra principal (links e registros antigos continuam valendo). */
 export const obraPorId = Object.fromEntries(OBRAS.map((o) => [o.id, o]));
+for (const [id, principal] of UNIFICADO.absorvido) obraPorId[id] = obraPorId[principal];
+export const totalUnificados = UNIFICADO.absorvido.size;
 
 // Obras de um módulo da escada, de um módulo de disciplina ou de uma aula; as ligadas a uma aula vêm primeiro.
 const ordem = (a, b) => (b.aula ? 1 : 0) - (a.aula ? 1 : 0);
@@ -149,11 +203,22 @@ export const obrasDoAutor = (nome) => {
   const chave = normalizar(nome.replace(/^(Santo|São) /, ''));
   return OBRAS.filter((o) => !o.livro && o.criador && normalizar(o.criador).includes(chave));
 };
+/** Uma obra está pronta quando tem contexto escrito e a aula que a apresenta (ver fichas-obras.js). */
+export const obraPronta = (o) => Boolean(o.contexto?.trim() && o.aula);
+const dosModulos = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m)));
 /**
  * Ids das obras obrigatórias de um conjunto de módulos além dos livros do acervo (estes têm as leituras do degrau
- * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais.
+ * e a comprovação próprias): livros das listas, filmes, músicas, áudios e as demais. Só as obras prontas são
+ * exigidas; as outras ficam em preparação e não bloqueiam, como as aulas ainda não publicadas.
  */
-export const obrasObrigatorias = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m))).map((o) => o.id);
+export const obrasObrigatorias = (modulos) => dosModulos(modulos).filter(obraPronta).map((o) => o.id);
+/** Ids das obras dos módulos que ainda não têm contexto e aula: consultáveis, mas não exigidas. */
+export const obrasEmPreparacao = (modulos) => dosModulos(modulos).filter((o) => !obraPronta(o)).map((o) => o.id);
+/** Andamento das fichas: quantas obras dos módulos estão prontas e quantas existem. */
+export const andamentoFichas = (modulos = null) => {
+  const todas = modulos ? dosModulos(modulos) : OBRAS.filter((o) => !o.livro && o.modulos.length);
+  return { prontas: todas.filter(obraPronta).length, total: todas.length };
+};
 export const obrasDoDegrau = (degrau) => obrasObrigatorias(degrau.modulos);
 export const obrasDaDisciplina = (d) => OBRAS.filter((o) => o.disciplinas.includes(d) && o.fontes.some((f) => f.fonte === 'contraosacademicos' || f.fonte === 'olavo-cof'));
 /**
