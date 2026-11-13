@@ -10,7 +10,7 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 
 | O quê | Comando | Resultado em 12/11/2026 |
 |---|---|---|
-| Testes da Academia | `node --test app/tests/core.test.mjs` | 63 passam, 0 falham |
+| Testes da Academia | `node --test app/tests/core.test.mjs` | 64 passam, 0 falham |
 | Auditoria de dados da Academia | `node scripts/auditoria.mjs` | 12 apontamentos, todos já documentados como intencionais |
 | Testes do Jr. | `node --test app/tests/infantil.test.mjs` | 43 passam, 0 falham (40 antes do mapa de habilidades) |
 | Publicação | GitHub Actions, "Publicar site" | últimas execuções dos dois repositórios com sucesso |
@@ -21,7 +21,7 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 |---|---|---|---|---|
 | Percurso que começa pela teologia, com fases e pré-requisitos | funcional | `app/core.js` (`FASE_TEOLOGICA`, `FASE_INICIACAO`, `degrauConcluivel`); testes | — | — |
 | Currículo amplo com sequência | funcional na estrutura | 155 módulos, 841 aulas completas, 25 disciplinas, 9 semestres (`app/data/`) | O conteúdo das aulas foi escrito por IA; datas, números de leis e parágrafos de documentos estão registrados como **não verificados** em `RELATORIO-IA.md` | alta |
-| Biblioteca e mediateca | incompleto | 5.547 registros em `app/data/mediateca.js` | Dos 4.733 importados, **nenhum** tem contexto, nível, pré-requisito ou justificativa preenchidos; 946 obras sem autor; 191 grupos de possíveis duplicatas; há autor mal separado (por exemplo "3 Volumes – Richard P. Feynman") | alta |
+| Biblioteca e mediateca | incompleto; catálogo unificado em 12/11/2026 | `app/data/unificacoes.js` (gerado por `scripts/unificar-obras.mjs`), `app/views/mediateca.js`, `app/views/edicoes.js`; testes | A aba Biblioteca abre o catálogo único, no desenho da Biblioteca; a sequência dos 607 livros fica em `#trilha`. 5.547 registros viraram 5.255 obras: 292 registros (outra grafia, tradução ou volume) foram para dentro de 205 obras, e a página da obra mostra edições, traduções e volumes. Limites: as listas de origem quase não trazem editora nem tradutor (só 4 traduções identificadas); edição recomendada só existe para os livros do acervo; 111 grupos de mesmo título continuam para revisão humana; 27 registros com subtítulo diferente não foram unidos; dos importados, nenhum tem contexto, nível ou justificativa; 946 registros sem autor | alta |
 | Obras ligadas ao currículo | incompleto; regra corrigida em 12/11/2026 | `obraPronta`, `obrasObrigatorias` e `obrasEmPreparacao` em `mediateca.js`; `app/data/fichas-obras.js`; testes | Decisão do responsável: toda obra terá a sua aula e o seu contexto. Enquanto não tem, fica em preparação e não bloqueia. **0 de 4.940 obras prontas.** Antes da correção, concluir o degrau 1 exigia 161 obras sem ficha, e o módulo `lt2`, 1.098. Parte das atribuições automáticas está errada: o degrau 0 (método de estudo) recebeu Russell, Santayana e o *Dicionário Filosófico* de Voltaire | alta |
 | Comprovação de leitura | incompleto | `MIN_ANALISE_OBRA = 150` em `core.js`; `views/mediateca.js` | A obra é dada por concluída com uma análise de 150 caracteres. O critério mede tamanho, não compreensão | alta |
 | Avaliação objetiva | funcional | 149 avaliações, mínimo de 80%, conceitos a revisar | — | — |
@@ -63,7 +63,7 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 4. **Produção escrita do adulto sem leitor (P).** Autoavaliação por caixas de marcar e mínimo de 150 caracteres.
 5. **Conteúdo de aulas não verificado (P, I).** Uma instituição chamada Academia da Verdade publica 841 aulas com fatos que o próprio relatório marca como não conferidos.
 6. **Currículo do Jr. sem dados de habilidade (P).** Fora da trilha nova, não há sequência; de 4 a 15 anos não há aulas.
-7. **Catálogo importado sem profundidade (P).** 4.733 registros sem contexto, nível nem justificativa.
+7. **Catálogo importado sem profundidade (P).** Sem contexto, nível nem justificativa; quase sem dados de editora e tradutor, de modo que "edições disponíveis" hoje são só o que as listas de origem citam.
 8. **Modelo de uma só família (T, I).** Impede crescer sem refazer o acesso.
 9. **Dois vocabulários pedagógicos (T).** A Academia fala em aula, módulo e degrau; o Jr., em habilidade e situação. Não há contrato comum (`ARCHITECTURE.md` propõe um).
 10. **Documentação espalhada (T).** Onze relatórios na raiz deste repositório, parte deles histórica. Este arquivo passa a ser a entrada única.
@@ -83,3 +83,4 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 | 12/11/2026 | Auditoria dos dois projetos; quatro arquivos persistentes; correção do fluxo de publicação | este repositório, ramo `claude/auditoria-e-fundacao` | 62/62 |
 | 12/11/2026 | Só obra pronta (contexto e aula) é obrigatória; as demais aparecem como "em preparação"; arquivo de fichas com validação | este repositório, mesmo ramo | 63/63; `#escada` conferida no navegador |
 | 12/11/2026 | Mapa de habilidades (trilha Número e quantidade), regra de domínio, painel "O que fazer agora", sugestões no formulário de registro | Jr., ramo `claude/mapa-de-habilidades` | 43/43; painel conferido no navegador a 390 px, sem erro de JavaScript nem rolagem lateral |
+| 12/11/2026 | Catálogo único: uma obra, um registro; edições, traduções e volumes dentro da obra; aba Biblioteca abre o catálogo no desenho da Biblioteca | este repositório, mesmo ramo | 64/64; catálogo, busca por tradutor, página de obra, de livro e trilha conferidos no navegador a 390 px, sem erro de JavaScript |

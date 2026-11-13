@@ -67,7 +67,8 @@ busca.ligar = (root, ctx) => {
 };
 
 // Rotas: token exato ou prefixo seguido de id.
-const ROTAS = { painel, estudar, mapa: arvore, escada, simbolos, curso, biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, idiomas, busca, entrar };
+// Catálogo único: #biblioteca e #mediateca abrem a mesma tela; a sequência dos 607 livros fica em #trilha.
+const ROTAS = { painel, estudar, mapa: arvore, escada, simbolos, curso, biblioteca: mediateca, trilha: biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, idiomas, busca, entrar };
 const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
 // Ordem de uso: onde estou, o que estudar, o conteúdo, a prática e a consulta. Ideias e Símbolos moram no Atlas.
 const NAV = [['painel', 'Painel'], ['estudar', 'Estudar'], ['curso', 'Curso'], ['mapa', 'Mapa'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['infantil', 'Infantil (Jr.)'], ['busca', 'Busca']];
@@ -77,7 +78,7 @@ const ROTA_JR = /^(infantil|jogos|jogo|assistir|acompanhar|desenhar)(-|$)/;
 const SUBABAS = { atlas: [['atlas', 'Conceitos'], ['autores', 'Autores'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos']] };
 const subabasHTML = (token, secao) => (SUBABAS[secao] && SUBABAS[secao].some(([t]) => t === token)
   ? `<nav class="abas-mapa" aria-label="Seções do Atlas">${SUBABAS[secao].map(([t, r]) => `<a href="#${t}" ${t === token ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>` : '');
-const SECAO = { 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
+const SECAO = { trilha: 'biblioteca', 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };

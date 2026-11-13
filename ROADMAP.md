@@ -11,6 +11,7 @@ Nada de catálogo, jogo ou disciplina nova enquanto o ciclo de aprendizagem não
 | # | Item | Projeto | Veredito | Como saber que funcionou |
 |---|---|---|---|---|
 | 1 | Fichas das obras: contexto e aula de cada obra, escritos e conferidos, em `app/data/fichas-obras.js`. Ordem: degrau 0, depois 1, e assim por diante. Antes de escrever, corrigir a atribuição quando a obra está no módulo errado | Academia | IMPLEMENTAR (decisão do responsável em 12/11/2026). A regra que só exige obra pronta já está feita | `node scripts/auditoria.mjs` mostra as obras prontas de cada degrau; o teste "fichas das obras" passa |
+| 1b | Rever `app/data/unificacoes.js` (205 obras unidas) e os 111 grupos de possíveis duplicatas que restam na tela; registrar edições e traduções recomendadas junto com a ficha de cada obra | Academia | IMPLEMENTAR, junto com o item 1 | Grupo errado apagado do arquivo e posto em `MANTER_SEPARADOS` no script; a seção "Edições, traduções e volumes" mostra a recomendação |
 | 2 | Corrigir os materiais públicos das aulas (ver pendências) | Jr. (projeto privado) | IMPLEMENTAR | Nova leitura dos PDFs publicados |
 | 3 | Usar a trilha "Número e quantidade" por duas semanas, registrando na nuvem | Jr. | IMPLEMENTAR | Registros em `aci_registro`; o painel "O que fazer agora" muda conforme os registros |
 | 4 | Revisão da trilha por quem a usou: o que estava errado na ordem, no critério, no texto | Jr. | IMPLEMENTAR | Ajustes em `habilidades.js` com o motivo no commit |

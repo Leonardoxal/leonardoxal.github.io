@@ -990,7 +990,8 @@ test('fontes externas: registros importados com fonte, url e natureza declaradas
   assert.ok(OBRAS.filter((o) => o.confianca === 'etapa do percurso').every((o) => o.funcao), 'obras da bibliografia com função');
   // livros do acervo também têm módulo e função, como as demais obras
   assert.ok(OBRAS.filter((o) => o.livro).every((o) => o.funcao), 'livros do acervo com função');
-  assert.ok(obrasDaDisciplina('matematica').length >= 70, 'itens das seções "complementar" não são descartados');
+  // volumes e outros registros da mesma obra contam dentro dela (versoes), não como obras separadas
+  assert.ok(obrasDaDisciplina('matematica').reduce((n, o) => n + 1 + o.versoes.filter((v) => v.id !== o.id).length, 0) >= 70, 'itens das seções "complementar" não são descartados');
 });
 
 test('obras relacionadas: conceito, autor e carga das obras no semestre', async () => {
@@ -1119,4 +1120,42 @@ test('fichas das obras: obra e aula existem, a aula é do módulo da obra, conte
     assert.ok(obraPronta(o), `${id}: fica pronta`);
   }
   assert.equal(andamentoFichas().prontas, Object.keys(FICHAS_OBRA).length, 'só a ficha escrita deixa a obra pronta');
+});
+
+test('uma obra, um registro: edições, traduções e volumes ficam dentro da obra, sem perder registro nem link', async () => {
+  const { REGISTROS, TIPOS_VERSAO, totalUnificados, obraPorId } = await import('../data/mediateca.js');
+  const { UNIFICACOES } = await import('../data/unificacoes.js');
+  const { livro: telaLivro } = await import('../views/biblioteca.js');
+  const { obra: telaObra } = await import('../views/mediateca.js');
+  const reg = new Map(REGISTROS.map((r) => [r.id, r]));
+  assert.equal(OBRAS.length + totalUnificados, REGISTROS.length, 'nenhum registro some: ou é obra, ou é versão de uma');
+  const vistos = new Set();
+  for (const [principal, outros, comum] of UNIFICACOES) {
+    assert.ok(reg.has(principal), `${principal}: principal existe`);
+    assert.ok(!vistos.has(principal), `${principal}: não aparece em dois grupos`); vistos.add(principal);
+    assert.ok(outros.length, `${principal}: tem ao menos um registro unificado`);
+    assert.ok(outros.filter(([id]) => reg.get(id)?.livro).length === 0 || !reg.get(principal).livro, `${principal}: dois livros do acervo nunca são fundidos`);
+    for (const [id, tipo] of outros) {
+      assert.ok(reg.has(id) && TIPOS_VERSAO[tipo], `${id}: registro e tipo válidos`);
+      assert.ok(!vistos.has(id), `${id}: num grupo só`); vistos.add(id);
+      assert.equal(obraPorId[id], obraPorId[principal], `${id}: a id antiga leva à obra principal`);
+      assert.ok(!OBRAS.some((o) => o.id === id), `${id}: não aparece como obra separada`);
+    }
+    const o = obraPorId[principal];
+    assert.equal(o.versoes.filter((v) => v.id !== principal).length, outros.length);
+    if (comum) { assert.equal(o.titulo, comum); assert.ok(o.versoes.every((v) => v.tipo === 'p') && o.versoes.some((v) => v.id === principal), `${principal}: obra em volumes lista todos os volumes`); }
+  }
+  assert.equal(vistos.size - UNIFICACOES.length, totalUnificados);
+  assert.equal(new Set(OBRAS.map((o) => o.id)).size, OBRAS.length, 'ids únicos');
+  assert.equal(OBRAS.filter((o) => o.livro).length, 607, 'os 607 livros do acervo continuam todos como obras');
+  // casos conferidos à mão
+  const homero = OBRAS.find((o) => o.titulo === 'Ilíada e Odisseia');
+  assert.equal(homero.versoes.filter((v) => v.tipo === 't').length, 3, 'três traduções identificadas de Homero');
+  const adler = OBRAS.find((o) => o.livro && o.titulo === 'Como Ler Livros');
+  assert.ok(adler.versoes.length >= 2 && OBRAS.filter((o) => o.titulo === 'Como Ler Livros').length === 1);
+  // as telas mostram a seção de edições: na obra importada e no livro do acervo
+  const e = C.estadoInicial(T0);
+  assert.match(telaObra({ estado: e }, homero.id), /Edições, traduções e volumes[\s\S]*Carlos Alberto Nunes/);
+  assert.match(telaObra({ estado: e }, homero.versoes[0].id), /Ilíada e Odisseia/, 'link antigo de um registro unificado abre a obra');
+  assert.match(telaLivro({ estado: e }, adler.livro), /Edições, traduções e volumes[\s\S]*Edição recomendada/);
 });
