@@ -29,6 +29,18 @@ Nada de catálogo, jogo ou disciplina nova enquanto o ciclo de aprendizagem não
 | 11 | Guardar de forma estruturada as observações do responsável (independência, ajuda, cansaço) | Jr. | IMPLEMENTAR COM AJUSTES | Exige coluna nova em `aci_aula`; fazer junto com o item 12 |
 | 12 | Separar os dados por família (coluna de família em todas as tabelas `aci_*`) | Jr. | IMPLEMENTAR antes de abrir a qualquer outra família; ADIAR enquanto for uma só | Mudança de banco com migração; ver `ARCHITECTURE.md` |
 
+## Padrão de excelência (diretriz de 12/11/2026)
+
+| # | Item | Veredito | Observação |
+|---|---|---|---|
+| E1 | Cada trilha nova nasce da comparação com BNCC, Singapura e a olimpíada da idade, registrada em `PEDAGOGICAL_STANDARDS.md` | IMPLEMENTAR | Feito para "Número e quantidade" |
+| E2 | Retenção: habilidade dominada volta para conferência depois de 30 dias | IMPLEMENTAR | Feito no Jr. em 12/11/2026 |
+| E3 | Linha "número e operações" dos 6 aos 11 anos, com os seis níveis e problemas não rotineiros (referência: Singapura P1 a P6 e Olimpíada Mirim) | IMPLEMENTAR, depois de a trilha de 2 a 6 ser usada | Primeira linha em que os seis níveis fazem sentido |
+| E4 | Linha de linguagem (oral, consciência fonológica, leitura, escrita) com o mesmo rigor da matemática | IMPLEMENTAR | Sem ela a excelência fica só em exatas |
+| E5 | Decidir quem cobre os 16 a 18 anos (ITA, IME, olimpíadas de nível 3) | DECISÃO DO RESPONSÁVEL | Hoje ninguém cobre |
+| E6 | Pesquisar os programas oficiais do ITA, do IME e das olimpíadas e traçar, de trás para frente, os pré-requisitos por idade | IMPLEMENTAR antes de E3 chegar aos 12 anos | Não antecipar conteúdo: usar só para saber aonde a linha precisa chegar |
+| E7 | Simulados e treino de prova para menores de 14 anos | NÃO RECOMENDO | Contraria a própria diretriz |
+
 ## Longo prazo
 
 | # | Item | Veredito | Motivo |
