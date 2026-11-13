@@ -128,6 +128,26 @@ O que isso significa, sem atenuar:
 
 As faixas de 6 a 15 são proposta inicial, a rever quando os programas oficiais forem pesquisados (item E6 do plano) e, principalmente, quando houver alunos reais nelas.
 
+### Redação no mesmo nível das exatas
+
+Determinação do responsável em 12/11/2026: a escrita tem a mesma exigência da matemática, com linha própria, mapa de habilidades, critérios e avaliação. No ITA a redação é dissertativo-argumentativa e eliminatória; quem resolve a prova de matemática e não escreve fica de fora.
+
+| Idade | O que se busca | Como se avalia |
+|---|---|---|
+| 0 a 5 | contar o que aconteceu em ordem, recontar uma história, explicar um porquê, vocabulário amplo; desenho e traço | observação do adulto; nada de escrita formal |
+| 6 a 8 | frase e parágrafo corretos; narrar e descrever; ortografia e pontuação básicas; reler e corrigir o próprio texto | texto curto com critérios: clareza, ordem, correção |
+| 9 a 11 | texto de vários parágrafos com começo, meio e fim; resumo fiel; opinião com razões; gramática consciente | critérios mais revisão: o texto reescrito conta mais que o primeiro |
+| 12 a 13 | texto argumentativo com tese, argumentos e resposta a uma objeção; uso de fontes; resenha | rubrica: tese, argumentação, organização, linguagem |
+| 14 a 15 | dissertação no padrão de vestibular exigente, com repertório próprio de leitura, história e filosofia; ensaio mais longo; escrita sob tempo, só nesta fase | rubrica completa, com leitor externo |
+
+Regras:
+
+- Escreve-se toda semana a partir da alfabetização, em todas as matérias, e não só em português. Explicar por escrito uma solução de matemática ou uma experiência de ciências é redação.
+- Todo texto tem leitor e volta para ser reescrito. Texto que ninguém lê não forma escritor.
+- A avaliação por IA segue as regras gerais: é sugestão, por critérios, conferida por uma pessoa. O tamanho do texto nunca é critério.
+- A leitura alimenta a escrita: a linha de redação anda junto com a de leitura e literatura.
+- Nada de modelo pronto de redação para decorar. O que se ensina é pensar com clareza e ordenar o pensamento.
+
 ### A barreira que não é pedagógica: o certificado
 
 Saber o conteúdo aos 15 não basta para se matricular. Conferido em 12/11/2026:
