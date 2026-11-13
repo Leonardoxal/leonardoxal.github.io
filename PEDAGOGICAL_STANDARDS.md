@@ -72,6 +72,116 @@ Cada registro guarda a origem: observação do responsável, sugestão da IA con
 - Obra só é obrigatória com ficha completa: contexto, objetivo formativo, pré-requisito, nível, orientação de leitura, questões e relação com outras obras.
 - Antes de ampliar um catálogo, complete as fichas do que já está em uso.
 
+## Padrão de excelência acadêmica
+
+Diretriz do responsável, de 12/11/2026. Vale para os dois projetos.
+
+### A meta
+
+Ao fim da educação básica, um aluno com trajetória adequada deve ter condições de enfrentar desafios acadêmicos muito exigentes, inclusive os que passam do currículo escolar. É meta institucional, não promessa de aprovação. As referências de exigência são o ITA e o IME, as olimpíadas científicas (OBM, OBMEP, física, química, biologia, astronomia, informática), a matemática de Singapura, o IB e o Cambridge International e, quando fizer sentido, AP, SAT e ACT.
+
+Essas referências medem rigor e profundidade. Não são conteúdo a antecipar para crianças pequenas.
+
+### Excelência em todas as áreas
+
+Língua portuguesa e escrita, literatura, matemática e demonstração, ciências naturais, história, geografia, filosofia e argumentação, teologia católica, idiomas, artes e música, pesquisa. Quem resolve equações difíceis e não interpreta um texto nem sustenta um argumento não atingiu o padrão. O próprio ITA cobra redação, português e uma lista de leituras obrigatórias na segunda fase.
+
+### As cinco dimensões do domínio
+
+| Dimensão | Pergunta | Como aparece numa habilidade |
+|---|---|---|
+| Conhecimento | Conhece os conceitos? | `verificar` e `dominio` |
+| Compreensão | Explica por que funciona? | o critério de domínio pede explicação a partir dos 6 anos; antes, pede fazer em duas situações diferentes |
+| Aplicação | Resolve problemas conhecidos? | `dominio` |
+| Transferência | Resolve problemas novos? | `excelencia` |
+| Autonomia | Investiga, justifica e acha os próprios erros? | observações do responsável ("fez sozinha", "precisou de ajuda"); a partir dos 9 anos, critério próprio |
+
+Repetir exercícios com acerto não é domínio. Por isso o sistema exige:
+
+- **confirmação**: visto em dois dias diferentes ou em nova verificação;
+- **retenção**: uma habilidade dominada há mais de 30 dias volta para ser conferida, sem perder o domínio nem bloquear as seguintes (`DIAS_RETENCAO` em `habilidades.js`);
+- **transferência**: o critério de excelência de cada habilidade pede uma situação que não foi treinada.
+
+### Os seis níveis
+
+Fundamentos, consolidação, proficiência, aprofundamento, excelência e desafio avançado. O nível é dado pela complexidade do conceito, pelo raciocínio exigido e pela autonomia, nunca pelo número de questões nem pelo tempo gasto.
+
+Decisão de aplicação: os seis níveis descrevem uma **linha curricular ao longo dos anos** (por exemplo, "número e operações" dos 2 aos 15), não cada habilidade pequena. "Contar até 3 objetos" não tem seis níveis; tem domínio e um sinal de que a criança foi além. Forçar seis degraus em cada habilidade de uma criança de 2 anos produziria níveis inventados. A partir dos 9 anos, quando há problemas não rotineiros, cada habilidade passa a ter atividades marcadas com o nível.
+
+### A trajetória-alvo: tudo até os 15
+
+Decisão do responsável em 12/11/2026: o Jr., do nascimento aos 15 anos, é a preparação completa. Ao fim dele o aluno deve ter o conteúdo de toda a educação básica, ensino médio incluído, em todas as matérias, no nível que permite prestar aos 16 qualquer vestibular exigente, com o ITA como referência. Não há etapa separada dos 16 aos 18.
+
+O que isso significa, sem atenuar:
+
+- No percurso escolar comum, o ensino médio termina por volta dos 17 anos. Terminar o conteúdo aos 15 é adiantar cerca de dois anos **e**, além disso, ir mais fundo do que a escola vai. É a trajetória de poucos alunos.
+- Por isso é trajetória-alvo, não calendário. O que move o aluno é o domínio demonstrado. Quem anda mais devagar segue no próprio ritmo, sem rótulo, e chega mais tarde ao mesmo lugar.
+- O adiantamento vem de não perder tempo (ensino por domínio, sem repetir o que já se sabe, bases muito sólidas até os 8 anos), nunca de mais horas de estudo à custa de sono e brincadeira.
+
+| Idade | Conteúdo-alvo | Referência de exigência | O que não fazer |
+|---|---|---|---|
+| 0 a 5 | linguagem, vocabulário, consciência fonológica, senso numérico, curiosidade, coordenação, por brincadeira | BNCC da Educação Infantil; quadro NEL de Singapura (4 a 6 anos); trajetórias de Clements e Sarama | alfabetização formal, contas escritas, qualquer treino de prova |
+| 6 a 8 | alfabetização sólida e o essencial dos anos iniciais do fundamental (1º ao 5º), com aritmética compreendida | BNCC; matemática primária de Singapura (concreto, pictórico, abstrato); Olimpíada Mirim | velocidade antes de compreensão |
+| 9 a 11 | anos finais do fundamental (6º ao 9º): álgebra inicial, geometria, escrita estruturada, ciências por investigação, problemas não rotineiros | OBMEP níveis 1 e 2; Singapura P5 e P6 e secundário inicial | preparação intensiva; pular demonstração |
+| 12 a 15 | ensino médio completo e aprofundamento: matemática, física e química no nível de problemas olímpicos e do ITA; redação argumentativa; literatura; história, geografia, filosofia, biologia, inglês | OBMEP nível 3, OBM, olimpíadas de física e química; programas do ITA e do IME; IB, Cambridge, SAT | treino de prova no lugar de compreensão |
+| 16 | exame | ITA, IME ou outro vestibular, no Brasil ou fora | — |
+
+As faixas de 6 a 15 são proposta inicial, a rever quando os programas oficiais forem pesquisados (item E6 do plano) e, principalmente, quando houver alunos reais nelas.
+
+### Redação no mesmo nível das exatas
+
+Determinação do responsável em 12/11/2026: a escrita tem a mesma exigência da matemática, com linha própria, mapa de habilidades, critérios e avaliação. No ITA a redação é dissertativo-argumentativa e eliminatória; quem resolve a prova de matemática e não escreve fica de fora.
+
+| Idade | O que se busca | Como se avalia |
+|---|---|---|
+| 0 a 5 | contar o que aconteceu em ordem, recontar uma história, explicar um porquê, vocabulário amplo; desenho e traço | observação do adulto; nada de escrita formal |
+| 6 a 8 | frase e parágrafo corretos; narrar e descrever; ortografia e pontuação básicas; reler e corrigir o próprio texto | texto curto com critérios: clareza, ordem, correção |
+| 9 a 11 | texto de vários parágrafos com começo, meio e fim; resumo fiel; opinião com razões; gramática consciente | critérios mais revisão: o texto reescrito conta mais que o primeiro |
+| 12 a 13 | texto argumentativo com tese, argumentos e resposta a uma objeção; uso de fontes; resenha | rubrica: tese, argumentação, organização, linguagem |
+| 14 a 15 | dissertação no padrão de vestibular exigente, com repertório próprio de leitura, história e filosofia; ensaio mais longo; escrita sob tempo, só nesta fase | rubrica completa, com leitor externo |
+
+Regras:
+
+- Escreve-se toda semana a partir da alfabetização, em todas as matérias, e não só em português. Explicar por escrito uma solução de matemática ou uma experiência de ciências é redação.
+- Todo texto tem leitor e volta para ser reescrito. Texto que ninguém lê não forma escritor.
+- A avaliação por IA segue as regras gerais: é sugestão, por critérios, conferida por uma pessoa. O tamanho do texto nunca é critério.
+- A leitura alimenta a escrita: a linha de redação anda junto com a de leitura e literatura.
+- Nada de modelo pronto de redação para decorar. O que se ensina é pensar com clareza e ordenar o pensamento.
+
+### A barreira que não é pedagógica: o certificado
+
+Saber o conteúdo aos 15 não basta para se matricular. Conferido em 12/11/2026:
+
+- O ITA não tem idade mínima, mas exige o ensino médio concluído ou em conclusão no ano do concurso, com certificado. Quem não cumpre a escolaridade faz a prova só como treineiro, sem direito à vaga.
+- O Encceja, exame que certifica o ensino médio fora da escola, exige 18 anos completos; a emancipação não muda isso.
+- A educação domiciliar continua sem lei federal. O projeto que a regulamenta (PL 1338/2022) foi aprovado na Câmara em 2022 e segue no Senado; em 2018 o STF reconheceu a opção das famílias, mas condicionou a prática a uma lei.
+
+Consequência: para prestar o ITA aos 16 valendo vaga, o aluno precisa de uma **escola que certifique** a conclusão do ensino médio nessa idade. A LDB permite à escola avançar o aluno por verificação de aprendizado, mas isso depende de cada escola e do sistema de ensino. É assunto para tratar com a escola e, se preciso, com um advogado, anos antes. A Academia ensina; ela não emite certificado.
+
+### Limites que a ambição não ultrapassa
+
+Sono, saúde, brincadeira, convivência familiar e desenvolvimento emocional não são sacrificados por desempenho precoce. Nenhum conteúdo avançado entra sem os pré-requisitos. Quem precisa de reforço recebe intervenção, sem rótulo. Limite de tela e ausência de ranking continuam valendo.
+
+### O que foi conferido e o que falta pesquisar
+
+Conferido em 12/11/2026:
+
+- BNCC, Educação Infantil, campo "Espaços, tempos, quantidades, relações e transformações": EI02ET07 (contar oralmente objetos, pessoas, livros etc., em contextos diversos) e EI03ET07 (relacionar números às quantidades e identificar o antes, o depois e o entre numa sequência). A trilha "Número e quantidade" cobre os dois e vai além.
+- Singapura: o quadro *Nurturing Early Learners* (MOE, 2022) orienta o ensino de 4 a 6 anos; em numeramento trata de relações e padrões, contagem e senso numérico, formas e noções espaciais, e cita Clements e Sarama (2009), a mesma base da nossa trilha. O programa de matemática primária (MOE, 2021) adota a sequência concreto, pictórico, abstrato.
+- OBMEP: nível 1 para 6º e 7º anos, nível 2 para 8º e 9º, nível 3 para o ensino médio; a Olimpíada Mirim atende do 2º ao 5º ano (Mirim 1: 2º e 3º; Mirim 2: 4º e 5º).
+- ITA, vestibular 2027 (requisitos: brasileiro nato, ensino médio concluído ou em conclusão no ano, não completar 25 anos até o fim do ano da matrícula): primeira fase com 48 questões objetivas (12 de matemática, 12 de física, 12 de química, 12 de inglês); segunda fase com 10 questões dissertativas de matemática, de física e de química, 15 objetivas de português e redação.
+
+Fontes: BNCC (Ministério da Educação); `nel.moe.edu.sg` (NEL Framework 2022 e *Educators' Guide for Numeracy*); programa de matemática primária de Singapura, 2021; páginas da OBMEP e da Olimpíada Mirim (IMPA); edital e cobertura do vestibular ITA 2027. As informações de olimpíadas e do ITA vieram de reportagens e páginas de terceiros que citam os regulamentos: conferir no regulamento oficial antes de usar em decisão.
+
+Ainda não pesquisado, e portanto sem currículo definido: programas completos do ITA e do IME por disciplina; programas da OBM e das olimpíadas de física, química, biologia, astronomia e informática; IB e Cambridge; BNCC do ensino fundamental, habilidade por habilidade; evidências sobre alfabetização além do que está em `FUNDAMENTOS_PEDAGOGICOS.md`. Cada trilha nova começa por essa comparação, na sua área e na sua idade.
+
+### Onde a realidade está longe da meta
+
+- O Jr. tem uma trilha (2 a 6 anos) e aulas para uma criança de 2 anos. De 6 a 15 não há currículo.
+- Dos 6 aos 15, onde deve caber todo o fundamental e o médio em nível de ITA, não existe nada: nem trilhas, nem aulas, nem banco de problemas. É a maior parte do trabalho do projeto.
+- A Academia adulta (25 aulas por disciplina) é formação cultural e não serve de apoio para matemática, física e química nesse nível.
+- A diretriz não muda a ordem de trabalho: uma trilha por vez, usada e revista antes da seguinte.
+
 ## Privacidade de menores
 
 - Nenhum repositório recebe nome, data de nascimento, foto, tarefa feita ou observação de criança.

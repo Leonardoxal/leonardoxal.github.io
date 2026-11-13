@@ -29,6 +29,18 @@ Nada de catálogo, jogo ou disciplina nova enquanto o ciclo de aprendizagem não
 | 11 | Guardar de forma estruturada as observações do responsável (independência, ajuda, cansaço) | Jr. | IMPLEMENTAR COM AJUSTES | Exige coluna nova em `aci_aula`; fazer junto com o item 12 |
 | 12 | Separar os dados por família (coluna de família em todas as tabelas `aci_*`) | Jr. | IMPLEMENTAR antes de abrir a qualquer outra família; ADIAR enquanto for uma só | Mudança de banco com migração; ver `ARCHITECTURE.md` |
 
+## Padrão de excelência (diretriz de 12/11/2026)
+
+| # | Item | Veredito | Observação |
+|---|---|---|---|
+| E1 | Cada trilha nova nasce da comparação com BNCC, Singapura e a olimpíada da idade, registrada em `PEDAGOGICAL_STANDARDS.md` | IMPLEMENTAR | Feito para "Número e quantidade" |
+| E2 | Retenção: habilidade dominada volta para conferência depois de 30 dias | IMPLEMENTAR | Feito no Jr. em 12/11/2026 |
+| E3 | Linha "número e operações" dos 6 aos 11 anos, com os seis níveis e problemas não rotineiros (referência: Singapura P1 a P6 e Olimpíada Mirim) | IMPLEMENTAR, depois de a trilha de 2 a 6 ser usada | Primeira linha em que os seis níveis fazem sentido |
+| E4 | Linha de linguagem e redação (fala, consciência fonológica, leitura, escrita até a dissertação de vestibular), com o mesmo rigor da matemática: mapa de habilidades, critérios e rubricas por idade | IMPLEMENTAR; é a segunda trilha, logo depois de "Número e quantidade" estar em uso | Determinação do responsável em 12/11/2026. Começa pela faixa de 2 a 6 anos (linguagem oral), que é a das crianças atuais |
+| E5 | Decidido em 12/11/2026: o Jr. cobre tudo até os 15 (fundamental e médio, nível ITA) e o exame é aos 16. Falta resolver a certificação do ensino médio nessa idade, que depende de uma escola | DECISÃO TOMADA; pendência do responsável | Ver "A barreira que não é pedagógica" em `PEDAGOGICAL_STANDARDS.md` |
+| E6 | Pesquisar os programas oficiais do ITA, do IME e das olimpíadas e traçar, de trás para frente, os pré-requisitos por idade, com o médio terminando aos 15 | IMPLEMENTAR antes de E3 | Não antecipar conteúdo: usar só para saber aonde a linha precisa chegar |
+| E7 | Simulados e treino de prova para menores de 14 anos | NÃO RECOMENDO | Contraria a própria diretriz |
+
 ## Longo prazo
 
 | # | Item | Veredito | Motivo |
