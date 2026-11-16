@@ -59,7 +59,15 @@ p, li, dd { max-width: 72ch; }
 .topo-int { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding-block: 10px; }
 .marca { font-family: var(--f-titulo); font-size: 1.35rem; font-weight: 700; color: var(--vinho); text-decoration: none; letter-spacing: .01em; white-space: nowrap; }
 .marca small { display: block; font: 500 .68rem/1 var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--tinta-2); margin-top: 2px; }
-.nav { flex: 1 1 auto; min-width: 0; }
+.nav { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 2px; }
+.nav > ul { flex: 0 1 auto; min-width: 0; }
+.nav-mais { position: relative; flex: none; }
+.nav-mais > summary { list-style: none; cursor: pointer; display: block; padding: 8px 9px 6px; font: 500 .74rem/1.2 var(--f-capital); letter-spacing: .1em; text-transform: uppercase; color: rgb(243 230 200 / .82); border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav-mais > summary::-webkit-details-marker { display: none; }
+.nav-mais > summary::after { content: " ▾"; }
+.nav-mais.atual > summary { color: var(--ouro-claro); border-bottom-color: var(--ouro-claro); }
+.nav .nav-mais > ul { position: absolute; right: 0; top: 100%; z-index: 30; display: block; min-width: 13rem; margin: 4px 0 0; padding: 6px; list-style: none; background: var(--bordo); border: 1px solid var(--ouro); box-shadow: 0 8px 24px rgb(0 0 0 / .35); overflow: visible; }
+.nav .nav-mais > ul a { padding: 8px 10px; }
 .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
 .nav a { display: block; padding: 6px 10px; font: 500 .9rem/1.2 var(--f-ui); color: var(--tinta-2); text-decoration: none; border-radius: var(--raio); white-space: nowrap; }
 .nav a:hover { background: var(--papel-2); color: var(--tinta); }

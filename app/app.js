@@ -73,15 +73,17 @@ busca.ligar = (root, ctx) => {
 // Catálogo único: #biblioteca e #mediateca abrem a mesma tela; a sequência dos 607 livros fica em #trilha.
 const ROTAS = { painel, estudar, epocas, mapa: arvore, escada, simbolos, curso, biblioteca: mediateca, trilha: biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, idiomas, busca, entrar };
 const PREFIXOS = { 'epoca-': epoca, 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
-// Ordem de uso: onde estou, o que estudar, o conteúdo, a prática e a consulta. Ideias e Símbolos moram no Atlas.
-const NAV = [['painel', 'Painel'], ['estudar', 'Estudar'], ['curso', 'Curso'], ['mapa', 'Mapa'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['infantil', 'Infantil (Jr.)'], ['busca', 'Busca']];
+// Navegação principal (o uso de todo dia) e, em "Mais", a consulta. Só os rótulos mudam: as rotas são as mesmas.
+// Ideias e Símbolos moram no Atlas.
+const NAV = [['painel', 'Início'], ['estudar', 'Estudar'], ['escada', 'Meu percurso'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno']];
+const NAV_MAIS = [['curso', 'Curso completo'], ['mapa', 'Mapa do conhecimento'], ['atlas', 'Atlas'], ['plano', 'Plano e conta'], ['idiomas', 'Idiomas'], ['busca', 'Busca'], ['infantil', 'Infantil (Jr.)']];
 // A formação infantil mudou para a Academia para Verdade Jr.; os links antigos (favoritos, PDFs) vão para lá.
 const JR = 'https://leonardoxal.github.io/academia-para-verdade-jr/';
 const ROTA_JR = /^(infantil|jogos|jogo|assistir|acompanhar|desenhar)(-|$)/;
 const SUBABAS = { atlas: [['atlas', 'Conceitos'], ['autores', 'Autores'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos']] };
 const subabasHTML = (token, secao) => (SUBABAS[secao] && SUBABAS[secao].some(([t]) => t === token)
   ? `<nav class="abas-mapa" aria-label="Seções do Atlas">${SUBABAS[secao].map(([t, r]) => `<a href="#${t}" ${t === token ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>` : '');
-const SECAO = { epocas: 'estudar', 'epoca-': 'estudar', trilha: 'biblioteca', 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
+const SECAO = { epocas: 'estudar', 'epoca-': 'estudar', trilha: 'biblioteca', 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };
@@ -139,12 +141,20 @@ function render(opts = {}) {
   conteudo.replaceChildren(novo);
   try { view.ligar?.(novo, ctx, id); } catch (e) { toast(`Erro: ${e.message}`); }
   document.querySelectorAll('.nav a').forEach((a) => a.setAttribute('aria-current', a.dataset.secao === secao ? 'page' : 'false'));
+  document.querySelector('.nav-mais')?.classList.toggle('atual', NAV_MAIS.some(([t]) => t === secao));
   if (opts.manterRolagem) window.scrollTo(0, y);
   if (opts.foco) { const f = document.getElementById(opts.foco); if (f) { f.focus(); if (f.setSelectionRange && f.value != null && f.type !== 'number' && f.type !== 'date') f.setSelectionRange(f.value.length, f.value.length); } }
   atualizarCronometro();
 }
 
-document.querySelector('.nav ul').innerHTML = NAV.map(([t, r]) => `<li><a href="#${t}" data-secao="${t}">${r}</a></li>`).join('');
+const itemNav = ([t, r]) => `<li><a href="#${t}" data-secao="${t}">${r}</a></li>`;
+document.querySelector('.nav ul').innerHTML = NAV.map(itemNav).join('');
+document.querySelector('.nav').insertAdjacentHTML('beforeend', `<details class="nav-mais"><summary>Mais</summary><ul>${NAV_MAIS.map(itemNav).join('')}</ul></details>`);
+const navMais = document.querySelector('.nav-mais');
+// o menu "Mais" fecha ao escolher um destino, ao clicar fora e com Esc
+window.addEventListener('hashchange', () => { navMais.open = false; });
+document.addEventListener('click', (ev) => { if (navMais.open && !navMais.contains(ev.target)) navMais.open = false; });
+document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && navMais.open) { navMais.open = false; navMais.querySelector('summary').focus(); } });
 window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); document.getElementById('conteudo').focus({ preventScroll: true }); });
 
 // Favoritos e cronômetro funcionam em qualquer página.
