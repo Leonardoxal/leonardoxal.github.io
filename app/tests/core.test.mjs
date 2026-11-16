@@ -248,6 +248,30 @@ test('discursiva: texto para IA leva rubrica e resposta, nunca dados da conta; s
   assert.deepEqual(C.normalizarEstado(e, T0).discursivas['m1-1-0'], { texto: 'x', ia: 'y', confirmado: 5 });
 });
 
+test('lacunas: só avaliação feita abaixo do mínimo e discursiva sem confirmação', () => {
+  const e = { ...C.estadoInicial(T0),
+    tentativas: { 'quiz-m1-1': [{ pct: 50 }, { pct: 90 }], 'prova-m1': [{ pct: 60, revisar: ['m1-2'] }, { pct: 70, revisar: ['m1-3'] }], 'quiz-m1-4': [] },
+    discursivas: { 'm1-1-3': { texto: 'x' }, 'm1-2-3': { texto: 'y', confirmado: 1 }, 'm1-5-3': { texto: '  ' },
+      'livro-adler-como-ler-resumo': { texto: 'resumo' }, 'livro-adler-como-ler-2': { texto: 'resposta do questionário' } } };
+  const l = C.lacunas(e);
+  assert.deepEqual(l.abaixo, [{ id: 'prova-m1', melhor: 70, revisar: ['m1-3'] }], 'vale a melhor nota; revisar vem da última tentativa');
+  assert.deepEqual(l.revisar, ['m1-3']);
+  assert.deepEqual(l.discursivas.sort(), ['livro-adler-como-ler-2', 'm1-1-3']);
+  assert.deepEqual(C.lacunas(C.estadoInicial(T0)), { abaixo: [], revisar: [], discursivas: [] });
+});
+
+test('painel mostra "O que ainda não domino" com links reais', async () => {
+  const { painel } = await import('../views/painel.js');
+  const status = { modo: 'local', msg: '' };
+  const vazio = painel({ estado: C.estadoInicial(T0), status });
+  assert.match(vazio, /O que ainda não domino[\s\S]*Nada pendente/);
+  const e = { ...C.estadoInicial(T0), tentativas: { 'quiz-m1-1': [{ pct: 40, revisar: [] }], 'quiz-livro-adler-como-ler': [{ pct: 50 }], 'prova-m1': [{ pct: 60, revisar: ['m1-2'] }] },
+    discursivas: { 'm1-1-3': { texto: 'x' }, 'm1-1-av-0': { texto: 'y' } } };
+  const html = painel({ estado: e, status });
+  for (const h of ['#aula-m1-1', '#livro-adler-como-ler', '#aval-prova-m1', '#aula-m1-2']) assert.ok(html.includes(`href="${h}"`), h);
+  assert.ok(!/NaN|undefined|\[object/.test(html));
+});
+
 test('corrige itens objetivos e ignora discursivas', () => {
   const itens = [
     { tipo: 'mc', correta: 1 },

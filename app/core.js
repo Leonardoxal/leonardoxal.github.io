@@ -201,6 +201,22 @@ export const melhorNota = (estado, avaliacaoId) =>
   Math.max(-1, ...(estado.tentativas[avaliacaoId] || []).map((t) => t.pct));
 
 /**
+ * O que ainda não está dominado, só a partir do que o estudante fez:
+ * avaliações feitas e ainda abaixo do mínimo (com as aulas que a última tentativa mandou revisar)
+ * e discursivas escritas sem resultado confirmado. Aula só aberta não entra: não há evidência.
+ */
+export function lacunas(estado, minimo = NOTA_MINIMA) {
+  const abaixo = Object.entries(estado.tentativas)
+    .filter(([id, ts]) => ts.length && melhorNota(estado, id) < minimo)
+    .map(([id, ts]) => ({ id, melhor: melhorNota(estado, id), revisar: ts.at(-1).revisar || [] }));
+  // campos da comprovação de leitura (livro-<id>-resumo etc.) têm a confirmação na chave -correcao; ficam fora
+  const discursivas = Object.entries(estado.discursivas)
+    .filter(([k, d]) => (d?.texto || '').trim() && !d.confirmado && (!k.startsWith('livro-') || /-\d+$/.test(k)))
+    .map(([k]) => k);
+  return { abaixo, revisar: [...new Set(abaixo.flatMap((a) => a.revisar))], discursivas };
+}
+
+/**
  * Verifica se uma aula completa pode ser marcada como concluída.
  * Bloqueia conclusão prematura: exige a aula anterior do mesmo módulo, quiz ≥ mínimo,
  * discursivas respondidas e fonte lida. Abrir a aula nunca é bloqueado.

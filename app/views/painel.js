@@ -3,13 +3,47 @@ import { MODULOS, DEGRAUS, moduloPorId, todasAulas } from '../data/curriculo.js'
 import { aulaPorId } from '../data/aulas/index.js';
 import { livroPorId } from '../data/livros.js';
 import { conceitoPorId } from '../data/conceitos.js';
-import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas } from '../core.js';
+import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas, lacunas, NOTA_MINIMA } from '../core.js';
+import { avaliacaoPorId } from '../data/avaliacoes.js';
 import { esc, barra, link, fmtData, fmtMin } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
 import { fachada } from '../ornamentos.js';
 import { faseHTML, proximaAtividade } from './grade.js';
 
 const disponiveis = new Set(Object.keys(aulaPorId));
+
+const MAX_LACUNAS = 6;
+const aulaPor = Object.fromEntries(todasAulas.map((a) => [a.id, a]));
+const linkAula = (id, prefixo = '') => link(`aula-${id}`, esc(`${prefixo}${aulaPor[id]?.titulo || id}`));
+
+// ids das tentativas: quiz-<aula>, quiz-av-<aula>, quiz-livro-<livro> ou o id da avaliação
+function linkAvaliacao(id) {
+  if (id.startsWith('quiz-livro-')) { const l = id.slice(11); return link(`livro-${l}`, esc(`Questionário: ${livroPorId[l]?.titulo || l}`)); }
+  if (id.startsWith('quiz-av-')) return linkAula(id.slice(8), 'Aprofundamento: ');
+  if (id.startsWith('quiz-')) return linkAula(id.slice(5));
+  return link(`aval-${id}`, esc(avaliacaoPorId[id]?.titulo || id));
+}
+// chave da discursiva: <prefixo>-<n>, onde o prefixo é a aula, a aula com -av, livro-<id> ou a avaliação
+function linkDiscursiva(chave) {
+  const pref = chave.replace(/-\d+$/, '');
+  if (pref.startsWith('livro-')) { const l = pref.slice(6); return link(`livro-${l}`, esc(`Questionário: ${livroPorId[l]?.titulo || l}`)); }
+  const aula = pref.replace(/-av$/, '');
+  return aulaPor[aula] ? linkAula(aula) : link(`aval-${pref}`, esc(avaliacaoPorId[pref]?.titulo || pref));
+}
+
+function lacunasHTML(estado) {
+  const l = lacunas(estado);
+  const lista = (itens) => `<ul class="lista-curta">${itens.slice(0, MAX_LACUNAS).join('')}</ul>${itens.length > MAX_LACUNAS ? `<p class="meta">e mais ${itens.length - MAX_LACUNAS}.</p>` : ''}`;
+  const discUnicas = [...new Set(l.discursivas.map(linkDiscursiva))];
+  const vazio = !l.abaixo.length && !l.revisar.length && !discUnicas.length;
+  return `<section class="lacunas"><h2>O que ainda não domino</h2>
+    <p class="meta">Só entra o que você já fez: avaliações abaixo de ${NOTA_MINIMA}% e discursivas escritas sem resultado confirmado. Aula apenas aberta não prova nada, nem a favor nem contra.</p>
+    ${vazio ? '<p>Nada pendente nas atividades feitas até agora.</p>' : ''}
+    ${l.abaixo.length ? `<h3>Avaliações abaixo do mínimo</h3>${lista(l.abaixo.map((a) => `<li>${linkAvaliacao(a.id)} <span class="meta">melhor nota ${a.melhor}%</span></li>`))}` : ''}
+    ${l.revisar.length ? `<h3>Aulas que as provas mandaram revisar</h3>${lista(l.revisar.map((id) => `<li>${linkAula(id)}</li>`))}` : ''}
+    ${discUnicas.length ? `<h3>Discursivas sem resultado confirmado</h3>${lista(discUnicas.map((x) => `<li>${x}</li>`))}<p class="meta">Peça a correção (opcional), confira os critérios e marque "Confirmo o resultado".</p>` : ''}
+  </section>`;
+}
 
 function saudacao() {
   const h = new Date().getHours();
@@ -69,6 +103,8 @@ export function painel({ estado, status }) {
     <div class="ind"><span class="ind-rot">Revisões pendentes</span><span class="ind-val">${pend.length}</span>${pend.length ? link('revisar', 'Revisar agora') : '<span class="meta">nada para hoje</span>'}</div>
     <div class="ind"><span class="ind-rot">Degrau ${degrauAtual.n}</span><span class="ind-val">${progressoDegrau(degrauAtual, MODULOS, disponiveis, estado)}%</span>${barra(progressoDegrau(degrauAtual, MODULOS, disponiveis, estado))}${link('escada', 'Ver na escada')}</div>
   </div>
+
+  ${lacunasHTML(estado)}
 
   <div class="grade-2">
     <section><h2>Livro atual</h2>${livro ? `<p>${link(`livro-${livroId}`, `<strong>${esc(livro.titulo)}</strong>`)} — ${esc(livro.autor)}</p>${barra(pctLivro(estado, livroId))}<p class="meta">${pctLivro(estado, livroId)}% lido${estado.livros[livroId]?.paginas ? ` · p. ${estado.livros[livroId].paginaAtual || 0} de ${estado.livros[livroId].paginas}` : ' · informe o total de páginas na ficha do livro'}</p>` : `<p class="meta">Nenhum livro marcado como "Lendo". Comece pelo primeiro da trilha: ${link('livro-adler-como-ler', 'Como Ler Livros')}.</p>`}</section>
