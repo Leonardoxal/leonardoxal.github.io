@@ -5,7 +5,7 @@ import { livroPorId } from '../data/livros.js';
 import { conceitoPorId } from '../data/conceitos.js';
 import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas, lacunas, NOTA_MINIMA } from '../core.js';
 import { avaliacaoPorId } from '../data/avaliacoes.js';
-import { esc, barra, link, fmtData, fmtMin } from '../ui.js';
+import { esc, barra, link, fmtData, fmtMin, MODOS, modoEstudo, definirModo } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
 import { fachada } from '../ornamentos.js';
 import { faseHTML, proximaAtividade } from './grade.js';
@@ -85,6 +85,8 @@ export function painel({ estado, status }) {
     <h1>Degrau ${degrauAtual.n}: ${esc(degrauAtual.nome)}</h1>
     ${faseHTML(estado)}
     <p class="sub">${esc(degrauAtual.objetivo)}</p>
+    <div class="modo-estudo" role="group" aria-label="Modo de estudo">${Object.entries(MODOS).map(([m, r]) => `<button class="btn pequeno" type="button" data-modo="${m}" aria-pressed="${modoEstudo() === m}">${r}</button>`).join('')}
+      <span class="meta">${modoEstudo() === 'livre' ? 'Consultar não registra andamento nem conclusão.' : 'Abrir uma aula a coloca no seu percurso.'}</span></div>
     ${faseIniciacaoConcluida(estado) || !aulaCont
     ? (prox ? `<a class="btn primario grande" href="#${prox.href}">Próxima atividade — ${esc(prox.rotulo)}</a><p class="meta">${esc(prox.contexto)}</p>` : '<p>Nada pendente no momento: todas as aulas, provas e obras disponíveis foram concluídas.</p>')
     : `<a class="btn primario grande" href="#aula-${aulaCont.id}">Continuar estudando — ${esc(aulaCont.titulo)}</a>
@@ -119,6 +121,7 @@ export function painel({ estado, status }) {
 }
 
 painel.ligar = (root, ctx) => {
+  root.querySelectorAll('[data-modo]').forEach((b) => b.addEventListener('click', () => { definirModo(b.dataset.modo); ctx.render({ manterRolagem: true }); }));
   const n = root.querySelector('#nome');
   let t;
   n?.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => ctx.set((e) => ({ ...e, perfil: { ...e.perfil, nome: n.value.trim() } }), { render: false }), 500); });

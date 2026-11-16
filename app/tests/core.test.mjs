@@ -260,6 +260,15 @@ test('lacunas: só avaliação feita abaixo do mínimo e discursiva sem confirma
   assert.deepEqual(C.lacunas(C.estadoInicial(T0)), { abaixo: [], revisar: [], discursivas: [] });
 });
 
+test('modo de estudo: guiado por padrão; o painel mostra os dois modos', async () => {
+  const { modoEstudo, MODOS } = await import('../ui.js');
+  const { painel } = await import('../views/painel.js');
+  assert.equal(modoEstudo(), 'guiado', 'sem armazenamento (ou sem escolha) vale o guiado');
+  const html = painel({ estado: C.estadoInicial(T0), status: { modo: 'local', msg: '' } });
+  for (const m of Object.keys(MODOS)) assert.ok(html.includes(`data-modo="${m}"`), m);
+  assert.match(html, /data-modo="guiado" aria-pressed="true"/);
+});
+
 test('painel mostra "O que ainda não domino" com links reais', async () => {
   const { painel } = await import('../views/painel.js');
   const status = { modo: 'local', msg: '' };

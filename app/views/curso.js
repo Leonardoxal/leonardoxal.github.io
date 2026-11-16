@@ -4,7 +4,7 @@ import { aulaPorId } from '../data/aulas/index.js';
 import { LIVROS } from '../data/livros.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { progressoModulo, aulaConcluivel, aulaConcluida, melhorNota, novoCartao, notaMinima } from '../core.js';
-import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast, novoId } from '../ui.js';
+import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast, novoId, modoEstudo, definirModo } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula, notasDe } from './conexoes.js';
 import { integradoresDaAulaHTML } from './integradores.js';
@@ -130,7 +130,8 @@ export function aula({ estado }, id) {
       <span class="grupo-fonte" role="group" aria-label="Tamanho do texto"><button class="btn" data-acao="fonte" data-passo="-1" aria-label="Diminuir o texto">A−</button><button class="btn" data-acao="fonte" data-passo="1" aria-label="Aumentar o texto">A+</button></span>
       <button class="btn" data-acao="retomar" hidden>Retomar onde parei</button></div>
     <button class="btn pequeno sair-foco" data-acao="foco" type="button">Sair do modo foco</button>
-    ${epocaDaAulaHTML(id)}</header>
+    ${epocaDaAulaHTML(id)}
+    ${modoEstudo() === 'livre' ? `<p class="aviso aviso-modo"><strong>Exploração livre.</strong> Esta visita não muda o seu percurso nem o "Continuar estudando", e a aula não é concluída. Exercícios e notas continuam sendo salvos. <button class="btn pequeno" data-acao="modo-guiado" type="button">Voltar ao estudo guiado</button></p>` : ''}</header>
   <div class="lateral"><nav class="sumario" aria-label="Seções da aula"><details><summary>Sumário da aula</summary><ol>
     ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></details></nav>
     ${notasAulaHTML(estado, id)}</div>
@@ -283,7 +284,8 @@ aula.ligar = (root, ctx, id) => {
   const a = aulaPorId[id];
   if (!a) return;
   ligarLeitura(root, id);
-  if (!ctx.estado.aulas[id] || ctx.estado.atual.aula !== id) {
+  // na exploração livre, abrir não entra no percurso: nem "em andamento" nem o "Continuar estudando" do painel
+  if (modoEstudo() === 'guiado' && (!ctx.estado.aulas[id] || ctx.estado.atual.aula !== id)) {
     ctx.set((e) => ({ ...e, atual: { ...e.atual, aula: id }, aulas: { ...e.aulas, [id]: { status: 'andamento', inicio: Date.now(), ...e.aulas[id], acesso: Date.now() } } }), { render: false });
   }
   // Atualiza só a seção de conclusão, para não apagar a correção do questionário na tela.
@@ -307,7 +309,9 @@ aula.ligar = (root, ctx, id) => {
   root.addEventListener('click', (ev) => {
     const b = ev.target.closest('[data-acao]');
     if (!b) return;
+    if (b.dataset.acao === 'modo-guiado') { definirModo('guiado'); ctx.render({ manterRolagem: true }); toast('Estudo guiado: esta aula entra no seu percurso.'); return; }
     if (b.dataset.acao === 'concluir') {
+      if (modoEstudo() === 'livre') { toast('Na exploração livre nada é concluído. Volte ao estudo guiado para concluir.'); return; }
       ctx.set((e) => ({ ...e, aulas: { ...e.aulas, [id]: { ...e.aulas[id], status: 'concluida', fim: Date.now() } } }), { render: false });
       atualizarConclusao();
       toast('Aula concluída.');

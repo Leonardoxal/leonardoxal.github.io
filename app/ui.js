@@ -2,6 +2,13 @@
 import { ETIQUETAS } from './data/fontes.js';
 
 /** Escapa texto do usuário antes de inserir em HTML. */
+// Modo de estudo (preferência do aparelho, como o tema): no guiado, abrir uma aula entra no percurso;
+// na exploração livre, consultar não registra andamento nem conclusão.
+const CHAVE_MODO = 'academia-verdade-modo';
+export const MODOS = { guiado: 'Estudo guiado', livre: 'Exploração livre' };
+export const modoEstudo = () => { try { return localStorage.getItem(CHAVE_MODO) === 'livre' ? 'livre' : 'guiado'; } catch { return 'guiado'; } };
+export const definirModo = (m) => { try { localStorage.setItem(CHAVE_MODO, m in MODOS ? m : 'guiado'); } catch { /* sem armazenamento: vale o guiado */ } };
+
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 export const barra = (pct, rotulo = '') =>
