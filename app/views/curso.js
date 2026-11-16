@@ -150,7 +150,7 @@ export function aula({ estado }, id) {
   <section id="s13"><h2>Referências verificáveis</h2><ul class="refs">${a.referencias.map((r) => `<li>${esc(r.texto)} ${linkExterno(r.link)}</li>`).join('')}</ul>
     <p class="meta">Etiquetas usadas no texto: ${['doutrina', 'fato', 'argumento', 'interpretacao', 'hipotese', 'debate'].map(etiqueta).join(' ')}</p></section>
   ${conexoesAula(estado, id)}
-  ${integradoresDaAulaHTML(id)}
+  ${integradoresDaAulaHTML(id, estado)}
   ${obrasDaAulaHTML(id, estado)}
   ${leiturasRecomendadasHTML(m, 6, estado)}
   ${a.avancado ? `<section id="s15" class="avancado-sec texto"><h2>Aprofundamento</h2>

@@ -743,6 +743,21 @@ test('épocas: páginas sem valores inválidos, e época inexistente não quebra
   assert.ok(aula({ estado: FASE3 }, 'ma1-1').includes('Trilha paralela'));
 });
 
+test('aula mostra as ligações com outras disciplinas, com a pergunta e a relação de cada aula', async () => {
+  const { integradoresDaAulaHTML } = await import('../views/integradores.js');
+  const { INTEGRADORES, integradoresDaAula } = await import('../data/integradores.js');
+  const html = integradoresDaAulaHTML('m5-3', FASE3);
+  assert.match(html, /Ligações com outras disciplinas/);
+  assert.ok(html.includes(INTEGRADORES.find((m) => m.id === 'grecia').pergunta.slice(0, 40)));
+  assert.ok(!html.includes('href="#aula-m5-3"'), 'não liga a aula a ela mesma');
+  assert.ok(html.includes('aula-h4-1') && /pré-requisito obrigatório/.test(html));
+  assert.ok(!/NaN|undefined|\[object/.test(html));
+  assert.equal(integradoresDaAulaHTML('aula-que-nao-existe', FASE3), '');
+  // nenhuma aula ligada quebra a seção
+  for (const id of new Set(INTEGRADORES.flatMap((m) => m.itens.map((i) => i.aula)).filter(Boolean))) assert.ok(!/undefined|\[object/.test(integradoresDaAulaHTML(id, FASE3)), id);
+  assert.ok(integradoresDaAula('m5-3').length);
+});
+
 test('identidade: cruz gótica vetorial ao lado do nome', () => {
   const svg = cruz(34);
   assert.ok(svg.startsWith('<svg') && svg.includes('viewBox="0 0 40 60"') && svg.includes('aria-hidden="true"'));

@@ -49,7 +49,29 @@ export function integrador({ estado }, id) {
 }
 
 /** Bloco para a página da aula: os integradores em que ela aparece. */
-export function integradoresDaAulaHTML(aulaId) {
+const MAX_LIGADAS = 8;
+const aulaMeta = Object.fromEntries(todasAulas.map((a) => [a.id, a]));
+
+/** Na aula: cada módulo integrador em que ela entra, com a pergunta que justifica a ligação e as aulas de outras áreas. */
+export function integradoresDaAulaHTML(aulaId, estado) {
   const lista = integradoresDaAula(aulaId);
-  return lista.length ? `<p class="meta">Também em: ${lista.map((x) => `${link(`integrador-${x.modulo.id}`, esc(x.modulo.titulo))} (${esc(RELACOES_INTEGRADOR[x.relacao].nome.toLowerCase())})`).join(', ')}.</p>` : '';
+  if (!lista.length) return '';
+  const meuModulo = aulaMeta[aulaId]?.modulo;
+  const bloco = ({ modulo: m, relacao }) => {
+    const ligadas = m.itens.filter((i) => i.aula && i.aula !== aulaId && aulaMeta[i.aula] && aulaMeta[i.aula].modulo !== meuModulo);
+    const item = (i) => {
+      const a = aulaMeta[i.aula];
+      const feita = estado && aulaConcluida(estado, i.aula);
+      return `<li>${link(`aula-${i.aula}`, esc(a.titulo))}<br><span class="meta">${esc(moduloPorId[a.modulo].titulo)} · ${esc(RELACOES_INTEGRADOR[i.relacao].nome.toLowerCase())}</span>${feita ? ' <span class="chip ok">concluída</span>' : ''}</li>`;
+    };
+    return `<div class="ligacao">
+      <h3>${link(`integrador-${m.id}`, esc(m.titulo))} <span class="meta">(${esc(TIPOS_INTEGRADOR[m.tipo])})</span></h3>
+      <p><strong>Pergunta que une estas aulas:</strong> ${esc(m.pergunta)}</p>
+      <p class="meta">Esta aula entra como ${esc(RELACOES_INTEGRADOR[relacao].nome.toLowerCase())}: ${esc(RELACOES_INTEGRADOR[relacao].desc.toLowerCase())}</p>
+      ${ligadas.length ? `<ul class="lista-curta">${ligadas.slice(0, MAX_LIGADAS).map(item).join('')}</ul>${ligadas.length > MAX_LIGADAS ? `<p class="meta">${link(`integrador-${m.id}`, `Ver as ${ligadas.length} aulas ligadas`)}</p>` : ''}` : ''}
+    </div>`;
+  };
+  return `<section class="ligacoes"><h2>Ligações com outras disciplinas</h2>
+    <p class="meta">O mesmo assunto estudado por outras áreas do curso. A relação diz por que cada aula está aqui; só o pré-requisito é exigido, e só para a síntese do módulo integrador.</p>
+    ${lista.map(bloco).join('')}</section>`;
 }
