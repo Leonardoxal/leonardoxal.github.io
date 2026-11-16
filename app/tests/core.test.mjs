@@ -1078,7 +1078,7 @@ test('idiomas: sete línguas, nível do estudante saneado e tela com a aba do Ma
   const { IDIOMAS } = await import('../data/idiomas.js');
   const { idiomas } = await import('../views/idiomas.js');
   const { normalizarEstado } = await import('../core.js');
-  assert.deepEqual(IDIOMAS.map((l) => l.id), ['latim', 'grego', 'ingles', 'espanhol', 'frances', 'italiano', 'alemao']);
+  assert.deepEqual(IDIOMAS.map((l) => l.id), ['latim', 'grego', 'ingles', 'espanhol', 'frances', 'italiano', 'alemao', 'mandarim', 'coreano']);
   for (const l of IDIOMAS) assert.ok(l.porque && l.niveis.length >= 3 && l.alvos.length && l.referencias.length, l.id);
   assert.equal(IDIOMAS.find((l) => l.id === 'latim').foco, 'leitura');
   assert.equal(IDIOMAS.find((l) => l.id === 'frances').niveis.length, 6, 'A1 a C2');

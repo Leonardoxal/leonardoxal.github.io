@@ -65,6 +65,25 @@ export const IDIOMAS = [
   moderna({ id: 'frances', nome: 'Francês', porque: 'Língua de muitos autores católicos modernos e de grande parte da filosofia e da historiografia dos séculos XIX e XX.', alvos: ['Pascal', 'Autores católicos franceses', 'Historiografia francesa'] }),
   moderna({ id: 'italiano', nome: 'Italiano', porque: 'Língua de Dante e da vida da Igreja em Roma.', alvos: ['Dante', 'Estudos publicados em Roma'] }),
   moderna({ id: 'alemao', nome: 'Alemão', porque: 'Língua de grande parte da filosofia moderna, da teologia acadêmica e da filologia clássica.', alvos: ['Filosofia alemã no original', 'Estudos de teologia e filologia'] }),
+  // Mandarim e coreano têm provas oficiais com escala própria (HSK e TOPIK); o QECR fica como régua comum da aba.
+  moderna({
+    id: 'mandarim', nome: 'Mandarim',
+    porque: 'Língua materna do maior número de falantes do mundo; abre a cultura chinesa no original e a história da Igreja na China, das missões jesuítas de Matteo Ricci aos mártires canonizados em 2000.',
+    alvos: ['Conversação e notícias', 'Literatura chinesa clássica e moderna', 'História da Igreja na China'],
+    referencias: [
+      { autor: 'Ministério da Educação da China', titulo: 'Padrões de proficiência em chinês para o ensino internacional (HSK, 2021)', nota: 'escala oficial em nove níveis, com a prova HSK' },
+      { autor: 'Yuehua Liu e Tao-chung Yao', titulo: 'Integrated Chinese', nota: 'curso completo, em inglês, com pinyin e caracteres' },
+    ],
+  }),
+  moderna({
+    id: 'coreano', nome: 'Coreano (Coreia do Sul)',
+    porque: 'Língua da Coreia do Sul, com alfabeto próprio (hangul) que se aprende em poucos dias; abre a cultura coreana e a história dos mártires coreanos, canonizados por São João Paulo II em 1984.',
+    alvos: ['Conversação e notícias', 'Literatura coreana', 'História dos mártires coreanos'],
+    referencias: [
+      { autor: 'Instituto Nacional de Educação Internacional (Coreia do Sul)', titulo: 'TOPIK, Test of Proficiency in Korean', nota: 'prova oficial em seis níveis' },
+      { autor: 'Young-mee Cho e outros', titulo: 'Integrated Korean', nota: 'curso completo, em inglês' },
+    ],
+  }),
 ];
 
 export const idiomaPorId = Object.fromEntries(IDIOMAS.map((l) => [l.id, l]));
