@@ -5,6 +5,7 @@ import { fichaDe } from '../data/fichas.js';
 import { aulaConcluida, livroConcluido, comprovacaoLivro, camposComprovacao, chaveComprovacao, CAMPOS_COMPROVACAO, quizDoLivro, NOTA_MINIMA } from '../core.js';
 import { esc, link, toast } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
+import { correcaoHTML, ligarCorrecao } from './correcao.js';
 
 const statusTexto = (c) => (c.ok ? 'Comprovação completa: a leitura pode ser marcada como concluída.' : `Falta: ${c.faltas.join('; ')}.`);
 
@@ -55,6 +56,7 @@ export function comprovacaoHTML(estado, id) {
         <textarea rows="${k === 'resumo' ? 7 : 4}" data-comprovar="${k}">${esc(texto)}</textarea>
         <span class="meta" data-conta="${k}">${texto.trim().length}/${campo.minimo}</span></label>`;
     }).join('')}
+    ${correcaoHTML(chaveComprovacao(id, 'correcao'), estado.discursivas[chaveComprovacao(id, 'correcao')])}
     <p id="comprovar-status" class="${c.ok ? 'ok-msg' : 'meta'}" aria-live="polite">${esc(statusTexto(c))}</p>
   </section>`;
 }
@@ -72,6 +74,15 @@ export function ligarComprovacao(root, ctx, id) {
     return c;
   };
   if (l.questionario) ligarQuiz(root.querySelector('#quiz-livro'), l.questionario, ctx, () => { if (atualizarStatus().ok) toast('Comprovação completa.'); });
+  ligarCorrecao(root.querySelector('#comprovar'), ctx, () => {
+    const campos = camposComprovacao(l.nivel);
+    return {
+      contexto: `comprovação de leitura de "${l.titulo}", de ${l.autor} (dificuldade ${l.nivel} de 5)`,
+      enunciado: `${l.objetivo ? `Objetivo da leitura: ${l.objetivo} ` : ''}Não se exige concordar com o autor; exige-se expor com fidelidade o que ele defende e avaliar seus argumentos.`,
+      criterios: [...campos.map((k) => `${CAMPOS_COMPROVACAO[k].rotulo}: ${CAMPOS_COMPROVACAO[k].dica}`), ...(fichaDe(id)?.criterio || []), 'Fidelidade à obra: nada atribuído ao autor que ele não diga'],
+      resposta: campos.map((k) => `${CAMPOS_COMPROVACAO[k].rotulo.toUpperCase()}:\n${root.querySelector(`[data-comprovar="${k}"]`)?.value.trim() || '(em branco)'}`).join('\n\n'),
+    };
+  });
   root.querySelectorAll('[data-comprovar]').forEach((ta) => ta.addEventListener('input', () => {
     const k = ta.dataset.comprovar;
     root.querySelector(`[data-conta="${k}"]`).textContent = `${ta.value.trim().length}/${CAMPOS_COMPROVACAO[k].minimo}`;

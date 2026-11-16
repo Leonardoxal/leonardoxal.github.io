@@ -12,6 +12,7 @@ import { edicoesHTML, resumoVersoes } from './edicoes.js';
 import { pessoalHTML, ligarPessoal } from './biblioteca.js';
 import { livroPorId } from '../data/livros.js';
 import { obraPronta } from '../data/mediateca.js';
+import { correcaoHTML, ligarCorrecao } from './correcao.js';
 
 const POR_PAGINA = 60;
 // filtros da sessão (como a consulta da Busca): não precisam sobreviver ao recarregar
@@ -177,6 +178,13 @@ obra.ligar = (root, ctx, id) => {
   });
   root.querySelector('[data-acao="nota-obra"]')?.addEventListener('click', () => ctx.novaNota({ tipo: 'livro', id }, `Notas — ${obraPorId[id].titulo}`));
   ligarFichaObra(root, ctx);
+  const o = obraPorId[id];
+  if (o) ligarCorrecao(root, ctx, () => ({
+    contexto: `análise de obra: "${o.titulo}"${o.criador ? `, de ${o.criador}` : ''} (${CATEGORIAS[o.categoria]})`,
+    enunciado: 'Análise escrita da obra: o que ela afirma ou mostra, o que o estudante aprendeu e o que ficou em dúvida.',
+    criterios: ['Expõe com fidelidade o que a obra afirma ou mostra, sem atribuir ao autor o que ele não diz', 'Identifica a tese, o tema ou a intenção principal', 'Relaciona a obra com o contexto histórico ou com outras obras estudadas', 'Avalia criticamente, com razões', 'Indica com honestidade o que ficou em dúvida'],
+    resposta: root.querySelector('#form-obra textarea[name="analise"]')?.value || '',
+  }));
 };
 
 export function obra({ estado }, id) {
@@ -196,6 +204,7 @@ export function obra({ estado }, id) {
       <label class="campo largo"><span>Análise e observações (mínimo ${MIN_ANALISE_OBRA} caracteres para concluir)</span><textarea name="analise" rows="6">${esc(analiseDaObra(estado, id))}</textarea></label>
       <button class="btn primario" type="submit">Salvar</button>
     </form>
+    ${correcaoHTML(chaveComprovacao(id, 'analise-correcao'), estado.discursivas[chaveComprovacao(id, 'analise-correcao')])}
     <p class="meta">${obraPronta(o) ? 'Esta obra é obrigatória no módulo.' : 'Esta obra ainda está em preparação (sem contexto e aula próprios) e não é exigida para concluir o módulo.'} Para concluir, escreva a sua análise: o que a obra afirma ou mostra, o que você aprendeu e o que ficou em dúvida.</p>
     <p class="meta">Início ${fmtData(st.inicio)} · conclusão ${fmtData(st.fim)}</p>
     <div class="acoes-aula"><button class="btn" data-acao="cronometro" data-alvo="livro:${id}">Iniciar cronômetro</button><button class="btn" data-acao="nota-obra">Nova nota desta obra</button></div>
