@@ -433,6 +433,14 @@ h3 { color: var(--vinho); }
   float: left; font: 600 3.5em/0.82 var(--f-titulo); color: var(--vinho); margin: .08em .12em 0 0; padding: .1em .14em .04em;
   background: color-mix(in srgb, var(--vinho) 9%, transparent); border: 1px solid color-mix(in srgb, var(--ouro) 55%, transparent); }
 .texto { font-size: 1.04rem; }
+/* Leitura da aula: tamanho do texto e modo foco (preferências do aparelho, em views/curso.js) */
+.aula section { font-size: calc(17px * var(--escala-texto, 1)); }
+.aula .texto { font-size: calc(1.04rem * var(--escala-texto, 1)); }
+.grupo-fonte { display: inline-flex; gap: 2px; }
+.sair-foco { display: none; }
+body.foco .topo, body.foco .aviso-escopo, body.foco .migalha { display: none; }
+body.foco main { max-width: 46rem; }
+body.foco .sair-foco { display: inline-flex; position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 20; }
 .aula .texto p, .aula .texto li { line-height: 1.68; }
 
 /* Botões, etiquetas e formulários */

@@ -125,7 +125,11 @@ export function aula({ estado }, id) {
     <h1>${esc(a.titulo)} ${botaoFav(estado, 'aula', id)}</h1>
     <div class="acoes-aula"><button class="btn" data-acao="nota-aula">Nova nota desta aula</button>
       <button class="btn" data-acao="cartoes">Gerar cartões de revisão</button>
-      <button class="btn" data-acao="cronometro" data-alvo="aula:${id}">Iniciar cronômetro</button></div>
+      <button class="btn" data-acao="cronometro" data-alvo="aula:${id}">Iniciar cronômetro</button>
+      <button class="btn" data-acao="foco" aria-pressed="false">Modo foco</button>
+      <span class="grupo-fonte" role="group" aria-label="Tamanho do texto"><button class="btn" data-acao="fonte" data-passo="-1" aria-label="Diminuir o texto">A−</button><button class="btn" data-acao="fonte" data-passo="1" aria-label="Aumentar o texto">A+</button></span>
+      <button class="btn" data-acao="retomar" hidden>Retomar onde parei</button></div>
+    <button class="btn pequeno sair-foco" data-acao="foco" type="button">Sair do modo foco</button>
     ${epocaDaAulaHTML(id)}</header>
   <nav class="sumario" aria-label="Seções da aula"><ol>
     ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></nav>
@@ -166,9 +170,69 @@ export function aula({ estado }, id) {
   </section></article>`;
 }
 
+// Preferências de leitura deste aparelho (como o tema): modo foco, tamanho do texto e posição em cada aula.
+const CHAVE_LEITURA = 'academia-verdade-leitura';
+const ESCALAS = [0.9, 1, 1.1, 1.2, 1.35];
+const MAX_POSICOES = 60;
+const TOPO = 400; // px: abaixo disso não há leitura a retomar
+const lerPrefs = () => { try { return { foco: false, escala: 1, pos: {}, ...JSON.parse(localStorage.getItem(CHAVE_LEITURA) || '{}') }; } catch { return { foco: false, escala: 1, pos: {} }; } };
+const gravarPrefs = (p) => { try { localStorage.setItem(CHAVE_LEITURA, JSON.stringify(p)); } catch { /* sem armazenamento: vale só nesta visita */ } };
+
+let limparLeitura = null;
+function ligarLeitura(root, id) {
+  limparLeitura?.();
+  let prefs = lerPrefs();
+  const aplicar = () => {
+    document.body.classList.toggle('foco', prefs.foco);
+    root.querySelectorAll('[data-acao="foco"]').forEach((b) => b.setAttribute('aria-pressed', String(prefs.foco)));
+    document.documentElement.style.setProperty('--escala-texto', ESCALAS.includes(prefs.escala) ? prefs.escala : 1);
+  };
+  aplicar();
+  const salvo = prefs.pos[id];
+  const retomar = root.querySelector('[data-acao="retomar"]');
+  if (salvo > TOPO && retomar) { retomar.hidden = false; retomar.addEventListener('click', () => { window.scrollTo(0, salvo); retomar.hidden = true; }); }
+  let t;
+  const guardarPosicao = () => {
+    clearTimeout(t);
+    // perto do topo não grava: ao abrir a aula o app rola para o topo, e isso apagaria a posição de leitura
+    if (window.scrollY < TOPO) return;
+    t = setTimeout(() => {
+      prefs = lerPrefs();
+      const { [id]: _, ...outras } = prefs.pos;
+      // as mais recentes ficam no fim; as antigas saem para o registro não crescer sem limite
+      prefs.pos = Object.fromEntries([...Object.entries(outras).slice(-(MAX_POSICOES - 1)), [id, Math.round(window.scrollY)]]);
+      gravarPrefs(prefs);
+    }, 400);
+  };
+  const sairComEsc = (ev) => { if (ev.key === 'Escape' && prefs.foco) { prefs = { ...lerPrefs(), foco: false }; gravarPrefs(prefs); aplicar(); } };
+  window.addEventListener('scroll', guardarPosicao, { passive: true });
+  document.addEventListener('keydown', sairComEsc);
+  // ao sair da aula (ou redesenhá-la): o foco não vale para as outras páginas e os ouvintes saem junto
+  const limpar = () => {
+    window.removeEventListener('scroll', guardarPosicao);
+    document.removeEventListener('keydown', sairComEsc);
+    window.removeEventListener('hashchange', limpar);
+    clearTimeout(t);
+    document.body.classList.remove('foco');
+    limparLeitura = null;
+  };
+  window.addEventListener('hashchange', limpar);
+  limparLeitura = limpar;
+  root.addEventListener('click', (ev) => {
+    const b = ev.target.closest('[data-acao="foco"], [data-acao="fonte"]');
+    if (!b) return;
+    prefs = lerPrefs();
+    if (b.dataset.acao === 'foco') prefs.foco = !prefs.foco;
+    else { const i = ESCALAS.indexOf(prefs.escala); prefs.escala = ESCALAS[Math.min(ESCALAS.length - 1, Math.max(0, (i < 0 ? 1 : i) + Number(b.dataset.passo)))]; }
+    gravarPrefs(prefs);
+    aplicar();
+  });
+}
+
 aula.ligar = (root, ctx, id) => {
   const a = aulaPorId[id];
   if (!a) return;
+  ligarLeitura(root, id);
   if (!ctx.estado.aulas[id] || ctx.estado.atual.aula !== id) {
     ctx.set((e) => ({ ...e, atual: { ...e.atual, aula: id }, aulas: { ...e.aulas, [id]: { status: 'andamento', inicio: Date.now(), ...e.aulas[id], acesso: Date.now() } } }), { render: false });
   }
