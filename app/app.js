@@ -76,7 +76,7 @@ const PREFIXOS = { 'epoca-': epoca, 'periodo-': periodo, 'integrador-': integrad
 // Navegação principal (o uso de todo dia) e, em "Mais", a consulta. Só os rótulos mudam: as rotas são as mesmas.
 // Ideias e Símbolos moram no Atlas.
 const NAV = [['painel', 'Início'], ['estudar', 'Estudar'], ['escada', 'Meu percurso'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno']];
-const NAV_MAIS = [['curso', 'Curso completo'], ['mapa', 'Mapa do conhecimento'], ['atlas', 'Atlas'], ['plano', 'Plano e conta'], ['idiomas', 'Idiomas'], ['busca', 'Busca'], ['infantil', 'Infantil (Jr.)']];
+const NAV_MAIS = [['curso', 'Curso completo'], ['integradores', 'Ligações entre disciplinas'], ['mapa', 'Mapa do conhecimento'], ['atlas', 'Atlas'], ['plano', 'Plano e conta'], ['idiomas', 'Idiomas'], ['busca', 'Busca'], ['infantil', 'Infantil (Jr.)']];
 // A formação infantil mudou para a Academia para Verdade Jr.; os links antigos (favoritos, PDFs) vão para lá.
 const JR = 'https://leonardoxal.github.io/academia-para-verdade-jr/';
 const ROTA_JR = /^(infantil|jogos|jogo|assistir|acompanhar|desenhar)(-|$)/;

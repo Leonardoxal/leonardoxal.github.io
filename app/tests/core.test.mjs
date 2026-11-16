@@ -260,6 +260,18 @@ test('lacunas: só avaliação feita abaixo do mínimo e discursiva sem confirma
   assert.deepEqual(C.lacunas(C.estadoInicial(T0)), { abaixo: [], revisar: [], discursivas: [] });
 });
 
+test('integradores: lista de todas as ligações, com área, relação, estado e o porquê', async () => {
+  const { integradores } = await import('../views/integradores.js');
+  const { INTEGRADORES } = await import('../data/integradores.js');
+  const html = integradores({ estado: { ...C.estadoInicial(T0), aulas: { 'h4-1': { status: 'concluida' } } } });
+  const linhas = html.match(/<li data-tipo=/g) || [];
+  assert.equal(linhas.length, INTEGRADORES.flatMap((m) => m.itens.filter((i) => i.aula)).length, 'uma linha por ligação de aula');
+  assert.ok(!/data-area=""/.test(html), 'toda ligação tem área');
+  assert.match(html, /data-estado="feita"/);
+  assert.match(html, /Por quê: /);
+  assert.ok(!/NaN|undefined|\[object/.test(html));
+});
+
 test('modo de estudo: guiado por padrão; o painel mostra os dois modos', async () => {
   const { modoEstudo, MODOS } = await import('../ui.js');
   const { painel } = await import('../views/painel.js');
