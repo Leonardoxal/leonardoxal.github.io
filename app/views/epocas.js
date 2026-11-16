@@ -1,6 +1,7 @@
 // Épocas (#epocas e #epoca-<id>): a ordem de estudo da fase 3 e a trilha paralela.
 import { EPOCAS, epocaPorId, PARALELAS, epocaDaAula, naFase3, aulasDaEpoca, trilhaParalela, revisoesDaEpoca, motivoDaAula, epocaAtual, progressoEpoca, progressoParalela } from '../data/epocas.js';
 import { contextoPorObra, obrasDoContexto, PARALELA, FASE_INICIAL, BASES_FRACAS } from '../data/contextos.js';
+import { idiomasDaEpoca, IDIOMA_CONSTANTE } from '../data/idiomas.js';
 import { aulaPorId } from '../data/aulas/index.js';
 import { todasAulas, moduloPorId } from '../data/curriculo.js';
 import { livroPorId } from '../data/livros.js';
@@ -89,6 +90,8 @@ export function epoca({ estado }, id) {
     ${barra(pct(pr), `Progresso de ${e.titulo}`)}<span class="meta">${pr.feitas}/${pr.total} aulas concluídas</span></header>
   <section><h2>Aulas, na ordem de estudo</h2><ol class="leituras">${aulas.map((a) => itemAula(estado, a, agora)).join('')}</ol></section>
   ${revisoes.length ? `<section><h2>Para rever nesta época</h2><p class="meta">Aulas de épocas anteriores que também tratam deste período. Não são exigidas de novo.</p><ul class="lista-curta">${revisoes.map((a) => itemAula(estado, a)).join('')}</ul></section>` : ''}
+  <section><h2>Línguas desta época</h2><ul class="lista-curta">${idiomasDaEpoca(id).map((l) => `<li>${link('idiomas', `<strong>${esc(l.nome)}</strong>`)}${estado.idiomas?.[l.id] ? ` <span class="chip ok">${esc(estado.idiomas[l.id])}</span>` : ''} <span class="meta">${l.id === IDIOMA_CONSTANTE ? 'língua de trabalho, em todas as épocas' : `para ler: ${esc(l.alvos.join('; '))}`}</span></li>`).join('')}</ul>
+    <p class="meta">É a época em que os textos da língua pesam: bom momento para começá-la ou retomá-la. Uma língua de cada vez; ela continua depois da época.</p></section>
   ${obrasDaEpocaHTML(estado, e)}
   ${mediatecaDaEpocaHTML(e)}
   <div class="acoes-aula">${vizinha(EPOCAS[n - 1], 'Anterior')}${vizinha(EPOCAS[n + 1], 'Próxima')}</div>`;

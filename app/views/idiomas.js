@@ -1,8 +1,9 @@
 // Idiomas (#idiomas): percurso de línguas da formação adulta, com metas por nível, método e textos-alvo.
 // O nível de cada língua é escolhido e guardado pelo próprio estudante (estado.idiomas), sem prova automática.
-import { IDIOMAS, PRINCIPIOS } from '../data/idiomas.js';
+import { IDIOMAS, PRINCIPIOS, IDIOMA_CONSTANTE, EPOCAS_DO_IDIOMA } from '../data/idiomas.js';
 import { AULAS_IDIOMAS } from '../data/aulas-idiomas.js';
-import { esc } from '../ui.js';
+import { epocaPorId } from '../data/epocas.js';
+import { esc, link } from '../ui.js';
 import { abasMapa } from './arvore.js';
 
 export function idiomas({ estado }) {
@@ -14,6 +15,7 @@ export function idiomas({ estado }) {
     <p class="meta">Orientação da Academia, não método de nenhum autor citado. A avaliação do nível é sua: use as metas abaixo e, nas línguas modernas, a descrição oficial do Quadro.</p></section>
   ${IDIOMAS.map((l) => `<details class="idioma"${meus[l.id] ? ' open' : ''}><summary><strong>${esc(l.nome)}</strong> <span class="meta">(${l.foco === 'leitura' ? 'leitura' : 'níveis A1 a C2'})${meus[l.id] ? ` · meu nível: ${esc(meus[l.id])}` : ''}</span></summary>
     <p>${esc(l.porque)}</p>
+    <p class="meta">${l.id === IDIOMA_CONSTANTE ? `Acompanha todas as ${link('epocas', 'épocas')}: é a língua de trabalho do curso.` : `Entra em: ${EPOCAS_DO_IDIOMA[l.id].map((e) => link(`epoca-${e}`, esc(epocaPorId[e].titulo))).join(', ')}.`}</p>
     <div class="tabela-wrap"><table><tr><th>Nível</th><th>Meta</th></tr>${l.niveis.map((n) => `<tr><td>${esc(n.nivel)}</td><td>${esc(n.meta)}</td></tr>`).join('')}</table></div>
     <p><strong>Textos-alvo:</strong> ${esc(l.alvos.join('; '))}.</p>
     <p><strong>Referências:</strong> ${l.referencias.map((r) => `${esc(r.autor)}, <em>${esc(r.titulo)}</em> (${esc(r.nota)})`).join('; ')}. Confira a edição disponível antes de comprar.</p>

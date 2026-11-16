@@ -1242,6 +1242,24 @@ test('uma obra, um registro: edições, traduções e volumes ficam dentro da ob
   assert.match(telaLivro({ estado: e }, adler.livro), /Edições, traduções e volumes[\s\S]*Edição recomendada/);
 });
 
+test('épocas: cada língua entra numa época existente e o inglês acompanha todas', async () => {
+  const { IDIOMAS, IDIOMA_CONSTANTE, EPOCAS_DO_IDIOMA, idiomasDaEpoca } = await import('../data/idiomas.js');
+  const { epoca: telaEpoca } = await import('../views/epocas.js');
+  const { idiomas: telaIdiomas } = await import('../views/idiomas.js');
+  const ids = new Set(EPOCAS.map((e) => e.id));
+  for (const l of IDIOMAS) {
+    if (l.id === IDIOMA_CONSTANTE) continue;
+    assert.ok(EPOCAS_DO_IDIOMA[l.id]?.length, `${l.id}: sem época`);
+    for (const e of EPOCAS_DO_IDIOMA[l.id]) assert.ok(ids.has(e), `${l.id}: época ${e} não existe`);
+  }
+  for (const e of EPOCAS) assert.ok(idiomasDaEpoca(e.id).some((l) => l.id === IDIOMA_CONSTANTE), `${e.id}: sem a língua de trabalho`);
+  assert.deepEqual(idiomasDaEpoca('medieval').map((l) => l.id), ['latim', 'ingles']);
+  assert.deepEqual(idiomasDaEpoca('brasil').map((l) => l.id), ['ingles'], 'época sem língua própria mostra só a de trabalho');
+  const e = { ...C.estadoInicial(T0), idiomas: { latim: 'Leitura inicial' } };
+  assert.match(telaEpoca({ estado: e }, 'roma'), /Línguas desta época[\s\S]*Latim[\s\S]*Leitura inicial[\s\S]*Vulgata/);
+  assert.match(telaIdiomas({ estado: e }), /Entra em: <a href="#epoca-grecia"/);
+});
+
 test('épocas: toda obra da mediateca tem um contexto de estudo declarado', async () => {
   const { OBRAS } = await import('../data/mediateca.js');
   const { contextoPorObra, obrasDoContexto, PARALELA, FASE_INICIAL } = await import('../data/contextos.js');

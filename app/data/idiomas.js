@@ -87,3 +87,22 @@ export const IDIOMAS = [
 ];
 
 export const idiomaPorId = Object.fromEntries(IDIOMAS.map((l) => [l.id, l]));
+
+/** Língua que acompanha todas as épocas: é a de trabalho, em que está a maior parte dos estudos atuais. */
+export const IDIOMA_CONSTANTE = 'ingles';
+/**
+ * Épocas (ids de data/epocas.js) em que os textos de cada língua pesam: é quando vale começá-la ou retomá-la.
+ * Escolha do responsável pelo curso, não regra de método: uma língua leva anos e continua depois da época dela.
+ */
+export const EPOCAS_DO_IDIOMA = {
+  grego: ['grecia'],
+  latim: ['roma', 'cristianismo-primitivo', 'medieval'],
+  italiano: ['renascimento'],
+  espanhol: ['renascimento'],
+  frances: ['revolucao-cientifica', 'iluminismo'],
+  alemao: ['seculo-xix'],
+  mandarim: ['contemporaneo'],
+  coreano: ['contemporaneo'],
+};
+/** Línguas indicadas numa época: as próprias dela e, sempre, a constante. */
+export const idiomasDaEpoca = (epoca) => IDIOMAS.filter((l) => l.id === IDIOMA_CONSTANTE || EPOCAS_DO_IDIOMA[l.id]?.includes(epoca));
