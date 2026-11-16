@@ -53,6 +53,31 @@ Classificação usada: **funcional** (existe e foi verificado), **incompleto**, 
 | Uso real | **não iniciado** | no banco: 0 contas na família, 0 filhos, 0 aulas, 0 registros, 0 tarefas | O ciclo de aprendizagem nunca rodou com dados reais na nuvem. O que existir está só num aparelho, sem cópia | **crítica** |
 | Modelo de acesso | incompleto | `supabase-infantil.sql`: um código, uma família, tabelas sem coluna de família | Serve a uma família. Uma segunda família veria os dados da primeira. Bloqueia qualquer uso institucional | alta (antes de abrir a terceiros) |
 
+## Prompt mestre de 16/11/2026: estado de cada parte
+
+Conferido em 16/11/2026 com `node --test app/tests/core.test.mjs` (82/82), `node scripts/auditoria.mjs` e `node scripts/auditoria-profundidade.mjs`, e no navegador (1280 e 390 px). "Funcional" = implementado, testado e conferido; "pendente" = não feito.
+
+| Parte | Estado | O que existe | O que falta |
+|---|---|---|---|
+| 0, II Método e preservação | funcional | ids, rotas, progresso e registros preservados; nenhuma rota mudou | — |
+| III Auditoria | funcional | `scripts/auditoria.mjs` (dados) e `scripts/auditoria-profundidade.mjs` (18 itens, 25 campos, obras) | rodar a cada entrega |
+| IV, V Identidade e santos | funcional (anterior) | sistema visual gótico; santo por aba | — |
+| VI Entrada e navegação | funcional | "Continuar estudando", "O que ainda não domino", revisões, seis itens + "Mais", modos guiado e livre | plano semanal e histórico no painel já existem; nada pendente |
+| VII Sala de aula | funcional | sumário lateral/recolhível, notas ao lado, modo foco, fonte, tema, retomar leitura | — |
+| VIII, IX Interdisciplinaridade | funcional em parte | ligações na aula; 248 ligações com filtros (tipo, área, relação, estado, busca) e mapa visual em `#integradores` | só 183 de 849 aulas estão em algum integrador; filtros por obra e conceito como dado (hoje só por busca); linha do tempo interativa |
+| X Programas internacionais | registrado | `PEDAGOGICAL_STANDARDS.md` | aplicar às aulas (depende de XI) |
+| XI Profundidade | **pendente (conteúdo)** | medida automática em cada aula ("Padrão de profundidade: n de 18") | **0 de 695 aulas** no padrão: explicação (média ~220 palavras, meta 1.200), contexto, exemplos, aplicação e objeções faltam em 98–100% |
+| XII Teologia | **pendente (conteúdo)** | cobertura dos 25 campos medida | campos sem aula: Angelologia, Ascética e Mística, História da Teologia; com uma só: Trinitária, Mariologia, Antropologia Teológica, Justificação, Espiritualidade, Doutrina Social |
+| XIII Obras | funcional em parte | 4 estados de verificação em toda obra (607 confirmadas, 4.258 prováveis, 387 provisórias, 3 em revisão); só obra pronta é exigida | **0 de 5.255 fichas completas**; revisar as 4.258 prováveis |
+| XIV Consumo das obras | funcional em parte | comprovação de leitura com critérios e correção por IA | roteiro "antes, durante, depois" por obra depende das fichas (XIII) |
+| XV Avaliação e domínio | funcional | 7 níveis de evidência por aula (acessada → domínio confirmado em nova prova 30 dias depois); discursiva sem autoavaliação como única evidência | rubricas por disciplina além dos critérios de cada questão |
+| XVI Correção por IA sem custo | funcional | texto com rubrica; resposta, sugestão, conferência e confirmação separadas | medir a confiabilidade da IA |
+| XVII Retenção | funcional | cartões espaçados; testes de retenção vencidos no painel | — |
+| XVIII Ponto Brasil | não auditado nesta entrega | — | auditar por disciplina |
+| XX Testes | funcional | 82 testes; navegação e telas conferidas no navegador | leitor de tela não testado |
+
+**Por que XI a XIV ficam pendentes:** são redação acadêmica com fonte conferida (aulas de 1.200 palavras ou mais, 25 campos teológicos, milhares de fichas). O próprio prompt proíbe inventar e declarar conclusão parcial como total. A auditoria de profundidade dá a lista exata, aula por aula (`--aulas`), para o trabalho seguir em partes verificáveis: começar pela fase teológica (m1, m2, m2b, tg1 a tg8, 52 aulas) e pelos campos sem aula.
+
 ## Os dez problemas mais graves
 
 Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucional.
@@ -94,5 +119,6 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 | 16/11/2026 | Notas ao lado do texto: quadro "Minhas notas desta aula" na coluna do sumário, com as notas já feitas e uma nota rápida que vai para o Caderno ligada à aula, sem sair nem redesenhar a aula. Com isso a Parte VII do prompt mestre (sumário lateral, notas, progresso, modo foco, fonte, tema, retomada) fica atendida na aula | `main`, commit `1a581a8` (publicado) | 77/77; nota criada, listada, contada e vista no Caderno; 1280 e 390 px sem rolagem lateral; nota de teste apagada |
 | 16/11/2026 | Navegação principal com seis itens (Início, Estudar, Meu percurso, Biblioteca, Avaliações, Caderno) e o resto no menu "Mais" (Curso completo, Mapa do conhecimento, Atlas, Plano e conta, Idiomas, Busca, Infantil); rotas e links antigos inalterados; "Meu percurso" abre a escada da formação. O topo a 1280 px caiu de 139 para 97 px | `main`, commit `a470cd2` (publicado) | 77/77; conferido a 1280 e 390 px: abrir, fechar fora e ao navegar, marca da página atual (inclusive dentro do "Mais"), santos das abas preservados |
 | 16/11/2026 | Dois modos de estudo (Parte VI): no guiado, abrir a aula a põe no percurso, como antes; na exploração livre, abrir não registra andamento nem muda o "Continuar estudando", e "Concluir" fica bloqueado; exercícios e notas continuam salvos. Seletor no painel, aviso na aula; preferência do aparelho, padrão guiado. O leitor de livros continua gravando páginas lidas nos dois modos | `main`, commit `75bc253` (publicado) | 78/78; no navegador: aula nova aberta no modo livre ficou sem registro, "atual" não mudou, concluir bloqueado; no guiado o registro voltou a acontecer |
-| 16/11/2026 | Parte IX, alternativa em lista: em `#integradores`, todas as 248 ligações aula–época/tema, cada uma com área, relação, estado e o porquê (a pergunta do módulo), com filtros por tipo, área, relação, estado e busca (autor, época, conceito no texto); a página entra no menu "Mais" como "Ligações entre disciplinas". O grafo visual com os mesmos filtros continua pendente | `main`, não publicado | 79/79; filtros combinados conferidos no navegador; 390 px sem rolagem lateral |
+| 16/11/2026 | Parte IX, alternativa em lista: em `#integradores`, todas as 248 ligações aula–época/tema, cada uma com área, relação, estado e o porquê (a pergunta do módulo), com filtros por tipo, área, relação, estado e busca (autor, época, conceito no texto); a página entra no menu "Mais" como "Ligações entre disciplinas". O grafo visual com os mesmos filtros continua pendente | `main`, commit `d56afa9` (publicado) | 79/79; filtros combinados conferidos no navegador; 390 px sem rolagem lateral |
+| 16/11/2026 | Fechamento técnico do prompt mestre: auditoria de profundidade (`app/profundidade.js`, `scripts/auditoria-profundidade.mjs`) e o diagnóstico em cada aula; 7 níveis de evidência por aula e testes de retenção no painel; 4 estados de verificação das obras (3 atribuições erradas do degrau 0 em revisão); mapa visual das ligações com os filtros, desenhado até 60 ligações | `main`, não publicado | 82/82; aula, obra, painel e `#integradores` conferidos a 1280 e 390 px, sem erro de JavaScript |
 | 12/11/2026 | Padrão de excelência acadêmica registrado em `PEDAGOGICAL_STANDARDS.md`, com referências conferidas e lacunas; no Jr., revisão de retenção depois de 30 dias, objetivos da BNCC na trilha e critério "foi além" no painel | este repositório e Jr., ramos `claude/padrao-de-excelencia` | Jr.: 44/44 |

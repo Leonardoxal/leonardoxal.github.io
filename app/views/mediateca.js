@@ -11,7 +11,7 @@ import { fichaObraHTML, ligarFichaObra } from './ficha-obra.js';
 import { edicoesHTML, resumoVersoes } from './edicoes.js';
 import { pessoalHTML, ligarPessoal } from './biblioteca.js';
 import { livroPorId } from '../data/livros.js';
-import { obraPronta } from '../data/mediateca.js';
+import { obraPronta, verificacaoDaObra, ESTADOS_VERIFICACAO } from '../data/mediateca.js';
 import { correcaoHTML, ligarCorrecao } from './correcao.js';
 
 const POR_PAGINA = 60;
@@ -221,7 +221,7 @@ export function obra({ estado }, id) {
     ${linha('Módulo do curso', o.modulos.length ? o.modulos.map((m) => link(`mod-${m}`, esc(`Módulo ${moduloPorId[m]?.n}: ${moduloPorId[m]?.titulo}`))).join(', ') : NAO_INFORMADO)}
     ${linha('Aula', o.aula ? link(`aula-${o.aula}`, esc(`${o.aula} — ${aulaPorId[o.aula]?.titulo || ''}`)) : '<span class="meta">ligada ao módulo, sem aula específica</span>')}
     ${linha('Função no módulo', campo(o.funcao))}
-    ${o.confianca === 'provisória' ? linha('Atribuição', '<span class="chip alerta">provisória</span> <span class="meta">sem base para ligar a uma aula ou seção; está no módulo introdutório da disciplina, a revisar</span>') : ''}
+    ${(() => { const v = verificacaoDaObra(o); return linha('Verificação da ligação', `<span class="chip${v === 'confirmada' ? ' ok' : v === 'provavel' ? '' : ' alerta'}">${esc(ESTADOS_VERIFICACAO[v].nome)}</span> <span class="meta">${esc(ESTADOS_VERIFICACAO[v].desc)}</span>`); })()}
     ${linha('Tema', o.temas.length ? esc(o.temas.join(', ')) : NAO_INFORMADO)}
     ${linha('Contexto histórico', campo(o.contexto))}
     ${linha('Nível de dificuldade', o.nivel ? `${o.nivel} de 5` : NAO_INFORMADO)}

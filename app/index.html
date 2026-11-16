@@ -445,6 +445,13 @@ h3 { color: var(--vinho); }
 .aula section { font-size: calc(17px * var(--escala-texto, 1)); }
 .aula .texto { font-size: calc(1.04rem * var(--escala-texto, 1)); }
 .grupo-fonte { display: inline-flex; gap: 2px; }
+.grafo-ligacoes { margin: 12px 0 18px; overflow-x: auto; }
+.grafo-ligacoes svg { width: 100%; min-width: 560px; height: auto; display: block; }
+.grafo-ligacoes path { fill: none; stroke: var(--ouro); stroke-opacity: .55; }
+.grafo-ligacoes path:hover { stroke: var(--vinho); stroke-opacity: 1; }
+.grafo-ligacoes text { font: 12px var(--f-ui); fill: var(--tinta); }
+.grafo-ligacoes [data-filtrar-area] { cursor: pointer; }
+.grafo-ligacoes [data-filtrar-area]:hover text, .grafo-ligacoes [data-filtrar-area]:focus text { fill: var(--vinho); text-decoration: underline; }
 .modo-estudo { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0 12px; }
 .modo-estudo button[aria-pressed="true"] { background: var(--vinho); color: var(--superficie); border-color: var(--vinho); }
 .aviso-modo { margin-top: 10px; }

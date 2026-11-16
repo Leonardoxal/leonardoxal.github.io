@@ -200,6 +200,43 @@ export function resultadoPorArea(itens, detalhes) {
 export const melhorNota = (estado, avaliacaoId) =>
   Math.max(-1, ...(estado.tentativas[avaliacaoId] || []).map((t) => t.pct));
 
+// ---------- Evidência de aprendizagem (Parte XV) e retenção (Parte XVII) ----------
+export const DIAS_RETENCAO = 30;
+/** Do mais fraco ao mais forte. Cada nível exige o anterior; abrir a aula sozinho não prova nada. */
+export const NIVEIS_EVIDENCIA = ['Não acessada', 'Acessada', 'Estudada (fonte lida)', 'Exercício feito', 'Prova aprovada', 'Competência demonstrada', 'Domínio confirmado'];
+
+/** Aprovações (tentativas ≥ mínimo) de uma avaliação, em ordem de data. */
+const aprovacoes = (estado, avalId, minimo) => (estado.tentativas[avalId] || []).filter((t) => t.pct >= minimo).sort((x, y) => x.data - y.data);
+
+/**
+ * Nível de evidência de uma aula (índice em NIVEIS_EVIDENCIA). `aula` é o conteúdo completo (para achar as discursivas).
+ * Domínio confirmado: uma segunda aprovação pelo menos DIAS_RETENCAO dias depois da primeira (teste de retenção).
+ */
+export function nivelEvidencia(estado, aula, minimo = NOTA_MINIMA) {
+  const id = aula.id;
+  const reg = estado.aulas[id];
+  const quiz = `quiz-${id}`;
+  const aprov = aprovacoes(estado, quiz, minimo);
+  const discs = (aula.exercicios || []).map((e, i) => (e.tipo === 'disc' ? `${id}-${i}` : null)).filter(Boolean);
+  const competencia = discs.length > 0 && discs.every((k) => estado.discursivas[k]?.confirmado);
+  const retido = aprov.length > 1 && aprov.at(-1).data - aprov[0].data >= DIAS_RETENCAO * DIA;
+  const niveis = [true, Boolean(reg), Boolean(reg?.fonteLida), Boolean((estado.tentativas[quiz] || []).length), aprov.length > 0, competencia, retido];
+  let n = 0;
+  while (n + 1 < niveis.length && niveis[n + 1]) n++;
+  return n;
+}
+
+/**
+ * Testes de retenção vencidos: avaliações aprovadas cuja última tentativa tem DIAS_RETENCAO dias ou mais.
+ * Refazer e passar de novo confirma o domínio; nada é apagado se a nota cair (vira lacuna, com histórico).
+ */
+export function retencaoPendente(estado, agora = Date.now(), minimo = NOTA_MINIMA) {
+  return Object.entries(estado.tentativas)
+    .filter(([id, ts]) => ts.length && aprovacoes(estado, id, minimo).length && agora - Math.max(...ts.map((t) => t.data)) >= DIAS_RETENCAO * DIA)
+    .map(([id, ts]) => ({ id, ultima: Math.max(...ts.map((t) => t.data)) }))
+    .sort((x, y) => x.ultima - y.ultima);
+}
+
 /**
  * O que ainda não está dominado, só a partir do que o estudante fez:
  * avaliações feitas e ainda abaixo do mínimo (com as aulas que a última tentativa mandou revisar)

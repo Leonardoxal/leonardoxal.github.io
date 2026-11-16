@@ -248,6 +248,26 @@ test('discursiva: texto para IA leva rubrica e resposta, nunca dados da conta; s
   assert.deepEqual(C.normalizarEstado(e, T0).discursivas['m1-1-0'], { texto: 'x', ia: 'y', confirmado: 5 });
 });
 
+test('evidência por aula (XV): cada nível exige o anterior; domínio só com aprovação 30 dias depois', () => {
+  const DIA = 86400000;
+  const aula = { id: 'x1', exercicios: [{ tipo: 'mc' }, { tipo: 'disc' }] };
+  const base = C.estadoInicial(T0);
+  const nivel = (parc) => C.NIVEIS_EVIDENCIA[C.nivelEvidencia({ ...base, ...parc }, aula)];
+  assert.equal(nivel({}), 'Não acessada');
+  assert.equal(nivel({ aulas: { x1: { status: 'andamento' } } }), 'Acessada');
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } } }), 'Estudada (fonte lida)');
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } }, tentativas: { 'quiz-x1': [{ pct: 40, data: T0 }] } }), 'Exercício feito');
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } }, tentativas: { 'quiz-x1': [{ pct: 90, data: T0 }] } }), 'Prova aprovada');
+  const conf = { discursivas: { 'x1-1': { texto: 't', confirmado: 1 } } };
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } }, tentativas: { 'quiz-x1': [{ pct: 90, data: T0 }] }, ...conf }), 'Competência demonstrada');
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } }, tentativas: { 'quiz-x1': [{ pct: 90, data: T0 }, { pct: 85, data: T0 + 31 * DIA }] }, ...conf }), 'Domínio confirmado');
+  assert.equal(nivel({ aulas: { x1: { fonteLida: true } }, tentativas: { 'quiz-x1': [{ pct: 90, data: T0 }, { pct: 85, data: T0 + 2 * DIA }] }, ...conf }), 'Competência demonstrada', 'repetir no mesmo mês não é retenção');
+  assert.equal(nivel({ tentativas: { 'quiz-x1': [{ pct: 90, data: T0 }] } }), 'Não acessada', 'sem pular níveis');
+  // retenção vencida: aprovada e parada há 30 dias; reprovada não entra
+  const e = { ...base, tentativas: { 'quiz-a': [{ pct: 90, data: T0 }], 'quiz-b': [{ pct: 50, data: T0 }], 'quiz-c': [{ pct: 90, data: T0 + 20 * DIA }] } };
+  assert.deepEqual(C.retencaoPendente(e, T0 + 31 * DIA).map((r) => r.id), ['quiz-a']);
+});
+
 test('lacunas: só avaliação feita abaixo do mínimo e discursiva sem confirmação', () => {
   const e = { ...C.estadoInicial(T0),
     tentativas: { 'quiz-m1-1': [{ pct: 50 }, { pct: 90 }], 'prova-m1': [{ pct: 60, revisar: ['m1-2'] }, { pct: 70, revisar: ['m1-3'] }], 'quiz-m1-4': [] },
@@ -260,11 +280,36 @@ test('lacunas: só avaliação feita abaixo do mínimo e discursiva sem confirma
   assert.deepEqual(C.lacunas(C.estadoInicial(T0)), { abaixo: [], revisar: [], discursivas: [] });
 });
 
+test('obras: todo registro tem um dos quatro estados de verificação; em revisão nunca é exigida', async () => {
+  const M = await import('../data/mediateca.js');
+  for (const o of M.OBRAS) assert.ok(M.ESTADOS_VERIFICACAO[M.verificacaoDaObra(o)], o.id);
+  for (const id of M.EM_REVISAO) assert.ok(M.obraPorId[id], `em revisão: ${id} existe`);
+  for (const id of M.EM_REVISAO) assert.equal(M.verificacaoDaObra(M.obraPorId[id]), 'revisao');
+  assert.equal(M.verificacaoDaObra({ id: 'x', confianca: 'provisória' }), 'provisoria');
+  assert.equal(M.verificacaoDaObra({ id: 'x', confianca: 'aula' }), 'provavel');
+  assert.equal(M.verificacaoDaObra({ id: 'x', confianca: 'aula', contexto: 'c', aula: 'm1-1' }), 'confirmada');
+});
+
+test('profundidade: 18 itens medidos; aula vazia falha em todos; aula cheia passa', async () => {
+  const P = await import('../profundidade.js');
+  assert.equal(P.ITENS_PROFUNDIDADE.length, 18);
+  assert.equal(P.profundidadeDaAula({}).atendidos, 0);
+  const longo = (n) => `<p>${'palavra '.repeat(n)}</p>`;
+  const cheia = { aprendera: [1, 2, 3], prereq: ['x'], argumento: { titulo: 't', premissas: ['a', 'b'] }, contexto: longo(150), explicacao: longo(1200),
+    vocabulario: [1, 2, 3, 4, 5], exemplos: longo(100), aplicacao: longo(80), objecoes: [1, 2], fonte: { obra: 'o', orientacao: 'x' }, referencias: [1, 2, 3],
+    exercicios: [{ tipo: 'mc' }, { tipo: 'mc' }, { tipo: 'mc' }, { tipo: 'mc' }, { tipo: 'disc' }], avancado: { exercicios: [{}] }, revisao: [1, 2, 3], resumo: ['r'], criterios: [1, 2] };
+  assert.deepEqual(P.profundidadeDaAula(cheia).faltas, []);
+  assert.equal(P.CAMPOS_TEOLOGIA.length, 25);
+  assert.deepEqual(P.coberturaTeologia([{ id: 'x', titulo: 'A Santíssima Trindade' }]).find((c) => c.campo === 'Teologia Trinitária').aulas, ['x']);
+  // toda aula real é medida sem erro
+  for (const a of AULAS_COMPLETAS.filter(P.aulaExpositiva)) assert.ok(P.profundidadeDaAula(a).total === 18, a.id);
+});
+
 test('integradores: lista de todas as ligações, com área, relação, estado e o porquê', async () => {
   const { integradores } = await import('../views/integradores.js');
   const { INTEGRADORES } = await import('../data/integradores.js');
   const html = integradores({ estado: { ...C.estadoInicial(T0), aulas: { 'h4-1': { status: 'concluida' } } } });
-  const linhas = html.match(/<li data-tipo=/g) || [];
+  const linhas = html.match(/<li data-integrador=/g) || [];
   assert.equal(linhas.length, INTEGRADORES.flatMap((m) => m.itens.filter((i) => i.aula)).length, 'uma linha por ligação de aula');
   assert.ok(!/data-area=""/.test(html), 'toda ligação tem área');
   assert.match(html, /data-estado="feita"/);

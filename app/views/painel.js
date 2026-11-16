@@ -3,7 +3,7 @@ import { MODULOS, DEGRAUS, moduloPorId, todasAulas } from '../data/curriculo.js'
 import { aulaPorId } from '../data/aulas/index.js';
 import { livroPorId } from '../data/livros.js';
 import { conceitoPorId } from '../data/conceitos.js';
-import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas, lacunas, NOTA_MINIMA } from '../core.js';
+import { faseIniciacaoConcluida, progressoCurso, progressoModulo, progressoDegrau, aulaConcluida, revisoesPendentes, minutosSemana, minutosTotal, pctLivro, conquistas, lacunas, NOTA_MINIMA, retencaoPendente, DIAS_RETENCAO } from '../core.js';
 import { avaliacaoPorId } from '../data/avaliacoes.js';
 import { esc, barra, link, fmtData, fmtMin, MODOS, modoEstudo, definirModo } from '../ui.js';
 import { rotuloVinculo } from './caderno.js';
@@ -35,12 +35,14 @@ function lacunasHTML(estado) {
   const l = lacunas(estado);
   const lista = (itens) => `<ul class="lista-curta">${itens.slice(0, MAX_LACUNAS).join('')}</ul>${itens.length > MAX_LACUNAS ? `<p class="meta">e mais ${itens.length - MAX_LACUNAS}.</p>` : ''}`;
   const discUnicas = [...new Set(l.discursivas.map(linkDiscursiva))];
-  const vazio = !l.abaixo.length && !l.revisar.length && !discUnicas.length;
+  const retencao = retencaoPendente(estado);
+  const vazio = !l.abaixo.length && !l.revisar.length && !discUnicas.length && !retencao.length;
   return `<section class="lacunas"><h2>O que ainda não domino</h2>
     <p class="meta">Só entra o que você já fez: avaliações abaixo de ${NOTA_MINIMA}% e discursivas escritas sem resultado confirmado. Aula apenas aberta não prova nada, nem a favor nem contra.</p>
     ${vazio ? '<p>Nada pendente nas atividades feitas até agora.</p>' : ''}
     ${l.abaixo.length ? `<h3>Avaliações abaixo do mínimo</h3>${lista(l.abaixo.map((a) => `<li>${linkAvaliacao(a.id)} <span class="meta">melhor nota ${a.melhor}%</span></li>`))}` : ''}
     ${l.revisar.length ? `<h3>Aulas que as provas mandaram revisar</h3>${lista(l.revisar.map((id) => `<li>${linkAula(id)}</li>`))}` : ''}
+    ${retencao.length ? `<h3>Testes de retenção</h3><p class="meta">Aprovadas há ${DIAS_RETENCAO} dias ou mais, sem nova tentativa. Refaça sem rever antes: passar de novo confirma o domínio; se a nota cair, nada se perde e o item vira revisão.</p>${lista(retencao.map((r) => `<li>${linkAvaliacao(r.id)} <span class="meta">última tentativa em ${fmtData(r.ultima)}</span></li>`))}` : ''}
     ${discUnicas.length ? `<h3>Discursivas sem resultado confirmado</h3>${lista(discUnicas.map((x) => `<li>${x}</li>`))}<p class="meta">Peça a correção (opcional), confira os critérios e marque "Confirmo o resultado".</p>` : ''}
   </section>`;
 }

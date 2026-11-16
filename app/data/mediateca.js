@@ -205,6 +205,23 @@ export const obrasDoAutor = (nome) => {
 };
 /** Uma obra está pronta quando tem contexto escrito e a aula que a apresenta (ver fichas-obras.js). */
 export const obraPronta = (o) => Boolean(o.contexto?.trim() && o.aula);
+
+// Parte XIII: estado de verificação da ligação obra–módulo/aula. Só a obra pronta (confirmada) é exigida.
+export const ESTADOS_VERIFICACAO = {
+  confirmada: { nome: 'Confirmada', desc: 'Ficha escrita e conferida, ou livro do acervo original da trilha.' },
+  provavel: { nome: 'Provável', desc: 'Ligação com base: a seção da lista de origem, o título da aula ou a etapa da disciplina. Falta conferir.' },
+  provisoria: { nome: 'Provisória', desc: 'Sem base para uma aula: está no módulo introdutório da disciplina até ser revista.' },
+  revisao: { nome: 'Em revisão', desc: 'Ligação apontada como errada ou duvidosa numa auditoria; aguarda correção. Não é exigida.' },
+};
+// Ligações apontadas como erradas na auditoria de 12/11/2026 (PROJECT_STATUS.md): obras ligadas ao degrau 0
+// (método de estudo) só por coincidência de palavras.
+export const EM_REVISAO = new Set(['ext-bertrand-russell-an-inquiry-into-meaning-and-truth-uma-investigacao-so', 'ext-george-santayana-a-vida-da-razao', 'ext-voltaire-dicionario-filosofico']);
+export function verificacaoDaObra(o) {
+  if (EM_REVISAO.has(o.id)) return 'revisao';
+  if (obraPronta(o) || o.confianca === 'acervo original') return 'confirmada';
+  if (!o.confianca || o.confianca === 'provisória') return 'provisoria';
+  return 'provavel';
+}
 const dosModulos = (modulos) => OBRAS.filter((o) => !o.livro && o.modulos.some((m) => modulos.includes(m)));
 /**
  * Ids das obras obrigatórias de um conjunto de módulos além dos livros do acervo (estes têm as leituras do degrau

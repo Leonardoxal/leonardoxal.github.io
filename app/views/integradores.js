@@ -34,10 +34,11 @@ function ligacoesHTML(estado) {
       <label class="campo"><span>Buscar</span><input name="q" type="search" placeholder="aula, época, autor, pergunta…"></label>
     </form>
     <p class="meta" aria-live="polite" data-contagem>${LIGACOES.length} ligações</p>
+    <figure class="grafo-ligacoes"><figcaption class="meta">Mapa: módulos integradores à esquerda, áreas à direita; a espessura do traço é o número de aulas da área no módulo. Clique numa área para filtrar por ela. A mesma informação está na lista abaixo.</figcaption><div data-grafo></div></figure>
     <ul class="lista-curta" data-ligacoes>${LIGACOES.map((l) => {
       const feita = aulaConcluida(estado, l.aula);
       const busca = normalizar(`${aulaMeta[l.aula].titulo} ${l.m.titulo} ${l.m.pergunta} ${l.area}`);
-      return `<li data-tipo="${l.m.tipo}" data-area="${esc(l.area)}" data-relacao="${l.relacao}" data-estado="${feita ? 'feita' : 'pendente'}" data-busca="${esc(busca)}">
+      return `<li data-integrador="${l.m.id}" data-tipo="${l.m.tipo}" data-area="${esc(l.area)}" data-relacao="${l.relacao}" data-estado="${feita ? 'feita' : 'pendente'}" data-busca="${esc(busca)}">
         ${link(`aula-${l.aula}`, esc(aulaMeta[l.aula].titulo))}${feita ? ' <span class="chip ok">concluída</span>' : ''}
         <br><span class="meta">${esc(l.area)} · ${esc(RELACOES_INTEGRADOR[l.relacao].nome.toLowerCase())} em ${link(`integrador-${l.m.id}`, esc(l.m.titulo))}</span>
         <br><span class="meta">Por quê: ${esc(l.m.pergunta)}</span></li>`;
@@ -53,6 +54,33 @@ export function integradores({ estado }) {
       <strong>${esc(m.titulo)}</strong><p>${esc(m.pergunta)}</p>
       <span class="meta">${m.itens.length} ligações${m.limitada ? ' · cobertura limitada' : ''}</span>${barra(progresso(estado, m), `Aulas concluídas de ${m.titulo}`)}</a></li>`).join('')}</ul></section>`).join('')}
   ${ligacoesHTML(estado)}`;
+}
+
+// Grafo bipartido em SVG (integrador → área), desenhado a partir das linhas visíveis da lista.
+const ALTURA_NO = 22;
+const MAX_NO_GRAFO = 60;
+const corte = (s, n) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+export function grafoSVG(linhas) {
+  if (!linhas.length) return '<p class="meta">Nenhuma ligação com estes filtros.</p>';
+  // acima disso o desenho vira um emaranhado ilegível; a lista continua com tudo
+  if (linhas.length > MAX_NO_GRAFO) return `<p class="meta">Escolha um tipo, uma área ou uma busca para ver o mapa: com ${linhas.length} ligações o desenho não se lê. A lista abaixo mostra todas.</p>`;
+  const pares = {};
+  for (const li of linhas) { const k = `${li.dataset.integrador}|${li.dataset.area}`; pares[k] = (pares[k] || 0) + 1; }
+  const esq = [...new Set(linhas.map((li) => li.dataset.integrador))];
+  const dir = [...new Set(linhas.map((li) => li.dataset.area))].sort((x, y) => x.localeCompare(y, 'pt'));
+  const altura = Math.max(esq.length, dir.length) * ALTURA_NO + 10;
+  // distribui n nós na altura; um nó só fica no meio
+  const posicao = (n) => (i) => (n === 1 ? altura / 2 : 10 + (i * (altura - 20)) / (n - 1));
+  const yE = posicao(esq.length), yD = posicao(dir.length);
+  const xE = 230, xD = 470;
+  const traços = Object.entries(pares).map(([k, n]) => {
+    const [im, area] = k.split('|');
+    const y1 = yE(esq.indexOf(im)), y2 = yD(dir.indexOf(area));
+    return `<path d="M${xE} ${y1} C ${(xE + xD) / 2} ${y1}, ${(xE + xD) / 2} ${y2}, ${xD} ${y2}" stroke-width="${Math.min(8, 1 + n)}"><title>${esc(`${n} aula(s) de ${area} em ${integradorPorId[im].titulo}: ${integradorPorId[im].pergunta}`)}</title></path>`;
+  }).join('');
+  const nosE = esq.map((im, i) => `<a href="#integrador-${im}"><text x="${xE - 8}" y="${yE(i) + 4}" text-anchor="end">${esc(corte(integradorPorId[im].titulo, 30))}</text></a>`).join('');
+  const nosD = dir.map((a, i) => `<g data-filtrar-area="${esc(a)}" role="button" tabindex="0"><title>Filtrar por ${esc(a)}</title><text x="${xD + 8}" y="${yD(i) + 4}">${esc(corte(a, 32))}</text></g>`).join('');
+  return `<svg viewBox="0 0 700 ${altura}" role="img" aria-label="Mapa das ligações entre módulos integradores e áreas">${traços}${nosE}${nosD}</svg>`;
 }
 
 integradores.ligar = (root) => {
@@ -71,7 +99,18 @@ integradores.ligar = (root) => {
       if (ok) n++;
     }
     contagem.textContent = `${n} de ${itens.length} ligações`;
+    root.querySelector('[data-grafo]').innerHTML = grafoSVG(itens.filter((li) => !li.hidden));
   };
+  const filtrarPelaArea = (ev) => {
+    const no = ev.target.closest('[data-filtrar-area]');
+    if (!no || (ev.type === 'keydown' && ev.key !== 'Enter' && ev.key !== ' ')) return;
+    ev.preventDefault();
+    form.elements.area.value = no.dataset.filtrarArea;
+    aplicar();
+  };
+  root.querySelector('[data-grafo]').addEventListener('click', filtrarPelaArea);
+  root.querySelector('[data-grafo]').addEventListener('keydown', filtrarPelaArea);
+  aplicar();
   form.addEventListener('input', aplicar);
   form.addEventListener('submit', (ev) => ev.preventDefault());
   root.querySelector('[data-ir-ligacoes]')?.addEventListener('click', (ev) => { ev.preventDefault(); root.querySelector('.ligacoes-lista').scrollIntoView({ behavior: 'smooth' }); });
