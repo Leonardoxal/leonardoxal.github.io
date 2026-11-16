@@ -4,9 +4,9 @@ import { aulaPorId } from '../data/aulas/index.js';
 import { LIVROS } from '../data/livros.js';
 import { AVALIACOES, avaliacaoPorId } from '../data/avaliacoes.js';
 import { progressoModulo, aulaConcluivel, aulaConcluida, melhorNota, novoCartao, notaMinima } from '../core.js';
-import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } from '../ui.js';
+import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast, novoId } from '../ui.js';
 import { quizHTML, ligarQuiz } from './quiz.js';
-import { conexoesAula } from './conexoes.js';
+import { conexoesAula, notasDe } from './conexoes.js';
 import { integradoresDaAulaHTML } from './integradores.js';
 import { epocaDaAulaHTML } from './epocas.js';
 import { leiturasRecomendadasHTML, obrasDaAulaHTML } from './mediateca.js';
@@ -131,8 +131,9 @@ export function aula({ estado }, id) {
       <button class="btn" data-acao="retomar" hidden>Retomar onde parei</button></div>
     <button class="btn pequeno sair-foco" data-acao="foco" type="button">Sair do modo foco</button>
     ${epocaDaAulaHTML(id)}</header>
-  <nav class="sumario" aria-label="Seções da aula"><details><summary>Sumário da aula</summary><ol>
+  <div class="lateral"><nav class="sumario" aria-label="Seções da aula"><details><summary>Sumário da aula</summary><ol>
     ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></details></nav>
+    ${notasAulaHTML(estado, id)}</div>
 
   <section id="s0"><h2>O que você aprenderá</h2><ul>${a.aprendera.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>
   <section id="s1"><h2>Pré-requisitos</h2><ul>${a.prereq.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>
@@ -177,6 +178,34 @@ const MAX_POSICOES = 60;
 const TOPO = 400; // px: abaixo disso não há leitura a retomar
 const lerPrefs = () => { try { return { foco: false, escala: 1, pos: {}, ...JSON.parse(localStorage.getItem(CHAVE_LEITURA) || '{}') }; } catch { return { foco: false, escala: 1, pos: {} }; } };
 const gravarPrefs = (p) => { try { localStorage.setItem(CHAVE_LEITURA, JSON.stringify(p)); } catch { /* sem armazenamento: vale só nesta visita */ } };
+
+// Notas da aula ao lado do texto: escreve sem sair da aula; a nota vai para o Caderno, ligada à aula.
+const itemNota = (n) => `<li>${link(`nota-${n.id}`, esc(n.titulo || 'Sem título'))}${n.texto ? `<br><span class="meta">${esc(n.texto.slice(0, 90))}${n.texto.length > 90 ? '…' : ''}</span>` : ''}</li>`;
+function notasAulaHTML(estado, id) {
+  const notas = notasDe(estado, 'aula', id).slice().sort((x, y) => (y.editada || y.criada) - (x.editada || x.criada));
+  return `<details class="notas-aula"><summary>Minhas notas desta aula (<span data-notas-qtd>${notas.length}</span>)</summary>
+    <label class="sr" for="nota-rapida-${id}">Nova nota</label>
+    <textarea id="nota-rapida-${id}" rows="4" placeholder="Anote uma ideia, uma dúvida, uma objeção…"></textarea>
+    <button type="button" class="btn pequeno" data-acao="nota-rapida">Salvar no Caderno</button>
+    <ul class="lista-curta" data-notas-lista>${notas.slice(0, 5).map(itemNota).join('')}</ul>
+  </details>`;
+}
+function ligarNotasAula(root, ctx, id, titulo) {
+  const bloco = root.querySelector('.notas-aula');
+  bloco?.querySelector('[data-acao="nota-rapida"]').addEventListener('click', () => {
+    const campo = bloco.querySelector('textarea');
+    const texto = campo.value.trim();
+    if (!texto) { toast('Escreva a nota antes de salvar.'); return; }
+    const agora = Date.now();
+    const nota = { id: novoId('n'), titulo: `Notas — ${titulo}`, texto, tipo: 'resumo', vinculo: { tipo: 'aula', id }, pagina: '', criada: agora, editada: agora };
+    // sem redesenhar: a correção dos exercícios na tela continua visível
+    ctx.set((e) => ({ ...e, notas: [...e.notas, nota] }), { render: false });
+    campo.value = '';
+    bloco.querySelector('[data-notas-lista]').insertAdjacentHTML('afterbegin', itemNota(nota));
+    bloco.querySelector('[data-notas-qtd]').textContent = notasDe(ctx.estado, 'aula', id).length;
+    toast('Nota salva no Caderno.');
+  });
+}
 
 // Sumário: aberto ao lado do texto em tela larga, recolhido no celular; marca a seção que está na tela.
 const TELA_LARGA = '(min-width: 1100px)';
@@ -267,6 +296,7 @@ aula.ligar = (root, ctx, id) => {
   if (a.avancado) ligarQuiz(root.querySelector('#s15'), a.avancado.exercicios, ctx, atualizarConclusao);
   root.querySelectorAll('[data-ir]').forEach((el) => el.addEventListener('click', (ev) => { ev.preventDefault(); root.querySelector(`#${el.dataset.ir}`)?.scrollIntoView({ behavior: 'smooth' }); }));
   ligarSumario(root);
+  ligarNotasAula(root, ctx, id, a.titulo);
   root.addEventListener('change', (ev) => {
     if (ev.target.dataset.acao === 'fonte-lida') {
       const v = ev.target.checked;
