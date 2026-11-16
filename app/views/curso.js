@@ -131,8 +131,8 @@ export function aula({ estado }, id) {
       <button class="btn" data-acao="retomar" hidden>Retomar onde parei</button></div>
     <button class="btn pequeno sair-foco" data-acao="foco" type="button">Sair do modo foco</button>
     ${epocaDaAulaHTML(id)}</header>
-  <nav class="sumario" aria-label="Seções da aula"><ol>
-    ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></nav>
+  <nav class="sumario" aria-label="Seções da aula"><details><summary>Sumário da aula</summary><ol>
+    ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></details></nav>
 
   <section id="s0"><h2>O que você aprenderá</h2><ul>${a.aprendera.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>
   <section id="s1"><h2>Pré-requisitos</h2><ul>${a.prereq.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></section>
@@ -177,6 +177,27 @@ const MAX_POSICOES = 60;
 const TOPO = 400; // px: abaixo disso não há leitura a retomar
 const lerPrefs = () => { try { return { foco: false, escala: 1, pos: {}, ...JSON.parse(localStorage.getItem(CHAVE_LEITURA) || '{}') }; } catch { return { foco: false, escala: 1, pos: {} }; } };
 const gravarPrefs = (p) => { try { localStorage.setItem(CHAVE_LEITURA, JSON.stringify(p)); } catch { /* sem armazenamento: vale só nesta visita */ } };
+
+// Sumário: aberto ao lado do texto em tela larga, recolhido no celular; marca a seção que está na tela.
+const TELA_LARGA = '(min-width: 1100px)';
+function ligarSumario(root) {
+  const det = root.querySelector('.sumario details');
+  if (!det) return;
+  det.open = window.matchMedia?.(TELA_LARGA).matches ?? false;
+  // o topo fixo muda de altura conforme a largura (a navegação quebra em duas linhas): o sumário e as seções param abaixo dele
+  const topo = document.querySelector('.topo');
+  if (topo) document.documentElement.style.setProperty('--topo-altura', `${Math.round(topo.getBoundingClientRect().height)}px`);
+  if (!('IntersectionObserver' in window)) return;
+  const links = Object.fromEntries([...det.querySelectorAll('[data-ir]')].map((l) => [l.dataset.ir, l]));
+  const obs = new IntersectionObserver((entradas) => {
+    const visivel = entradas.filter((e) => e.isIntersecting).sort((x, y) => x.boundingClientRect.top - y.boundingClientRect.top)[0];
+    if (!visivel || !links[visivel.target.id]) return;
+    Object.values(links).forEach((l) => l.removeAttribute('aria-current'));
+    links[visivel.target.id].setAttribute('aria-current', 'true');
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  Object.keys(links).forEach((s) => { const el = root.querySelector(`#${s}`); if (el) obs.observe(el); });
+  window.addEventListener('hashchange', () => obs.disconnect(), { once: true });
+}
 
 let limparLeitura = null;
 function ligarLeitura(root, id) {
@@ -245,6 +266,7 @@ aula.ligar = (root, ctx, id) => {
   ligarQuiz(root.querySelector('#s11'), a.tipo === 'avaliacao' ? avaliacaoPorId[a.prova]?.itens || [] : a.exercicios, ctx, atualizarConclusao);
   if (a.avancado) ligarQuiz(root.querySelector('#s15'), a.avancado.exercicios, ctx, atualizarConclusao);
   root.querySelectorAll('[data-ir]').forEach((el) => el.addEventListener('click', (ev) => { ev.preventDefault(); root.querySelector(`#${el.dataset.ir}`)?.scrollIntoView({ behavior: 'smooth' }); }));
+  ligarSumario(root);
   root.addEventListener('change', (ev) => {
     if (ev.target.dataset.acao === 'fonte-lida') {
       const v = ev.target.checked;

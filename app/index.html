@@ -191,7 +191,7 @@ input[type="checkbox"], input[type="radio"] { width: auto; accent-color: var(--v
 .sumario { background: var(--papel-2); border-radius: var(--raio); padding: 10px 14px; font: .85rem var(--f-ui); }
 .sumario ol { columns: 3 13em; margin: 0; padding-left: 1.4em; }
 .sumario a { color: var(--tinta-2); }
-.aula section { scroll-margin-top: 90px; }
+.aula section { scroll-margin-top: calc(var(--topo-altura, 90px) + 8px); }
 .vocab { display: grid; grid-template-columns: minmax(8em, max-content) minmax(0, 1fr); gap: 6px 18px; }
 .vocab dt { font-weight: 600; font-family: var(--f-ui); font-size: .95rem; }
 .vocab dd { margin: 0; }
@@ -437,6 +437,15 @@ h3 { color: var(--vinho); }
 .aula section { font-size: calc(17px * var(--escala-texto, 1)); }
 .aula .texto { font-size: calc(1.04rem * var(--escala-texto, 1)); }
 .grupo-fonte { display: inline-flex; gap: 2px; }
+.sumario summary { cursor: pointer; font-weight: 600; color: var(--tinta); }
+.sumario details[open] summary { margin-bottom: 6px; }
+.sumario a[aria-current="true"] { color: var(--vinho); font-weight: 600; }
+@media (min-width: 1100px) {
+  body:not(.foco) .aula:has(> .sumario) { display: grid; grid-template-columns: minmax(0, 1fr) 13rem; column-gap: 28px; }
+  body:not(.foco) .aula:has(> .sumario) > * { grid-column: 1; }
+  body:not(.foco) .aula > .sumario { grid-column: 2; grid-row: 2 / span 60; align-self: start; position: sticky; top: calc(var(--topo-altura, 90px) + 12px); max-height: calc(100vh - var(--topo-altura, 90px) - 24px); overflow-y: auto; }
+  body:not(.foco) .aula > .sumario ol { columns: 1; }
+}
 .sair-foco { display: none; }
 body.foco .topo, body.foco .aviso-escopo, body.foco .migalha { display: none; }
 body.foco main { max-width: 46rem; }
