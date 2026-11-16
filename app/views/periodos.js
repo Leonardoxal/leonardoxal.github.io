@@ -1,6 +1,5 @@
 // Semestres da fase multidisciplinar (#periodos) e calendário de um semestre (#periodo-N).
 import { PERIODOS, periodoPorN, periodoAtual, situacaoMateria, semanasNoRitmo, CARGA, SEMANA_INTERMEDIARIA, SEMANA_PROJETO, SEMANA_FINAL, SEMANA_RECUPERACAO, SEMANAS_TOTAIS } from '../data/periodos.js';
-import { aulaPorId } from '../data/aulas/index.js';
 import { avaliacaoPorId } from '../data/avaliacoes.js';
 import { aulaConcluida, livroConcluido, melhorNota, NOTA_MINIMA, pendenciaDisciplinas } from '../core.js';
 import { esc, link, fmtMin, barra } from '../ui.js';
@@ -69,6 +68,3 @@ function provaLink(estado, id) {
   const n = melhorNota(estado, id);
   return `${link(`aval-${id}`, esc(avaliacaoPorId[id]?.titulo.split(':')[0] || id))}${n >= 0 ? ` (${n}%)` : ''}`;
 }
-
-/** Usado pela grade: a primeira aula de uma matéria do semestre ainda não concluída, na ordem do calendário. */
-export const proximaAulaDoPeriodo = (estado, m) => m.aulas.find((a) => aulaPorId[a.id] && !aulaConcluida(estado, a.id));

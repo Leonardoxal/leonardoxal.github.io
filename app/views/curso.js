@@ -8,6 +8,7 @@ import { esc, barra, link, linkExterno, etiqueta, botaoFav, fmtData, toast } fro
 import { quizHTML, ligarQuiz } from './quiz.js';
 import { conexoesAula } from './conexoes.js';
 import { integradoresDaAulaHTML } from './integradores.js';
+import { epocaDaAulaHTML } from './epocas.js';
 import { leiturasRecomendadasHTML, obrasDaAulaHTML } from './mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { INICIO_MULTIDISCIPLINAR } from '../core.js';
@@ -124,7 +125,8 @@ export function aula({ estado }, id) {
     <h1>${esc(a.titulo)} ${botaoFav(estado, 'aula', id)}</h1>
     <div class="acoes-aula"><button class="btn" data-acao="nota-aula">Nova nota desta aula</button>
       <button class="btn" data-acao="cartoes">Gerar cartões de revisão</button>
-      <button class="btn" data-acao="cronometro" data-alvo="aula:${id}">Iniciar cronômetro</button></div></header>
+      <button class="btn" data-acao="cronometro" data-alvo="aula:${id}">Iniciar cronômetro</button></div>
+    ${epocaDaAulaHTML(id)}</header>
   <nav class="sumario" aria-label="Seções da aula"><ol>
     ${['Objetivos', 'Pré-requisitos', 'Explicação', 'Vocabulário', 'Exemplos', 'Contexto', 'Argumento', 'Objeções', 'Aplicação', 'Fonte original', 'Compreensão', 'Exercícios e avaliação', 'Resumo', 'Referências', 'Critérios para avançar', 'Aprofundamento'].map((s, i) => (i === 15 && !a.avancado ? '' : `<li><a href="#aula-${id}" data-ir="s${i}">${s}</a></li>`)).join('')}</ol></nav>
 

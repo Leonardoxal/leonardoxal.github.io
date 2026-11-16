@@ -17,6 +17,7 @@ import { QUESTIONARIOS } from '../data/questionarios.js';
 import { notasDe, conexoesAula, conexoesLivro } from '../views/conexoes.js';
 import { SIMBOLOS, TIPOS_SENTIDO, TRADICOES } from '../data/simbolos.js';
 import { linhasGrade, proximaAtividade } from '../views/grade.js';
+import { EPOCAS, PARALELAS, EPOCA_DA_AULA, PARTES_SEMANA, epocaDaAula, aulasDaEpoca, revisoesDaEpoca, trilhaParalela, epocaAtual, proximaDaEpoca, proximaParalela } from '../data/epocas.js';
 import { cruz } from '../ornamentos.js';
 import { AREAS_CONJUNTAS, INTEGRADORAS } from '../data/avaliacoes.js';
 import { SANTOS, SANTOS_DAS_ABAS, SANTOS_DAS_AREAS, NATUREZAS } from '../data/santos.js';
@@ -602,10 +603,12 @@ test('grade escolar: uma matéria na fase teológica; várias em paralelo depois
   assert.ok(g2[0].etapa.startsWith('Degrau 3'));
   const comLogica = { ...fase2, degraus: { ...fase2.degraus, 3: { concluido: true }, 4: { concluido: true } } };
   const g3 = linhasGrade(comLogica);
-  // fase 3: as matérias do 1º semestre (filosofia e duas disciplinas), não as 25 disciplinas de uma vez
-  assert.deepEqual(g3.map((l) => l.href), PERIODOS[0].materias.map((m) => m.href));
-  assert.ok(g3.filter((l) => l.minutos > 0).length >= 3, 'várias matérias com horas na mesma semana');
-  assert.ok(Math.abs(g3.reduce((s, l) => s + l.minutos, 0) - comLogica.plano.horasSemana * 60) <= g3.length, 'horas somam a carga semanal');
+  // fase 3: a época atual e a trilha paralela, não as 25 disciplinas de uma vez
+  assert.deepEqual(g3.map((l) => l.href), [`epoca-${EPOCAS[0].id}`, 'epocas']);
+  assert.equal(g3[1].disciplina, 'Trilha paralela');
+  assert.ok(g3.every((l) => l.minutos > 0), 'as duas frentes têm horas na mesma semana');
+  // o que sobra da carga semanal é a revisão
+  assert.equal(g3.reduce((s, l) => s + l.minutos, 0), Math.round(comLogica.plano.horasSemana * 60 * (PARTES_SEMANA.epoca + PARTES_SEMANA.paralela)));
 });
 
 test('codificação: nenhum arquivo do app tem acentos corrompidos (UTF-8 lido como Windows-1252)', async () => {
@@ -626,8 +629,8 @@ test('linha de estudo: fila por fase, semana do semestre e sem valores inválido
   assert.ok(estudar({ estado: vazio }).includes('Degrau 0'));
   assert.ok(estudar({ estado: fase2 }).includes('Degrau 3'));
   const h3 = estudar({ estado: fase3 });
-  assert.ok(h3.includes('1º semestre') && h3.includes('semana 1 de 16'));
-  assert.ok(PERIODOS[0].materias.every((m) => h3.includes(m.nome.replace(/&/g, '&amp;'))));
+  assert.ok(h3.includes(EPOCAS[0].titulo) && h3.includes('Trilha paralela'));
+  assert.ok(h3.includes(`aula-${aulasDaEpoca(EPOCAS[0].id)[0]}`) && h3.includes(`aula-${trilhaParalela()[0]}`));
 });
 
 test('próxima atividade: respeita a fase, o semestre e inclui as obras obrigatórias', () => {
@@ -639,10 +642,89 @@ test('próxima atividade: respeita a fase, o semestre e inclui as obras obrigat�
   const tudo = { ...vazio, aulas: Object.fromEntries(d0.aulas.map((a) => [a.id, { status: 'concluida' }])), livros: Object.fromEntries(d0.leituras.map((id) => [id, { estado: 'concluido' }])) };
   const a1 = proximaAtividade(tudo);
   if (obrasDoDegrau(d0).length) assert.ok(a1.href.startsWith('obra-'), `obra obrigatória do degrau 0 (veio ${a1.href})`);
-  // fase 3: a atividade vem do semestre atual, nunca de matéria bloqueada
+  // fase 3: a atividade vem da época atual
   const fase3 = { ...vazio, degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true }, 3: { concluido: true }, 4: { concluido: true } } };
   const a2 = proximaAtividade(fase3);
-  assert.ok(a2 && a2.contexto.includes('1º semestre'), a2?.contexto);
+  assert.equal(a2.href, `aula-${aulasDaEpoca(EPOCAS[0].id)[0]}`);
+  assert.ok(a2.contexto.includes(EPOCAS[0].titulo), a2.contexto);
+});
+
+// ---------- Épocas: a ordem de estudo da fase 3 ----------
+const FASE3 = { ...C.estadoInicial(T0), degraus: { 0: { concluido: true }, 1: { concluido: true }, 2: { concluido: true }, 3: { concluido: true }, 4: { concluido: true } } };
+const comAulas = (ids) => ({ ...FASE3, aulas: Object.fromEntries(ids.map((id) => [id, { status: 'concluida' }])) });
+const sequenciaEpocas = () => EPOCAS.flatMap((e) => aulasDaEpoca(e.id));
+
+test('épocas: toda aula publicada da fase 3 está em uma época ou na trilha paralela, nunca nas duas', () => {
+  const fase3 = MODULOS.filter((m) => m.degrau === null || m.degrau >= 5).flatMap((m) => m.aulas.map((a) => a.id)).filter((id) => aulaPorId[id]);
+  const todas = [...sequenciaEpocas(), ...trilhaParalela()];
+  assert.equal(new Set(todas).size, todas.length);
+  assert.deepEqual([...todas].sort(), [...fase3].sort());
+  for (const e of EPOCAS) assert.ok(aulasDaEpoca(e.id).length, `${e.id} sem aulas`);
+});
+
+test('épocas: os dados só citam aulas, épocas e livros que existem', () => {
+  const ids = new Set(EPOCAS.map((e) => e.id));
+  for (const [aula, v] of Object.entries(EPOCA_DA_AULA)) {
+    assert.ok(aulaPorId[aula], aula);
+    assert.notEqual(aulaPorId[aula].tipo, 'avaliacao', `${aula}: a avaliação segue o módulo, não é declarada`);
+    assert.ok(ids.has(v.epoca || v), `${aula}: ${v.epoca || v}`);
+    for (const r of v.revisao || []) assert.ok(ids.has(r), `${aula}: ${r}`);
+  }
+  for (const e of EPOCAS) for (const l of e.obras) assert.ok(livroPorId[l], `${e.id}: ${l}`);
+});
+
+test('épocas: dentro de um módulo a ordem do currículo é mantida e a avaliação vem por último', () => {
+  for (const seq of [sequenciaEpocas(), trilhaParalela()]) {
+    const pos = Object.fromEntries(seq.map((id, i) => [id, i]));
+    for (const m of MODULOS) {
+      const p = m.aulas.map((a) => pos[a.id]).filter((x) => x !== undefined);
+      assert.deepEqual(p, [...p].sort((a, b) => a - b), m.id);
+    }
+  }
+  const seq = sequenciaEpocas();
+  assert.ok(seq.indexOf('h2-5') > Math.max(...['h2-1', 'h2-2', 'h2-3', 'h2-4'].map((id) => seq.indexOf(id))));
+});
+
+test('épocas: Grécia reúne as históricas e as pontes; a matéria paralela não herda época', () => {
+  const g = aulasDaEpoca('grecia');
+  for (const id of ['h2-1', 'm5-1', 'ed2-1', 'as2-1', 'bi2-1', 'lf2-1']) assert.ok(g.includes(id), id);
+  assert.equal(epocaDaAula('ma1-1'), null);
+  for (const id of ['ma1-1', 'qu1-1', 'ma4-3']) assert.ok(trilhaParalela().includes(id), id);
+  // o método de uma matéria histórica entra na época em que ela aparece pela primeira vez
+  assert.equal(epocaDaAula('so1-1'), epocaDaAula('so2-1'));
+  // aula que atravessa épocas reaparece como revisão nas seguintes
+  assert.ok(revisoesDaEpoca('medieval').includes('ha2-1'));
+});
+
+test('épocas: toda matéria histórica tem época declarada e toda paralela tem as pontes do módulo II', () => {
+  for (const d of DISCIPLINAS) {
+    const mods = MODULOS.filter((m) => m.disciplina === d.id);
+    const aulas = (PARALELAS.includes(d.id) ? [mods[1]] : mods).flatMap((m) => m.aulas.map((a) => a.id));
+    assert.ok(aulas.some((id) => EPOCA_DA_AULA[id]), d.id);
+  }
+});
+
+test('épocas: a atual é a primeira com aula pendente; concluídas as épocas, resta a trilha paralela', () => {
+  assert.equal(epocaAtual(FASE3).id, EPOCAS[0].id);
+  assert.equal(epocaAtual(comAulas(aulasDaEpoca(EPOCAS[0].id))).id, EPOCAS[1].id);
+  // progresso antigo, fora de ordem: uma aula adiantada não muda a época atual nem é pedida de novo
+  const adiantado = comAulas(['h5-1']);
+  assert.equal(epocaAtual(adiantado).id, EPOCAS[0].id);
+  const fim = comAulas(sequenciaEpocas());
+  assert.equal(epocaAtual(fim), null);
+  assert.equal(proximaDaEpoca(fim), null);
+  assert.equal(proximaParalela(fim).href, `aula-${trilhaParalela()[0]}`);
+  assert.equal(proximaAtividade(fim).href, `aula-${trilhaParalela()[0]}`);
+});
+
+test('épocas: páginas sem valores inválidos, e época inexistente não quebra', async () => {
+  const { epocas, epoca } = await import('../views/epocas.js');
+  const { aula } = await import('../views/curso.js');
+  for (const id of ['nao-existe', 'constructor', 'toString']) assert.match(epoca({ estado: FASE3 }, id), /Época não encontrada/);
+  for (const html of [epocas({ estado: FASE3 }), ...EPOCAS.map((e) => epoca({ estado: FASE3 }, e.id))]) assert.ok(!/NaN|undefined|\[object/.test(html));
+  assert.ok(epoca({ estado: FASE3 }, 'grecia').includes('aula-m5-1'));
+  assert.ok(aula({ estado: FASE3 }, 'h2-1').includes('epoca-grecia'));
+  assert.ok(aula({ estado: FASE3 }, 'ma1-1').includes('Trilha paralela'));
 });
 
 test('identidade: cruz gótica vetorial ao lado do nome', () => {
@@ -1158,4 +1240,38 @@ test('uma obra, um registro: edições, traduções e volumes ficam dentro da ob
   assert.match(telaObra({ estado: e }, homero.id), /Edições, traduções e volumes[\s\S]*Carlos Alberto Nunes/);
   assert.match(telaObra({ estado: e }, homero.versoes[0].id), /Ilíada e Odisseia/, 'link antigo de um registro unificado abre a obra');
   assert.match(telaLivro({ estado: e }, adler.livro), /Edições, traduções e volumes[\s\S]*Edição recomendada/);
+});
+
+test('épocas: toda obra da mediateca tem um contexto de estudo declarado', async () => {
+  const { OBRAS } = await import('../data/mediateca.js');
+  const { contextoPorObra, obrasDoContexto, PARALELA, FASE_INICIAL } = await import('../data/contextos.js');
+  const { epoca: telaEpoca } = await import('../views/epocas.js');
+  const { obra: telaObra } = await import('../views/mediateca.js');
+  const validos = new Set([...EPOCAS.map((e) => e.id), PARALELA, FASE_INICIAL, null]);
+  const bases = new Set(['curadoria', 'fase', 'assunto', 'autor', 'aula', 'módulo']);
+  for (const o of OBRAS) {
+    const c = contextoPorObra(o.id);
+    assert.ok(c && validos.has(c.contexto) && bases.has(c.base), `${o.id}: contexto ${JSON.stringify(c)}`);
+  }
+  // nenhuma obra some nem aparece em dois contextos
+  const somados = [...validos].reduce((n, c) => n + obrasDoContexto(c ?? 'sem-contexto').length, 0);
+  assert.equal(somados, OBRAS.length);
+  // os livros escolhidos à mão para cada época continuam nela
+  for (const e of EPOCAS) for (const l of e.obras) assert.deepEqual(contextoPorObra(`livro-${l}`), { contexto: e.id, base: 'curadoria' });
+  // casos conferidos à mão: autor, homônimo, fonte histórica de matéria paralela, manual, consulta e fase inicial
+  const de = (id) => contextoPorObra(id).contexto;
+  assert.equal(de('obra-euclides-elementos'), 'grecia');
+  assert.equal(de('ext-euclides-da-cunha-obra-completa-de-euclides-da-cunha'), 'brasil', 'Euclides da Cunha não é Euclides');
+  assert.equal(de('obra-machado-de-assis-dom-casmurro'), 'brasil');
+  assert.equal(de('ext-isaac-newton-optica'), 'revolucao-cientifica', 'a fonte histórica de uma matéria paralela tem época');
+  assert.equal(de('ext-gelson-iezzi-fundamentos-de-matematica-elementar-1-conjuntos-funcoes'), PARALELA, 'o manual segue a trilha paralela');
+  assert.equal(de('ext-dicionario-houaiss-da-lingua-portuguesa-e-ou'), null, 'obra de consulta não tem época');
+  assert.equal(de('ext-clive-staples-lewis-a-abolicao-do-homem'), FASE_INICIAL, 'obra de módulo da teologia fica antes das épocas');
+  // estudo de um autor moderno sobre um antigo vai para a época do assunto
+  const estudo = OBRAS.find((o) => o.titulo === 'O Um e o Múltiplo em Platão');
+  assert.deepEqual(contextoPorObra(estudo.id), { contexto: 'grecia', base: 'assunto' });
+  // as telas mostram o contexto: na página da obra e na lista da época
+  const e = C.estadoInicial(T0);
+  assert.match(telaObra({ estado: e }, estudo.id), /Época: <a href="#epoca-grecia"[\s\S]*assunto nomeado no título/);
+  assert.match(telaEpoca({ estado: e }, 'grecia'), /Mediateca desta época \(\d+\)[\s\S]*O Um e o Múltiplo em Platão/);
 });

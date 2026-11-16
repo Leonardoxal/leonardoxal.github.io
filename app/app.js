@@ -26,6 +26,8 @@ import { atlas, conceito, autores } from './views/atlas.js';
 import { plano } from './views/plano.js';
 import { periodos, periodo } from './views/periodos.js';
 import { estudar } from './views/estudar.js';
+import { epocas, epoca } from './views/epocas.js';
+import { EPOCAS } from './data/epocas.js';
 import { integradores, integrador } from './views/integradores.js';
 import { mediateca, obra } from './views/mediateca.js';
 import { OBRAS, CATEGORIAS } from './data/mediateca.js';
@@ -50,6 +52,7 @@ const INDICE = [
   // os livros do acervo já estão acima; aqui entram as demais obras da mediateca
   ...OBRAS.filter((o) => !o.livro).map((o) => ({ tipo: CATEGORIAS[o.categoria], href: `obra-${o.id}`, titulo: `${o.titulo} — ${o.criador}`, texto: o.temas.join(' ') })),
   ...IDIOMAS.map((l) => ({ tipo: 'Idioma', href: 'idiomas', titulo: l.nome, texto: `${l.porque} ${l.alvos.join(' ')}` })),
+  ...EPOCAS.map((e) => ({ tipo: 'Época', href: `epoca-${e.id}`, titulo: e.titulo, texto: `${e.anos} ${e.apresentacao}` })),
   ...INTEGRADORES.map((m) => ({ tipo: 'Integrador', href: `integrador-${m.id}`, titulo: m.titulo, texto: `${m.descricao} ${m.pergunta}` })),
 ];
 let consulta = '';
@@ -68,8 +71,8 @@ busca.ligar = (root, ctx) => {
 
 // Rotas: token exato ou prefixo seguido de id.
 // Catálogo único: #biblioteca e #mediateca abrem a mesma tela; a sequência dos 607 livros fica em #trilha.
-const ROTAS = { painel, estudar, mapa: arvore, escada, simbolos, curso, biblioteca: mediateca, trilha: biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, idiomas, busca, entrar };
-const PREFIXOS = { 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
+const ROTAS = { painel, estudar, epocas, mapa: arvore, escada, simbolos, curso, biblioteca: mediateca, trilha: biblioteca, caderno, avaliacoes, revisar, cartoes, atlas, autores, genealogia, plano, periodos, integradores, mediateca, idiomas, busca, entrar };
+const PREFIXOS = { 'epoca-': epoca, 'periodo-': periodo, 'integrador-': integrador, 'obra-': obra, 'mediateca-': mediateca, 'mod-': modulo, 'aula-': aula, 'livro-': livro, 'ler-': leitor, 'nota-': nota, 'aval-': avaliacao, 'conceito-': conceito, 'ideia-': genealogia, 'area-': arvore, 'disciplina-': disciplina, 'simbolo-': simbolos };
 // Ordem de uso: onde estou, o que estudar, o conteúdo, a prática e a consulta. Ideias e Símbolos moram no Atlas.
 const NAV = [['painel', 'Painel'], ['estudar', 'Estudar'], ['curso', 'Curso'], ['mapa', 'Mapa'], ['biblioteca', 'Biblioteca'], ['avaliacoes', 'Avaliações'], ['caderno', 'Caderno'], ['atlas', 'Atlas'], ['plano', 'Plano'], ['infantil', 'Infantil (Jr.)'], ['busca', 'Busca']];
 // A formação infantil mudou para a Academia para Verdade Jr.; os links antigos (favoritos, PDFs) vão para lá.
@@ -78,7 +81,7 @@ const ROTA_JR = /^(infantil|jogos|jogo|assistir|acompanhar|desenhar)(-|$)/;
 const SUBABAS = { atlas: [['atlas', 'Conceitos'], ['autores', 'Autores'], ['genealogia', 'Ideias'], ['simbolos', 'Símbolos']] };
 const subabasHTML = (token, secao) => (SUBABAS[secao] && SUBABAS[secao].some(([t]) => t === token)
   ? `<nav class="abas-mapa" aria-label="Seções do Atlas">${SUBABAS[secao].map(([t, r]) => `<a href="#${t}" ${t === token ? 'aria-current="page"' : ''}>${r}</a>`).join('')}</nav>` : '');
-const SECAO = { trilha: 'biblioteca', 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
+const SECAO = { epocas: 'estudar', 'epoca-': 'estudar', trilha: 'biblioteca', 'mod-': 'curso', 'aula-': 'curso', 'livro-': 'biblioteca', 'ler-': 'biblioteca', 'nota-': 'caderno', 'aval-': 'avaliacoes', 'conceito-': 'atlas', 'ideia-': 'atlas', genealogia: 'atlas', simbolos: 'atlas', 'simbolo-': 'atlas', revisar: 'avaliacoes', cartoes: 'avaliacoes', autores: 'atlas', entrar: 'plano', periodos: 'plano', 'periodo-': 'plano', integradores: 'curso', 'integrador-': 'curso', mediateca: 'biblioteca', 'mediateca-': 'biblioteca', 'obra-': 'biblioteca', escada: 'mapa', idiomas: 'mapa', 'area-': 'mapa', 'disciplina-': 'mapa' };
 
 function resolver(token) {
   if (ROTAS[token]) return { view: ROTAS[token], id: null, secao: SECAO[token] || token };

@@ -1,4 +1,5 @@
 // Biblioteca e mediateca (#mediateca e #obra-<id>): todas as obras, de todos os tipos de mídia, com filtros.
+import { contextoDaObraHTML } from './epocas.js';
 import { OBRAS, obraPorId, CATEGORIAS, FONTES, contagemPorCategoria, possiveisDuplicatas, sugerirGrupos, metodoDaCategoria, RELACOES_OBRA, obrasDoModulo, obrasDaDisciplina, obrasDaAula } from '../data/mediateca.js';
 import { disciplinaPorId } from '../data/disciplinas.js';
 import { moduloPorId } from '../data/curriculo.js';
@@ -186,7 +187,7 @@ export function obra({ estado }, id) {
   const st = { estado: 'nao', ...estado.livros[id] };
   const notas = notasDe(estado, 'livro', id);
   return `<nav class="migalha">${link('mediateca', 'Mediateca')} / ${esc(CATEGORIAS[o.categoria])}</nav>
-  <header class="cab"><span class="num">${esc(CATEGORIAS[o.categoria])}</span><h1>${esc(o.titulo)} ${botaoFav(estado, 'livro', id)}</h1><p class="sub">${esc(o.criador)}</p></header>
+  <header class="cab"><span class="num">${esc(CATEGORIAS[o.categoria])}</span><h1>${esc(o.titulo)} ${botaoFav(estado, 'livro', id)}</h1><p class="sub">${esc(o.criador)}</p>${contextoDaObraHTML(id)}</header>
   ${o.livro ? '' : `<section><h2>Minha leitura</h2>
     <form class="form-leitura" id="form-obra">
       <label class="campo"><span>Estado</span><select name="estado">${opcoes(Object.entries(ESTADOS_LIVRO), st.estado)}</select></label>
