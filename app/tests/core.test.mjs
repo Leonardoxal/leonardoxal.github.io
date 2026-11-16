@@ -232,6 +232,22 @@ test('aula não publicada não bloqueia a conclusão do degrau', () => {
 const DIA = 86400000;
 const T0 = new Date(2026, 9, 26, 10).getTime(); // segunda-feira
 
+test('discursiva: texto para IA leva rubrica e resposta, nunca dados da conta; situação separa sugestão e confirmação', async () => {
+  const { textoCorrecaoIA, situacaoDisc } = await import('../correcao-ia.js');
+  const t = textoCorrecaoIA({ contexto: 'aula m1-1, Teste', enunciado: 'Explique a fé.', criterios: ['Define fé', 'Cita o CIC'], resposta: '  Minha resposta.  ' });
+  assert.match(t, /1\. Define fé\n2\. Cita o CIC/);
+  assert.match(t, /"""\nMinha resposta\.\n"""/);
+  assert.match(t, /a conferir/);
+  assert.equal(situacaoDisc({}), null);
+  assert.equal(situacaoDisc({ texto: 'x' }), 'escrita');
+  assert.equal(situacaoDisc({ texto: 'x', ia: 'boa resposta' }), 'sugerida', 'a IA sozinha não confere nada');
+  assert.equal(situacaoDisc({ texto: 'x', ia: 'y', criterios: [true] }), 'conferida');
+  assert.equal(situacaoDisc({ texto: 'x', criterios: [false], confirmado: 1 }), 'confirmada');
+  // campos novos sobrevivem ao saneamento do estado
+  const e = { ...C.estadoInicial(T0), discursivas: { 'm1-1-0': { texto: 'x', ia: 'y', confirmado: 5 } } };
+  assert.deepEqual(C.normalizarEstado(e, T0).discursivas['m1-1-0'], { texto: 'x', ia: 'y', confirmado: 5 });
+});
+
 test('corrige itens objetivos e ignora discursivas', () => {
   const itens = [
     { tipo: 'mc', correta: 1 },

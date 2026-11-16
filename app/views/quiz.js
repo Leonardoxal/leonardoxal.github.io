@@ -1,7 +1,8 @@
 // Renderização e correção de itens de avaliação (usado nas aulas e na página de avaliações).
 import { corrigir, NOTA_MINIMA, resultadoPorArea } from '../core.js';
 import { AREAS_CONJUNTAS } from '../data/avaliacoes.js';
-import { esc, fmtData, toast, link } from '../ui.js';
+import { esc, fmtData, toast, link, copiar } from '../ui.js';
+import { textoCorrecaoIA, situacaoDisc, SITUACOES_DISC } from '../correcao-ia.js';
 import { todasAulas } from '../data/curriculo.js';
 import { CONCEITOS } from '../data/conceitos.js';
 
@@ -29,17 +30,26 @@ function itemHTML(it, i, pref, estado) {
         <select name="${nome}-${j}" aria-label="Papel da frase ${j + 1}"><option value="">Escolha…</option>${Object.entries(PAPEIS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>`).join('')}
       <div class="feedback" data-fb="${i}" hidden></div></fieldset>`;
   }
-  // discursiva: texto salvo + autoavaliação por critérios
+  // discursiva: resposta original, sugestão da IA, conferência e confirmação ficam em campos separados
   const chave = `${pref}-${i}`;
   const d = estado.discursivas[chave] || { texto: '', criterios: [] };
+  const sit = situacaoDisc(d);
   return `<fieldset class="item disc"><legend>${i + 1}. ${esc(it.enunciado)}</legend>
-    <p class="dica">Discursiva: não há resposta única. Respostas diferentes são aceitas quando bem fundamentadas; não se exige concordância com nenhuma posição. Escreva e depois avalie seu texto pelos critérios.</p>
+    <p class="dica">Discursiva: não há resposta única. Respostas diferentes são aceitas quando bem fundamentadas; não se exige concordância com nenhuma posição. Escreva, peça uma correção (opcional) e confira seu texto pelos critérios.</p>
     <label class="sr" for="${chave}-txt">Sua resposta</label>
     <textarea id="${chave}-txt" data-disc="${chave}" rows="8" placeholder="Sua resposta…">${esc(d.texto)}</textarea>
-    <div class="criterios"><strong>Autoavaliação — meu texto:</strong>
-      ${it.criterios.map((c, j) => `<label class="opcao"><input type="checkbox" data-crit="${chave}" data-j="${j}" ${d.criterios[j] ? 'checked' : ''}> <span>${esc(c)}</span></label>`).join('')}
-    </div>
     <p class="meta">${d.data ? `Salvo em ${fmtData(d.data)}` : 'Ainda não salvo'} · ${(d.texto || '').trim().split(/\s+/).filter(Boolean).length} palavras</p>
+    <details class="correcao-ia"${d.ia ? ' open' : ''}><summary>Correção por uma IA (opcional, sem custo)</summary>
+      <p class="meta">O site não se conecta a nenhuma IA. Ele monta um texto com o enunciado, a rubrica e a sua resposta, sem nome nem dados da conta; você cola no ChatGPT, no Claude ou em outra IA. A IA erra: o que ela disser fica guardado como sugestão até você conferir.</p>
+      <button type="button" class="btn" data-ia-montar="${chave}" data-i="${i}">Montar e copiar o texto</button>
+      <textarea class="ia-texto" rows="6" readonly hidden aria-label="Texto para a IA"></textarea>
+      <label class="campo largo"><span>Correção sugerida pela IA (cole aqui)</span><textarea data-ia="${chave}" rows="6">${esc(d.ia || '')}</textarea></label>
+    </details>
+    <div class="criterios"><strong>Conferência: critérios que confirmo no meu texto${d.ia ? ', depois de ler a correção' : ''}:</strong>
+      ${it.criterios.map((c, j) => `<label class="opcao"><input type="checkbox" data-crit="${chave}" data-j="${j}" ${d.criterios[j] ? 'checked' : ''}> <span>${esc(c)}</span></label>`).join('')}
+      <label class="opcao"><input type="checkbox" data-confirmar="${chave}" ${d.confirmado ? 'checked' : ''}> <span><strong>Confirmo o resultado</strong> (reli a resposta e a correção e corrigi o que era preciso)</span></label>
+    </div>
+    <p class="meta situacao-disc">${sit ? `Situação: ${esc(SITUACOES_DISC[sit])}${d.confirmado ? ` em ${fmtData(d.confirmado)}` : ''}` : 'Situação: sem resposta'}</p>
   </fieldset>`;
 }
 
@@ -65,27 +75,46 @@ export function ligarQuiz(root, itens, ctx, aoCorrigir) {
   const avalId = form.dataset.quiz, pref = form.dataset.pref, minimo = Number(form.dataset.min);
   let espera;
 
+  // grava um campo da discursiva sem apagar os outros e atualiza a linha de situação
+  const gravarDisc = (chave, campos) => {
+    let novo;
+    ctx.set((e) => { novo = { ...(e.discursivas[chave] || { texto: '', criterios: [] }), ...campos }; return { ...e, discursivas: { ...e.discursivas, [chave]: novo } }; }, { render: false });
+    const sit = novo && situacaoDisc(novo);
+    const linha = form.querySelector(`[data-disc="${chave}"]`)?.closest('fieldset')?.querySelector('.situacao-disc');
+    if (linha) linha.textContent = sit ? `Situação: ${SITUACOES_DISC[sit]}${novo.confirmado ? ` em ${fmtData(novo.confirmado)}` : ''}` : 'Situação: sem resposta';
+  };
+
   form.addEventListener('input', (ev) => {
-    const ta = ev.target.closest('textarea[data-disc]');
+    const ta = ev.target.closest('textarea[data-disc], textarea[data-ia]');
     if (!ta) return;
     clearTimeout(espera);
     espera = setTimeout(() => {
-      const chave = ta.dataset.disc;
-      ctx.set((e) => ({ ...e, discursivas: { ...e.discursivas, [chave]: { ...(e.discursivas[chave] || { criterios: [] }), texto: ta.value, data: Date.now() } } }), { render: false });
+      if (ta.dataset.ia) { gravarDisc(ta.dataset.ia, { ia: ta.value, iaData: Date.now() }); return; }
+      gravarDisc(ta.dataset.disc, { texto: ta.value, data: Date.now() });
       const meta = ta.parentElement.querySelector('.meta');
       if (meta) meta.textContent = `Salvo agora · ${ta.value.trim().split(/\s+/).filter(Boolean).length} palavras`;
     }, 600);
   });
 
+  form.addEventListener('click', (ev) => {
+    const bt = ev.target.closest('button[data-ia-montar]');
+    if (!bt) return;
+    const it = itens[Number(bt.dataset.i)];
+    const resposta = form.querySelector(`[data-disc="${bt.dataset.iaMontar}"]`).value;
+    if (!resposta.trim()) { toast('Escreva a resposta antes de pedir a correção.'); return; }
+    const aula = pref.replace(/-av$/, '');
+    const contexto = tituloAula[aula] ? `aula ${aula}, ${tituloAula[aula]}` : `avaliação ${pref}`;
+    copiar(textoCorrecaoIA({ contexto, enunciado: it.enunciado, criterios: it.criterios, resposta }), bt.nextElementSibling);
+  });
+
   form.addEventListener('change', (ev) => {
+    const conf = ev.target.closest('input[data-confirmar]');
+    if (conf) { gravarDisc(conf.dataset.confirmar, { confirmado: conf.checked ? Date.now() : null }); return; }
     const cb = ev.target.closest('input[data-crit]');
     if (!cb) return;
     const chave = cb.dataset.crit, j = Number(cb.dataset.j);
-    ctx.set((e) => {
-      const atual = e.discursivas[chave] || { texto: '', criterios: [] };
-      const criterios = [...atual.criterios]; criterios[j] = cb.checked;
-      return { ...e, discursivas: { ...e.discursivas, [chave]: { ...atual, criterios, data: Date.now() } } };
-    }, { render: false });
+    const criterios = [...form.querySelectorAll(`input[data-crit="${chave}"]`)].map((x) => x.checked);
+    gravarDisc(chave, { criterios, data: Date.now() });
   });
 
   form.addEventListener('submit', (ev) => {

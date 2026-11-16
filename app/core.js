@@ -84,7 +84,7 @@ export function estadoInicial(agora = Date.now()) {
     perfil: { nome: '' },
     aulas: {},        // id -> { status: 'andamento'|'concluida', inicio, fim, fonteLida, acesso }
     tentativas: {},   // avaliacaoId -> [{ data, acertos, total, pct }]
-    discursivas: {},  // itemId -> { texto, criterios: bool[], data }
+    discursivas: {},  // itemId -> { texto, criterios: bool[], data, ia?, iaData?, confirmado? } (ia = sugestão colada, nunca resultado)
     livros: {},       // id -> { estado, paginas, paginaAtual, inicio, fim, prioridade, edicao }
     fichas: {},       // 'livro:<id>' -> { campo: texto } (ficha de estudo da obra, só deste membro)
     idiomas: {},      // id da língua -> nível que o próprio estudante declarou (ex.: 'B1 (Intermediário)')
