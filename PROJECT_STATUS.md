@@ -66,7 +66,7 @@ Conferido em 16/11/2026 com `node --test app/tests/core.test.mjs` (82/82), `node
 | VII Sala de aula | funcional | sumário lateral/recolhível, notas ao lado, modo foco, fonte, tema, retomar leitura | — |
 | VIII, IX Interdisciplinaridade | funcional em parte | ligações na aula; 248 ligações com filtros (tipo, área, relação, estado, busca) e mapa visual em `#integradores` | só 183 de 849 aulas estão em algum integrador; filtros por obra e conceito como dado (hoje só por busca); linha do tempo interativa |
 | X Programas internacionais | registrado | `PEDAGOGICAL_STANDARDS.md` | aplicar às aulas (depende de XI) |
-| XI Profundidade | **pendente (conteúdo)** | medida automática em cada aula ("Padrão de profundidade: n de 18") | **0 de 695 aulas** no padrão: explicação (média ~220 palavras, meta 1.200), contexto, exemplos, aplicação e objeções faltam em 98–100% |
+| XI Profundidade | **pendente (conteúdo)** | medida automática em cada aula; pilotos `m1-1` e `m1-2` expandidos (a segunda no ramo de trabalho, não publicada; inspeção estrutural, sem teste Node/navegador) | demais aulas pendentes; recalcular total com `scripts/auditoria-profundidade.mjs` antes de informar percentuais |
 | XII Teologia | **pendente (conteúdo)** | cobertura dos 25 campos medida | campos sem aula: Angelologia, Ascética e Mística, História da Teologia; com uma só: Trinitária, Mariologia, Antropologia Teológica, Justificação, Espiritualidade, Doutrina Social |
 | XIII Obras | funcional em parte | 4 estados de verificação em toda obra (607 confirmadas, 4.258 prováveis, 387 provisórias, 3 em revisão); só obra pronta é exigida | **0 de 5.255 fichas completas**; revisar as 4.258 prováveis |
 | XIV Consumo das obras | funcional em parte | comprovação de leitura com critérios e correção por IA | roteiro "antes, durante, depois" por obra depende das fichas (XIII) |
@@ -105,6 +105,7 @@ Ordenados pelo dano à formação. P = pedagógico, T = técnico, I = institucio
 
 | Data | Entrega | Onde | Testes |
 |---|---|---|---|
+| 16/11/2026 | Expansão da aula `m1-2` (Fé, Revelação e razão): explicação de aproximadamente 576 para 1.764 palavras, contexto 164, exemplos 149, aplicação 139; preservados os objetivos, exercícios, objeções, referências, ID e demais aulas. Fontes primárias indicadas: `Dei Verbum` 2–6, 12 e CIC 50–73, 142–160; conferência editorial de cada formulação ainda pendente. | ramo `academia/revisao-teologica-20261116`, commit `9cc0401` (**não publicado**) | Inspeção estrutural por leitura do arquivo gravado: 3 identificadores preservados, 12 campos encontrados, limites de extensão atendidos; **testes Node, auditorias e navegador 1280/390 ainda não executados** |
 | 12/11/2026 | Auditoria dos dois projetos; quatro arquivos persistentes; correção do fluxo de publicação | este repositório, ramo `claude/auditoria-e-fundacao` | 62/62 |
 | 12/11/2026 | Só obra pronta (contexto e aula) é obrigatória; as demais aparecem como "em preparação"; arquivo de fichas com validação | este repositório, mesmo ramo | 63/63; `#escada` conferida no navegador |
 | 12/11/2026 | Mapa de habilidades (trilha Número e quantidade), regra de domínio, painel "O que fazer agora", sugestões no formulário de registro | Jr., ramo `claude/mapa-de-habilidades` | 43/43; painel conferido no navegador a 390 px, sem erro de JavaScript nem rolagem lateral |
